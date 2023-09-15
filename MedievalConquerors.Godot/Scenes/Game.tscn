@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://utr2c35tdw8q"]
+
+[ext_resource type="Script" path="res://Scripts/Godot/GameController.cs" id="1_a5vif"]
+[ext_resource type="Texture2D" uid="uid://c67xbh6jih5ae" path="res://icon.svg" id="2_27bu4"]
+[ext_resource type="Resource" uid="uid://dk1lh1mstf6lg" path="res://GameData/Match.tres" id="2_ek4es"]
+[ext_resource type="Resource" uid="uid://ejs7dyka7per" path="res://GameData/GameSettings.tres" id="3_ed4wj"]
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("_testObject")]
+script = ExtResource("1_a5vif")
+_match = ExtResource("2_ek4es")
+_settings = ExtResource("3_ed4wj")
+_testObject = NodePath("ColorRect/Sprite2D")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(1920, 1080)
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.568627, 0.141176, 0.141176, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="ColorRect"]
+position = Vector2(123, 93)
+texture = ExtResource("2_27bu4")

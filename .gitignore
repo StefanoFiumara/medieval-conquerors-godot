@@ -6,3 +6,9 @@ export_presets.cfg
 
 # Mono-specific ignores
 .mono/
+**/.idea
+**/.godot
+**/bin
+**/obj
+**.user
+**.DotSettings

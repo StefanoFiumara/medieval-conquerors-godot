@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "medieval-conquerors.tests", "medieval-conquerors.tests.csproj", "{3D8C5C76-F425-422B-AE1D-23B4639FA40D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "medieval-conquerors", "..\MedievalConquerors.Godot\medieval-conquerors.csproj", "{74AF1400-8052-4781-8E3A-E8E4BE1EBE28}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D8C5C76-F425-422B-AE1D-23B4639FA40D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D8C5C76-F425-422B-AE1D-23B4639FA40D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D8C5C76-F425-422B-AE1D-23B4639FA40D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D8C5C76-F425-422B-AE1D-23B4639FA40D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74AF1400-8052-4781-8E3A-E8E4BE1EBE28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74AF1400-8052-4781-8E3A-E8E4BE1EBE28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74AF1400-8052-4781-8E3A-E8E4BE1EBE28}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{74AF1400-8052-4781-8E3A-E8E4BE1EBE28}.Release|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+EndGlobal
