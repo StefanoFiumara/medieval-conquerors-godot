@@ -24,7 +24,7 @@ public partial class GameController : Node
 	public override void _EnterTree()
 	{ 
 		_log = new GodotLogger(_logLevel);
-		_board = GameBoardFactory.Create(_tileMap);
+		_board = GameBoardFactory.CreateHexBoard(_tileMap);
 		_game = GameFactory.Create(_log, _match, _board, _settings);
 	}
 

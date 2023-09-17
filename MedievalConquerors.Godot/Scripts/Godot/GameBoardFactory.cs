@@ -1,36 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Fano.ASCIITableUtil;
 using Godot;
 using MedievalConquerors.Engine.Data;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Godot;
 
+public static class CustomTileData
+{
+    public const string TerrainType = "TerrainType";
+    public const string ResourceType = "ResourceType";
+    public const string ResourceYield = "ResourceYield";
+}
 public static class GameBoardFactory
 {
     // Create a game board using a Godot TileMap
     // NOTE: TileMap must be configured with Pointy-top hex tiles and Odd Offset Coordinates
-    public static IGameBoard Create(TileMap tileMap)
+    public static IGameBoard CreateHexBoard(TileMap tileMap)
     {
         var tileData = CreateTileData(tileMap);
         return new HexGameBoard(tileData);
     }
-	
-    // NOTE: This maps the atlas coord of each tile in the tileset to a tile terrain type
-    // TODO: Can we find a better and more scalable solution to this?
-    private static readonly Dictionary<Vector2I, TileTerrain> TileTerrainMap = new()
-    {
-        { new(0, 0), TileTerrain.Water },
-        { new(1, 0), TileTerrain.Grass },
-        { new(2, 0), TileTerrain.Forest },
-        { new(3, 0), TileTerrain.DeepWater },
-        { new(4, 0), TileTerrain.TownCenter },
-        { new(0, 1), TileTerrain.ShoreFish },
-        { new(1, 1), TileTerrain.Berries },
-        { new(2, 1), TileTerrain.Deer },
-        { new(3, 1), TileTerrain.Gold },
-        { new(4, 1), TileTerrain.Stone },
-    };
 	
     private static Dictionary<Vector2I, ITileData> CreateTileData(TileMap tileMap)
     {
@@ -39,19 +30,23 @@ public static class GameBoardFactory
 		
         foreach (var pos in cells)
         {
-            var atlasCoords = tileMap.GetCellAtlasCoords(0, pos);
+            var terrain = tileMap.GetCellTileData(0, pos).GetCustomData(CustomTileData.TerrainType).As<TileTerrain>();
+            var resourceType = tileMap.GetCellTileData(0, pos).GetCustomData(CustomTileData.ResourceType).As<ResourceType>();
+            var resourceYield = tileMap.GetCellTileData(0, pos).GetCustomData(CustomTileData.ResourceYield).As<int>();
 			
-            if (TileTerrainMap.TryGetValue(atlasCoords, out var terrain))
-            {
-                var tile = new TileData(pos, terrain);
-                tiles.Add(pos, tile);
-            }
-            else
-            {
-                GD.PrintErr($"Could not find terrain mapping for tile at atlas coord {atlasCoords} in TileSet");
-            }
+            var tile = new TileData(pos, terrain, resourceType, resourceYield);
+            tiles.Add(pos, tile);
         }
-
+        
+        var yieldData = tiles.Values
+            .GroupBy(t => (t.Terrain, t.ResourceType, t.ResourceYield))
+            .ToDictionary(g => g.Key, g => g.Count())
+            .Select(kvp => new {kvp.Key.Terrain, TileCount = kvp.Value, kvp.Key.ResourceType, kvp.Key.ResourceYield })
+            .ToList();
+        
+        GD.PrintRich("=== Parsed TileMap Data ===".Orange());
+        var table = AsciiTable.Create(yieldData);
+        GD.PrintRich($"[color=orange]{table}");
         return tiles;
     }
 }

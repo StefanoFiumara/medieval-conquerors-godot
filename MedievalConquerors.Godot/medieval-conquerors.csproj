@@ -4,4 +4,7 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>MedievalConquerors</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Fano.ASCIITableUtil" Version="1.1.1" />
+  </ItemGroup>
 </Project>
