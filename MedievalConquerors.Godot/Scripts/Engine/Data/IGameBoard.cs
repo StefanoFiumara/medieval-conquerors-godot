@@ -63,13 +63,14 @@ public class HexGameBoard : GameComponent, IGameBoard
 		foreach (var dir in directions)
 		{
 			var neighbor = pos + dir;
-			if (_tiles.TryGetValue(neighbor, out var tile))
+			if (_tiles.TryGetValue(neighbor, out var tile) && tile.IsWalkable)
 			{
 				yield return tile;
 			}
 		}
 	}
 
+	// TODO: Pathfinding algorithm instead?
 	public IEnumerable<ITileData> GetReachable(Vector2I pos, int range)
 	{
 		var visited = new HashSet<Vector2I> { pos };
@@ -84,7 +85,6 @@ public class HexGameBoard : GameComponent, IGameBoard
 				{
 					if (!visited.Contains(neighbor.Position))
 					{
-						// TODO: Exclude impassable tiles
 						visited.Add(neighbor.Position);
 						outerEdges[i].Add(neighbor.Position);
 							

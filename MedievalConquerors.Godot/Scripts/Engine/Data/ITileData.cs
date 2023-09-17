@@ -10,6 +10,8 @@ public interface ITileData
     TileTerrain Terrain { get; }
     ResourceType ResourceType { get; }
     int ResourceYield { get; }
+    
+    bool IsWalkable { get; } //  TODO: Better name?
 }
 
 public class TileData : ITileData
@@ -19,6 +21,8 @@ public class TileData : ITileData
     public TileTerrain Terrain { get; }
     public ResourceType ResourceType { get; }
     public int ResourceYield { get; }
+
+    public bool IsWalkable => Terrain == TileTerrain.Grass;
 	
     public TileData(Vector2I position, TileTerrain terrain, ResourceType resourceType, int resourceYield)
     {

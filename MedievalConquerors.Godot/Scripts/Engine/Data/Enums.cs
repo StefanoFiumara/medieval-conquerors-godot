@@ -2,6 +2,7 @@
 
 public enum TileTerrain
 {
+    None = -1,
     Water = 0,
     Grass = 1,
     Forest = 2,
