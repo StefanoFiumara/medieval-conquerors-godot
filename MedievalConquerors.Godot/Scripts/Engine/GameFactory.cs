@@ -8,14 +8,15 @@ namespace MedievalConquerors.Engine;
 
 public static class GameFactory
 {
-    public static Game Create(ILogger logger, IMatch match, IGameSettings settings)
+    public static Game Create(ILogger logger, IMatch match, IGameBoard gameBoard, IGameSettings settings)
     {
         var game = new Game();
-
+        
         game.AddComponent(logger);
         game.AddComponent(match);
+        game.AddComponent(gameBoard);
         game.AddComponent(settings);
-
+        
         game.AddComponent<EventAggregator>();
         game.AddComponent<ActionSystem>();
         

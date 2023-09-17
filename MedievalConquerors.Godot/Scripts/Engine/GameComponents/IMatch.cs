@@ -5,7 +5,6 @@ namespace MedievalConquerors.Engine.GameComponents;
 
 public interface IMatch : IGameComponent
 {
-    IGameBoard GameBoard { get; }
     IPlayer LocalPlayer { get; }
     IPlayer EnemyPlayer { get; }
 }

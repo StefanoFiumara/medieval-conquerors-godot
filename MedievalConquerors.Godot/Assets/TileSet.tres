@@ -1,0 +1,23 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://1svl535uy0h2"]
+
+[ext_resource type="Texture2D" uid="uid://c88s03g5xk4yy" path="res://Assets/hex-tile-sprites.png" id="1_ssj5p"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8xqxl"]
+texture = ExtResource("1_ssj5p")
+texture_region_size = Vector2i(256, 256)
+4:1/0 = 0
+0:1/0 = 0
+0:0/0 = 0
+1:0/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+3:1/0 = 0
+4:0/0 = 0
+
+[resource]
+resource_local_to_scene = true
+tile_shape = 3
+tile_size = Vector2i(256, 256)
+sources/1 = SubResource("TileSetAtlasSource_8xqxl")

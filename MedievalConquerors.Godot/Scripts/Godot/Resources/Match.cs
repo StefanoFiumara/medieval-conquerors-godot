@@ -8,11 +8,9 @@ namespace MedievalConquerors.Godot.Resources;
 [GlobalClass]
 public partial class Match : Resource, IMatch
 {
-    [Export] private GameBoard _gameBoard;
     [Export] private Player _localPlayer;
     [Export] private Player _enemyPlayer;
     
-    public IGameBoard GameBoard => _gameBoard;
     public IPlayer LocalPlayer => _localPlayer;
     public IPlayer EnemyPlayer => _enemyPlayer;
     
