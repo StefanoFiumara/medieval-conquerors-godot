@@ -7,6 +7,8 @@ public enum HighlightLayer
 {
 	MouseHover = 1,
 	RangeVisualizer = 2,
+	BlueTeam = 3,
+	RedTeam = 4
 }
 
 public partial class MapView : TileMap

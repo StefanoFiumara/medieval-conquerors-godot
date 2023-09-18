@@ -5,17 +5,16 @@
 [ext_resource type="Resource" uid="uid://dk1lh1mstf6lg" path="res://GameData/Match/Match.tres" id="3_8tiqc"]
 [ext_resource type="PackedScene" uid="uid://bm1p2sik6ymcj" path="res://Views/Maps/Map.tscn" id="4_138dg"]
 
-[node name="GameController" type="Node2D" node_paths=PackedStringArray("_gameMap")]
+[node name="game_controller" type="Node2D" node_paths=PackedStringArray("_gameMap")]
 script = ExtResource("1_68c8e")
 _settings = ExtResource("2_ui7yv")
 _match = ExtResource("3_8tiqc")
-_gameMap = NodePath("TileMap")
+_gameMap = NodePath("map")
 
-[node name="TileMap" parent="." instance=ExtResource("4_138dg")]
-
-[node name="ScreenRect" type="ColorRect" parent="."]
-visible = false
+[node name="screen_rect" type="ColorRect" parent="."]
 custom_minimum_size = Vector2(1920, 1080)
 offset_right = 1920.0
 offset_bottom = 1080.0
-color = Color(0.835294, 0.168627, 0.788235, 0.34902)
+color = Color(0.835294, 0.168627, 0.788235, 1)
+
+[node name="map" parent="." instance=ExtResource("4_138dg")]
