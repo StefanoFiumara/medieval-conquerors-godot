@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Player" load_steps=2 format=3 uid="uid://jtmws4r2le65"]
 
-[ext_resource type="Script" path="res://Scripts/Godot/Resources/Player.cs" id="1_1h1a5"]
+[ext_resource type="Script" path="res://GameData/Players/Player.cs" id="1_1h1a5"]
 
 [resource]
 script = ExtResource("1_1h1a5")

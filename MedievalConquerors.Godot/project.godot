@@ -13,7 +13,6 @@ config_version=5
 config/name="medieval-conquerors"
 run/main_scene="res://Scenes/Game.tscn"
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
-config/icon="res://Assets/icon.svg"
 
 [display]
 
@@ -23,3 +22,7 @@ window/size/viewport_height=1080
 [dotnet]
 
 project/assembly_name="medieval-conquerors"
+
+[filesystem]
+
+import/blender/enabled=false

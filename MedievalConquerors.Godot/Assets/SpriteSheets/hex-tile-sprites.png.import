@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c88s03g5xk4yy"
-path="res://.godot/imported/hex-tile-sprites.png-8d45f932ba9948192dd72dc09e945968.ctex"
+path="res://.godot/imported/hex-tile-sprites.png-691f93125f6ef3a03c8ea1344481c319.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/hex-tile-sprites.png"
-dest_files=["res://.godot/imported/hex-tile-sprites.png-8d45f932ba9948192dd72dc09e945968.ctex"]
+source_file="res://Assets/SpriteSheets/hex-tile-sprites.png"
+dest_files=["res://.godot/imported/hex-tile-sprites.png-691f93125f6ef3a03c8ea1344481c319.ctex"]
 
 [params]
 

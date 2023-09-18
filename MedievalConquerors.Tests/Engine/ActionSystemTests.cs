@@ -1,6 +1,7 @@
 ﻿using MedievalConquerors.Engine;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
+using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Logging;
@@ -15,6 +16,7 @@ public class ActionSystemTests
 
     private readonly IGameSettings _settings = Substitute.For<IGameSettings>();
     private readonly IMatch _match = Substitute.For<IMatch>();
+    private readonly IGameBoard _board = Substitute.For<IGameBoard>();
     
     private readonly IGame _game;
     private readonly IEventAggregator _events;
@@ -23,7 +25,7 @@ public class ActionSystemTests
     {
         var logger = new TestLogger(output, LogLevel.Info);
         
-        _game = GameFactory.Create(logger, _match, _settings);
+        _game = GameFactory.Create(logger, _match, _board, _settings);
         _underTest = _game.GetComponent<ActionSystem>();
         _events = _game.GetComponent<EventAggregator>();
         

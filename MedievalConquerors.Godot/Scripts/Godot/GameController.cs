@@ -11,10 +11,10 @@ namespace MedievalConquerors.Godot;
 public partial class GameController : Node
 {
 	[Export] private LogLevel _logLevel;
-	
+	[Export] private GameSettings _settings;
 	[Export] private Match _match;
 	[Export] private TileMapHighlighter _tileMap;
-	[Export] private GameSettings _settings;
+	
 	
 	private Game _game;
 	private ILogger _log;

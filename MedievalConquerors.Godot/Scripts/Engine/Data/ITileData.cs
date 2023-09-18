@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 namespace MedievalConquerors.Engine.Data;
@@ -22,7 +23,7 @@ public class TileData : ITileData
     public ResourceType ResourceType { get; }
     public int ResourceYield { get; }
 
-    public bool IsWalkable => Terrain == TileTerrain.Grass;
+    public bool IsWalkable => Terrain == TileTerrain.Grass && Objects.Count == 0;
 	
     public TileData(Vector2I position, TileTerrain terrain, ResourceType resourceType, int resourceYield)
     {

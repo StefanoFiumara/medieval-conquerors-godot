@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://b53wqwu1youqe"]
+
+[ext_resource type="Texture2D" uid="uid://pe7a1v1i8dvd" path="res://Assets/UI/panel_woodDetailSquare.png" id="1_kb2hk"]
+[ext_resource type="Texture2D" uid="uid://bktu0kb0vurcr" path="res://Assets/UI/bannerScroll.png" id="2_452lt"]
+[ext_resource type="Texture2D" uid="uid://bcp3vaby3lte6" path="res://Assets/UI/panel_woodPaperWear.png" id="3_xhke2"]
+[ext_resource type="Texture2D" uid="uid://bwe0oxlpo8qkp" path="res://Assets/UI/hexagon_woodPaperWear.png" id="4_q373n"]
+
+[node name="card_view" type="Node2D"]
+
+[node name="background" type="NinePatchRect" parent="."]
+offset_left = -1.0
+offset_right = 511.0
+offset_bottom = 720.0
+texture = ExtResource("1_kb2hk")
+region_rect = Rect2(0, 0, 128, 128)
+patch_margin_left = 47
+patch_margin_top = 56
+patch_margin_right = 46
+patch_margin_bottom = 49
+
+[node name="title_banner" type="Sprite2D" parent="."]
+position = Vector2(254.899, 82.25)
+scale = Vector2(0.916667, 0.916667)
+texture = ExtResource("2_452lt")
+
+[node name="description_panel" type="NinePatchRect" parent="."]
+offset_left = 23.0
+offset_top = 421.0
+offset_right = 487.0
+offset_bottom = 675.0
+texture = ExtResource("3_xhke2")
+patch_margin_left = 39
+patch_margin_top = 75
+patch_margin_right = 39
+patch_margin_bottom = 78
+
+[node name="cost_panel" type="NinePatchRect" parent="."]
+offset_left = 383.0
+offset_top = 143.0
+offset_right = 487.0
+offset_bottom = 418.0
+texture = ExtResource("4_q373n")
+patch_margin_left = 52
+patch_margin_top = 67
+patch_margin_right = 52
+patch_margin_bottom = 73
