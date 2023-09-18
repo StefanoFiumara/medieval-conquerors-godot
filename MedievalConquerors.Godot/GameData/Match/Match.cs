@@ -2,8 +2,9 @@
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
+using MedievalConquerors.GameData.Players;
 
-namespace MedievalConquerors.Godot.Resources;
+namespace MedievalConquerors.GameData.Match;
 
 [GlobalClass]
 public partial class Match : Resource, IMatch

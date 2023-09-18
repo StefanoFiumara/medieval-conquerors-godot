@@ -1,7 +1,7 @@
 ﻿using Godot;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.Godot.Resources;
+namespace MedievalConquerors.GameData.Players;
 
 [GlobalClass]
 public partial class Player : Resource, IPlayer

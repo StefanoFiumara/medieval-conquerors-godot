@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 
-namespace MedievalConquerors.Godot;
+namespace MedievalConquerors.Views.Maps;
 
 public enum HighlightLayer
 {
@@ -9,7 +9,7 @@ public enum HighlightLayer
 	RangeVisualizer = 2,
 }
 
-public partial class TileMapHighlighter : TileMap
+public partial class MapView : TileMap
 {
 	private static readonly Vector2I None = new(int.MinValue, int.MinValue);
 	

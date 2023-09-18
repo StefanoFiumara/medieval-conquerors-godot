@@ -4,7 +4,7 @@ using Godot;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Logging;
 
-namespace MedievalConquerors.Godot;
+namespace MedievalConquerors.Engine;
 
 public static class ColorExtensions
 {

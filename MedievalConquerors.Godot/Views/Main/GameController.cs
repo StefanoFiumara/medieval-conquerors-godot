@@ -4,16 +4,20 @@ using MedievalConquerors.Engine;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Logging;
-using MedievalConquerors.Godot.Resources;
+using MedievalConquerors.GameData.GameSettings;
+using MedievalConquerors.GameData.Match;
+using MedievalConquerors.Views.Maps;
 
-namespace MedievalConquerors.Godot;
+namespace MedievalConquerors.Views.Main;
 
 public partial class GameController : Node
 {
 	[Export] private LogLevel _logLevel;
 	[Export] private GameSettings _settings;
 	[Export] private Match _match;
-	[Export] private TileMapHighlighter _tileMap;
+	
+	// TODO: Load different maps through this resource
+	[Export] private MapView _gameMap;
 	
 	
 	private Game _game;
@@ -23,7 +27,7 @@ public partial class GameController : Node
 	public override void _EnterTree()
 	{ 
 		_log = new GodotLogger(_logLevel);
-		_board = GameBoardFactory.CreateHexBoard(_tileMap);
+		_board = GameBoardFactory.CreateHexBoard(_gameMap);
 		_game = GameFactory.Create(_log, _match, _board, _settings);
 		
 		// TEMP: testing ranges
@@ -58,12 +62,12 @@ public partial class GameController : Node
 	
 	private void Visualize(int range)
 	{
-		_tileMap.Clear(HighlightLayer.RangeVisualizer);
+		_gameMap.Clear(HighlightLayer.RangeVisualizer);
 		var townCenters = _board.SearchTiles(t => t.Terrain == TileTerrain.TownCenter);
 		foreach (var tc in townCenters)
 		{
 			var reachable = _board.GetReachable(tc.Position, range).Select(t => t.Position);
-			_tileMap.Visualize(reachable);
+			_gameMap.Visualize(reachable);
 		}
 	}
 	

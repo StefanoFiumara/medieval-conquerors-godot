@@ -5,7 +5,7 @@ using Godot;
 using MedievalConquerors.Engine.Data;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
-namespace MedievalConquerors.Godot;
+namespace MedievalConquerors.Engine;
 
 public static class CustomTileData
 {

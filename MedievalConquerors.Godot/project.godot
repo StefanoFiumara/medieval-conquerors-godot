@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="medieval-conquerors"
-run/main_scene="res://Scenes/Game.tscn"
+run/main_scene="res://Views/Main/Game.tscn"
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 
 [display]

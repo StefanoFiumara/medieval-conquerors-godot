@@ -2,7 +2,7 @@ using Godot;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.GameComponents;
 
-namespace MedievalConquerors.Godot.Resources;
+namespace MedievalConquerors.GameData.GameSettings;
 
 
 [GlobalClass]

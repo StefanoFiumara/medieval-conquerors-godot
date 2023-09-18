@@ -1,9 +1,9 @@
 [gd_resource type="TileSet" load_steps=3 format=3 uid="uid://1svl535uy0h2"]
 
-[ext_resource type="Texture2D" uid="uid://c88s03g5xk4yy" path="res://Assets/SpriteSheets/hex-tile-sprites.png" id="1_sjkh7"]
+[ext_resource type="Texture2D" uid="uid://c88s03g5xk4yy" path="res://Assets/TileSets/hex-tile-sprites.png" id="1_f201o"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8xqxl"]
-texture = ExtResource("1_sjkh7")
+texture = ExtResource("1_f201o")
 texture_region_size = Vector2i(256, 256)
 4:1/0 = 0
 4:1/0/custom_data_0 = 9
@@ -42,7 +42,6 @@ texture_region_size = Vector2i(256, 256)
 5:0/0/custom_data_1 = -1
 
 [resource]
-resource_local_to_scene = true
 tile_shape = 3
 tile_size = Vector2i(256, 256)
 custom_data_layer_0/name = "TerrainType"
