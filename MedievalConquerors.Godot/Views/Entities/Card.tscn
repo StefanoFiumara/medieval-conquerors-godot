@@ -1,11 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://b53wqwu1youqe"]
+[gd_scene load_steps=7 format=3 uid="uid://b53wqwu1youqe"]
 
 [ext_resource type="Texture2D" uid="uid://pe7a1v1i8dvd" path="res://Assets/UI/panel_woodDetailSquare.png" id="1_huav0"]
 [ext_resource type="Texture2D" uid="uid://bktu0kb0vurcr" path="res://Assets/UI/bannerScroll.png" id="2_gwad2"]
 [ext_resource type="Texture2D" uid="uid://bcp3vaby3lte6" path="res://Assets/UI/panel_woodPaperWear.png" id="3_sjrhv"]
 [ext_resource type="Texture2D" uid="uid://bwe0oxlpo8qkp" path="res://Assets/UI/hexagon_woodPaperWear.png" id="4_5ynmr"]
+[ext_resource type="Texture2D" uid="uid://q47sa2cousfo" path="res://Assets/SpriteSheets/icons_spritesheet.png" id="5_a5njv"]
+
+[sub_resource type="Theme" id="Theme_pldyj"]
 
 [node name="card_view" type="Node2D"]
+texture_filter = 1
 
 [node name="background" type="NinePatchRect" parent="."]
 offset_left = -1.0
@@ -35,12 +39,132 @@ patch_margin_right = 39
 patch_margin_bottom = 78
 
 [node name="cost_panel" type="NinePatchRect" parent="."]
-offset_left = 383.0
+offset_left = 375.0
 offset_top = 143.0
-offset_right = 487.0
+offset_right = 479.0
 offset_bottom = 418.0
 texture = ExtResource("4_5ynmr")
 patch_margin_left = 52
 patch_margin_top = 67
 patch_margin_right = 52
 patch_margin_bottom = 73
+metadata/_edit_group_ = true
+
+[node name="food_cost" type="RichTextLabel" parent="cost_panel"]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = 50.0
+offset_right = -11.0
+offset_bottom = -191.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_pldyj")
+theme_override_colors/default_color = Color(0.878431, 0, 0.203922, 1)
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "[center]99[/center]"
+fit_content = true
+deselect_on_focus_loss_enabled = false
+
+[node name="wood_cost" type="RichTextLabel" parent="cost_panel"]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = 95.0
+offset_right = -11.0
+offset_bottom = -146.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_pldyj")
+theme_override_colors/default_color = Color(0.490196, 0.227451, 0, 1)
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "[center]99[/center]"
+fit_content = true
+deselect_on_focus_loss_enabled = false
+
+[node name="gold_cost" type="RichTextLabel" parent="cost_panel"]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = 140.0
+offset_right = -11.0
+offset_bottom = -101.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_pldyj")
+theme_override_colors/default_color = Color(0.878431, 0.529412, 0, 1)
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "[center]99[/center]"
+fit_content = true
+deselect_on_focus_loss_enabled = false
+
+[node name="stone_cost" type="RichTextLabel" parent="cost_panel"]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = 185.0
+offset_right = -11.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_pldyj")
+theme_override_colors/default_color = Color(0.521569, 0.521569, 0.521569, 1)
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "[center]99[/center]"
+fit_content = true
+deselect_on_focus_loss_enabled = false
+
+[node name="food_icon" type="Sprite2D" parent="cost_panel"]
+texture_filter = 1
+position = Vector2(35, 65)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("5_a5njv")
+hframes = 8
+vframes = 8
+region_rect = Rect2(128, 0, 128, 128)
+
+[node name="wood_icon" type="Sprite2D" parent="cost_panel"]
+texture_filter = 1
+position = Vector2(35, 110)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("5_a5njv")
+hframes = 8
+vframes = 8
+frame = 1
+region_rect = Rect2(128, 0, 128, 128)
+
+[node name="gold_icon" type="Sprite2D" parent="cost_panel"]
+texture_filter = 1
+position = Vector2(35, 155)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("5_a5njv")
+hframes = 8
+vframes = 8
+frame = 2
+region_rect = Rect2(128, 0, 128, 128)
+
+[node name="stone_icon" type="Sprite2D" parent="cost_panel"]
+texture_filter = 1
+position = Vector2(35, 200)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("5_a5njv")
+hframes = 8
+vframes = 8
+frame = 3
+region_rect = Rect2(128, 0, 128, 128)
