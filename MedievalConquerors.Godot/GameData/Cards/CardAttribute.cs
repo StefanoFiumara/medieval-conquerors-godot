@@ -1,8 +1,8 @@
-﻿using Godot;
+using Godot;
 
 namespace MedievalConquerors.GameData.Cards;
 
-public class CardAttribute : Resource
+public abstract partial class CardAttribute : Resource
 {
-    // TODO: What goes here?
+	// TODO: What goes here? Is this base class needed?
 }
