@@ -36,7 +36,7 @@ offset_right = 242.0
 offset_bottom = 11.0
 theme_override_font_sizes/normal_font_size = 35
 bbcode_enabled = true
-text = "[center]Villager[/center]"
+text = "[center]Lorem Ipsum[/center]"
 fit_content = true
 scroll_active = false
 
