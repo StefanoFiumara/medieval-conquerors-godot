@@ -7,7 +7,7 @@ using MedievalConquerors.Engine.Logging;
 using NSubstitute;
 using Xunit.Abstractions;
 
-namespace MedievalConquerors.Tests.Engine;
+namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
 public abstract class GameSystemTestFixture
 {

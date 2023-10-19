@@ -20,6 +20,8 @@ public static class GameFactory
         game.AddComponent<EventAggregator>();
         game.AddComponent<ActionSystem>();
         
+        game.AddComponent<HandSystem>();
+        
         // game.AddComponent<VictorySystem>();
         //
         // game.AddComponent<GlobalGameStateSystem>();
@@ -35,8 +37,7 @@ public static class GameFactory
         // //
         // game.AddComponent<CardSystem>();
         // game.AddComponent<TargetSystem>();
-        //
-        // game.AddComponent<HandSystem>();
+        
         // game.AddComponent<BoardSystem>();
         // game.AddComponent<DiscardSystem>();
         //

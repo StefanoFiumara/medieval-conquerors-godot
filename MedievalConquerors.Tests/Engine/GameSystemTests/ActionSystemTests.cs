@@ -4,7 +4,7 @@ using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
 using Xunit.Abstractions;
 
-namespace MedievalConquerors.Tests.Engine;
+namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
 public class ActionSystemTests : GameSystemTestFixture
 {
@@ -15,6 +15,12 @@ public class ActionSystemTests : GameSystemTestFixture
         _underTest = Game.GetComponent<ActionSystem>();
     }
 
+    [Fact]
+    public void GameFactory_Creates_ActionSystem()
+    {
+        Assert.NotNull(_underTest);
+    }
+    
     [Fact]
     public void ActionSystem_OnPerform_System_Becomes_Active()
     {
