@@ -4,6 +4,7 @@ using Fano.ASCIITableUtil;
 using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Logging;
+using MedievalConquerors.Extensions;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Engine;

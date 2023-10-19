@@ -1,4 +1,4 @@
-﻿namespace MedievalConquerors.Engine.Logging;
+﻿namespace MedievalConquerors.Extensions;
 
 public static class ColorExtensions
 {

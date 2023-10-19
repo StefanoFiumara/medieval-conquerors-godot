@@ -1,4 +1,4 @@
-﻿namespace MedievalConquerors.Views;
+﻿namespace MedievalConquerors.Extensions;
 
 public static class TextExtensions
 {

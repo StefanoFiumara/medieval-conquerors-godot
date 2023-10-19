@@ -1,4 +1,6 @@
-﻿namespace MedievalConquerors.Engine.Logging;
+﻿using MedievalConquerors.Engine.Logging;
+
+namespace MedievalConquerors.Extensions;
 
 public static class LoggerExtensions
 {

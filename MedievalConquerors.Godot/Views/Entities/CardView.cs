@@ -1,5 +1,6 @@
 using System.Linq;
 using Godot;
+using MedievalConquerors.Extensions;
 using MedievalConquerors.GameData.Cards;
 using MedievalConquerors.GameData.Cards.Attributes;
 
