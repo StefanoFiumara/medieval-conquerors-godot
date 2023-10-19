@@ -27,7 +27,7 @@ public class GameAction
     /// <summary>
     /// The card that initiated this GameAction
     /// </summary>
-    // public Card SourceCard { get; set; }
+    public Card SourceCard { get; set; }
 
     public GameAction()
     {

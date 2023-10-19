@@ -8,6 +8,7 @@ public interface ICardAttribute
     
 }
 
+// TODO: Do we need a concrete CardData that isn't a Godot Resource?
 public interface ICardData
 {
     // TODO: CardType, Tags, Tooltip text

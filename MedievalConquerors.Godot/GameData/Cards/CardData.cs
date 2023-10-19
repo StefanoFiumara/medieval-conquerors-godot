@@ -14,6 +14,6 @@ public partial class CardData : Resource, ICardData
 	[Export] private Resource[] _attributes;
 	public IEnumerable<ICardAttribute> Attributes => _attributes.OfType<ICardAttribute>();
 
-	// TODO: Does the engine care about the image? does this need to be in ICardAttribute?
+	// TODO: Does the engine care about the image? does this need to be in ICardData?
 	[Export] public Texture2D Image { get; set; }
 }

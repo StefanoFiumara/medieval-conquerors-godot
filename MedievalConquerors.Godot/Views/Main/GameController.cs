@@ -5,7 +5,6 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Logging;
 using MedievalConquerors.GameData.GameSettings;
-using MedievalConquerors.GameData.Match;
 using MedievalConquerors.Views.Maps;
 
 namespace MedievalConquerors.Views.Main;
@@ -14,7 +13,6 @@ public partial class GameController : Node
 {
 	[Export] private LogLevel _logLevel;
 	[Export] private GameSettings _settings;
-	[Export] private Match _match;
 	
 	// TODO: Load different maps through this resource
 	[Export] private MapView _gameMap;
@@ -28,7 +26,7 @@ public partial class GameController : Node
 	{ 
 		_log = new GodotLogger(_logLevel);
 		_board = GameBoardFactory.CreateHexBoard(_gameMap);
-		_game = GameFactory.Create(_log, _match, _board, _settings);
+		_game = GameFactory.Create(_log, _board, _settings);
 		
 		// TEMP: testing ranges
 		Visualize(_range);

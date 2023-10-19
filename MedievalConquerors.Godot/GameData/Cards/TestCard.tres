@@ -1,19 +1,11 @@
-[gd_resource type="Resource" load_steps=5 format=3 uid="uid://ctjqlw2a6okom"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://ctjqlw2a6okom"]
 
-[ext_resource type="Script" path="res://GameData/Cards/Attributes/ResourceCost.cs" id="1_foa1b"]
 [ext_resource type="Texture2D" uid="uid://bwe0oxlpo8qkp" path="res://Assets/UI/hexagon_woodPaperWear.png" id="2_7j080"]
 [ext_resource type="Script" path="res://GameData/Cards/CardData.cs" id="3_e5mgx"]
-
-[sub_resource type="Resource" id="Resource_5a6yt"]
-script = ExtResource("1_foa1b")
-Food = 0
-Wood = 2
-Gold = 0
-Stone = 0
 
 [resource]
 script = ExtResource("3_e5mgx")
 Title = "Lumber Camp"
 Description = "Villagers assigned to this building will collect Wood from adjacent forests."
-Attributes = Array[Resource]([SubResource("Resource_5a6yt")])
+_attributes = null
 Image = ExtResource("2_7j080")

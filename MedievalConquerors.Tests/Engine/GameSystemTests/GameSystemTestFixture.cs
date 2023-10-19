@@ -1,4 +1,5 @@
-﻿using MedievalConquerors.Engine;
+﻿using AutoFixture;
+using MedievalConquerors.Engine;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
@@ -11,8 +12,8 @@ namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
 public abstract class GameSystemTestFixture
 {
+    protected readonly Fixture Fixture;
     protected readonly IGameSettings Settings = Substitute.For<IGameSettings>();
-    protected readonly IMatch Match = Substitute.For<IMatch>();
     protected readonly IGameBoard Board = Substitute.For<IGameBoard>();
     
     protected readonly IGame Game;
@@ -22,10 +23,11 @@ public abstract class GameSystemTestFixture
     {
         var logger = new TestLogger(output, LogLevel.Info);
         
-        Game = GameFactory.Create(logger, Match, Board, Settings);
+        Fixture = new Fixture();
+        Fixture.Inject(Substitute.For<ICardData>());
         
+        Game = GameFactory.Create(logger, Board, Settings);
         Events = Game.GetComponent<EventAggregator>();
-        
         Game.Awake();
     }
 }

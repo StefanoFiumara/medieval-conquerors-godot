@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7sn0comtrj6j"]
+[gd_scene load_steps=6 format=3 uid="uid://b7sn0comtrj6j"]
 
 [ext_resource type="Script" path="res://Views/Main/GameController.cs" id="1_68c8e"]
 [ext_resource type="Resource" uid="uid://ejs7dyka7per" path="res://GameData/GameSettings/GameSettings.tres" id="2_ui7yv"]
-[ext_resource type="Resource" uid="uid://dk1lh1mstf6lg" path="res://GameData/Match/Match.tres" id="3_8tiqc"]
 [ext_resource type="PackedScene" uid="uid://bm1p2sik6ymcj" path="res://Views/Maps/Map.tscn" id="4_138dg"]
 [ext_resource type="PackedScene" uid="uid://b53wqwu1youqe" path="res://Views/Entities/Card.tscn" id="5_sucfj"]
 [ext_resource type="Resource" uid="uid://ctjqlw2a6okom" path="res://GameData/Cards/TestCard.tres" id="6_5dyyi"]
@@ -10,7 +9,6 @@
 [node name="game_controller" type="Node2D" node_paths=PackedStringArray("_gameMap")]
 script = ExtResource("1_68c8e")
 _settings = ExtResource("2_ui7yv")
-_match = ExtResource("3_8tiqc")
 _gameMap = NodePath("map")
 
 [node name="map" parent="." instance=ExtResource("4_138dg")]
@@ -24,5 +22,5 @@ layer_4/z_index = -3
 
 [node name="test_card" parent="." instance=ExtResource("5_sucfj")]
 position = Vector2(701, 161)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)
 _cardData = ExtResource("6_5dyyi")
