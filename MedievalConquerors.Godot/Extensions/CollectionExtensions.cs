@@ -27,7 +27,6 @@ public static class CollectionExtensions
     //     for (int i = 0; i < n - 1; i++)
     //     {
     //         int r = Rng.RandiRange(i, n);
-    //             
     //         (list[r], list[i]) = (list[i], list[r]);
     //     }
     // }
