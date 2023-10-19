@@ -11,7 +11,7 @@ public partial class CardData : Resource
 	// TODO: Build custom editor window to assign card attributes to cards
 	[Export] public CardAttribute[] Attributes { get; set; }
 
-	[Export] public Texture Image { get; set; }
+	[Export] public Texture2D Image { get; set; }
 	
 	// TODO: CardType, Tags, Tooltip text
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b53wqwu1youqe"]
+[gd_scene load_steps=9 format=3 uid="uid://b53wqwu1youqe"]
 
 [ext_resource type="Texture2D" uid="uid://pe7a1v1i8dvd" path="res://Assets/UI/panel_woodDetailSquare.png" id="1_huav0"]
 [ext_resource type="Script" path="res://Views/Entities/CardView.cs" id="1_r8q4a"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bcp3vaby3lte6" path="res://Assets/UI/panel_woodPaperWear.png" id="3_sjrhv"]
 [ext_resource type="Texture2D" uid="uid://bwe0oxlpo8qkp" path="res://Assets/UI/hexagon_woodPaperWear.png" id="4_5ynmr"]
 [ext_resource type="Texture2D" uid="uid://q47sa2cousfo" path="res://Assets/SpriteSheets/icons_spritesheet.png" id="5_a5njv"]
+[ext_resource type="Texture2D" uid="uid://bgv57btyjujwr" path="res://Assets/placeholder.svg" id="7_vfj0a"]
 
 [sub_resource type="Theme" id="Theme_pldyj"]
 
@@ -196,3 +197,8 @@ hframes = 8
 vframes = 8
 frame = 3
 region_rect = Rect2(128, 0, 128, 128)
+
+[node name="image" type="Sprite2D" parent="."]
+position = Vector2(203, 273)
+scale = Vector2(0.236206, 0.236206)
+texture = ExtResource("7_vfj0a")
