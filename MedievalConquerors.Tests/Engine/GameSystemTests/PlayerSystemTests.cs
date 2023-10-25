@@ -11,19 +11,22 @@ namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
 public class PlayerSystemTests : GameSystemTestFixture
 {
-    private readonly PlayerSystem _underTest;
     private readonly IPlayer _player;
     
     public PlayerSystemTests(ITestOutputHelper output) : base(output)
     {
-        _underTest = Game.GetComponent<PlayerSystem>();
-        
         var dummyCards = Fixture.Build<Card>()
             .FromFactory((ICardData data) => new Card(data, _player, Zone.Deck))
             .CreateMany(30);
         
         _player = Game.GetComponent<Match>().LocalPlayer;
         _player.Deck.AddRange(dummyCards);
+    }
+
+    [Fact]
+    public void GameFactory_Creates_PlayerSystem()
+    {
+        Game.GetComponent<PlayerSystem>().Should().NotBeNull();
     }
     
     [Fact]
@@ -69,7 +72,7 @@ public class PlayerSystemTests : GameSystemTestFixture
         cardToPlay.Zone.Should().Be(Zone.Board);
         cardToPlay.BoardPosition.Should().Be(positionToPlay);
         
-        var tile = Game.GetComponent<IGameBoard>().GetTile(positionToPlay);
+        var tile = Board.GetTile(positionToPlay);
         
         tile.Objects.Should().HaveCount(1);
         tile.Objects.Single().Should().Be(cardToPlay);

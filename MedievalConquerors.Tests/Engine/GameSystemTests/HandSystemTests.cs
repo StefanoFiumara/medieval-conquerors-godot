@@ -10,13 +10,10 @@ namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
 public class HandSystemTests : GameSystemTestFixture
 {
-    private readonly HandSystem _underTest;
     private readonly IPlayer _player;
     
     public HandSystemTests(ITestOutputHelper output) : base(output)
-    {
-        _underTest = Game.GetComponent<HandSystem>();
-        
+    {       
         var dummyCards = Fixture.Build<Card>()
             .FromFactory((ICardData data) => new Card(data, _player, Zone.Deck))
             .CreateMany(30);
@@ -28,7 +25,7 @@ public class HandSystemTests : GameSystemTestFixture
     [Fact]
     public void GameFactory_Creates_HandSystem()
     {
-        Assert.NotNull(_underTest);
+        Game.GetComponent<HandSystem>().Should().NotBeNull();
     }
 
     [Theory]
