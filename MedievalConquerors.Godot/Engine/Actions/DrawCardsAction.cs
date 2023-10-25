@@ -9,10 +9,10 @@ public class DrawCardsAction : GameAction
     public int Amount { get; }
     public List<Card> DrawnCards { get; set; }
 
-    public DrawCardsAction(int amount, IPlayer target)
+    public DrawCardsAction(IPlayer target, int amount)
     {
-        Amount = amount;
         Target = target;
+        Amount = amount;
         DrawnCards = new List<Card>();
     }
 }

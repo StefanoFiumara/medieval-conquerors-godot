@@ -4,7 +4,6 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
-using NSubstitute;
 using Xunit.Abstractions;
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
@@ -40,7 +39,7 @@ public class HandSystemTests : GameSystemTestFixture
     [InlineData(5)]
     public void HandSystem_Performs_DrawCardsAction_And_Draws_Required_Amount(int amountToDraw)
     {
-        var action = new DrawCardsAction(amountToDraw, _player);
+        var action = new DrawCardsAction(_player, amountToDraw);
 
         var initialDeckCount = _player.Deck.Count; 
         

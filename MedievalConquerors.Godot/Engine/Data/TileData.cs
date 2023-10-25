@@ -17,7 +17,7 @@ public interface ITileData
 
 public class TileData : ITileData
 {
-    public List<IGameObject> Objects { get; } = new();
+    public List<IGameObject> Objects { get; }
     public Vector2I Position { get; }
     public TileTerrain Terrain { get; }
     public ResourceType ResourceType { get; }
@@ -31,5 +31,7 @@ public class TileData : ITileData
         Terrain = terrain;
         ResourceType = resourceType;
         ResourceYield = resourceYield;
+
+        Objects = new List<IGameObject>();
     }
 }

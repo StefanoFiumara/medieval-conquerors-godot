@@ -19,7 +19,7 @@ public interface ICardData
     IEnumerable<ICardAttribute> Attributes { get; }
 }
 
-public class Card
+public class Card : IGameObject
 {
     public ICardData CardData { get; }
     
