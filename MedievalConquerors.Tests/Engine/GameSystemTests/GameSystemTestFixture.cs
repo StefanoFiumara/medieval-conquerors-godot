@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using FluentAssertions;
 using MedievalConquerors.Engine;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
@@ -29,5 +30,12 @@ public abstract class GameSystemTestFixture
         Game = GameFactory.Create(logger, Board, Settings);
         Events = Game.GetComponent<EventAggregator>();
         Game.Awake();
+    }
+
+    [Fact]
+    public void Game_Destroy_Unsubscribes_All_Events()
+    {
+        Game.Destroy();
+        Events.Subscriptions.Should().BeEmpty();
     }
 }

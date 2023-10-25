@@ -6,11 +6,6 @@ public class EventAggregatorTests
 {
     private readonly EventAggregator _underTest = new();
 
-    public EventAggregatorTests()
-    {
-        
-    }
-
     [Fact]
     public void EventAggregator_Subscribe_Fires_Event()
     {

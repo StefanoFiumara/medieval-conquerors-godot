@@ -47,6 +47,8 @@ public class HandSystemTests : GameSystemTestFixture
         Game.Perform(action);
         Game.Update();
 
+        action.DrawnCards.Should().BeEquivalentTo(_player.Hand);
+        
         _player.Hand.Should().HaveCount(amountToDraw);
         _player.Deck.Should().HaveCount(initialDeckCount - amountToDraw);
         _player.Hand.Should().AllSatisfy(c => c.Zone.Should().Be(Zone.Hand));

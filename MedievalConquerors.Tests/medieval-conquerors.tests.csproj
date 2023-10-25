@@ -5,7 +5,6 @@
         <RootNamespace>MedievalConquerors.Tests</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
@@ -26,9 +25,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\medieval-conquerors\medieval-conquerors.csproj" />
       <ProjectReference Include="..\MedievalConquerors.Godot\medieval-conquerors.csproj" />
     </ItemGroup>
-
-
 </Project>

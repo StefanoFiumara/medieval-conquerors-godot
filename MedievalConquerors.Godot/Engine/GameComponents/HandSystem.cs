@@ -14,15 +14,17 @@ public class HandSystem : GameComponent, IAwake, IDestroy
     {
 	    _events = Game.GetComponent<EventAggregator>();
 	    _events.Subscribe<DrawCardsAction>(GameEvent.Perform<DrawCardsAction>(), OnPerformDrawCards);
+	    
     }
 
-	private void OnPerformDrawCards(DrawCardsAction sender)
+	private void OnPerformDrawCards(DrawCardsAction action)
 	{
-		var drawnCards = sender.Target.Deck.Draw(sender.Amount);
+		var drawnCards = action.Target.Deck.Draw(action.Amount);
 
 		foreach (var card in drawnCards)
 		{
-			sender.Target.Hand.Add(card);
+			action.Target.MoveCard(card, Zone.Hand);
+			action.DrawnCards.Add(card);
 			card.Zone = Zone.Hand;
 		}
 	}
@@ -30,5 +32,6 @@ public class HandSystem : GameComponent, IAwake, IDestroy
 	public void Destroy()
     {
 	    _events.Unsubscribe(GameEvent.Perform<DrawCardsAction>(), OnPerformDrawCards);
+	    
     }
 }

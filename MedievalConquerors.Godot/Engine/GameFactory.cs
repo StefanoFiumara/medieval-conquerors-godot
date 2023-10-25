@@ -22,12 +22,13 @@ public static class GameFactory
         game.AddComponent<ActionSystem>();
         
         game.AddComponent<HandSystem>();
+        game.AddComponent<PlayerSystem>();
         
         // game.AddComponent<VictorySystem>();
         //
         // game.AddComponent<GlobalGameStateSystem>();
         //
-        // game.AddComponent<PlayerSystem>();
+        
         // game.AddComponent<TurnSystem>();
         //
         // game.AddComponent<ResourceSystem>();
