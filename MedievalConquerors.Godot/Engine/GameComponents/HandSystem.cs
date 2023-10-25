@@ -32,6 +32,5 @@ public class HandSystem : GameComponent, IAwake, IDestroy
 	public void Destroy()
     {
 	    _events.Unsubscribe(GameEvent.Perform<DrawCardsAction>(), OnPerformDrawCards);
-	    
     }
 }
