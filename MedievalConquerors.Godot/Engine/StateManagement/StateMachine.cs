@@ -1,6 +1,4 @@
-﻿using MedievalConquerors.Engine.Core;
-
-namespace MedievalConquerors.Engine.StateManagement;
+﻿namespace MedievalConquerors.Engine.StateManagement;
     
 public class StateMachine
 {
