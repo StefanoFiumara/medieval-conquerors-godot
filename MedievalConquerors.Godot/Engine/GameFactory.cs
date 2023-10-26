@@ -23,6 +23,7 @@ public static class GameFactory
         
         game.AddComponent<HandSystem>();
         game.AddComponent<PlayerSystem>();
+        game.AddComponent<BoardSystem>();
         
         // game.AddComponent<VictorySystem>();
         
@@ -39,7 +40,7 @@ public static class GameFactory
         // game.AddComponent<CardSystem>();
         // game.AddComponent<TargetSystem>();
         
-        // game.AddComponent<BoardSystem>();
+        
         // game.AddComponent<DiscardSystem>();
         
         // game.AddComponent<CombatSystem>();

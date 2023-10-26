@@ -1,9 +1,7 @@
-﻿using System.Diagnostics;
-using MedievalConquerors.Engine.Actions;
+﻿using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
-using MedievalConquerors.Engine.Logging;
 
 namespace MedievalConquerors.Engine.GameComponents;
 

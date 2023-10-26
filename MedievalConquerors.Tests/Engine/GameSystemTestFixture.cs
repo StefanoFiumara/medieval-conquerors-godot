@@ -11,7 +11,7 @@ using NSubstitute;
 using Xunit.Abstractions;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
-namespace MedievalConquerors.Tests.Engine.GameSystemTests;
+namespace MedievalConquerors.Tests.Engine;
 
 public abstract class GameSystemTestFixture
 {
@@ -30,10 +30,25 @@ public abstract class GameSystemTestFixture
         Fixture.Inject(Substitute.For<ICardData>());
         
         Game = GameFactory.Create(logger, Board, Settings);
+        
         Events = Game.GetComponent<EventAggregator>();
+        var match = Game.GetComponent<Match>();
+        
+        SetupPlayer(match.LocalPlayer);
+        SetupPlayer(match.EnemyPlayer);
+        
         Game.Awake();
     }
 
+    private void SetupPlayer(IPlayer player)
+    {
+        var dummyCards = Fixture.Build<Card>()
+            .FromFactory((ICardData data) => new Card(data, player, Zone.Deck))
+            .CreateMany(30);
+        
+        player.Deck.AddRange(dummyCards);
+    }
+    
     [Fact]
     public void Game_Destroy_Unsubscribes_All_Events()
     {

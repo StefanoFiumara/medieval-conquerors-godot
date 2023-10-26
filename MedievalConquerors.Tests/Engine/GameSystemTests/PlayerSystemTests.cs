@@ -1,5 +1,4 @@
-﻿using AutoFixture;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Godot;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
@@ -15,12 +14,7 @@ public class PlayerSystemTests : GameSystemTestFixture
     
     public PlayerSystemTests(ITestOutputHelper output) : base(output)
     {
-        var dummyCards = Fixture.Build<Card>()
-            .FromFactory((ICardData data) => new Card(data, _player, Zone.Deck))
-            .CreateMany(30);
-        
         _player = Game.GetComponent<Match>().LocalPlayer;
-        _player.Deck.AddRange(dummyCards);
     }
 
     [Fact]
