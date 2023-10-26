@@ -4,6 +4,7 @@ namespace MedievalConquerors.Engine.Data;
 
 public interface IPlayer
 {
+    int Id { get; }
     List<Card> Deck { get; }
     List<Card> Hand { get; }
     List<Card> Discard { get; }
@@ -17,6 +18,7 @@ public interface IPlayer
 
 public class Player : IPlayer
 {
+    public int Id { get; }
     public List<Card> Deck { get; } = new();
     public List<Card> Hand { get; } = new();
     public List<Card> Discard { get; } = new();
@@ -24,8 +26,10 @@ public class Player : IPlayer
 
     private readonly Dictionary<Zone, List<Card>> _zoneMap;
 
-    public Player()
+    public Player(int id)
     {
+        Id = id;
+        
         _zoneMap = new Dictionary<Zone, List<Card>>
         {
             { Zone.Deck, Deck },

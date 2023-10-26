@@ -28,6 +28,7 @@ public class Card : IGameObject
     public Zone Zone { get; set; }
     
     public Vector2I BoardPosition { get; set; }
+    
 
     public Card(ICardData cardData, IPlayer owner, Zone zone = Zone.None, Vector2I boardPosition = default)
     {

@@ -1,16 +1,22 @@
-﻿using MedievalConquerors.Engine.Core;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using MedievalConquerors.Engine.Core;
 
 namespace MedievalConquerors.Engine.Data;
 
-public interface IMatch : IGameComponent
+public class Match : GameComponent
 {
-    IPlayer LocalPlayer { get; }
-    IPlayer EnemyPlayer { get; }
-}
+    public const int LOCAL_PLAYER_ID = 0;
+    public const int ENEMY_PLAYER_ID = 1;
+    
+    public IPlayer LocalPlayer { get; } = new Player(LOCAL_PLAYER_ID);
+    public IPlayer EnemyPlayer { get; } = new Player(ENEMY_PLAYER_ID);
 
-public class Match : GameComponent, IMatch
-{
-    public IPlayer LocalPlayer { get; } = new Player();
-    public IPlayer EnemyPlayer { get; } = new Player();
+    public IReadOnlyList<IPlayer> Players { get; }
+
+    public Match()
+    {
+        Players = new ReadOnlyCollection<IPlayer>(new[] {LocalPlayer, EnemyPlayer});
+    }
 }
 
