@@ -24,13 +24,21 @@ public class PlayerSystem : GameComponent, IAwake, IDestroy
         action.SourcePlayer.MoveCard(action.CardToPlay, Zone.Board);
         action.CardToPlay.BoardPosition = action.TargetTile;
         
-        // TODO: Should BoardSystem take care of this part?
         var tile = _gameBoard.GetTile(action.TargetTile);
         tile.Objects.Add(action.CardToPlay);
     }
 
     private void OnPerformDiscardCards(DiscardCardsAction action)
     {
+        foreach (var card in action.CardsToDiscard) 
+        {
+            if (card.Zone == Zone.Board)
+            {
+                var tile = _gameBoard.GetTile(card.BoardPosition);
+                tile.Objects.Remove(card);
+            }
+        }
+        
         action.Target.MoveCards(action.CardsToDiscard, Zone.Discard);
     }
     

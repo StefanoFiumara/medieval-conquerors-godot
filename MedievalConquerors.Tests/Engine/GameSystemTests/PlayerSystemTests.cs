@@ -75,12 +75,17 @@ public class PlayerSystemTests : GameSystemTestFixture
     [Fact]
     public void PlayerSystem_Performs_DiscardCardsAction_And_Discards_From_Board()
     {
-        // Place card on board
-        // TODO: use PlayCardAction here when that is implemented
-        var cardOnBoard = _player.Deck.First();
-        cardOnBoard.Zone = Zone.Board;
-        _player.Board.Add(cardOnBoard);
-        _player.Deck.Remove(cardOnBoard);
+        // Draw some cards
+        var drawAction = new DrawCardsAction(_player, 5);
+        Game.Perform(drawAction);
+        Game.Update();
+        
+        // Then play one
+        var cardToPlay = _player.Hand.First();
+        var positionToPlay = new Vector2I(5, 5);
+        var playAction = new PlayCardAction(_player, cardToPlay, positionToPlay);
+        Game.Perform(playAction);
+        Game.Update();
         
         // Then discard it
         var toDiscard = _player.Board.Take(1).ToList();
@@ -89,8 +94,10 @@ public class PlayerSystemTests : GameSystemTestFixture
         Game.Perform(discardAction);
         Game.Update();
         
-        _player.Board.Should().HaveCount(0);
+        _player.Board.Should().BeEmpty();
         _player.Discard.Should().HaveCount(1);
         _player.Discard.Should().AllSatisfy(c => c.Zone.Should().Be(Zone.Discard));
+
+        Board.GetTile(positionToPlay).Objects.Should().BeEmpty();
     }
 }
