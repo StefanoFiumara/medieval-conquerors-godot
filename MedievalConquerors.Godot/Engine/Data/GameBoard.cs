@@ -13,9 +13,9 @@ public interface IGameBoard : IGameComponent
 	IEnumerable<ITileData> GetNeighbors(Vector2I pos);
 	IEnumerable<ITileData> GetReachable(Vector2I pos, int range);
 	IEnumerable<ITileData> SearchTiles(Func<ITileData, bool> predicate);
-	
+	int Distance(Vector2I start, Vector2I end);
+
 	// TODO: Other functions we may want to implement:
-	//			* Distance between two tiles
 	//			* Pathfinding
 	//			* Field of View
 	//			* https://www.redblobgames.com/grids/hexagons/
@@ -98,6 +98,29 @@ public class HexGameBoard : GameComponent, IGameBoard
 	public IEnumerable<ITileData> SearchTiles(Func<ITileData, bool> predicate)
 	{
 		return _tiles.Values.Where(predicate);
+	}
+
+	public int Distance(Vector2I start, Vector2I end)
+	{
+		if (start.X == end.X)
+		{
+			return Mathf.Abs(end.Y - start.Y);
+		}
+
+		if (start.Y == end.Y)
+		{
+			return Mathf.Abs(end.X - start.X);
+		}
+
+		int dx = Mathf.Abs(end.X - start.X);
+		int dy = Mathf.Abs(end.Y - start.Y);
+
+		if (start.Y < end.Y)
+		{
+			return dx + dy - Mathf.CeilToInt(dx / 2.0);
+		}
+
+		return dx + dy - Mathf.FloorToInt(dx / 2.0);
 	}
 }
 

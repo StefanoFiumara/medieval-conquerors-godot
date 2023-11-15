@@ -5,7 +5,7 @@ using MedievalConquerors.Engine.Events;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
-public class PlayerSystem : GameComponent, IAwake, IDestroy
+public class PlayerSystem : GameComponent, IAwake
 {
     private IEventAggregator _events;
     private IGameBoard _gameBoard;
@@ -40,11 +40,5 @@ public class PlayerSystem : GameComponent, IAwake, IDestroy
         }
         
         action.Target.MoveCards(action.CardsToDiscard, Zone.Discard);
-    }
-    
-    public void Destroy()
-    {
-        _events.Unsubscribe(GameEvent.Perform<DiscardCardsAction>(), OnPerformDiscardCards);
-        _events.Unsubscribe(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
     }
 }

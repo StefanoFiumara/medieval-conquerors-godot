@@ -44,6 +44,7 @@ public abstract class GameSystemTestFixture
     {
         var dummyCards = Fixture.Build<Card>()
             .FromFactory((ICardData data) => new Card(data, player, Zone.Deck))
+            .Without(c => c.BoardPosition)
             .CreateMany(30);
         
         player.Deck.AddRange(dummyCards);

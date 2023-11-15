@@ -6,7 +6,7 @@ using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
-public class HandSystem : GameComponent, IAwake, IDestroy
+public class HandSystem : GameComponent, IAwake
 {
 	private IEventAggregator _events;
 
@@ -28,9 +28,4 @@ public class HandSystem : GameComponent, IAwake, IDestroy
 			card.Zone = Zone.Hand;
 		}
 	}
-
-	public void Destroy()
-    {
-	    _events.Unsubscribe(GameEvent.Perform<DrawCardsAction>(), OnPerformDrawCards);
-    }
 }
