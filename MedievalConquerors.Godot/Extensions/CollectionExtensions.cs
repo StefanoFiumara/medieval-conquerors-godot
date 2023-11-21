@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
@@ -19,17 +20,19 @@ public static class CollectionExtensions
         return card;
     }
     
-    // TODO: Implement randomness without using Godot randomizer
-    // public static void Shuffle<T>(this List<T> list)
-    // {
-    //     // NOTE: Fisher Yates shuffle -> https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
-    //     int n = list.Count;
-    //     for (int i = 0; i < n - 1; i++)
-    //     {
-    //         int r = Rng.RandiRange(i, n);
-    //         (list[r], list[i]) = (list[i], list[r]);
-    //     }
-    // }
+    public static void Shuffle<T>(this List<T> list)
+    {
+        // NOTE: Fisher Yates shuffle -> https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+        var rng = new Random();
+
+        for (var i = list.Count - 1; i > 0; --i)
+        {
+            // Select a random index
+            var r = rng.Next(0, i + 1);
+            // Swap
+            (list[i], list[r]) = (list[r], list[i]);
+        }
+    }
         
     public static IEnumerable<T> Draw<T>(this List<T> list, int amount) 
         where T : class
