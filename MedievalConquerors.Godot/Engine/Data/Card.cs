@@ -12,23 +12,18 @@ public interface ICardAttribute
 public interface ICardData
 {
     // TODO: CardType, Tags, Tooltip text
-    
     string Title { get; }
     string Description { get; }
     
-    IEnumerable<ICardAttribute> Attributes { get; }
+    List<ICardAttribute> Attributes { get; }
 }
 
 public class Card : IGameObject
 {
     public ICardData CardData { get; }
-    
     public IPlayer Owner { get; }
-    
     public Zone Zone { get; set; }
-    
     public Vector2I BoardPosition { get; set; }
-    
 
     public Card(ICardData cardData, IPlayer owner, Zone zone = Zone.None, Vector2I boardPosition = default)
     {

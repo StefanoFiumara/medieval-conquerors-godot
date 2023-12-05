@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.Events;
+using MedievalConquerors.Engine.Logging;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
@@ -32,7 +34,7 @@ public class BoardSystem : GameComponent, IAwake
             validator.Invalidate("Card does not have MoveAttribute.");
 
         else if (_gameBoard.Distance(action.CardToMove.BoardPosition, action.TargetTile) > moveAttr.DistanceRemaining)
-            validator.Invalidate($"Card's MoveAttribute does not have enough distance remaining.");
+            validator.Invalidate("Card's MoveAttribute does not have enough distance remaining.");
     }
 
     private void OnPerformMoveUnit(MoveUnitAction action)
@@ -43,10 +45,10 @@ public class BoardSystem : GameComponent, IAwake
         oldTile.Objects.Remove(action.CardToMove);
         newTile.Objects.Add(action.CardToMove);
         
-        action.CardToMove.BoardPosition = action.TargetTile;
-
-        var moveAttr = action.CardToMove.CardData.Attributes.OfType<MoveAttribute>().Single();
         var distanceTraveled = _gameBoard.Distance(action.CardToMove.BoardPosition, action.TargetTile);
+        
+        action.CardToMove.BoardPosition = action.TargetTile;
+        var moveAttr = action.CardToMove.CardData.Attributes.OfType<MoveAttribute>().Single();
         moveAttr.DistanceRemaining -= distanceTraveled;
     }
 }

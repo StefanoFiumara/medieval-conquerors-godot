@@ -35,10 +35,8 @@ public class BoardSystemTests : GameSystemTestFixture
         
         // Then play one
         var card = _player.Hand.First();
-        // setup mock move attribute
         var moveAttribute = new MoveAttribute(1);
-        card.CardData.Attributes.Returns(new List<ICardAttribute> {moveAttribute});
-        
+        card.CardData.Attributes.Add(moveAttribute);
         var firstPosition = new Vector2I(5, 5);
         var playAction = new PlayCardAction(_player, card, firstPosition);
         Game.Perform(playAction);
@@ -54,12 +52,11 @@ public class BoardSystemTests : GameSystemTestFixture
         Board.GetTile(newPosition).Objects.Should().Contain(card);
         Board.GetTile(firstPosition).Objects.Should().BeEmpty();
         
-        // TODO: Figure out why this isn't being update, probably something to do with NSubstitute?
         moveAttribute.DistanceRemaining.Should().Be(0);
     }
 
     [Fact]
-    public void BoardSystem_MoveUnitAction_DoesNotWork_Without_MoveAttribute()
+    public void BoardSystem_MoveUnitAction_Invalidated_Without_MoveAttribute()
     {
         // Draw some cards
         var drawAction = new DrawCardsAction(_player, 5);
@@ -86,7 +83,7 @@ public class BoardSystemTests : GameSystemTestFixture
     }
     
     [Fact]
-    public void BoardSystem_MoveUnitAction_DoesNotWork_If_NotEnoughDistance()
+    public void BoardSystem_MoveUnitAction_Invalidated_If_NotEnoughDistance()
     {
         // Draw some cards
         var drawAction = new DrawCardsAction(_player, 5);
@@ -95,7 +92,6 @@ public class BoardSystemTests : GameSystemTestFixture
         
         // Then play one
         var card = _player.Hand.First();
-        card.CardData.Attributes.Returns(info => new[] { new MoveAttribute(1) });
         
         var firstPosition = new Vector2I(5, 5);
         var playAction = new PlayCardAction(_player, card, firstPosition);
@@ -114,7 +110,7 @@ public class BoardSystemTests : GameSystemTestFixture
     }
     
     [Fact]
-    public void BoardSystem_MoveUnitAction_DoesNotWork_If_NotOnBoard()
+    public void BoardSystem_MoveUnitAction_Invalidated_If_NotOnBoard()
     {
         // Draw some cards
         var drawAction = new DrawCardsAction(_player, 5);

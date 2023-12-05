@@ -25,10 +25,10 @@ public abstract class GameSystemTestFixture
     protected GameSystemTestFixture(ITestOutputHelper output)
     {
         var logger = new TestLogger(output, LogLevel.Info);
-        
         Fixture = new Fixture();
-        Fixture.Inject(Substitute.For<ICardData>());
         
+        Fixture.Register<IEnumerable<ICardAttribute>>(() => new List<ICardAttribute>());
+        Fixture.Register(CreateEmptyCardData);
         Game = GameFactory.Create(logger, Board, Settings);
         
         Events = Game.GetComponent<EventAggregator>();
@@ -40,6 +40,20 @@ public abstract class GameSystemTestFixture
         Game.Awake();
     }
 
+    [Fact]
+    public void Game_Destroy_Unsubscribes_All_Events()
+    {
+        Game.Destroy();
+        Events.Subscriptions.Should().BeEmpty();
+    }
+
+    private static ICardData CreateEmptyCardData()
+    {
+        var substitute = Substitute.For<ICardData>();
+        substitute.Attributes.Returns(new List<ICardAttribute>());
+        return substitute;
+    }
+
     private void SetupPlayer(IPlayer player)
     {
         var dummyCards = Fixture.Build<Card>()
@@ -49,14 +63,7 @@ public abstract class GameSystemTestFixture
         
         player.Deck.AddRange(dummyCards);
     }
-    
-    [Fact]
-    public void Game_Destroy_Unsubscribes_All_Events()
-    {
-        Game.Destroy();
-        Events.Subscriptions.Should().BeEmpty();
-    }
-    
+
     private static IGameBoard CreateMockGameBoard()
     {
         var tileData = new Dictionary<Vector2I, ITileData>();

@@ -12,7 +12,7 @@ public partial class CardData : Resource, ICardData
 	
 	// TODO: Build custom editor window to assign card attribute resources to cards
 	[Export] private Resource[] _attributes;
-	public IEnumerable<ICardAttribute> Attributes => _attributes.OfType<ICardAttribute>();
+	public List<ICardAttribute> Attributes => _attributes.OfType<ICardAttribute>().ToList();
 
 	// TODO: Does the engine care about the image? does this need to be in ICardData?
 	[Export] public Texture2D Image { get; set; }
