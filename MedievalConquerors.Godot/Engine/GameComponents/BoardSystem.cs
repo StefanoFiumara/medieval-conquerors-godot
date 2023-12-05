@@ -6,6 +6,7 @@ using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.Logging;
+using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
@@ -25,7 +26,7 @@ public class BoardSystem : GameComponent, IAwake
 
     private void OnValidateMoveUnit(MoveUnitAction action, ActionValidatorResult validator)
     {
-        var moveAttr = action.CardToMove.CardData.Attributes.OfType<MoveAttribute>().SingleOrDefault();
+        var moveAttr = action.CardToMove.GetAttribute<MoveAttribute>();
         
         if(action.CardToMove.Zone != Zone.Board)
             validator.Invalidate("Card is not on the board.");
@@ -48,7 +49,7 @@ public class BoardSystem : GameComponent, IAwake
         var distanceTraveled = _gameBoard.Distance(action.CardToMove.BoardPosition, action.TargetTile);
         
         action.CardToMove.BoardPosition = action.TargetTile;
-        var moveAttr = action.CardToMove.CardData.Attributes.OfType<MoveAttribute>().Single();
+        var moveAttr = action.CardToMove.GetAttribute<MoveAttribute>();
         moveAttr.DistanceRemaining -= distanceTraveled;
     }
 }

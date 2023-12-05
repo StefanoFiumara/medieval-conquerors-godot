@@ -1,8 +1,8 @@
 using System.Linq;
 using Godot;
+using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Extensions;
-using MedievalConquerors.GameData.Cards;
-using MedievalConquerors.GameData.Cards.Attributes;
 
 namespace MedievalConquerors.Views.Entities;
 
@@ -16,9 +16,8 @@ public partial class CardView : Node2D
 	private RichTextLabel _woodCost;
 	private RichTextLabel _goldCost;
 	private RichTextLabel _stoneCost;
-
-	// TODO: CardData will probably have to be assigned separately, rather than directly via export property
-	[Export] private CardData _cardData;
+	
+	private Card _card;
 	
 	public override void _Ready()
 	{
@@ -30,15 +29,20 @@ public partial class CardView : Node2D
 		_woodCost = GetNode<RichTextLabel>("cost_panel/wood_cost");
 		_goldCost = GetNode<RichTextLabel>("cost_panel/gold_cost");
 		_stoneCost = GetNode<RichTextLabel>("cost_panel/stone_cost");
-		
-		_title.Text = _cardData.Title.Center();
+	}
+
+	public void Initialize(Card card)
+	{
+		_card = card;
+		_title.Text = _card.CardData.Title.Center();
 		// TODO: Append tags to card description
-		_description.Text = _cardData.Description;
+		_description.Text = _card.CardData.Description;
 		
 		// NOTE: Assumes _cardData.Image is a 256x256 sprite.
-		_image.Texture = _cardData.Image;
+		// TODO: Figure out where this comes from
+		//_image.Texture = _card.CardData.Image;
 
-		var cost = _cardData.Attributes.OfType<ResourceCost>().SingleOrDefault();
+		var cost = _card.Attributes.OfType<ResourceCostAttribute>().SingleOrDefault();
 		if (cost != null)
 		{
 			_foodCost.Text = $"{cost.Food}".Center();

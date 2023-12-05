@@ -27,8 +27,7 @@ public abstract class GameSystemTestFixture
         var logger = new TestLogger(output, LogLevel.Info);
         Fixture = new Fixture();
         
-        Fixture.Register<IEnumerable<ICardAttribute>>(() => new List<ICardAttribute>());
-        Fixture.Register(CreateEmptyCardData);
+        Fixture.Register(CreateCardData);
         Game = GameFactory.Create(logger, Board, Settings);
         
         Events = Game.GetComponent<EventAggregator>();
@@ -47,9 +46,11 @@ public abstract class GameSystemTestFixture
         Events.Subscriptions.Should().BeEmpty();
     }
 
-    private static ICardData CreateEmptyCardData()
+    private ICardData CreateCardData()
     {
         var substitute = Substitute.For<ICardData>();
+        substitute.Title.Returns(Fixture.Create<string>());
+        substitute.Description.Returns(Fixture.Create<string>());
         substitute.Attributes.Returns(new List<ICardAttribute>());
         return substitute;
     }

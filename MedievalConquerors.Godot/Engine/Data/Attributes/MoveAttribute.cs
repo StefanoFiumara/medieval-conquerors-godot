@@ -10,4 +10,6 @@ public class MoveAttribute : ICardAttribute
         Distance = distance;
         DistanceRemaining = distance;
     }
+
+    public ICardAttribute Clone() => AttributeMapper.Clone(this);
 }

@@ -5,7 +5,6 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.GameComponents;
-using NSubstitute;
 using Xunit.Abstractions;
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
@@ -35,14 +34,18 @@ public class BoardSystemTests : GameSystemTestFixture
         
         // Then play one
         var card = _player.Hand.First();
-        var moveAttribute = new MoveAttribute(1);
-        card.CardData.Attributes.Add(moveAttribute);
+        
         var firstPosition = new Vector2I(5, 5);
         var playAction = new PlayCardAction(_player, card, firstPosition);
         Game.Perform(playAction);
         Game.Update();
         
-        // Then Move it.
+        // set up move attribute
+        var moveAttribute = new MoveAttribute(1);
+        card.CardData.Attributes.Add(moveAttribute);
+        card.Attributes.Add(moveAttribute);
+        
+        // Then move it
         var newPosition = new Vector2I(5, 4);
         var moveAction = new MoveUnitAction(_player, card, newPosition);
         Game.Perform(moveAction);
@@ -98,7 +101,12 @@ public class BoardSystemTests : GameSystemTestFixture
         Game.Perform(playAction);
         Game.Update();
         
-        // Then Move it.
+        // set up move attribute
+        var moveAttribute = new MoveAttribute(1);
+        card.CardData.Attributes.Add(moveAttribute);
+        card.Attributes.Add(moveAttribute);
+        
+        // Then move it
         var newPosition = new Vector2I(5, 3); // 2 tiles away
         var moveAction = new MoveUnitAction(_player, card, newPosition);
         Game.Perform(moveAction);
@@ -117,8 +125,15 @@ public class BoardSystemTests : GameSystemTestFixture
         Game.Perform(drawAction);
         Game.Update();
         
-        // Then attempt to Move one.
+        // pick one
         var card = _player.Hand.First();
+        
+        // set up move attribute
+        var moveAttribute = new MoveAttribute(1);
+        card.CardData.Attributes.Add(moveAttribute);
+        card.Attributes.Add(moveAttribute);
+        
+        // Then attempt to move it
         var newPosition = new Vector2I(5, 3);
         var moveAction = new MoveUnitAction(_player, card, newPosition);
         Game.Perform(moveAction);
@@ -127,5 +142,4 @@ public class BoardSystemTests : GameSystemTestFixture
         card.BoardPosition.Should().Be(new Vector2I(int.MinValue, int.MinValue));
         Board.GetTile(newPosition).Objects.Should().BeEmpty();
     }
-    // TODO: unit tests to validate MoveUnitAction
 }
