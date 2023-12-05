@@ -8,7 +8,4 @@
     <PackageReference Include="Fano.ASCIITableUtil" Version="1.1.1" />
     <PackageReference Include="Riok.Mapperly" Version="3.3.0-next.5" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GameData\Cards\Attributes\" />
-  </ItemGroup>
 </Project>
