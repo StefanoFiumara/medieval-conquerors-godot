@@ -24,12 +24,12 @@ public static class GameFactory
         game.AddComponent<HandSystem>();
         game.AddComponent<PlayerSystem>();
         game.AddComponent<BoardSystem>();
-        
+
+        game.AddComponent<TurnSystem>();
+
         // game.AddComponent<VictorySystem>();
         
         // game.AddComponent<GlobalGameStateSystem>();
-        
-        // game.AddComponent<TurnSystem>();
         
         // game.AddComponent<ResourceSystem>();
         // game.AddComponent<AgeSystem>();
@@ -39,7 +39,6 @@ public static class GameFactory
         
         // game.AddComponent<CardSystem>();
         // game.AddComponent<TargetSystem>();
-        
         
         // game.AddComponent<DiscardSystem>();
         

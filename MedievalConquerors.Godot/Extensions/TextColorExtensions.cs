@@ -1,6 +1,6 @@
 ﻿namespace MedievalConquerors.Extensions;
 
-public static class ColorExtensions
+public static class TextColorExtensions
 {
     public static string Black(this string msg) => WrapInColor(msg, "black");
     public static string Red(this string msg) => WrapInColor(msg, "red");

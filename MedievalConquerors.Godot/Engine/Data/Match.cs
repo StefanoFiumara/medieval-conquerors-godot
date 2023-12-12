@@ -13,10 +13,15 @@ public class Match : GameComponent
     public IPlayer EnemyPlayer { get; } = new Player(EnemyPlayerId);
 
     public IReadOnlyList<IPlayer> Players { get; }
+    
+    public int CurrentPlayerId { get; set; }
+
+    public IPlayer CurrentPlayer => Players[CurrentPlayerId];
+    public IPlayer OppositePlayer => Players[1 - CurrentPlayerId];
 
     public Match()
     {
-        Players = new ReadOnlyCollection<IPlayer>(new[] {LocalPlayer, EnemyPlayer});
+        Players = new ReadOnlyCollection<IPlayer>(new[] { LocalPlayer, EnemyPlayer });
     }
 }
 

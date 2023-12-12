@@ -23,6 +23,7 @@ public static class CollectionExtensions
     public static void Shuffle<T>(this List<T> list)
     {
         // NOTE: Fisher Yates shuffle -> https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+        // TODO: make rng a globally available property so that we can control the seed.
         var rng = new Random();
 
         for (var i = list.Count - 1; i > 0; --i)
