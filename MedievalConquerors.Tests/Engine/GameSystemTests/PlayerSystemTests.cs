@@ -27,7 +27,7 @@ public class PlayerSystemTests : GameSystemTestFixture
     public void PlayerSystem_Performs_DiscardCardsAction_And_Discards_From_Hand()
     {
         // Draw 5 cards
-        var drawAction = new DrawCardsAction(_player, 5);
+        var drawAction = new DrawCardsAction(_player.Id, 5);
         Game.Perform(drawAction);
         Game.Update();
         
@@ -47,7 +47,7 @@ public class PlayerSystemTests : GameSystemTestFixture
     public void PlayerSystem_Performs_PlayCardAction_And_PlacesOnBoard()
     {
         // Draw some cards
-        var drawAction = new DrawCardsAction(_player, 5);
+        var drawAction = new DrawCardsAction(_player.Id, 5);
         Game.Perform(drawAction);
         Game.Update();
         
@@ -76,7 +76,7 @@ public class PlayerSystemTests : GameSystemTestFixture
     public void PlayerSystem_Performs_DiscardCardsAction_And_Discards_From_Board()
     {
         // Draw some cards
-        var drawAction = new DrawCardsAction(_player, 5);
+        var drawAction = new DrawCardsAction(_player.Id, 5);
         Game.Perform(drawAction);
         Game.Update();
         

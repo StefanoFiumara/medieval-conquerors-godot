@@ -30,7 +30,7 @@ public class HandSystemTests : GameSystemTestFixture
     [InlineData(5)]
     public void HandSystem_Performs_DrawCardsAction_And_Draws_Required_Amount(int amountToDraw)
     {
-        var action = new DrawCardsAction(_player, amountToDraw);
+        var action = new DrawCardsAction(_player.Id, amountToDraw);
 
         var initialDeckCount = _player.Deck.Count; 
         

@@ -2,6 +2,7 @@
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
+using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
@@ -9,14 +10,17 @@ public class PlayerSystem : GameComponent, IAwake
 {
     private IEventAggregator _events;
     private IGameBoard _gameBoard;
-    
+    private Match _match;
+
     public void Awake()
     {
         _events = Game.GetComponent<EventAggregator>();
         _gameBoard = Game.GetComponent<IGameBoard>();
+        _match = Game.GetComponent<Match>();
         
         _events.Subscribe<DiscardCardsAction>(GameEvent.Perform<DiscardCardsAction>(), OnPerformDiscardCards);
         _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
+        _events.Subscribe<ChangeTurnAction>(GameEvent.Perform<ChangeTurnAction>(), OnPerformChangeTurn);
     }
 
     private void OnPerformPlayCard(PlayCardAction action)
@@ -41,4 +45,20 @@ public class PlayerSystem : GameComponent, IAwake
         
         action.Target.MoveCards(action.CardsToDiscard, Zone.Discard);
     }
+
+    private void OnPerformChangeTurn(ChangeTurnAction action)
+    {
+        var player = _match.Players[action.NextPlayerId];
+        foreach (var card in player.Board)
+        {
+            foreach (var attr in card.Attributes)
+            {
+                // TODO: Reset in-play attributes
+                // attr.Reset();
+            }
+        }
+        
+    }
+    
+    // TODO: Respond to ShuffleDeckAction
 }

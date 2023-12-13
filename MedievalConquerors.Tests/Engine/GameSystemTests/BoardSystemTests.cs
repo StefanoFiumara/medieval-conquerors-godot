@@ -28,7 +28,7 @@ public class BoardSystemTests : GameSystemTestFixture
     public void BoardSystem_Performs_MoveUnitAction_And_Moves_Unit()
     {
         // Draw some cards
-        var drawAction = new DrawCardsAction(_player, 5);
+        var drawAction = new DrawCardsAction(_player.Id, 5);
         Game.Perform(drawAction);
         Game.Update();
         
@@ -62,7 +62,7 @@ public class BoardSystemTests : GameSystemTestFixture
     public void BoardSystem_MoveUnitAction_Invalidated_Without_MoveAttribute()
     {
         // Draw some cards
-        var drawAction = new DrawCardsAction(_player, 5);
+        var drawAction = new DrawCardsAction(_player.Id, 5);
         Game.Perform(drawAction);
         Game.Update();
         
@@ -89,7 +89,7 @@ public class BoardSystemTests : GameSystemTestFixture
     public void BoardSystem_MoveUnitAction_Invalidated_If_NotEnoughDistance()
     {
         // Draw some cards
-        var drawAction = new DrawCardsAction(_player, 5);
+        var drawAction = new DrawCardsAction(_player.Id, 5);
         Game.Perform(drawAction);
         Game.Update();
         
@@ -121,7 +121,7 @@ public class BoardSystemTests : GameSystemTestFixture
     public void BoardSystem_MoveUnitAction_Invalidated_If_NotOnBoard()
     {
         // Draw some cards
-        var drawAction = new DrawCardsAction(_player, 5);
+        var drawAction = new DrawCardsAction(_player.Id, 5);
         Game.Perform(drawAction);
         Game.Update();
         

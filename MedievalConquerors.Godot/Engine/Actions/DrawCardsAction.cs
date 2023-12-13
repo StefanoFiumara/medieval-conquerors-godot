@@ -5,13 +5,13 @@ namespace MedievalConquerors.Engine.Actions;
 
 public class DrawCardsAction : GameAction
 {
-    public IPlayer Target { get; }
+    public int TargetPlayerId { get; }
     public int Amount { get; }
     public List<Card> DrawnCards { get; set; }
 
-    public DrawCardsAction(IPlayer target, int amount)
+    public DrawCardsAction(int targetPlayerId, int amount)
     {
-        Target = target;
+        TargetPlayerId = targetPlayerId;
         Amount = amount;
         DrawnCards = new List<Card>();
     }

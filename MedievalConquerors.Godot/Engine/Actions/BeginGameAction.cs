@@ -2,7 +2,7 @@
 
 public class BeginGameAction : GameAction
 {
-    public int StartingPlayerId { get; set; }
+    public int StartingPlayerId { get; }
     
     public BeginGameAction(int startingPlayerId)
     {
