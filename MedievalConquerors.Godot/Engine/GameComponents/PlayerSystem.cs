@@ -21,6 +21,7 @@ public class PlayerSystem : GameComponent, IAwake
         _events.Subscribe<DiscardCardsAction>(GameEvent.Perform<DiscardCardsAction>(), OnPerformDiscardCards);
         _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
         _events.Subscribe<ChangeTurnAction>(GameEvent.Perform<ChangeTurnAction>(), OnPerformChangeTurn);
+        _events.Subscribe<ShuffleDeckAction>(GameEvent.Perform<ShuffleDeckAction>(), OnPerformShuffleDeck);
     }
 
     private void OnPerformPlayCard(PlayCardAction action)
@@ -53,12 +54,14 @@ public class PlayerSystem : GameComponent, IAwake
         {
             foreach (var attr in card.Attributes)
             {
-                // TODO: Reset in-play attributes
-                // attr.Reset();
+                attr.Reset();
             }
         }
-        
     }
-    
-    // TODO: Respond to ShuffleDeckAction
+
+    private void OnPerformShuffleDeck(ShuffleDeckAction action)
+    {
+        var player = _match.Players[action.TargetPlayerId];
+        player.Deck.Shuffle();
+    }
 }

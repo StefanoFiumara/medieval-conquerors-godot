@@ -13,7 +13,7 @@ public class TurnSystem : GameComponent, IAwake
     public void Awake()
     {
         _match = Game.GetComponent<Match>();
-        _events = Game.GetComponent<IEventAggregator>();
+        _events = Game.GetComponent<EventAggregator>();
             
         _events.Subscribe<ChangeTurnAction>(GameEvent.Perform<ChangeTurnAction>(), OnPerformChangeTurn);
         _events.Subscribe<BeginGameAction>(GameEvent.Perform<BeginGameAction>(), OnPerformBeginGame);

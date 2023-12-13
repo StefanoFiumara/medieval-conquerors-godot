@@ -14,6 +14,8 @@ public interface ICardData
 
 public interface ICardAttribute
 {
+    // TODO: better name for this?
+    void Reset();
     ICardAttribute Clone();
 }
 
