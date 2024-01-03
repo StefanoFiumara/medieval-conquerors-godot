@@ -6,7 +6,6 @@ using MedievalConquerors.Engine.Core;
 
 namespace MedievalConquerors.Engine.Data;
 
-// TODO: Unit tests for this logic
 public interface IGameBoard : IGameComponent
 {
 	ITileData GetTile(Vector2I pos);
@@ -22,6 +21,7 @@ public interface IGameBoard : IGameComponent
 }
 
 // NOTE: HexGameBoard logic assumes pointy-top hex tiles with Odd Offset coordinates
+// TODO: Unit tests for this logic
 public class HexGameBoard : GameComponent, IGameBoard
 {
 	private readonly Dictionary<Vector2I, ITileData> _tiles;
@@ -83,11 +83,9 @@ public class HexGameBoard : GameComponent, IGameBoard
 			{
 				foreach (var neighbor in GetNeighbors(position))
 				{
-					if (!visited.Contains(neighbor.Position))
+					if (visited.Add(neighbor.Position))
 					{
-						visited.Add(neighbor.Position);
 						outerEdges[i].Add(neighbor.Position);
-							
 						yield return neighbor;
 					}
 				}

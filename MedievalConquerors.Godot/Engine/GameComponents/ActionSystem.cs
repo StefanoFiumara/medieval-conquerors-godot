@@ -41,7 +41,7 @@ public class ActionSystem : GameComponent, IAwake, IUpdate
 
 		_rootAction = action;
 		_rootSequence = Sequence(action);
-		_logger.Warn($"Perform <{action}>");
+		_logger.Info($"Perform <{action}>");
 	}
 
 	public void Update()
@@ -147,7 +147,7 @@ public class ActionSystem : GameComponent, IAwake, IUpdate
 		reactions.Sort(SortActions);
 		foreach (var reaction in reactions)
 		{
-			_logger.Warn($"\t* Reaction: {reaction}");
+			_logger.Info($"\t* Reaction: {reaction}");
 
 			var subFlow = Sequence(reaction);
 			while (subFlow.MoveNext())

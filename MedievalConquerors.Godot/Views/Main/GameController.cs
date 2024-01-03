@@ -35,6 +35,7 @@ public partial class GameController : Node
 	public override void _Ready()
 	{
 		_game.Awake();
+		// TODO: Begin the game with BeginGameAction here.
 	}
 
 	// TEMP: Testing variable ranges

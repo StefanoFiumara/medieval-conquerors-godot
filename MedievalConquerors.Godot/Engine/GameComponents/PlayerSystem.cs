@@ -20,7 +20,7 @@ public class PlayerSystem : GameComponent, IAwake
         
         _events.Subscribe<DiscardCardsAction>(GameEvent.Perform<DiscardCardsAction>(), OnPerformDiscardCards);
         _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
-        _events.Subscribe<ChangeTurnAction>(GameEvent.Perform<ChangeTurnAction>(), OnPerformChangeTurn);
+        
         _events.Subscribe<ShuffleDeckAction>(GameEvent.Perform<ShuffleDeckAction>(), OnPerformShuffleDeck);
     }
 
@@ -47,17 +47,7 @@ public class PlayerSystem : GameComponent, IAwake
         action.Target.MoveCards(action.CardsToDiscard, Zone.Discard);
     }
 
-    private void OnPerformChangeTurn(ChangeTurnAction action)
-    {
-        var player = _match.Players[action.NextPlayerId];
-        foreach (var card in player.Board)
-        {
-            foreach (var attr in card.Attributes)
-            {
-                attr.Reset();
-            }
-        }
-    }
+    
 
     private void OnPerformShuffleDeck(ShuffleDeckAction action)
     {

@@ -57,7 +57,7 @@ public class EventAggregator : GameComponent, IEventAggregator, IAwake, IDestroy
 
     private void SubscribeInternal(string eventName, Delegate handler)
     {
-        _logger.Info($"Subscribed <{eventName}> :: <{handler.Method.DeclaringType?.Name}.{handler.Method.Name}>");
+        _logger.Debug($"Subscribed <{eventName}> :: <{handler.Method.DeclaringType?.Name}.{handler.Method.Name}>");
         if (_subscriptions.ContainsKey(eventName) == false)
         {
             _subscriptions[eventName] = new List<Delegate> { handler };
@@ -106,7 +106,7 @@ public class EventAggregator : GameComponent, IEventAggregator, IAwake, IDestroy
     {
         if (!_subscriptions.ContainsKey(eventName)) return;
 
-        _logger.Info($"Unsubscribed <{eventName} :: {handler.Method.DeclaringType?.Name}.{handler.Method.Name}>");
+        _logger.Debug($"Unsubscribed <{eventName} :: {handler.Method.DeclaringType?.Name}.{handler.Method.Name}>");
         while (_subscriptions[eventName].Contains(handler))
         {
             _subscriptions[eventName].Remove(handler);

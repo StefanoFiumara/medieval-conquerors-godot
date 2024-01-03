@@ -24,6 +24,7 @@ public class TurnSystem : GameComponent, IAwake
         Game.AddReaction(new ShuffleDeckAction(Match.LocalPlayerId));
         Game.AddReaction(new ShuffleDeckAction(Match.EnemyPlayerId));
         
+        // TODO: Parameterize starting hand count
         Game.AddReaction(new DrawCardsAction(Match.LocalPlayerId, 5));
         Game.AddReaction(new DrawCardsAction(Match.EnemyPlayerId, 5));
         

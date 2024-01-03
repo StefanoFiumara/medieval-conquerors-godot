@@ -14,14 +14,17 @@ public class BoardSystem : GameComponent, IAwake
 {
     private IEventAggregator _events;
     private IGameBoard _gameBoard;
-    
+    private Match _match;
+
     public void Awake()
     {
         _events = Game.GetComponent<EventAggregator>();
         _gameBoard = Game.GetComponent<IGameBoard>();
+        _match = Game.GetComponent<Match>();
         
         _events.Subscribe<MoveUnitAction>(GameEvent.Perform<MoveUnitAction>(), OnPerformMoveUnit);
         _events.Subscribe<MoveUnitAction, ActionValidatorResult>(GameEvent.Validate<MoveUnitAction>(), OnValidateMoveUnit);
+        _events.Subscribe<ChangeTurnAction>(GameEvent.Perform<ChangeTurnAction>(), OnPerformChangeTurn);
     }
 
     private void OnValidateMoveUnit(MoveUnitAction action, ActionValidatorResult validator)
@@ -51,5 +54,17 @@ public class BoardSystem : GameComponent, IAwake
         action.CardToMove.BoardPosition = action.TargetTile;
         var moveAttr = action.CardToMove.GetAttribute<MoveAttribute>();
         moveAttr.DistanceRemaining -= distanceTraveled;
+    }
+    
+    private void OnPerformChangeTurn(ChangeTurnAction action)
+    {
+        var player = _match.Players[action.NextPlayerId];
+        foreach (var card in player.Board)
+        {
+            foreach (var attr in card.Attributes)
+            {
+                attr.Reset();
+            }
+        }
     }
 }

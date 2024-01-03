@@ -15,6 +15,11 @@ public class PlayerSystemTests : GameSystemTestFixture
     public PlayerSystemTests(ITestOutputHelper output) : base(output)
     {
         _player = Game.GetComponent<Match>().LocalPlayer;
+        
+        // Start the game with the given player
+        var action = new BeginGameAction(_player.Id);
+        Game.Perform(action);
+        Game.Update();
     }
 
     [Fact]
@@ -26,19 +31,14 @@ public class PlayerSystemTests : GameSystemTestFixture
     [Fact]
     public void PlayerSystem_Performs_DiscardCardsAction_And_Discards_From_Hand()
     {
-        // Draw 5 cards
-        var drawAction = new DrawCardsAction(_player.Id, 5);
-        Game.Perform(drawAction);
-        Game.Update();
-        
-        // Then discard 2
+        // Discard 2 random cards
         var toDiscard = _player.Hand.Take(2).ToList();
         var discardAction = new DiscardCardsAction(toDiscard, _player);
 
         Game.Perform(discardAction);
         Game.Update();
         
-        _player.Hand.Should().HaveCount(3);
+        _player.Hand.Should().HaveCount(4);
         _player.Discard.Should().HaveCount(2);
         _player.Discard.Should().AllSatisfy(c => c.Zone.Should().Be(Zone.Discard));
     }
@@ -46,12 +46,7 @@ public class PlayerSystemTests : GameSystemTestFixture
     [Fact]
     public void PlayerSystem_Performs_PlayCardAction_And_PlacesOnBoard()
     {
-        // Draw some cards
-        var drawAction = new DrawCardsAction(_player.Id, 5);
-        Game.Perform(drawAction);
-        Game.Update();
-        
-        // Then play one
+        // Play a card
         var cardToPlay = _player.Hand.First();
         var positionToPlay = new Vector2I(5, 5);
         var playAction = new PlayCardAction(_player, cardToPlay, positionToPlay);
@@ -60,7 +55,7 @@ public class PlayerSystemTests : GameSystemTestFixture
         Game.Update();
 
         _player.Board.Should().HaveCount(1);
-        _player.Hand.Should().HaveCount(4);
+        _player.Hand.Should().HaveCount(5);
         _player.Board.Should().HaveCount(1);
         
         cardToPlay.Zone.Should().Be(Zone.Board);
@@ -75,12 +70,7 @@ public class PlayerSystemTests : GameSystemTestFixture
     [Fact]
     public void PlayerSystem_Performs_DiscardCardsAction_And_Discards_From_Board()
     {
-        // Draw some cards
-        var drawAction = new DrawCardsAction(_player.Id, 5);
-        Game.Perform(drawAction);
-        Game.Update();
-        
-        // Then play one
+        // Play a card
         var cardToPlay = _player.Hand.First();
         var positionToPlay = new Vector2I(5, 5);
         var playAction = new PlayCardAction(_player, cardToPlay, positionToPlay);
