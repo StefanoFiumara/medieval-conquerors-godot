@@ -39,7 +39,8 @@ public partial class CardView : Node2D
 		_description.Text = _card.CardData.Description;
 		
 		// NOTE: Assumes _cardData.Image is a 256x256 sprite.
-		// TODO: Figure out where this comes from
+		// TODO: Figure out where to load image data from
+		//			IDEA: store image resource path in CardData.Image, and load from here? 
 		//_image.Texture = _card.CardData.Image;
 
 		var cost = _card.Attributes.OfType<ResourceCostAttribute>().SingleOrDefault();

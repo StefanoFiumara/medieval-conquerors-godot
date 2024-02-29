@@ -14,9 +14,12 @@
 texture_filter = 1
 script = ExtResource("1_r8q4a")
 
-[node name="background" type="NinePatchRect" parent="."]
-offset_left = -1.0
-offset_right = 511.0
+[node name="container" type="Node2D" parent="."]
+position = Vector2(-128, -180)
+scale = Vector2(0.5, 0.5)
+
+[node name="background" type="NinePatchRect" parent="container"]
+offset_right = 512.0
 offset_bottom = 720.0
 texture = ExtResource("1_huav0")
 region_rect = Rect2(0, 0, 128, 128)
@@ -24,13 +27,14 @@ patch_margin_left = 47
 patch_margin_top = 56
 patch_margin_right = 46
 patch_margin_bottom = 49
+metadata/_edit_use_anchors_ = true
 
-[node name="title_banner" type="Sprite2D" parent="."]
+[node name="title_banner" type="Sprite2D" parent="container"]
 position = Vector2(254.899, 82.25)
 scale = Vector2(0.916667, 0.916667)
 texture = ExtResource("2_gwad2")
 
-[node name="title_text" type="RichTextLabel" parent="title_banner"]
+[node name="title_text" type="RichTextLabel" parent="container/title_banner"]
 offset_left = -238.0
 offset_top = -30.0
 offset_right = 242.0
@@ -41,7 +45,7 @@ text = "[center]Lorem Ipsum[/center]"
 fit_content = true
 scroll_active = false
 
-[node name="description_panel" type="NinePatchRect" parent="."]
+[node name="description_panel" type="NinePatchRect" parent="container"]
 offset_left = 23.0
 offset_top = 421.0
 offset_right = 487.0
@@ -51,8 +55,9 @@ patch_margin_left = 39
 patch_margin_top = 75
 patch_margin_right = 39
 patch_margin_bottom = 78
+metadata/_edit_use_anchors_ = true
 
-[node name="description_text" type="RichTextLabel" parent="description_panel"]
+[node name="description_text" type="RichTextLabel" parent="container/description_panel"]
 layout_mode = 0
 offset_left = 25.0
 offset_top = 23.0
@@ -63,7 +68,7 @@ theme_override_font_sizes/normal_font_size = 21
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 scroll_active = false
 
-[node name="cost_panel" type="NinePatchRect" parent="."]
+[node name="cost_panel" type="NinePatchRect" parent="container"]
 offset_left = 375.0
 offset_top = 143.0
 offset_right = 479.0
@@ -74,8 +79,9 @@ patch_margin_top = 67
 patch_margin_right = 52
 patch_margin_bottom = 73
 metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
 
-[node name="food_cost" type="RichTextLabel" parent="cost_panel"]
+[node name="food_cost" type="RichTextLabel" parent="container/cost_panel"]
 texture_filter = 2
 layout_mode = 1
 anchors_preset = -1
@@ -96,7 +102,7 @@ fit_content = true
 scroll_active = false
 deselect_on_focus_loss_enabled = false
 
-[node name="wood_cost" type="RichTextLabel" parent="cost_panel"]
+[node name="wood_cost" type="RichTextLabel" parent="container/cost_panel"]
 texture_filter = 2
 layout_mode = 1
 anchors_preset = -1
@@ -117,7 +123,7 @@ fit_content = true
 scroll_active = false
 deselect_on_focus_loss_enabled = false
 
-[node name="gold_cost" type="RichTextLabel" parent="cost_panel"]
+[node name="gold_cost" type="RichTextLabel" parent="container/cost_panel"]
 texture_filter = 2
 layout_mode = 1
 anchors_preset = -1
@@ -138,7 +144,7 @@ fit_content = true
 scroll_active = false
 deselect_on_focus_loss_enabled = false
 
-[node name="stone_cost" type="RichTextLabel" parent="cost_panel"]
+[node name="stone_cost" type="RichTextLabel" parent="container/cost_panel"]
 texture_filter = 2
 layout_mode = 1
 anchors_preset = -1
@@ -159,7 +165,7 @@ fit_content = true
 scroll_active = false
 deselect_on_focus_loss_enabled = false
 
-[node name="food_icon" type="Sprite2D" parent="cost_panel"]
+[node name="food_icon" type="Sprite2D" parent="container/cost_panel"]
 texture_filter = 1
 position = Vector2(35, 65)
 scale = Vector2(0.3, 0.3)
@@ -168,7 +174,7 @@ hframes = 8
 vframes = 8
 region_rect = Rect2(128, 0, 128, 128)
 
-[node name="wood_icon" type="Sprite2D" parent="cost_panel"]
+[node name="wood_icon" type="Sprite2D" parent="container/cost_panel"]
 texture_filter = 1
 position = Vector2(35, 110)
 scale = Vector2(0.3, 0.3)
@@ -178,7 +184,7 @@ vframes = 8
 frame = 1
 region_rect = Rect2(128, 0, 128, 128)
 
-[node name="gold_icon" type="Sprite2D" parent="cost_panel"]
+[node name="gold_icon" type="Sprite2D" parent="container/cost_panel"]
 texture_filter = 1
 position = Vector2(35, 155)
 scale = Vector2(0.3, 0.3)
@@ -188,7 +194,7 @@ vframes = 8
 frame = 2
 region_rect = Rect2(128, 0, 128, 128)
 
-[node name="stone_icon" type="Sprite2D" parent="cost_panel"]
+[node name="stone_icon" type="Sprite2D" parent="container/cost_panel"]
 texture_filter = 1
 position = Vector2(35, 200)
 scale = Vector2(0.3, 0.3)
@@ -198,6 +204,6 @@ vframes = 8
 frame = 3
 region_rect = Rect2(128, 0, 128, 128)
 
-[node name="image" type="Sprite2D" parent="."]
+[node name="image" type="Sprite2D" parent="container"]
 position = Vector2(213, 276)
 texture = ExtResource("7_wr2mb")
