@@ -30,7 +30,7 @@ public partial class HandView : Node2D
 		SetCardPositions();
 	}
 
-	private (Vector2 pos, float rot) CalculateHandPosition(CardView card)
+	private (Vector2 position, float rotation) CalculatePosition(CardView card)
 	{
 		var ratio = CalculateRatio(card);
 		var xOffset = _spreadCurve.Sample(ratio) * (MaxHandWidth * (_cards.Count / 12f));
@@ -48,23 +48,21 @@ public partial class HandView : Node2D
 		var tween = CreateTween()
 				.SetTrans(Tween.TransitionType.Sine)
 				.SetParallel();
-		;
+
 		foreach (var card in _cards)
 		{
-			var (pos, rot) = CalculateHandPosition(card);
+			var (targetPosition, targetRotation) = CalculatePosition(card);
 			
-			tween.TweenProperty(card, "position", pos, 0.3);
-			tween.TweenProperty(card, "rotation", rot, 0.3);
+			tween.TweenProperty(card, "position", targetPosition, 0.3);
+			tween.TweenProperty(card, "rotation", targetRotation, 0.3);
 			//tween.Chain();
-
-			// card.Position = pos;
-			// card.Rotation = rot;
 		}
 	}
 
 	// TEMP: Testing different hand counts
 	public override void _Input(InputEvent inputEvent)
 	{
+		// Only respond to KeyDown events
 		if (inputEvent.IsEcho()) return;
 		
 		if (inputEvent is InputEventKey e && e.IsPressed())
@@ -81,33 +79,31 @@ public partial class HandView : Node2D
 			}
 		}
 	}
-	
-	public void AddCard()
+
+	private void AddCard()
 	{
 		// TEMP: just for testing, limit hand card count to 10
-		if (_cards.Count < 10)
-		{
-			var cardView = _cardScene.Instantiate<CardView>();
-			// TODO: Initialize CardView with CardData
-			// instance.Initialize(card);
+		if (_cards.Count >= 10) return;
+		
+		var cardView = _cardScene.Instantiate<CardView>();
+		// TODO: Initialize CardView with CardData
+		// instance.Initialize(card);
 			
-			// Spawn card offscreen
-			// TODO: formalize this? or is this ok?
-			cardView.Position = (Vector2.Left * 1200) + (Vector2.Down * 300);
+		// Spawn card offscreen, to be animated in by SetCardPositions
+		cardView.Position = (Vector2.Left * 1200) + (Vector2.Down * 300);
 			
-			_cards.Add(cardView);
-			AddChild(cardView);
-		}
+		_cards.Add(cardView);
+		AddChild(cardView);
 	}
 
-	public void RemoveCard()
+	private void RemoveCard()
 	{
-		if (_cards.Count > 1)
-		{
-			var card = _cards[0];
-			_cards.Remove(card);
-			card.QueueFree();
-		}
+		// TEMP: For testing hand animations
+		if (_cards.Count <= 1) return;
+
+		var card = _cards[0];
+		_cards.Remove(card);
+		card.QueueFree();
 	}
 	
 	private float CalculateRatio(CardView card)

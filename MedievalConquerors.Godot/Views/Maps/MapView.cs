@@ -28,16 +28,18 @@ public partial class MapView : TileMap
 		_viewport = GetViewport();
 	}
 	
+	// TODO: Handle Mouse input for panning around map
+	
 	public override void _Process(double delta)
 	{
 		var mousePos = ToLocal(_viewport.GetMousePosition());
-		var coord = LocalToMap(mousePos);
+		var mapCoord = LocalToMap(mousePos);
 
-		if (coord != _hovered)
+		if (mapCoord != _hovered)
 		{
 			RemoveHighlight(_hovered, HighlightLayer.MouseHover);
-			HighlightTile(coord, HighlightLayer.MouseHover);
-			_hovered = coord;
+			HighlightTile(mapCoord, HighlightLayer.MouseHover);
+			_hovered = mapCoord;
 		}
 	}
 
