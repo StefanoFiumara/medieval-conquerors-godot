@@ -35,9 +35,13 @@ public class Card : IGameObject
         BoardPosition = Zone == Zone.Board ? boardPosition : new Vector2I(int.MinValue, int.MinValue);
 
         Attributes = new List<ICardAttribute>();
-        foreach (var dataAttribute in CardData.Attributes)
+        // TEMP: cardData should never be null
+        if (cardData != null)
         {
-            Attributes.Add(dataAttribute.Clone());
+            foreach (var dataAttribute in CardData.Attributes)
+            {
+                Attributes.Add(dataAttribute.Clone());
+            }
         }
     }
 }

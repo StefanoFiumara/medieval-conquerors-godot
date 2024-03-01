@@ -30,17 +30,35 @@ public partial class HandView : Node2D
 		SetCardPositions();
 	}
 
+	private (Vector2 pos, float rot) CalculateHandPosition(CardView card)
+	{
+		var ratio = CalculateRatio(card);
+		var xOffset = _spreadCurve.Sample(ratio) * (MaxHandWidth * (_cards.Count / 12f));
+		var yOffset = -_heightCurve.Sample(ratio) * (HandHeight * (_cards.Count / 10f));
+		var rotation = -_rotationCurve.Sample(ratio) * (0.25f * (_cards.Count / 10f));
+
+		var pos = new Vector2(xOffset, yOffset);
+		var rot = rotation;
+
+		return (pos, rot);
+	}
+
 	private void SetCardPositions()
 	{
+		var tween = CreateTween()
+				.SetTrans(Tween.TransitionType.Sine)
+				.SetParallel();
+		;
 		foreach (var card in _cards)
 		{
-			var ratio = CalculateRatio(card);
-			var xOffset = _spreadCurve.Sample(ratio) * (MaxHandWidth * (_cards.Count / 12f));
-			var yOffset = -_heightCurve.Sample(ratio) * (HandHeight * (_cards.Count / 10f));
-			var rotation = -_rotationCurve.Sample(ratio) * (0.25f * (_cards.Count / 10f));
+			var (pos, rot) = CalculateHandPosition(card);
+			
+			tween.TweenProperty(card, "position", pos, 0.3);
+			tween.TweenProperty(card, "rotation", rot, 0.3);
+			//tween.Chain();
 
-			card.Position = new Vector2(xOffset, yOffset);
-			card.Rotation = rotation;
+			// card.Position = pos;
+			// card.Rotation = rot;
 		}
 	}
 
@@ -63,14 +81,22 @@ public partial class HandView : Node2D
 			}
 		}
 	}
-
+	
 	public void AddCard()
 	{
+		// TEMP: just for testing, limit hand card count to 10
 		if (_cards.Count < 10)
 		{
-			var instance = _cardScene.Instantiate<CardView>();
-			_cards.Add(instance);
-			AddChild(instance);
+			var cardView = _cardScene.Instantiate<CardView>();
+			// TODO: Initialize CardView with CardData
+			// instance.Initialize(card);
+			
+			// Spawn card offscreen
+			// TODO: formalize this? or is this ok?
+			cardView.Position = (Vector2.Left * 1200) + (Vector2.Down * 300);
+			
+			_cards.Add(cardView);
+			AddChild(cardView);
 		}
 	}
 

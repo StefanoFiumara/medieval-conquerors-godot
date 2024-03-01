@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MedievalConquerors.Engine.Data;
 
@@ -37,6 +38,9 @@ public class Player : IPlayer
             { Zone.Discard, Discard },
             { Zone.Board, Board },
         };
+        
+        // TEMP: Add some temporary cards
+        Deck.AddRange(Enumerable.Range(0, 30).Select(i => new Card(null, this)));
     }
     public List<Card> this[Zone z] => _zoneMap.ContainsKey(z) ? _zoneMap[z] : null;
 
