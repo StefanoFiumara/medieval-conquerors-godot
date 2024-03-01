@@ -1,8 +1,10 @@
 using System.Linq;
 using Godot;
 using MedievalConquerors.Engine;
+using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Logging;
 using MedievalConquerors.GameData.GameSettings;
 using MedievalConquerors.Views.Maps;
@@ -35,30 +37,11 @@ public partial class GameController : Node
 	public override void _Ready()
 	{
 		_game.Awake();
-		// TODO: Begin the game with BeginGameAction here.
+		_game.Perform(new BeginGameAction(0));
 	}
 
 	// TEMP: Testing variable ranges
 	private int _range = 1;
-	public override void _Input(InputEvent inputEvent)
-	{
-		if (inputEvent.IsEcho()) return;
-		
-		if (inputEvent is InputEventKey e && e.IsPressed())
-		{
-			if (e.Keycode == Key.Left)
-			{
-				_range = Mathf.Max(_range - 1, 1);
-				Visualize(_range);
-			}
-			else if (e.Keycode == Key.Right)
-			{
-				_range = Mathf.Min(_range + 1, 4);
-				Visualize(_range);
-			}
-		}
-	}
-	
 	private void Visualize(int range)
 	{
 		_gameMap.Clear(HighlightLayer.RangeVisualizer);

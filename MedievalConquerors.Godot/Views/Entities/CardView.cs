@@ -21,14 +21,14 @@ public partial class CardView : Node2D
 	
 	public override void _Ready()
 	{
-		_title = GetNode<RichTextLabel>("title_banner/title_text");
-		_description = GetNode<RichTextLabel>("description_panel/description_text");
-		_image = GetNode<Sprite2D>("image");
+		_title = GetNode<RichTextLabel>("container/title_banner/title_text");
+		_description = GetNode<RichTextLabel>("container/description_panel/description_text");
+		_image = GetNode<Sprite2D>("container/image");
 		
-		_foodCost = GetNode<RichTextLabel>("cost_panel/food_cost");
-		_woodCost = GetNode<RichTextLabel>("cost_panel/wood_cost");
-		_goldCost = GetNode<RichTextLabel>("cost_panel/gold_cost");
-		_stoneCost = GetNode<RichTextLabel>("cost_panel/stone_cost");
+		_foodCost = GetNode<RichTextLabel>("container/cost_panel/food_cost");
+		_woodCost = GetNode<RichTextLabel>("container/cost_panel/wood_cost");
+		_goldCost = GetNode<RichTextLabel>("container/cost_panel/gold_cost");
+		_stoneCost = GetNode<RichTextLabel>("container/cost_panel/stone_cost");
 	}
 
 	public void Initialize(Card card)
