@@ -24,6 +24,8 @@ public partial class GameController : Node
 	private ILogger _log;
 	private IGameBoard _board;
 
+	public Game Game => _game;
+
 	public override void _EnterTree()
 	{ 
 		_log = new GodotLogger(_logLevel);

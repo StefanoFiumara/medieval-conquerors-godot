@@ -6,10 +6,24 @@ namespace MedievalConquerors.Engine.Data;
 public interface ICardData
 {
     // TODO: CardType, Tags, Tooltip text
+
     string Title { get; }
     string Description { get; }
-    
     List<ICardAttribute> Attributes { get; }
+}
+
+public class CardData : ICardData
+{
+    public string Title { get; }
+    public string Description { get; }
+    public List<ICardAttribute> Attributes { get; }
+
+    public CardData(string title, string description, List<ICardAttribute> attributes)
+    {
+        Title = title;
+        Description = description;
+        Attributes = attributes;
+    }
 }
 
 public interface ICardAttribute
@@ -35,13 +49,9 @@ public class Card : IGameObject
         BoardPosition = Zone == Zone.Board ? boardPosition : new Vector2I(int.MinValue, int.MinValue);
 
         Attributes = new List<ICardAttribute>();
-        // TEMP: cardData should never be null
-        if (cardData != null)
+        foreach (var dataAttribute in CardData.Attributes)
         {
-            foreach (var dataAttribute in CardData.Attributes)
-            {
-                Attributes.Add(dataAttribute.Clone());
-            }
+            Attributes.Add(dataAttribute.Clone());
         }
     }
 }

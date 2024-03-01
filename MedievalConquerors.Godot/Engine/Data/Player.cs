@@ -40,7 +40,7 @@ public class Player : IPlayer
         };
         
         // TEMP: Add some temporary cards
-        Deck.AddRange(Enumerable.Range(0, 30).Select(i => new Card(null, this)));
+        Deck.AddRange(Enumerable.Range(0, 30).Select(i => new Card(new CardData($"Test Card {i}", $"Test Description {i}", new()), this)));
     }
     public List<Card> this[Zone z] => _zoneMap.ContainsKey(z) ? _zoneMap[z] : null;
 
