@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using Godot;
+using MedievalConquerors.Engine.Core;
+using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Views.Main;
 
 namespace MedievalConquerors.Views.Maps;
 
@@ -20,35 +23,87 @@ public partial class MapView : TileMap
 	private static readonly Vector2I AtlasCoord = new(5, 0);
 	private const int TileSetId = 1;
 	
+	private Game _game;
+	private IGameBoard _map;
+	
 	private Viewport _viewport;
+	
 	private Vector2I _hovered = None;
+	
+	private bool _isDragging = false;
+	private Vector2 _dragOffset;
+	private Vector2 _zoomTarget;
 	
 	public override void _Ready()
 	{
 		_viewport = GetViewport();
+		_game = GetParent<GameController>().Game;
+		_map = _game.GetComponent<IGameBoard>();
+		_zoomTarget = Scale;
 	}
 	
-	// TODO: Handle Mouse input for panning around map
-	
+	public override void _UnhandledInput(InputEvent input)
+	{
+		if (input.IsEcho()) return;
+		if (input is not InputEventMouseButton buttonEvent) return;
+		
+		switch (buttonEvent.ButtonIndex)
+		{
+			case MouseButton.Middle:
+			{
+				SetDragging(buttonEvent.Pressed);
+				break;
+			}
+			case MouseButton.WheelUp:
+				_zoomTarget *= 1.05f;
+				break;
+			case MouseButton.WheelDown:
+				_zoomTarget *= 0.95f;
+				break;
+		}
+	}
+
 	public override void _Process(double delta)
 	{
-		var mousePos = ToLocal(_viewport.GetMousePosition());
-		var mapCoord = LocalToMap(mousePos);
+		var mousePosition = _viewport.GetMousePosition();
+		
+		// Drag & zoom map
+		if (_isDragging)
+		{
+			Position = mousePosition + _dragOffset;
+		}
 
+		if (!Scale.IsEqualApprox(_zoomTarget))
+		{
+			Scale = Scale.Lerp(_zoomTarget, 0.06f);
+		}
+		
+		// Tile Highlight on hover
+		var mapCoord = GetTileCoord(mousePosition);
 		if (mapCoord != _hovered)
 		{
 			RemoveHighlight(_hovered, HighlightLayer.MouseHover);
-			HighlightTile(mapCoord, HighlightLayer.MouseHover);
-			_hovered = mapCoord;
+			_hovered = None;
+
+			if (mapCoord != None)
+			{
+				HighlightTile(mapCoord, HighlightLayer.MouseHover);
+				_hovered = mapCoord;				
+			}
 		}
 	}
 
-	public void Visualize(IEnumerable<Vector2I> coords)
+	private void SetDragging(bool dragging)
 	{
-		foreach (var coord in coords)
-		{
-			HighlightTile(coord, HighlightLayer.RangeVisualizer);
-		}
+		_isDragging = dragging;
+		if(_isDragging)
+			_dragOffset = Position - _viewport.GetMousePosition();
+	}
+
+	private Vector2I GetTileCoord(Vector2 mousePos)
+	{
+		var mapCoord = LocalToMap(ToLocal(mousePos));
+		return _map.GetTile(mapCoord) != null ? mapCoord : None;
 	}
 
 	public void Clear(HighlightLayer layer)
@@ -74,6 +129,22 @@ public partial class MapView : TileMap
 		if (coord != None)
 		{
 			SetCell((int) layer, coord);
+		}
+	}
+	
+	public void HighlightTiles(IEnumerable<Vector2I> coords, HighlightLayer layer)
+	{
+		foreach (var coord in coords)
+		{
+			HighlightTile(coord, layer);
+		}
+	}
+	
+	public void RemoveHighlights(IEnumerable<Vector2I> coords, HighlightLayer layer)
+	{
+		foreach (var coord in coords)
+		{
+			RemoveHighlight(coord, layer);
 		}
 	}
 }

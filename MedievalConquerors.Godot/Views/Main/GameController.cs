@@ -32,8 +32,12 @@ public partial class GameController : Node
 		_board = GameBoardFactory.CreateHexBoard(_gameMap);
 		_game = GameFactory.Create(_log, _board, _settings);
 		
-		// TEMP: testing ranges
-		Visualize(_range);
+		// TEMP: testing range visualizer
+		var townCenters = _board.SearchTiles(t => t.Terrain == TileTerrain.TownCenter);
+		foreach (var tc in townCenters)
+		{
+			VisualizeRange(tc.Position, 2);
+		}
 	}
 
 	public override void _Ready()
@@ -43,16 +47,11 @@ public partial class GameController : Node
 	}
 
 	// TEMP: Testing variable ranges
-	private int _range = 1;
-	private void Visualize(int range)
+	
+	private void VisualizeRange(Vector2I startTile, int range)
 	{
-		_gameMap.Clear(HighlightLayer.RangeVisualizer);
-		var townCenters = _board.SearchTiles(t => t.Terrain == TileTerrain.TownCenter);
-		foreach (var tc in townCenters)
-		{
-			var reachable = _board.GetReachable(tc.Position, range).Select(t => t.Position);
-			_gameMap.Visualize(reachable);
-		}
+		var reachable = _board.GetReachable(startTile, range).Select(t => t.Position);
+		_gameMap.HighlightTiles(reachable, HighlightLayer.RangeVisualizer);
 	}
 	
 	public override void _Process(double elapsed)
