@@ -15,4 +15,9 @@ public class DrawCardsAction : GameAction
         Amount = amount;
         DrawnCards = new List<Card>();
     }
+
+    public override string ToString()
+    {
+        return $"DrawCardsAction:\tPlayer {TargetPlayerId} Draws {Amount}";
+    }
 }

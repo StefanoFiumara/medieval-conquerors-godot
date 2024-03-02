@@ -8,4 +8,9 @@ public class ChangeTurnAction : GameAction
     {
         NextPlayerId = nextPlayerId;
     }
+
+    public override string ToString()
+    {
+        return $"ChangeTurnAction:\tPlayer {NextPlayerId}'s Turn";
+    }
 }

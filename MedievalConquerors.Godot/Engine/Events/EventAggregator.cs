@@ -82,7 +82,7 @@ public class EventAggregator : GameComponent, IEventAggregator, IAwake, IDestroy
 
     private void PublishInternal<TSender, TArgs>(string eventName, TSender sender, TArgs args)
     {
-        _logger.Info($"Published <{eventName}>");
+        _logger.Debug($"Published <{eventName}>");
         if (!_subscriptions.TryGetValue(eventName, out var actions) || (actions.Count == 0))
         {
             _logger.Debug($"\t* No Subscribers");

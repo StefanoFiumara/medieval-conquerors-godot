@@ -24,7 +24,7 @@ public class GodotLogger : GameComponent, ILogger
         if (!string.IsNullOrEmpty(callerFilePath))
         {
             var callerName = Path.GetFileNameWithoutExtension(callerFilePath);
-            prefix = $"{callerName}\t======>\t";
+            prefix = $"{callerName}\t======>   ";
         }
         
         

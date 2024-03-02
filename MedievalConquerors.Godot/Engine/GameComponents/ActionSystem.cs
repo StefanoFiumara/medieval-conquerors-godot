@@ -147,7 +147,7 @@ public class ActionSystem : GameComponent, IAwake, IUpdate
 		reactions.Sort(SortActions);
 		foreach (var reaction in reactions)
 		{
-			_logger.Info($"\t* Reaction: {reaction}");
+			_logger.Info($"\t* Reaction: <{reaction}>");
 
 			var subFlow = Sequence(reaction);
 			while (subFlow.MoveNext())

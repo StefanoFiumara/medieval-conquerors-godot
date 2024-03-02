@@ -8,4 +8,9 @@ public class ShuffleDeckAction : GameAction
     {
         TargetPlayerId = targetPlayerId;
     }
+
+    public override string ToString()
+    {
+        return $"ShuffleDeckAction:\tPlayer {TargetPlayerId}";
+    }
 }
