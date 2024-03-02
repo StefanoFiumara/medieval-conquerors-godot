@@ -67,15 +67,21 @@ public partial class MapView : TileMap
 	{
 		var mousePosition = _viewport.GetMousePosition();
 		
+		if (!Scale.IsEqualApprox(_zoomTarget))
+		{
+			var prev = ToLocal(_viewport.GetMousePosition());
+			var previousScale = Scale;
+			Scale = Scale.Lerp(_zoomTarget, 0.2f);
+			var cur = ToLocal(_viewport.GetMousePosition());
+			var diff = cur - prev;
+			
+			Position += diff * previousScale;
+		}
+		
 		// Drag & zoom map
 		if (_isDragging)
 		{
 			Position = mousePosition + _dragOffset;
-		}
-
-		if (!Scale.IsEqualApprox(_zoomTarget))
-		{
-			Scale = Scale.Lerp(_zoomTarget, 0.06f);
 		}
 		
 		// Tile Highlight on hover
