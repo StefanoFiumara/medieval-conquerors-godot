@@ -77,7 +77,7 @@ public class ActionSystem : GameComponent, IAwake, IUpdate
 		{
 			foreach (var reason in validationResult.ValidationErrors)
 			{
-				_logger.Warn($"\t* Action Invalidated: {reason}");
+				_logger.Info($"\t* Action Invalidated: {reason}");
 			}
 			action.Cancel();
 		}

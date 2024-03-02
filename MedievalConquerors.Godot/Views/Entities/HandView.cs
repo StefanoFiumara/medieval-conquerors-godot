@@ -80,7 +80,6 @@ public partial class HandView : Node2D
 
 		if (hovered != _hoveredIndex)
 		{
-			GD.Print($"Hovered Index: {hovered}");
 			if (hovered != -1)
 			{
 				TweenToPreviewPosition(hovered);
@@ -123,6 +122,8 @@ public partial class HandView : Node2D
 			.SetParallel();
 
 		var (handPos, _) = CalculateHandPosition(card);
+		// TODO: Use constant Y position instead of the calculated handPos.Y
+		//       Currently, cards in the middle of the hand are previewed higher than the edges due to the height curve.
 		tween.TweenProperty(card, "position", handPos + Vector2.Up * 140f, tweenDuration);
 		tween.TweenProperty(card, "rotation", 0, tweenDuration);
 		tween.TweenProperty(card, "scale", Vector2.One * 1.3f, tweenDuration);

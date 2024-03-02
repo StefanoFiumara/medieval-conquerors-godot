@@ -31,10 +31,10 @@ public class GodotLogger : GameComponent, ILogger
         switch (logLevel)
         {
             case LogLevel.Debug:
-                GD.PrintRich($"{prefix}{message}".Cyan());
+                GD.PrintRich($"{prefix}{message}".Magenta());
                 break;
             case LogLevel.Info:
-                GD.PrintRich($"{prefix}{message}".Green());
+                GD.PrintRich($"{prefix}{message}".White());
                 break;
             case LogLevel.Warn:
                 GD.PrintRich($"{prefix}{message}".Yellow());
