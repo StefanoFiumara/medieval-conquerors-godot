@@ -53,7 +53,7 @@ public class HexGameBoard : GameComponent, IGameBoard
 	
 	public ITileData GetTile(Vector2I pos)
 	{
-		return _tiles.TryGetValue(pos, out var tile) ? tile : null;
+		return _tiles.GetValueOrDefault(pos);
 	}
 
 	public IEnumerable<ITileData> GetNeighbors(Vector2I pos)
