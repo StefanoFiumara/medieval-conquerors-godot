@@ -1,0 +1,95 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7rdfip0s4fyf"]
+
+[ext_resource type="Script" path="res://addons/CardDataEditor/CardDataEditor.cs" id="1_bp1jj"]
+[ext_resource type="Script" path="res://addons/CardDataEditor/Controls/CardTypeOptions.cs" id="2_vv8nt"]
+[ext_resource type="Script" path="res://addons/CardDataEditor/Controls/AttributeOptions.cs" id="3_bhyv5"]
+
+[node name="Card Data Editor" type="VBoxContainer"]
+custom_minimum_size = Vector2(635, 0)
+offset_right = 635.0
+offset_bottom = 700.0
+script = ExtResource("1_bp1jj")
+
+[node name="title_editor" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="title_label" type="Label" parent="title_editor"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Title:"
+horizontal_alignment = 2
+
+[node name="title_edit" type="TextEdit" parent="title_editor"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="desc_editor" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="desc_label" type="Label" parent="desc_editor"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Description:"
+horizontal_alignment = 2
+
+[node name="desc_edit" type="TextEdit" parent="desc_editor"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="card_type_editor" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="card_type_label" type="Label" parent="card_type_editor"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Card Type:"
+horizontal_alignment = 2
+
+[node name="card_type_selector" type="OptionButton" parent="card_type_editor"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+script = ExtResource("2_vv8nt")
+
+[node name="Tags" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="tags_label" type="Label" parent="Tags"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Tags:"
+horizontal_alignment = 2
+
+[node name="attribute_editor" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="attr_label" type="Label" parent="attribute_editor"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Attributes:"
+horizontal_alignment = 2
+
+[node name="attr_selector" type="OptionButton" parent="attribute_editor"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+script = ExtResource("3_bhyv5")
+
+[node name="add_attr_btn" type="Button" parent="attribute_editor"]
+layout_mode = 2
+text = "Add"
+
+[node name="save_load" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="margin" type="MarginContainer" parent="save_load"]
+layout_mode = 2
+theme_override_constants/margin_left = 104
+theme_override_constants/margin_top = 0
+
+[node name="save_btn" type="Button" parent="save_load/margin"]
+layout_mode = 2
+text = "Save Card"
+
+[node name="load_btn" type="Button" parent="save_load"]
+layout_mode = 2
+text = "Load Card"

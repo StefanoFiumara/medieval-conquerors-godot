@@ -24,6 +24,10 @@ window/size/resizable=false
 
 project/assembly_name="medieval-conquerors"
 
+[editor_plugins]
+
+enabled=PackedStringArray("CardDataEditor")
+
 [filesystem]
 
 import/blender/enabled=false

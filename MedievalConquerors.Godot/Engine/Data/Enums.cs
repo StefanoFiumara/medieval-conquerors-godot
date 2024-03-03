@@ -1,4 +1,6 @@
-﻿namespace MedievalConquerors.Engine.Data;
+﻿using System;
+
+namespace MedievalConquerors.Engine.Data;
 
 public enum TileTerrain
 {
@@ -13,6 +15,26 @@ public enum TileTerrain
     Deer = 7,
     Gold = 8,
     Stone = 9
+}
+
+public enum CardType
+{
+    None,
+    Building,
+    Unit,
+    Technology
+}
+
+[Flags]
+public enum Tags
+{
+    None = 0,
+    Economic = 1 << 0,
+    Military = 1 << 1,
+    Infantry = 1 << 2,
+    Melee = 1 << 3,
+    Ranged = 1 << 4,
+    Mounted = 1 << 5,
 }
 
 public enum ResourceType
