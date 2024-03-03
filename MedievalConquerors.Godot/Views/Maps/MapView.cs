@@ -69,10 +69,10 @@ public partial class MapView : TileMap
 		
 		if (!Scale.IsEqualApprox(_zoomTarget))
 		{
-			var prev = ToLocal(_viewport.GetMousePosition());
+			var prev = ToLocal(mousePosition);
 			var previousScale = Scale;
 			Scale = Scale.Lerp(_zoomTarget, 0.2f);
-			var cur = ToLocal(_viewport.GetMousePosition());
+			var cur = ToLocal(mousePosition);
 			var diff = cur - prev;
 			
 			Position += diff * previousScale;
