@@ -42,7 +42,7 @@ public partial class TurnBanner : Node2D
 		const float middleDelay = 0.3f;
 		
 		var turnAction = (ChangeTurnAction)action;
-		var labelText = turnAction.NextPlayerId == Match.LocalPlayerId ? "Enemy Turn" : "Your Turn";
+		var labelText = turnAction.NextPlayerId == Match.LocalPlayerId ? "Your Turn" : "Enemy Turn";
 
 		_turnLabel.Text = labelText.Center();
 		
