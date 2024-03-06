@@ -18,7 +18,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_t2uco")
 bbcode_enabled = true
-text = "[right][color=orange][i]New Card[/i][/color]"
+text = "[right][i][color=red]No Card Data Loaded[/color][/i][/right]"
 fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
@@ -115,13 +115,19 @@ script = ExtResource("3_g2n3m")
 [node name="attribute_editor" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="attr_label" type="Label" parent="attribute_editor"]
+[node name="VBoxContainer" type="VBoxContainer" parent="attribute_editor"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="attribute_editor/VBoxContainer"]
+layout_mode = 2
+
+[node name="attr_label" type="Label" parent="attribute_editor/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Attributes:"
 horizontal_alignment = 2
 
-[node name="attr_selector" type="OptionButton" parent="attribute_editor"]
+[node name="attr_selector" type="OptionButton" parent="attribute_editor/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 30)
 layout_mode = 2
@@ -135,9 +141,14 @@ popup/item_2/text = "ResourceCostAttribute"
 popup/item_2/id = 2
 script = ExtResource("3_bhyv5")
 
-[node name="add_attr_btn" type="Button" parent="attribute_editor"]
+[node name="add_attr_btn" type="Button" parent="attribute_editor/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Add"
+
+[node name="custom_attribute_container" type="VBoxContainer" parent="attribute_editor/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="save_btn" type="Button" parent="."]
 unique_name_in_owner = true

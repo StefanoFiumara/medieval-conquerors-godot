@@ -2,13 +2,12 @@
 
 public class MoveAttribute : ICardAttribute
 {
-    public int Distance { get; }
+    public int Distance { get; init; }
     public int DistanceRemaining { get; set; }
 
-    public MoveAttribute(int distance)
+    public MoveAttribute()
     {
-        Distance = distance;
-        DistanceRemaining = distance;
+        
     }
 
     public void Reset()

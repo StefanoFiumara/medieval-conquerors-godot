@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
@@ -8,18 +9,29 @@ namespace MedievalConquerors.Addons.CardDataEditor.Controls;
 [Tool]
 public partial class AttributeOptions : OptionButton
 {
-	// TODO: Property to grab an instance of the added attribute (?)
+	private Dictionary<string, Type> _attributeTypeMap;
 	public override void _Ready()
 	{
-		var values = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
+		_attributeTypeMap = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
 			.Where(t => t.IsClass && !t.IsAbstract && t.GetInterfaces().Contains(typeof(ICardAttribute)))
-			.Select(t => t.Name);
+			.ToDictionary(t => t.Name, t => t);
 		
 		Clear();
 		AddItem("None");
-		foreach (var attr in values)
+		foreach (var attr in _attributeTypeMap.Keys)
 		{
 			AddItem(attr);
 		}
+	}
+
+	public ICardAttribute CreateSelected()
+	{
+		var selected = GetItemText(GetSelectedId());
+		if (_attributeTypeMap.TryGetValue(selected, out var attributeType))
+	    {
+	        return (ICardAttribute)Activator.CreateInstance(attributeType);
+	    }
+
+		return null;
 	}
 }

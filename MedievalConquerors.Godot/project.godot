@@ -26,7 +26,7 @@ project/assembly_name="medieval-conquerors"
 
 [editor_plugins]
 
-enabled=PackedStringArray("CardDataEditor")
+enabled=PackedStringArray("res://addons/CardDataEditor/plugin.cfg")
 
 [filesystem]
 
