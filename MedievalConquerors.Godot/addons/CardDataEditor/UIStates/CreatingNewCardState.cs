@@ -16,6 +16,8 @@ public class CreatingNewCardState : CardDataEditorState
         Editor.Description.Editable = true;
         Editor.CardType.Disabled = false;
         Editor.Tags.Enable();
+
+        Editor.IsDirty = true;
     }
 
     public override void Exit() { }

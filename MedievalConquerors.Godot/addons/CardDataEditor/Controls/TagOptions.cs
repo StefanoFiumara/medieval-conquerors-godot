@@ -12,6 +12,7 @@ public partial class TagOptions : GridContainer
 	private Dictionary<Tags, CheckBox> _tagSelectors;
 	private List<Tags> _tagOptions;
 	private Tags _selectedTags;
+	public event Action TagsChanged;
 
 	public Tags SelectedTags
 	{
@@ -30,12 +31,17 @@ public partial class TagOptions : GridContainer
 		}
 		set
 		{
-			_selectedTags = value;
 			if (_tagSelectors == null) return;
 			
-			foreach (var tagSelector in _tagSelectors)
+			if (_selectedTags != value)
 			{
-				tagSelector.Value.ButtonPressed = _selectedTags.HasFlag(tagSelector.Key);
+				foreach (var tagSelector in _tagSelectors)
+				{
+					tagSelector.Value.ButtonPressed = _selectedTags.HasFlag(tagSelector.Key);
+				}
+				
+				_selectedTags = value;
+				TagsChanged?.Invoke();
 			}
 		}
 	}
@@ -51,7 +57,13 @@ public partial class TagOptions : GridContainer
 			checkBox.Text = tag.ToString();
 			_tagSelectors.Add(tag, checkBox);
 			AddChild(checkBox);
+			checkBox.Toggled += OnTagsChanged;
 		}
+	}
+
+	private void OnTagsChanged(bool toggled)
+	{
+		TagsChanged?.Invoke();
 	}
 
 	public void Disable()
@@ -67,6 +79,17 @@ public partial class TagOptions : GridContainer
 		foreach (var checkBox in _tagSelectors.Values)
 		{
 			checkBox.Disabled = false;
+		}
+	}
+
+	public override void _ExitTree()
+	{
+		if (_tagSelectors != null)
+		{
+			foreach (var checkBox in _tagSelectors.Values)
+			{
+				checkBox.Toggled -= OnTagsChanged;
+			}
 		}
 	}
 }

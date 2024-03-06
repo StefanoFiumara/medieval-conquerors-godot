@@ -13,7 +13,8 @@ public partial class CardDataEditor : VBoxContainer
 {
 	private CardData _loadedData;
 	private StateMachine _stateMachine;
-	
+	private bool _isDirty;
+
 	// UI Components
 	public RichTextLabel PanelTitle { get; private set; }
 
@@ -24,6 +25,16 @@ public partial class CardDataEditor : VBoxContainer
 	public TextEdit Description { get; private set; }
 	public CardTypeOptions CardType { get; private set; }
 	public TagOptions Tags { get; private set; }
+
+	public bool IsDirty
+	{
+		get => _isDirty;
+		set
+		{
+			_isDirty = value;
+			SaveButton.Disabled = !_isDirty;
+		}
+	}
 
 	public CardData LoadedData
 	{
@@ -62,6 +73,12 @@ public partial class CardDataEditor : VBoxContainer
 
 		// TODO: Reference to attribute editor, to pull resulting resources for card attributes
 		// _attributes = GetNode<AttributeOptions>("attribute_editor/attr_selector");
+
+		CardTitle.LinesEditedFrom += (_, _) => IsDirty = CardTitle.Text != LoadedData?.Title;
+		Description.LinesEditedFrom += (_, _) => IsDirty = Description.Text != LoadedData?.Description;
+		CardType.ItemSelected += _ => IsDirty = CardType.SelectedCardType != LoadedData?.CardType;
+		Tags.TagsChanged += () => IsDirty = Tags.SelectedTags != LoadedData?.Tags;
+		
 		
 		SaveButton.Pressed += SaveCardResource;
 		NewButton.Pressed += CreateNewCard;

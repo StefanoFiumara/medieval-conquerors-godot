@@ -17,6 +17,7 @@ public class NoDataState : CardDataEditorState
         Editor.CardType.Disabled = true;
         Editor.Tags.Disable();
 		
+        Editor.IsDirty = false;
     }
 
     public override void Exit() { }
