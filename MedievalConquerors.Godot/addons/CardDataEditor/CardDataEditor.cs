@@ -60,7 +60,7 @@ public partial class CardDataEditor : VBoxContainer
 	
 	public override void _Ready()
 	{
-		// TODO: use "%" in scene to give relevant nodes unique names, so we don't have to constantly update this when their place in the hierarchy changes
+		// TODO: Investigate if Parent node should be a grid node instead of a vbox
 		PanelTitle = GetNode<RichTextLabel>("%currently_editing");
 		SaveButton = GetNode<Button>("%save_btn");
 		NewButton = GetNode<Button>("%new_btn");
