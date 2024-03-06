@@ -4,9 +4,9 @@ namespace MedievalConquerors.Addons.CardDataEditor.UIStates;
 
 public abstract class CardDataEditorState : IState
 {
-    protected readonly Addons.CardDataEditor.CardDataEditor Editor;
+    protected readonly CardDataEditor Editor;
 
-    protected CardDataEditorState(Addons.CardDataEditor.CardDataEditor editor)
+    protected CardDataEditorState(CardDataEditor editor)
     {
         Editor = editor;
     }

@@ -4,7 +4,7 @@ namespace MedievalConquerors.Addons.CardDataEditor.UIStates;
 
 public class EditingExistingCardState : CardDataEditorState
 {
-    public EditingExistingCardState(Addons.CardDataEditor.CardDataEditor editor) : base(editor) { }
+    public EditingExistingCardState(CardDataEditor editor) : base(editor) { }
 
     public override void Enter()
     {
