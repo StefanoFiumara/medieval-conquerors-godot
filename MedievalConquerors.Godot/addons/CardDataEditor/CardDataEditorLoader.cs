@@ -14,11 +14,6 @@ public partial class CardDataEditorLoader : EditorPlugin
 		LoadDockScene();
 	}
 
-	private void OnReloadPressed()
-	{
-		CallDeferred("LoadDockScene");
-	}
-
 	private void LoadDockScene()
 	{
 		_editorInstance?.QueueFree();
@@ -27,10 +22,15 @@ public partial class CardDataEditorLoader : EditorPlugin
 		_editorInstance.Name = "Card Data Editor";
 		
 		var reloadButton = new Button { Text = "Reload Plugin" };
-		reloadButton.Connect("pressed", Callable.From(OnReloadPressed));
+		reloadButton.Pressed += OnReloadPressed;
 		_editorInstance.AddChild(reloadButton);
 		
 		AddControlToDock(DockSlot.RightUl, _editorInstance);
+	}
+
+	private void OnReloadPressed()
+	{
+		CallDeferred("LoadDockScene");
 	}
 
 	public override void _ExitTree()

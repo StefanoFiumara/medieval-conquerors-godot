@@ -5,25 +5,21 @@ namespace MedievalConquerors.Engine.Data;
 
 public interface ICardData
 {
-    // TODO: CardType, Tags, Tooltip text
-
-    string Title { get; }
-    string Description { get; }
-    List<ICardAttribute> Attributes { get; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public CardType CardType { get; set; }
+    public Tags Tags { get; set; }
+    public List<ICardAttribute> Attributes { get; set; }
 }
 
 public class CardData : ICardData
 {
-    public string Title { get; }
-    public string Description { get; }
-    public List<ICardAttribute> Attributes { get; }
-
-    public CardData(string title, string description, List<ICardAttribute> attributes)
-    {
-        Title = title;
-        Description = description;
-        Attributes = attributes;
-    }
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public CardType CardType { get; set; }
+    public Tags Tags { get; set; }
+    public List<ICardAttribute> Attributes { get; set; }
 }
 
 public interface ICardAttribute

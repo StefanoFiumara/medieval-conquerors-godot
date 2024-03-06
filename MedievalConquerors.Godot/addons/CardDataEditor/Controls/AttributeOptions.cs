@@ -8,6 +8,7 @@ namespace MedievalConquerors.Addons.CardDataEditor.Controls;
 [Tool]
 public partial class AttributeOptions : OptionButton
 {
+	// TODO: Property to grab an instance of the added attribute (?)
 	public override void _Ready()
 	{
 		var values = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())

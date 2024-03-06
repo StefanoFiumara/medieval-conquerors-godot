@@ -5,7 +5,7 @@ namespace MedievalConquerors.Extensions;
 
 public static class CardExtensions
 {
-    public static TAttribute GetDataAttribute<TAttribute>(this ICardData data)
+    public static TAttribute GetDataAttribute<TAttribute>(this CardData data)
     {
         var attribute = data.Attributes.OfType<TAttribute>().SingleOrDefault();
         return attribute;

@@ -1,14 +1,41 @@
-[gd_scene load_steps=4 format=3 uid="uid://b7rdfip0s4fyf"]
+[gd_scene load_steps=5 format=3 uid="uid://b7rdfip0s4fyf"]
 
 [ext_resource type="Script" path="res://addons/CardDataEditor/CardDataEditor.cs" id="1_bp1jj"]
 [ext_resource type="Script" path="res://addons/CardDataEditor/Controls/CardTypeOptions.cs" id="2_vv8nt"]
 [ext_resource type="Script" path="res://addons/CardDataEditor/Controls/AttributeOptions.cs" id="3_bhyv5"]
+[ext_resource type="Script" path="res://addons/CardDataEditor/Controls/TagOptions.cs" id="3_g2n3m"]
 
 [node name="Card Data Editor" type="VBoxContainer"]
-custom_minimum_size = Vector2(635, 0)
 offset_right = 635.0
 offset_bottom = 700.0
 script = ExtResource("1_bp1jj")
+
+[node name="currently_editing" type="RichTextLabel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "Currently Editing:  [i]TestCard.tres[/i]"
+fit_content = true
+scroll_active = false
+shortcut_keys_enabled = false
+
+[node name="save_load" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="margin" type="MarginContainer" parent="save_load"]
+layout_mode = 2
+theme_override_constants/margin_left = 104
+theme_override_constants/margin_top = 0
+
+[node name="new_btn" type="Button" parent="save_load"]
+custom_minimum_size = Vector2(155, 0)
+layout_mode = 2
+text = "Create New Card"
+
+[node name="load_btn" type="Button" parent="save_load"]
+custom_minimum_size = Vector2(155, 0)
+layout_mode = 2
+text = "Load Existing Card"
 
 [node name="title_editor" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -60,6 +87,11 @@ layout_mode = 2
 text = "Tags:"
 horizontal_alignment = 2
 
+[node name="tags_grid" type="GridContainer" parent="Tags"]
+layout_mode = 2
+columns = 4
+script = ExtResource("3_g2n3m")
+
 [node name="attribute_editor" type="HBoxContainer" parent="."]
 layout_mode = 2
 
@@ -78,18 +110,8 @@ script = ExtResource("3_bhyv5")
 layout_mode = 2
 text = "Add"
 
-[node name="save_load" type="HBoxContainer" parent="."]
+[node name="save_btn" type="Button" parent="."]
 layout_mode = 2
-
-[node name="margin" type="MarginContainer" parent="save_load"]
-layout_mode = 2
-theme_override_constants/margin_left = 104
-theme_override_constants/margin_top = 0
-
-[node name="save_btn" type="Button" parent="save_load/margin"]
-layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 1, 0, 1)
 text = "Save Card"
-
-[node name="load_btn" type="Button" parent="save_load"]
-layout_mode = 2
-text = "Load Card"
