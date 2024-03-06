@@ -20,7 +20,7 @@ public partial class CardDataEditor : VBoxContainer
 
 	public Button NewButton { get; private set; }
 	public Button SaveButton { get; private set; }
-	public Button LoadButton { get; private set; }
+	
 	public TextEdit CardTitle { get; private set; }
 	public TextEdit Description { get; private set; }
 	public CardTypeOptions CardType { get; private set; }
@@ -59,14 +59,13 @@ public partial class CardDataEditor : VBoxContainer
 	public override void _Ready()
 	{
 		// TODO: use "%" in scene to give relevant nodes unique names, so we don't have to constantly update this when their place in the hierarchy changes
-		PanelTitle = GetNode<RichTextLabel>("currently_editing");
-		SaveButton = GetNode<Button>("save_btn");
-		LoadButton = GetNode<Button>("save_load/load_btn");
-		NewButton = GetNode<Button>("save_load/new_btn");
-		CardTitle = GetNode<TextEdit>("title_editor/title_edit");
-		Description = GetNode<TextEdit>("desc_editor/desc_edit");
-		CardType = GetNode<CardTypeOptions>("card_type_editor/card_type_selector");
-		Tags = GetNode<TagOptions>("Tags/tags_grid");
+		PanelTitle = GetNode<RichTextLabel>("%currently_editing");
+		SaveButton = GetNode<Button>("%save_btn");
+		NewButton = GetNode<Button>("%new_btn");
+		CardTitle = GetNode<TextEdit>("%title_edit");
+		Description = GetNode<TextEdit>("%desc_edit");
+		CardType = GetNode<CardTypeOptions>("%card_type_selector");
+		Tags = GetNode<TagOptions>("%tags_grid");
 
 		LoadedData = null;
 		_stateMachine = new StateMachine(new NoDataState(this));

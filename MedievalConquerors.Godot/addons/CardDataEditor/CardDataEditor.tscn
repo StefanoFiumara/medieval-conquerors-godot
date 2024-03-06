@@ -13,6 +13,7 @@ offset_bottom = 700.0
 script = ExtResource("1_bp1jj")
 
 [node name="currently_editing" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_t2uco")
@@ -33,14 +34,10 @@ theme_override_constants/margin_left = 104
 theme_override_constants/margin_top = 0
 
 [node name="new_btn" type="Button" parent="save_load"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(155, 0)
 layout_mode = 2
 text = "Create New Card"
-
-[node name="load_btn" type="Button" parent="save_load"]
-custom_minimum_size = Vector2(155, 0)
-layout_mode = 2
-text = "Load Existing Card"
 
 [node name="title_editor" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -52,6 +49,7 @@ text = "Title:"
 horizontal_alignment = 2
 
 [node name="title_edit" type="TextEdit" parent="title_editor"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -67,6 +65,7 @@ text = "Description:"
 horizontal_alignment = 2
 
 [node name="desc_edit" type="TextEdit" parent="desc_editor"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -82,6 +81,7 @@ text = "Card Type:"
 horizontal_alignment = 2
 
 [node name="card_type_selector" type="OptionButton" parent="card_type_editor"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 30)
 layout_mode = 2
 disabled = true
@@ -107,6 +107,7 @@ text = "Tags:"
 horizontal_alignment = 2
 
 [node name="tags_grid" type="GridContainer" parent="Tags"]
+unique_name_in_owner = true
 layout_mode = 2
 columns = 4
 script = ExtResource("3_g2n3m")
@@ -121,6 +122,7 @@ text = "Attributes:"
 horizontal_alignment = 2
 
 [node name="attr_selector" type="OptionButton" parent="attribute_editor"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 30)
 layout_mode = 2
 item_count = 3
@@ -138,6 +140,7 @@ layout_mode = 2
 text = "Add"
 
 [node name="save_btn" type="Button" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 1, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 1, 0, 1)
