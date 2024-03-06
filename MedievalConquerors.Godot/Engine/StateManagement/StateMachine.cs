@@ -5,12 +5,19 @@ public class StateMachine
     public IState CurrentState { get; private set; } = new NullGameState();
     public IState PreviousState { get; private set; }
 
+    public StateMachine() { }
+
+    public StateMachine(IState initialState)
+    {
+        ChangeState(initialState);
+    }
+    
     public void ChangeState<TGameState>() where TGameState : IState, new()
     {
         var toState = new TGameState();
         ChangeState(toState);
     }
-        
+
     public void ChangeState(IState newState)
     {
         var fromState = CurrentState;

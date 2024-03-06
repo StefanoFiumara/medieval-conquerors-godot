@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://b7rdfip0s4fyf"]
+[gd_scene load_steps=6 format=3 uid="uid://b7rdfip0s4fyf"]
 
 [ext_resource type="Script" path="res://addons/CardDataEditor/CardDataEditor.cs" id="1_bp1jj"]
 [ext_resource type="Script" path="res://addons/CardDataEditor/Controls/CardTypeOptions.cs" id="2_vv8nt"]
 [ext_resource type="Script" path="res://addons/CardDataEditor/Controls/AttributeOptions.cs" id="3_bhyv5"]
 [ext_resource type="Script" path="res://addons/CardDataEditor/Controls/TagOptions.cs" id="3_g2n3m"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2uco"]
 
 [node name="Card Data Editor" type="VBoxContainer"]
 offset_right = 635.0
@@ -13,11 +15,14 @@ script = ExtResource("1_bp1jj")
 [node name="currently_editing" type="RichTextLabel" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_t2uco")
 bbcode_enabled = true
-text = "Currently Editing:  [i]TestCard.tres[/i]"
+text = "[right][color=orange][i]New Card[/i][/color]"
 fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
 
 [node name="save_load" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -47,8 +52,10 @@ text = "Title:"
 horizontal_alignment = 2
 
 [node name="title_edit" type="TextEdit" parent="title_editor"]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
+editable = false
 
 [node name="desc_editor" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -63,6 +70,7 @@ horizontal_alignment = 2
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 size_flags_horizontal = 3
+editable = false
 
 [node name="card_type_editor" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -74,8 +82,19 @@ text = "Card Type:"
 horizontal_alignment = 2
 
 [node name="card_type_selector" type="OptionButton" parent="card_type_editor"]
-custom_minimum_size = Vector2(250, 0)
+custom_minimum_size = Vector2(250, 30)
 layout_mode = 2
+disabled = true
+item_count = 4
+selected = 0
+popup/item_0/text = "None"
+popup/item_0/id = 0
+popup/item_1/text = "Building"
+popup/item_1/id = 1
+popup/item_2/text = "Unit"
+popup/item_2/id = 2
+popup/item_3/text = "Technology"
+popup/item_3/id = 3
 script = ExtResource("2_vv8nt")
 
 [node name="Tags" type="HBoxContainer" parent="."]
@@ -102,8 +121,16 @@ text = "Attributes:"
 horizontal_alignment = 2
 
 [node name="attr_selector" type="OptionButton" parent="attribute_editor"]
-custom_minimum_size = Vector2(250, 0)
+custom_minimum_size = Vector2(250, 30)
 layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = "None"
+popup/item_0/id = 0
+popup/item_1/text = "MoveAttribute"
+popup/item_1/id = 1
+popup/item_2/text = "ResourceCostAttribute"
+popup/item_2/id = 2
 script = ExtResource("3_bhyv5")
 
 [node name="add_attr_btn" type="Button" parent="attribute_editor"]
@@ -114,4 +141,5 @@ text = "Add"
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 1, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 1, 0, 1)
+disabled = true
 text = "Save Card"

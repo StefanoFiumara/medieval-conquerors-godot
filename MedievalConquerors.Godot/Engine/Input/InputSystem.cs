@@ -16,6 +16,7 @@ public class InputSystem : GameComponent, IAwake, IDestroy
 
     public void Awake()
     {
+        // TODO: Pass in initial state
         StateMachine = new StateMachine();
 
         _actionSystem = Game.GetComponent<ActionSystem>();

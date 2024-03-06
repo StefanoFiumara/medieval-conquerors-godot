@@ -1,8 +1,9 @@
 using System;
 using Godot;
-using MedievalConquerors.addons.CardDataEditor.Controls;
 using MedievalConquerors.Addons.CardDataEditor.Controls;
+using MedievalConquerors.Addons.CardDataEditor.UIStates;
 using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Engine.StateManagement;
 using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Addons.CardDataEditor;
@@ -10,19 +11,21 @@ namespace MedievalConquerors.Addons.CardDataEditor;
 [Tool]
 public partial class CardDataEditor : VBoxContainer
 {
-	// UI Components
-	private RichTextLabel _currentlyEditing;
-	private Button _newButton;
-	private Button _saveButton;
-	private Button _loadButton;
-	private TextEdit _title;
-	private TextEdit _description;
-	private CardTypeOptions _cardType;
-	private TagOptions _tags;
-
 	private CardData _loadedData;
+	private StateMachine _stateMachine;
+	
+	// UI Components
+	public RichTextLabel PanelTitle { get; private set; }
 
-	private CardData LoadedData
+	public Button NewButton { get; private set; }
+	public Button SaveButton { get; private set; }
+	public Button LoadButton { get; private set; }
+	public TextEdit CardTitle { get; private set; }
+	public TextEdit Description { get; private set; }
+	public CardTypeOptions CardType { get; private set; }
+	public TagOptions Tags { get; private set; }
+
+	public CardData LoadedData
 	{
 		get => _loadedData;
 		set
@@ -30,51 +33,53 @@ public partial class CardDataEditor : VBoxContainer
 			_loadedData = value;
 			if (value != null)
 			{
-				_title.Text = _loadedData.Title;
-				_description.Text = _loadedData.Description;
-				_cardType.SelectedCardType = _loadedData.CardType;
-				_tags.SelectedTags = _loadedData.Tags;
+				CardTitle.Text = _loadedData.Title;
+				Description.Text = _loadedData.Description;
+				CardType.SelectedCardType = _loadedData.CardType;
+				Tags.SelectedTags = _loadedData.Tags;
 				// TODO: Load Attributes from resource
 				// _attributes.Load(_loadedCardResource);
 			}
 			
-			_saveButton.Disabled = _loadedData == null;
+			SaveButton.Disabled = _loadedData == null;
 		}
 	}
-
+	
 	public override void _Ready()
 	{
 		// TODO: use "%" in scene to give relevant nodes unique names, so we don't have to constantly update this when their place in the hierarchy changes
-		_currentlyEditing = GetNode<RichTextLabel>("currently_editing");
-		_saveButton = GetNode<Button>("save_btn");
-		_loadButton = GetNode<Button>("save_load/load_btn");
-		_newButton = GetNode<Button>("save_load/new_btn");
-		_title = GetNode<TextEdit>("title_editor/title_edit");
-		_description = GetNode<TextEdit>("desc_editor/desc_edit");
-		_cardType = GetNode<CardTypeOptions>("card_type_editor/card_type_selector");
-		_tags = GetNode<TagOptions>("Tags/tags_grid");
+		PanelTitle = GetNode<RichTextLabel>("currently_editing");
+		SaveButton = GetNode<Button>("save_btn");
+		LoadButton = GetNode<Button>("save_load/load_btn");
+		NewButton = GetNode<Button>("save_load/new_btn");
+		CardTitle = GetNode<TextEdit>("title_editor/title_edit");
+		Description = GetNode<TextEdit>("desc_editor/desc_edit");
+		CardType = GetNode<CardTypeOptions>("card_type_editor/card_type_selector");
+		Tags = GetNode<TagOptions>("Tags/tags_grid");
 
 		LoadedData = null;
+		_stateMachine = new StateMachine(new NoDataState(this));
 
 		// TODO: Reference to attribute editor, to pull resulting resources for card attributes
 		// _attributes = GetNode<AttributeOptions>("attribute_editor/attr_selector");
 		
-		_saveButton.Pressed += SaveCardResource;
-		_newButton.Pressed += CreateNewCard;
+		SaveButton.Pressed += SaveCardResource;
+		NewButton.Pressed += CreateNewCard;
 	}
 
 	private void CreateNewCard()
 	{
 		LoadedData = new CardData();
+		_stateMachine.ChangeState(new CreatingNewCardState(this));
 		GD.Print("New Card Data Resource Created");
 	}
 
 	private void UpdateLoadedResourceFromEditor()
 	{
-		LoadedData.Title = _title.Text.Trim();
-		LoadedData.Description = _description.Text.Trim();
-		LoadedData.CardType = _cardType.SelectedCardType;
-		LoadedData.Tags = _tags.SelectedTags;
+		LoadedData.Title = CardTitle.Text.Trim();
+		LoadedData.Description = Description.Text.Trim();
+		LoadedData.CardType = CardType.SelectedCardType;
+		LoadedData.Tags = Tags.SelectedTags;
 		// TODO: Update Attributes
 	}
 
@@ -88,7 +93,9 @@ public partial class CardDataEditor : VBoxContainer
 		{
 			using var db = new CardDatabase();
 			LoadedData.Id = db.SaveCardData(LoadedData);
-			GD.PrintRich($"Successfully save Card Data".Green());
+			GD.PrintRich("Successfully save Card Data".Green());
+			
+			_stateMachine.ChangeState(new EditingExistingCardState(this));
 		}
 		catch(Exception e)
 		{

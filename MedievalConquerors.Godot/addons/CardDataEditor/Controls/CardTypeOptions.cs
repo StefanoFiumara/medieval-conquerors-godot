@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Godot;
 using MedievalConquerors.Engine.Data;
 
@@ -21,6 +20,7 @@ public partial class CardTypeOptions : OptionButton
 	{
 		_options = Enum.GetValues<CardType>().OrderBy(t => (int)t).ToList();
 
+		Clear();
 		foreach (var type in _options)
 		{
 			AddItem(type.ToString(), (int)type);

@@ -15,6 +15,7 @@ public partial class AttributeOptions : OptionButton
 			.Where(t => t.IsClass && !t.IsAbstract && t.GetInterfaces().Contains(typeof(ICardAttribute)))
 			.Select(t => t.Name);
 		
+		Clear();
 		AddItem("None");
 		foreach (var attr in values)
 		{
