@@ -19,7 +19,7 @@ public class CardData : ICardData
     public string Description { get; set; }
     public CardType CardType { get; set; }
     public Tags Tags { get; set; }
-    public List<ICardAttribute> Attributes { get; set; }
+    public List<ICardAttribute> Attributes { get; set; } = new();
 }
 
 public interface ICardAttribute

@@ -9,8 +9,7 @@ public class NoDataState : CardDataEditorState
     public override void Enter()
     {
         Editor.PanelTitle.Text = "No Card Data Loaded".Red().Italics().Right();
-
-        // TODO: Highlight New Button somehow?
+        
         Editor.SaveButton.Disabled = true;
         Editor.CardTitle.Editable = false;
         Editor.Description.Editable = false;
@@ -18,6 +17,8 @@ public class NoDataState : CardDataEditorState
         Editor.Tags.Disable();
 		
         Editor.IsDirty = false;
+        Editor.AttributeSelector.Disabled = true;
+        Editor.AddAttributeButton.Disabled = true;
     }
 
     public override void Exit() { }

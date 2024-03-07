@@ -79,7 +79,9 @@ public partial class CardDataEditor : VBoxContainer
 		Description.LinesEditedFrom += (_, _) => IsDirty = Description.Text != LoadedData?.Description;
 		CardType.ItemSelected += _ => IsDirty = CardType.SelectedCardType != LoadedData?.CardType;
 		Tags.TagsChanged += () => IsDirty = Tags.SelectedTags != LoadedData?.Tags;
+
 		AddAttributeButton.Pressed += CreateNewAttribute;
+		SaveButton.Pressed += SaveCardResource;
 		NewButton.Pressed += CreateNewCard;
 	}
 

@@ -17,6 +17,9 @@ public class EditingExistingCardState : CardDataEditorState
         Editor.CardType.Disabled = false;
         Editor.Tags.Enable();
         
+        Editor.AttributeSelector.Disabled = false;
+        Editor.AddAttributeButton.Disabled = false;
+        
         Editor.IsDirty = false;
     }
 
