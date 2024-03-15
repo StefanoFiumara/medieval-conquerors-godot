@@ -37,7 +37,7 @@ public class BoardSystem : GameComponent, IAwake
         if(moveAttr == null)
             validator.Invalidate("Card does not have MoveAttribute.");
 
-        else if (_gameBoard.Distance(action.CardToMove.BoardPosition, action.TargetTile) > moveAttr.DistanceRemaining)
+        else if (!moveAttr.CanMove(_gameBoard.Distance(action.CardToMove.BoardPosition, action.TargetTile)))
             validator.Invalidate("Card's MoveAttribute does not have enough distance remaining.");
     }
 
@@ -53,7 +53,7 @@ public class BoardSystem : GameComponent, IAwake
         
         action.CardToMove.BoardPosition = action.TargetTile;
         var moveAttr = action.CardToMove.GetAttribute<MoveAttribute>();
-        moveAttr.DistanceRemaining -= distanceTraveled;
+        moveAttr.Move(distanceTraveled);
     }
     
     private void OnPerformChangeTurn(ChangeTurnAction action)

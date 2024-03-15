@@ -14,11 +14,10 @@ public class EditingExistingCardState : CardDataEditorState
         Editor.SaveButton.Disabled = false;
         Editor.CardTitle.Editable = true;
         Editor.Description.Editable = true;
-        Editor.CardType.Disabled = false;
-        Editor.Tags.Enable();
+        Editor.CardTypeOptions.Disabled = false;
+        Editor.TagOptions.Enable();
         
         Editor.AttributeSelector.Disabled = false;
-        Editor.AddAttributeButton.Disabled = false;
         
         Editor.IsDirty = false;
     }

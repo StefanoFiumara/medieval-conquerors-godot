@@ -11,7 +11,7 @@ public partial class TagOptions : GridContainer
 {
 	private Dictionary<Tags, CheckBox> _tagSelectors;
 	private List<Tags> _tagOptions;
-	private Tags _selectedTags;
+	
 	public event Action TagsChanged;
 
 	public Tags SelectedTags
@@ -20,27 +20,21 @@ public partial class TagOptions : GridContainer
 		{
 			if (_tagSelectors == null) return Tags.None;
 
-			var checkedBoxes = _tagSelectors
+			return _tagSelectors
 				.Where(s => s.Value.ButtonPressed)
-				.ToList();
-			
-			var result = checkedBoxes
 				.Aggregate(Tags.None, (current, selector) => current | selector.Key);
-			
-			return result;
 		}
 		set
 		{
 			if (_tagSelectors == null) return;
-			
-			if (_selectedTags != value)
+
+			var selected = SelectedTags;
+			if (selected != value)
 			{
 				foreach (var tagSelector in _tagSelectors)
 				{
-					tagSelector.Value.ButtonPressed = _selectedTags.HasFlag(tagSelector.Key);
+					tagSelector.Value.ButtonPressed = value.HasFlag(tagSelector.Key);
 				}
-				
-				_selectedTags = value;
 				TagsChanged?.Invoke();
 			}
 		}

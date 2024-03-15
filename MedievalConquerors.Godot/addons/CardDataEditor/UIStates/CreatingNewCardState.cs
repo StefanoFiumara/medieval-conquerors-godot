@@ -13,11 +13,10 @@ public class CreatingNewCardState : CardDataEditorState
         Editor.SaveButton.Disabled = false;
         Editor.CardTitle.Editable = true;
         Editor.Description.Editable = true;
-        Editor.CardType.Disabled = false;
+        Editor.CardTypeOptions.Disabled = false;
 
         Editor.AttributeSelector.Disabled = false;
-        Editor.AddAttributeButton.Disabled = false;
-        Editor.Tags.Enable();
+        Editor.TagOptions.Enable();
 
         Editor.IsDirty = true;
     }

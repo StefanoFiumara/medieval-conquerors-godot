@@ -11,26 +11,26 @@ public partial class CardDataEditorLoader : EditorPlugin
 	
 	public override void _EnterTree()
 	{
-		LoadDockScene();
+		CallDeferred(nameof(CreateCardDataEditor));
 	}
 
-	private void LoadDockScene()
+	private void CreateCardDataEditor()
 	{
-		_editorInstance?.QueueFree();
 		_editorScene = GD.Load<PackedScene>("res://addons/CardDataEditor/CardDataEditor.tscn");
 		_editorInstance = _editorScene.Instantiate<Control>();
 		_editorInstance.Name = "Card Data Editor";
 		
 		var reloadButton = new Button { Text = "Reload Plugin" };
 		reloadButton.Pressed += OnReloadPressed;
-		_editorInstance.AddChild(reloadButton);
+		_editorInstance.GetNode("%editor_vbox_container").AddChild(reloadButton);
 		
 		AddControlToDock(DockSlot.RightUl, _editorInstance);
 	}
 
 	private void OnReloadPressed()
 	{
-		CallDeferred("LoadDockScene");
+		_editorInstance?.QueueFree();
+		CallDeferred(nameof(CreateCardDataEditor));
 	}
 
 	public override void _ExitTree()

@@ -7,12 +7,18 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2uco"]
 
-[node name="Card Data Editor" type="VBoxContainer"]
+[node name="Card Data Editor" type="ScrollContainer"]
 offset_right = 635.0
 offset_bottom = 700.0
+horizontal_scroll_mode = 0
 script = ExtResource("1_bp1jj")
 
-[node name="currently_editing" type="RichTextLabel" parent="."]
+[node name="editor_vbox_container" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="currently_editing" type="RichTextLabel" parent="editor_vbox_container"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -25,62 +31,72 @@ shortcut_keys_enabled = false
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
-[node name="save_load" type="HBoxContainer" parent="."]
+[node name="save_load" type="HBoxContainer" parent="editor_vbox_container"]
 layout_mode = 2
+alignment = 2
 
-[node name="margin" type="MarginContainer" parent="save_load"]
+[node name="margin" type="MarginContainer" parent="editor_vbox_container/save_load"]
 layout_mode = 2
-theme_override_constants/margin_left = 104
+theme_override_constants/margin_left = 100
 theme_override_constants/margin_top = 0
 
-[node name="new_btn" type="Button" parent="save_load"]
+[node name="save_btn" type="Button" parent="editor_vbox_container/save_load"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 1, 0, 1)
+disabled = true
+text = "Save Card"
+
+[node name="new_btn" type="Button" parent="editor_vbox_container/save_load"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(155, 0)
 layout_mode = 2
 text = "Create New Card"
 
-[node name="title_editor" type="HBoxContainer" parent="."]
+[node name="title_editor" type="HBoxContainer" parent="editor_vbox_container"]
 layout_mode = 2
 
-[node name="title_label" type="Label" parent="title_editor"]
+[node name="title_label" type="Label" parent="editor_vbox_container/title_editor"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Title:"
 horizontal_alignment = 2
 
-[node name="title_edit" type="TextEdit" parent="title_editor"]
+[node name="title_edit" type="LineEdit" parent="editor_vbox_container/title_editor"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 editable = false
 
-[node name="desc_editor" type="HBoxContainer" parent="."]
+[node name="desc_editor" type="HBoxContainer" parent="editor_vbox_container"]
 layout_mode = 2
 
-[node name="desc_label" type="Label" parent="desc_editor"]
+[node name="desc_label" type="Label" parent="editor_vbox_container/desc_editor"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Description:"
 horizontal_alignment = 2
 
-[node name="desc_edit" type="TextEdit" parent="desc_editor"]
+[node name="desc_edit" type="TextEdit" parent="editor_vbox_container/desc_editor"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 size_flags_horizontal = 3
 editable = false
 
-[node name="card_type_editor" type="HBoxContainer" parent="."]
+[node name="card_type_editor" type="HBoxContainer" parent="editor_vbox_container"]
 layout_mode = 2
 
-[node name="card_type_label" type="Label" parent="card_type_editor"]
+[node name="card_type_label" type="Label" parent="editor_vbox_container/card_type_editor"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Card Type:"
 horizontal_alignment = 2
 
-[node name="card_type_selector" type="OptionButton" parent="card_type_editor"]
+[node name="card_type_selector" type="OptionButton" parent="editor_vbox_container/card_type_editor"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 30)
 layout_mode = 2
@@ -97,40 +113,42 @@ popup/item_3/text = "Technology"
 popup/item_3/id = 3
 script = ExtResource("2_vv8nt")
 
-[node name="Tags" type="HBoxContainer" parent="."]
+[node name="Tags" type="HBoxContainer" parent="editor_vbox_container"]
 layout_mode = 2
 
-[node name="tags_label" type="Label" parent="Tags"]
+[node name="tags_label" type="Label" parent="editor_vbox_container/Tags"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Tags:"
 horizontal_alignment = 2
 
-[node name="tags_grid" type="GridContainer" parent="Tags"]
+[node name="tags_grid" type="GridContainer" parent="editor_vbox_container/Tags"]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 4
 script = ExtResource("3_g2n3m")
 
-[node name="attribute_editor" type="HBoxContainer" parent="."]
+[node name="attribute_editor" type="HBoxContainer" parent="editor_vbox_container"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="attribute_editor"]
+[node name="VBoxContainer" type="VBoxContainer" parent="editor_vbox_container/attribute_editor"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="attr_selector_container" type="HBoxContainer" parent="editor_vbox_container/attribute_editor/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="attribute_editor/VBoxContainer"]
-layout_mode = 2
-
-[node name="attr_label" type="Label" parent="attribute_editor/VBoxContainer/HBoxContainer"]
+[node name="attr_label" type="Label" parent="editor_vbox_container/attribute_editor/VBoxContainer/attr_selector_container"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Attributes:"
 horizontal_alignment = 2
 
-[node name="attr_selector" type="OptionButton" parent="attribute_editor/VBoxContainer/HBoxContainer"]
+[node name="attr_selector" type="OptionButton" parent="editor_vbox_container/attribute_editor/VBoxContainer/attr_selector_container"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 30)
 layout_mode = 2
+disabled = true
 item_count = 3
 selected = 0
 popup/item_0/text = "None"
@@ -141,19 +159,16 @@ popup/item_2/text = "ResourceCostAttribute"
 popup/item_2/id = 2
 script = ExtResource("3_bhyv5")
 
-[node name="add_attr_btn" type="Button" parent="attribute_editor/VBoxContainer/HBoxContainer"]
+[node name="add_attr_btn" type="Button" parent="editor_vbox_container/attribute_editor/VBoxContainer/attr_selector_container"]
 unique_name_in_owner = true
 layout_mode = 2
+disabled = true
 text = "Add"
 
-[node name="custom_attribute_container" type="VBoxContainer" parent="attribute_editor/VBoxContainer"]
-unique_name_in_owner = true
+[node name="custom_attribute_container" type="HBoxContainer" parent="editor_vbox_container/attribute_editor/VBoxContainer"]
 layout_mode = 2
+alignment = 2
 
-[node name="save_btn" type="Button" parent="."]
+[node name="custom_attribute_list" type="VBoxContainer" parent="editor_vbox_container/attribute_editor/VBoxContainer/custom_attribute_container"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 1, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 1, 0, 1)
-disabled = true
-text = "Save Card"

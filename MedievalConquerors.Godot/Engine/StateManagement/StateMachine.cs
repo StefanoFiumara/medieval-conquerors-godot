@@ -12,9 +12,9 @@ public class StateMachine
         ChangeState(initialState);
     }
     
-    public void ChangeState<TGameState>() where TGameState : IState, new()
+    public void ChangeState<TState>() where TState : IState, new()
     {
-        var toState = new TGameState();
+        var toState = new TState();
         ChangeState(toState);
     }
 

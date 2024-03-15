@@ -3,7 +3,14 @@
 [ext_resource type="Script" path="res://Views/UI/TurnBanner.cs" id="1_t2j4n"]
 [ext_resource type="FontFile" uid="uid://bffhxevohq46b" path="res://Assets/Fonts/Angel wish.ttf" id="2_eyfw3"]
 
-[node name="turn_banner" type="Node2D"]
+[node name="turn_banner" type="Control"]
+layout_mode = 3
+anchor_top = 0.361
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -389.88
+offset_right = -1920.0
+offset_bottom = -540.0
 script = ExtResource("1_t2j4n")
 
 [node name="background" type="ColorRect" parent="."]
@@ -15,14 +22,13 @@ color = Color(0, 0, 0, 0.698039)
 
 [node name="turn_text" type="RichTextLabel" parent="."]
 custom_minimum_size = Vector2(1920, 50)
-anchors_preset = 14
+layout_mode = 1
+anchors_preset = 4
 anchor_top = 0.5
-anchor_right = 1.0
 anchor_bottom = 0.5
 offset_top = 390.0
 offset_right = 1920.0
 offset_bottom = 540.0
-grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("2_eyfw3")

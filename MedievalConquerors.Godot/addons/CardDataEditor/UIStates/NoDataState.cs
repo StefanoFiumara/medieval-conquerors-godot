@@ -13,8 +13,8 @@ public class NoDataState : CardDataEditorState
         Editor.SaveButton.Disabled = true;
         Editor.CardTitle.Editable = false;
         Editor.Description.Editable = false;
-        Editor.CardType.Disabled = true;
-        Editor.Tags.Disable();
+        Editor.CardTypeOptions.Disabled = true;
+        Editor.TagOptions.Disable();
 		
         Editor.IsDirty = false;
         Editor.AttributeSelector.Disabled = true;

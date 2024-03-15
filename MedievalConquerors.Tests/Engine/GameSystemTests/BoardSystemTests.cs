@@ -46,8 +46,7 @@ public class BoardSystemTests : GameSystemTestFixture
         // set up move attribute
         var moveAttribute = new MoveAttribute
         {
-            Distance = 1,
-            DistanceRemaining = 1
+            Distance = 1
         };
         card.CardData.Attributes.Add(moveAttribute);
         card.Attributes.Add(moveAttribute);
@@ -62,7 +61,7 @@ public class BoardSystemTests : GameSystemTestFixture
         Board.GetTile(newPosition).Objects.Should().Contain(card);
         Board.GetTile(firstPosition).Objects.Should().BeEmpty();
         
-        moveAttribute.DistanceRemaining.Should().Be(0);
+        moveAttribute.RemainingDistance.Should().Be(0);
     }
 
     [Fact]
@@ -101,8 +100,7 @@ public class BoardSystemTests : GameSystemTestFixture
         // set up move attribute
         var moveAttribute = new MoveAttribute
         {
-            Distance = 1,
-            DistanceRemaining = 1
+            Distance = 1
         };
         card.CardData.Attributes.Add(moveAttribute);
         card.Attributes.Add(moveAttribute);
@@ -127,8 +125,7 @@ public class BoardSystemTests : GameSystemTestFixture
         // set up move attribute
         var moveAttribute = new MoveAttribute
         {
-            Distance = 1,
-            DistanceRemaining = 1
+            Distance = 1
         };
         card.CardData.Attributes.Add(moveAttribute);
         card.Attributes.Add(moveAttribute);
@@ -159,7 +156,6 @@ public class BoardSystemTests : GameSystemTestFixture
         var moveAttribute = new MoveAttribute
         {
             Distance = 2,
-            DistanceRemaining = 2
         };
         card.CardData.Attributes.Add(moveAttribute);
         card.Attributes.Add(moveAttribute);
@@ -170,7 +166,7 @@ public class BoardSystemTests : GameSystemTestFixture
         Game.Perform(moveAction);
         Game.Update();
 
-        moveAttribute.DistanceRemaining.Should().Be(0);
+        moveAttribute.RemainingDistance.Should().Be(0);
         
         // Change turn to opposite player
         var turnAction = new ChangeTurnAction(_match.OppositePlayer.Id);
@@ -182,6 +178,6 @@ public class BoardSystemTests : GameSystemTestFixture
         Game.Perform(turnAction);
         Game.Update();
         
-        moveAttribute.DistanceRemaining.Should().Be(moveAttribute.Distance);
+        moveAttribute.RemainingDistance.Should().Be(moveAttribute.Distance);
     }
 }

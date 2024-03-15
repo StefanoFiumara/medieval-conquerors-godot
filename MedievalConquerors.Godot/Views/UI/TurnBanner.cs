@@ -9,7 +9,7 @@ using MedievalConquerors.Views.Main;
 
 namespace MedievalConquerors.Views.UI;
 
-public partial class TurnBanner : Node2D
+public partial class TurnBanner : Control
 {
 	private Game _game;
 	private EventAggregator _events;

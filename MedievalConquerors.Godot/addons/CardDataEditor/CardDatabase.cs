@@ -5,7 +5,7 @@ using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Addons.CardDataEditor;
 
-public class CardDatabase : IDisposable
+public sealed class CardDatabase : IDisposable
 {
     private readonly LiteDatabase _cardDatabase;
     private readonly ILiteCollection<CardData> _cardCollection;
