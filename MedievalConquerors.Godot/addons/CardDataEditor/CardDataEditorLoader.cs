@@ -16,7 +16,7 @@ public partial class CardDataEditorLoader : EditorPlugin
 
 	private void CreateCardDataEditor()
 	{
-		_editorScene = GD.Load<PackedScene>("res://addons/CardDataEditor/CardDataEditor.tscn");
+		_editorScene = GD.Load<PackedScene>("res://addons/CardDataEditor/card_data_editor.tscn");
 		_editorInstance = _editorScene.Instantiate<Control>();
 		_editorInstance.Name = "Card Data Editor";
 		

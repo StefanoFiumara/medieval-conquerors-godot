@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Godot;
+using MedievalConquerors.addons.CardDataEditor.AttributeEditor;
 using MedievalConquerors.Addons.CardDataEditor.Controls;
 using MedievalConquerors.Addons.CardDataEditor.UIStates;
 using MedievalConquerors.Engine.Data;
@@ -14,34 +13,24 @@ namespace MedievalConquerors.Addons.CardDataEditor;
 [Tool]
 public partial class CardDataEditor : ScrollContainer
 {
+	private RichTextLabel _panelTitle;
+	
+	private Button _newButton;
+	private Button _saveButton;
+	private Button _addAttributeButton;
+	
+	private LineEdit _cardTitle;
+	private TextEdit _description;
+	
+	private CardTypeOptions _cardTypeOptions;
+	private TagOptions _tagOptions;
+	private AttributeOptions _attributeSelector;
+	
+	private VBoxContainer _attributesContainer;
+	
 	private CardData _loadedData;
 	private StateMachine _stateMachine;
-	private bool _isDirty;
-	
-	// UI Components
-	public RichTextLabel PanelTitle { get; private set; }
-
-	public Button NewButton { get; private set; }
-	public Button SaveButton { get; private set; }
-	public Button AddAttributeButton { get; private set; }
-	
-	public LineEdit CardTitle { get; private set; }
-	public TextEdit Description { get; private set; }
-	public CardTypeOptions CardTypeOptions { get; private set; }
-	public TagOptions TagOptions { get; private set; }
-	public AttributeOptions AttributeSelector { get; private set; }
-	
-	public VBoxContainer CustomAttributeList { get; private set; }
-
-	public bool IsDirty
-	{
-		get => _isDirty;
-		set
-		{
-			_isDirty = value;
-			SaveButton.Disabled = !_isDirty;
-		}
-	}
+	private PackedScene _attributeEditor;
 
 	public CardData LoadedData
 	{
@@ -52,68 +41,91 @@ public partial class CardDataEditor : ScrollContainer
 			if (value != null)
 			{
 				Reset();
-				CardTitle.Text = _loadedData.Title;
-				Description.Text = _loadedData.Description;
-				CardTypeOptions.SelectedCardType = _loadedData.CardType;
-				TagOptions.SelectedTags = _loadedData.Tags;
+				_cardTitle.Text = _loadedData.Title;
+				_description.Text = _loadedData.Description;
+				_cardTypeOptions.SelectedCardType = _loadedData.CardType;
+				_tagOptions.SelectedTags = _loadedData.Tags;
 
 				foreach (var attr in value.Attributes)
 				{
-					var editor = CreateAttributeEditor(attr);
-					CustomAttributeList.AddChild(editor);
+					CreateAttributeEditor(attr);
 				}
 			}
 			
-			SaveButton.Disabled = _loadedData == null;
+			_saveButton.Disabled = _loadedData == null;
 		}
 	}
-	
-	public override void _Ready()
-	{
-		PanelTitle = GetNode<RichTextLabel>("%currently_editing");
-		SaveButton = GetNode<Button>("%save_btn");
-		NewButton = GetNode<Button>("%new_btn");
-		CardTitle = GetNode<LineEdit>("%title_edit");
-		Description = GetNode<TextEdit>("%desc_edit");
-		CardTypeOptions = GetNode<CardTypeOptions>("%card_type_selector");
-		TagOptions = GetNode<TagOptions>("%tags_grid");
-		AttributeSelector = GetNode<AttributeOptions>("%attr_selector");
-		AddAttributeButton = GetNode<Button>("%add_attr_btn");
-		CustomAttributeList = GetNode<VBoxContainer>("%custom_attribute_list");
 
+	public override void _Ready()
+	{	
+		_attributeEditor = GD.Load<PackedScene>("res://addons/CardDataEditor/AttributeEditor/attribute_editor.tscn");
+		
+		_panelTitle = GetNode<RichTextLabel>("%currently_editing");
+		_saveButton = GetNode<Button>("%save_btn");
+		_newButton = GetNode<Button>("%new_btn");
+		_cardTitle = GetNode<LineEdit>("%title_edit");
+		_description = GetNode<TextEdit>("%desc_edit");
+		_cardTypeOptions = GetNode<CardTypeOptions>("%card_type_selector");
+		_tagOptions = GetNode<TagOptions>("%tags_grid");
+		_attributeSelector = GetNode<AttributeOptions>("%attr_selector");
+		_addAttributeButton = GetNode<Button>("%add_attr_btn");
+		_attributesContainer = GetNode<VBoxContainer>("%attributes_container");
+		
 		LoadedData = null;
 		_stateMachine = new StateMachine(new NoDataState(this));
+		
+		_attributeSelector.ItemSelected += OnAttributeSelectorItemSelected;
+		_addAttributeButton.Pressed += CreateNewAttribute;
+		_saveButton.Pressed += SaveCardResource;
+		_newButton.Pressed += CreateNewCard;
+	}
 
-		CardTitle.TextChanged += _ => IsDirty = CardTitle.Text != LoadedData?.Title;
-		Description.LinesEditedFrom += (_, _) => IsDirty = Description.Text != LoadedData?.Description;
-		CardTypeOptions.ItemSelected += _ => IsDirty = CardTypeOptions.SelectedCardType != LoadedData?.CardType;
-		TagOptions.TagsChanged += () => IsDirty = TagOptions.SelectedTags != LoadedData?.Tags;
-		AttributeSelector.ItemSelected += OnAttributeSelectorItemSelected;
-		AddAttributeButton.Pressed += CreateNewAttribute;
-		SaveButton.Pressed += SaveCardResource;
-		NewButton.Pressed += CreateNewCard;
+	public void SetTitle(string title)
+	{
+		_panelTitle.Text = title;
+	}
+
+	public void Enable()
+	{
+		_saveButton.Disabled = false;
+		_cardTitle.Editable = true;
+		_description.Editable = true;
+		_cardTypeOptions.Disabled = false;
+		_attributeSelector.Disabled = false;
+		_addAttributeButton.Disabled = false;
+		_tagOptions.Enable();
+	}
+
+	public void Disable()
+	{
+		_saveButton.Disabled = true;
+		_cardTitle.Editable = false;
+		_description.Editable = false;
+		_cardTypeOptions.Disabled = true;
+		_tagOptions.Disable();
+		_attributeSelector.Disabled = true;
+		_addAttributeButton.Disabled = true;
 	}
 
 	private void OnAttributeSelectorItemSelected(long i)
 	{
-		var selectedText = AttributeSelector.GetItemText((int)i);
-		AddAttributeButton.Disabled = selectedText == "None" || LoadedData?.Attributes.Any(a => a.GetType().Name == selectedText) == true;
+		var selectedText = _attributeSelector.GetItemText((int)i);
+		_addAttributeButton.Disabled = selectedText == "None" || LoadedData?.Attributes.Any(a => a.GetType().Name == selectedText) == true;
 	}
 
 	private void Reset()
 	{
-		CardTitle.Text = string.Empty;
-		Description.Text = string.Empty;
-		CardTypeOptions.SelectedCardType = CardType.None;
-		TagOptions.SelectedTags = Tags.None;
+		_cardTitle.Text = string.Empty;
+		_description.Text = string.Empty;
+		_cardTypeOptions.SelectedCardType = CardType.None;
+		_tagOptions.SelectedTags = Tags.None;
 
-		var attributeControls = CustomAttributeList.GetChildren();
-		foreach (var control in attributeControls)
-		{
-			control.QueueFree();
-		}
+		var attributeControls = _attributesContainer.GetChildren();
 		
-		AttributeSelector.Select(0);
+		foreach (var control in attributeControls)
+			control.QueueFree();
+		
+		_attributeSelector.Select(0);
 		OnAttributeSelectorItemSelected(0);
 	}
 	
@@ -122,117 +134,41 @@ public partial class CardDataEditor : ScrollContainer
 		LoadedData = new CardData();
 		_stateMachine.ChangeState(new CreatingNewCardState(this));
 		Reset();
-		GD.Print("New Card Data Resource Created");
+		GD.PrintRich("New Card Data Resource Created".Purple());
 	}
 
 	private void CreateNewAttribute()
 	{
-		var attr = AttributeSelector.CreateSelected();
-		var editor = CreateAttributeEditor(attr);
-		
-		CustomAttributeList.AddChild(editor);
+		var attr = _attributeSelector.CreateSelected();
 		LoadedData.Attributes.Add(attr);
+
+		CreateAttributeEditor(attr);
 		
-		AttributeSelector.Select(0);
+		_attributeSelector.Select(0);
 		OnAttributeSelectorItemSelected(0);
-		
-		IsDirty = true;
 	}
 	
-	private Control CreateAttributeEditor(ICardAttribute attr)
+	private void CreateAttributeEditor(ICardAttribute attr)
 	{
-		// TODO: Convert this to a scene that just dynamically creates the grid container
-		var vbox = new VBoxContainer();
-		var title = new Label();
-		title.Text = attr.GetType().Name;
-		title.Modulate = Colors.Goldenrod;
+		var editor = _attributeEditor.Instantiate<CardAttributeEditor>();
+		_attributesContainer.AddChild(editor);
 		
-		var props = attr.GetType().GetProperties()
-			.Where(p => p.GetSetMethod() != null)
-			.ToList();
-		
-		var gridContainer = new MarginContainer();
-		gridContainer.AddThemeConstantOverride("margin_left", 100);
-		var grid = CreatePropsGrid(attr, props);
-		gridContainer.AddChild(grid);
-		
-		vbox.AddChild(new HSeparator());
-		var hbox = new HBoxContainer();
-		hbox.AddChild(title);
-		var removeButton = new Button();
-		removeButton.Text = "X";
-		removeButton.AddThemeColorOverride("font_color", Colors.Red);
-		removeButton.AddThemeColorOverride("font_hover_color", Colors.Red);
-		hbox.AddChild(removeButton);
-		vbox.AddChild(hbox);
-		vbox.AddChild(gridContainer);
-		
-		removeButton.Pressed += () =>
+		editor.Load(attr);
+		editor.RemoveButton.Pressed += () =>
 		{
-			vbox.QueueFree();
+			_attributesContainer.RemoveChild(editor);
 			LoadedData.Attributes.Remove(attr);
-			IsDirty = true;
+			editor.QueueFree();
 		};
-		
-		return vbox;
-	}
-
-	private GridContainer CreatePropsGrid(ICardAttribute attr, List<PropertyInfo> props)
-	{
-		var propGrid = new GridContainer
-		{
-			Columns = 2
-		};
-		foreach (var prop in props)
-		{
-			var label = new Label();
-			label.Text = $"{prop.Name}: ";
-			label.HorizontalAlignment = HorizontalAlignment.Right;
-			
-			var editor = CreatePropertyEditor(attr, prop);
-			if (editor != null)
-			{
-				propGrid.AddChild(label);
-				propGrid.AddChild(editor);
-			}
-		}
-
-		return propGrid;
-	}
-
-	private Control CreatePropertyEditor(ICardAttribute attr, PropertyInfo prop)
-	{
-		if (prop.PropertyType == typeof(string))
-		{
-			var editor = new LineEdit();
-			editor.TextChanged += txt =>
-			{
-				prop.SetValue(attr, txt);
-				IsDirty = true;
-			};
-			return editor;
-		}
-
-		if (prop.PropertyType == typeof(int))
-		{
-			var editor = new SpinBox();
-			editor.ValueChanged += v =>
-			{
-				prop.SetValue(attr, (int)v);
-				IsDirty = true;
-			};
-			return editor;
-		}
-
-		return null;
 	}
 
 	private void UpdateLoadedResourceFromEditor()
 	{
-		LoadedData.Title = CardTitle.Text.Trim();
-		LoadedData.Description = Description.Text.Trim();
-		LoadedData.CardType = CardTypeOptions.SelectedCardType;
-		LoadedData.Tags = TagOptions.SelectedTags;
+		// TODO: set up auto update of these basic properties so that this method can be removed
+		LoadedData.Title = _cardTitle.Text.Trim();
+		LoadedData.Description = _description.Text.Trim();
+		LoadedData.CardType = _cardTypeOptions.SelectedCardType;
+		LoadedData.Tags = _tagOptions.SelectedTags;
 		//NOTE: Attributes are automatically updated
 	}
 
@@ -246,7 +182,7 @@ public partial class CardDataEditor : ScrollContainer
 		{
 			using var db = new CardDatabase();
 			LoadedData.Id = db.SaveCardData(LoadedData);
-			GD.PrintRich("Successfully save Card Data".Green());
+			GD.PrintRich("Successfully saved Card Data".Green());
 			
 			_stateMachine.ChangeState(new EditingExistingCardState(this));
 		}
@@ -255,5 +191,13 @@ public partial class CardDataEditor : ScrollContainer
 			GD.PrintErr($"Failed to save Card Data");
 			GD.PrintErr(e.ToString());
 		}
+	}
+
+	public override void _ExitTree()
+	{
+		_attributeSelector.ItemSelected -= OnAttributeSelectorItemSelected;
+		_addAttributeButton.Pressed -= CreateNewAttribute;
+		_saveButton.Pressed -= SaveCardResource;
+		_newButton.Pressed -= CreateNewCard;
 	}
 }

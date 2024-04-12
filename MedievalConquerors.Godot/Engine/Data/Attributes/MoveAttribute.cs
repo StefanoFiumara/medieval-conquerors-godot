@@ -13,7 +13,7 @@ public class MoveAttribute : ICardAttribute
             RemainingDistance = value;
         }
     }
-
+    
     public int RemainingDistance { get; private set; }
     
     public bool CanMove(int amount) => RemainingDistance >= amount;

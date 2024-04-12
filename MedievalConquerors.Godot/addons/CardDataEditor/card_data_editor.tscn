@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://b7rdfip0s4fyf"]
 
-[ext_resource type="Script" path="res://addons/CardDataEditor/CardDataEditor.cs" id="1_bp1jj"]
-[ext_resource type="Script" path="res://addons/CardDataEditor/Controls/CardTypeOptions.cs" id="2_vv8nt"]
-[ext_resource type="Script" path="res://addons/CardDataEditor/Controls/AttributeOptions.cs" id="3_bhyv5"]
-[ext_resource type="Script" path="res://addons/CardDataEditor/Controls/TagOptions.cs" id="3_g2n3m"]
+[ext_resource type="Script" path="res://addons/CardDataEditor/CardDataEditor.cs" id="1_j6uo3"]
+[ext_resource type="Script" path="res://addons/CardDataEditor/Controls/CardTypeOptions.cs" id="2_uksxi"]
+[ext_resource type="Script" path="res://addons/CardDataEditor/Controls/TagOptions.cs" id="3_1cerr"]
+[ext_resource type="Script" path="res://addons/CardDataEditor/Controls/AttributeOptions.cs" id="4_4l53b"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2uco"]
 
@@ -11,7 +11,8 @@
 offset_right = 635.0
 offset_bottom = 700.0
 horizontal_scroll_mode = 0
-script = ExtResource("1_bp1jj")
+vertical_scroll_mode = 2
+script = ExtResource("1_j6uo3")
 
 [node name="editor_vbox_container" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
@@ -111,40 +112,34 @@ popup/item_2/text = "Unit"
 popup/item_2/id = 2
 popup/item_3/text = "Technology"
 popup/item_3/id = 3
-script = ExtResource("2_vv8nt")
+script = ExtResource("2_uksxi")
 
-[node name="Tags" type="HBoxContainer" parent="editor_vbox_container"]
+[node name="tags" type="HBoxContainer" parent="editor_vbox_container"]
 layout_mode = 2
 
-[node name="tags_label" type="Label" parent="editor_vbox_container/Tags"]
+[node name="tags_label" type="Label" parent="editor_vbox_container/tags"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Tags:"
 horizontal_alignment = 2
 
-[node name="tags_grid" type="GridContainer" parent="editor_vbox_container/Tags"]
+[node name="tags_grid" type="GridContainer" parent="editor_vbox_container/tags"]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 4
-script = ExtResource("3_g2n3m")
+script = ExtResource("3_1cerr")
 
-[node name="attribute_editor" type="HBoxContainer" parent="editor_vbox_container"]
+[node name="attribute_selector" type="HBoxContainer" parent="editor_vbox_container"]
 layout_mode = 2
+theme_override_constants/separation = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="editor_vbox_container/attribute_editor"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="attr_selector_container" type="HBoxContainer" parent="editor_vbox_container/attribute_editor/VBoxContainer"]
-layout_mode = 2
-
-[node name="attr_label" type="Label" parent="editor_vbox_container/attribute_editor/VBoxContainer/attr_selector_container"]
+[node name="attr_label" type="Label" parent="editor_vbox_container/attribute_selector"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Attributes:"
 horizontal_alignment = 2
 
-[node name="attr_selector" type="OptionButton" parent="editor_vbox_container/attribute_editor/VBoxContainer/attr_selector_container"]
+[node name="attr_selector" type="OptionButton" parent="editor_vbox_container/attribute_selector"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 30)
 layout_mode = 2
@@ -157,18 +152,14 @@ popup/item_1/text = "MoveAttribute"
 popup/item_1/id = 1
 popup/item_2/text = "ResourceCostAttribute"
 popup/item_2/id = 2
-script = ExtResource("3_bhyv5")
+script = ExtResource("4_4l53b")
 
-[node name="add_attr_btn" type="Button" parent="editor_vbox_container/attribute_editor/VBoxContainer/attr_selector_container"]
+[node name="add_attr_btn" type="Button" parent="editor_vbox_container/attribute_selector"]
 unique_name_in_owner = true
 layout_mode = 2
 disabled = true
 text = "Add"
 
-[node name="custom_attribute_container" type="HBoxContainer" parent="editor_vbox_container/attribute_editor/VBoxContainer"]
-layout_mode = 2
-alignment = 2
-
-[node name="custom_attribute_list" type="VBoxContainer" parent="editor_vbox_container/attribute_editor/VBoxContainer/custom_attribute_container"]
+[node name="attributes_container" type="VBoxContainer" parent="editor_vbox_container"]
 unique_name_in_owner = true
 layout_mode = 2
