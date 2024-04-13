@@ -1,6 +1,7 @@
 using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.addons.CardDataEditor.Attributes;
 
@@ -23,7 +24,7 @@ public partial class AttributeEditor : PanelContainer
 
 	public void Load(ICardAttribute attribute)
 	{
-		_titleLabel.Text = attribute.GetType().Name;
+		_titleLabel.Text = attribute.GetType().Name.PrettyPrint().Replace("Attribute", string.Empty);
 		
 		var props = attribute.GetType().GetProperties()
 			.Where(p => p.GetSetMethod() != null)

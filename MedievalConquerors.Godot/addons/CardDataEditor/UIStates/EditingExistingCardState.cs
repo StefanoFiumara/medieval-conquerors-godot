@@ -8,7 +8,7 @@ public class EditingExistingCardState : EditorState
 
     public override void Enter()
     {
-        Editor.SetTitle($"Currently Editing: Card Id {Editor.LoadedData.Id}".Green().Italics().Right());
+        Editor.SetTitle($"Currently Editing: Card Id {Editor.LoadedData.Id}".Green().Italics());
 		Editor.Enable();
     }
 

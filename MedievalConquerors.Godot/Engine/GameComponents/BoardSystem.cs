@@ -29,7 +29,7 @@ public class BoardSystem : GameComponent, IAwake
 
     private void OnValidateMoveUnit(MoveUnitAction action, ActionValidatorResult validator)
     {
-        var moveAttr = action.CardToMove.GetAttribute<MoveAttribute>();
+        var moveAttr = action.CardToMove.GetAttribute<MovementAttribute>();
         
         if(action.CardToMove.Zone != Zone.Board)
             validator.Invalidate("Card is not on the board.");
@@ -52,7 +52,7 @@ public class BoardSystem : GameComponent, IAwake
         var distanceTraveled = _gameBoard.Distance(action.CardToMove.BoardPosition, action.TargetTile);
         
         action.CardToMove.BoardPosition = action.TargetTile;
-        var moveAttr = action.CardToMove.GetAttribute<MoveAttribute>();
+        var moveAttr = action.CardToMove.GetAttribute<MovementAttribute>();
         moveAttr.Move(distanceTraveled);
     }
     

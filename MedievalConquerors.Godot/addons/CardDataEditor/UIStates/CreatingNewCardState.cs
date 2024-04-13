@@ -8,7 +8,7 @@ public class CreatingNewCardState : EditorState
 
     public override void Enter()
     {
-        Editor.SetTitle("New Card".Orange().Italics().Right());
+        Editor.SetTitle("New Card".Orange().Italics());
         Editor.Enable();
     }
 

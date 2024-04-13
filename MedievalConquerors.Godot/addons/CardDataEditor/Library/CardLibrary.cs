@@ -11,6 +11,9 @@ namespace MedievalConquerors.addons.CardDataEditor.Library;
 [Tool]
 public partial class CardLibrary : ScrollContainer
 {
+	public event Action EditorNavigation;
+	
+	private Button _editorNavButton;
 	private Button _clearButton;
 	private LineEdit _searchInput;
 	private TagOptions _tagFilter;
@@ -19,7 +22,6 @@ public partial class CardLibrary : ScrollContainer
 	private GridContainer _resultsContainer;
 	private PackedScene _searchResultScene;
 	
-
 	public event Action<CardData> SearchResultClicked;
 	public override void _Ready()
 	{
@@ -30,11 +32,18 @@ public partial class CardLibrary : ScrollContainer
 		_tagFilter = GetNode<TagOptions>("%tag_filter");
 		_typeFilter = GetNode<CardTypeOptions>("%type_filter");
 		_resultsContainer = GetNode<GridContainer>("%results_container");
+		_editorNavButton = GetNode<Button>("%editor_nav_btn");
 		
 		_clearButton.Pressed += ClearSearch;
 		_searchInput.TextChanged += SearchTextChanged;
 		_tagFilter.TagsChanged += UpdateResults;
 		_typeFilter.ItemSelected += TypeFilterOnItemSelected;
+		_editorNavButton.Pressed += OnEditorNavigation;
+	}
+
+	private void OnEditorNavigation()
+	{
+		EditorNavigation?.Invoke();
 	}
 
 	private void ClearSearch()
@@ -76,7 +85,7 @@ public partial class CardLibrary : ScrollContainer
 				c.Description.Contains(_searchInput.Text, StringComparison.OrdinalIgnoreCase));
 		}
 
-		var results = query.ToList();
+		var results = query.OrderBy(c => c.CardType).ToList();
 		
 		// NOTE: run enum filter in-memory, LiteDB has trouble with bitwise operators
 		if (_tagFilter.SelectedTags != Tags.None)

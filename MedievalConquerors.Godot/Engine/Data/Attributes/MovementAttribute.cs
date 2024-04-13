@@ -2,7 +2,7 @@
 
 namespace MedievalConquerors.Engine.Data.Attributes;
 
-public class MoveAttribute : ICardAttribute
+public class MovementAttribute : ICardAttribute
 {
     private int _distance;
 

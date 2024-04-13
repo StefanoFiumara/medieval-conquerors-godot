@@ -13,6 +13,7 @@ offset_right = -1285.0
 offset_bottom = -380.0
 grow_horizontal = 2
 grow_vertical = 2
+vertical_scroll_mode = 2
 script = ExtResource("1_fkgwc")
 
 [node name="margin" type="MarginContainer" parent="."]
@@ -27,6 +28,32 @@ theme_override_constants/margin_bottom = 10
 [node name="library_vbox_container" type="VBoxContainer" parent="margin"]
 layout_mode = 2
 theme_override_constants/separation = 5
+
+[node name="nav_container" type="HBoxContainer" parent="margin/library_vbox_container"]
+layout_mode = 2
+
+[node name="library_nav_btn" type="Button" parent="margin/library_vbox_container/nav_container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(155, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.619608, 0.745098, 0.964706, 1)
+theme_override_colors/font_disabled_color = Color(0.619608, 0.745098, 0.964706, 0.654902)
+disabled = true
+text = "Library"
+
+[node name="VSeparator" type="VSeparator" parent="margin/library_vbox_container/nav_container"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="editor_nav_btn" type="Button" parent="margin/library_vbox_container/nav_container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(155, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.619608, 0.745098, 0.964706, 1)
+theme_override_colors/font_disabled_color = Color(0.619608, 0.745098, 0.964706, 0.654902)
+text = "Card Editor"
 
 [node name="clear_margin" type="MarginContainer" parent="margin/library_vbox_container"]
 layout_mode = 2

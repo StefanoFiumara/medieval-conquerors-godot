@@ -5,11 +5,6 @@ using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Addons.CardDataEditor;
 
-public enum PanelType
-{
-	Editor, Library
-}
-
 [Tool]
 public partial class CardDataEditorLoader : EditorPlugin
 {
@@ -18,8 +13,6 @@ public partial class CardDataEditorLoader : EditorPlugin
 	
 	private CardDataEditor _editorInstance;
 	private CardLibrary _libraryInstance;
-
-	private PanelType _activePanel;
 	
 	public override void _EnterTree()
 	{
@@ -32,26 +25,45 @@ public partial class CardDataEditorLoader : EditorPlugin
 		_libraryScene = GD.Load<PackedScene>("res://addons/CardDataEditor/Library/card_library.tscn");
 		
 		_editorInstance = _editorScene.Instantiate<CardDataEditor>();
-		_editorInstance.Name = "Card Data Editor";
 		
 		var reloadButton = new Button { Text = "Reload Plugin" };
 		reloadButton.Pressed += OnReloadPressed;
 		_editorInstance.GetNode("%editor_vbox_container").AddChild(reloadButton);
 		
 		_libraryInstance = _libraryScene.Instantiate<CardLibrary>();
-		_libraryInstance.Name = "Card Library";
+		
+		var container = new PanelContainer { Name = "Card Data Editor"};
+
+		container.AddChild(_editorInstance);
+		container.AddChild(_libraryInstance);
 		
 		_libraryInstance.SearchResultClicked += LoadCard;
+		_libraryInstance.EditorNavigation += NavigateToEditor;
+		_editorInstance.LibraryNavigation += NavigateToLibrary;
 
-		AddControlToDock(DockSlot.RightUl, _editorInstance);
-		AddControlToDock(DockSlot.RightUl, _libraryInstance);
+		_libraryInstance.Visible = false;
+		AddControlToDock(DockSlot.RightUl, container);
 	}
-	
+
 	private void LoadCard(CardData card)
 	{
 		_editorInstance.LoadedData = card;
+		_libraryInstance.Visible = false;
+		_editorInstance.Visible = true;
 	}
 
+	private void NavigateToLibrary()
+	{
+		_libraryInstance.Visible = true;
+		_editorInstance.Visible = false;
+	}
+	
+	private void NavigateToEditor()
+	{
+		_libraryInstance.Visible = false;
+		_editorInstance.Visible = true;
+	}
+	
 	private void OnReloadPressed()
 	{
 		_libraryInstance.SearchResultClicked -= LoadCard;
@@ -66,6 +78,8 @@ public partial class CardDataEditorLoader : EditorPlugin
 		RemoveControlFromDocks(_editorInstance);
 		RemoveControlFromDocks(_libraryInstance);
 		_libraryInstance.SearchResultClicked -= LoadCard;
+		_libraryInstance.EditorNavigation -= NavigateToEditor;
+		_editorInstance.LibraryNavigation -= NavigateToLibrary;
 		_editorInstance.Free();
 		_libraryInstance.Free();
 	}

@@ -44,7 +44,7 @@ public class BoardSystemTests : GameSystemTestFixture
         Game.Update();
         
         // set up move attribute
-        var moveAttribute = new MoveAttribute
+        var moveAttribute = new MovementAttribute
         {
             Distance = 1
         };
@@ -98,7 +98,7 @@ public class BoardSystemTests : GameSystemTestFixture
         Game.Update();
         
         // set up move attribute
-        var moveAttribute = new MoveAttribute
+        var moveAttribute = new MovementAttribute
         {
             Distance = 1
         };
@@ -123,7 +123,7 @@ public class BoardSystemTests : GameSystemTestFixture
         var card = _player.Hand.First();
         
         // set up move attribute
-        var moveAttribute = new MoveAttribute
+        var moveAttribute = new MovementAttribute
         {
             Distance = 1
         };
@@ -153,7 +153,7 @@ public class BoardSystemTests : GameSystemTestFixture
         
         // set up move attribute
         // TODO: Update Tests to Rest() attributes as part of engine flow?
-        var moveAttribute = new MoveAttribute
+        var moveAttribute = new MovementAttribute
         {
             Distance = 2,
         };

@@ -17,7 +17,7 @@ bg_color = Color(0.277528, 0.277528, 0.277528, 0.294118)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bhutb"]
 
 [node name="search_card_result" type="PanelContainer"]
-custom_minimum_size = Vector2(195, 95)
+custom_minimum_size = Vector2(210, 120)
 script = ExtResource("1_0s3hp")
 
 [node name="background" type="NinePatchRect" parent="."]
@@ -54,10 +54,21 @@ text = "Card Title Label Card Title Label"
 clip_text = true
 text_overrun_behavior = 3
 
+[node name="card_type" type="Label" parent="background/margin/summary_container"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 9
+text = "Card Title Label Card Title Label"
+clip_text = true
+text_overrun_behavior = 3
+
 [node name="card_desc" type="Label" parent="background/margin/summary_container"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
+size_flags_vertical = 10
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 9
 text = "Truncated card description text (should this be RichTextLabel?) Or someth "

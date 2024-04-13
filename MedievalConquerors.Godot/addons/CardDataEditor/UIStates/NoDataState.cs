@@ -8,7 +8,7 @@ public class NoDataState : EditorState
 
     public override void Enter()
     {
-        Editor.SetTitle("No Card Data Loaded".Red().Italics().Right());
+        Editor.SetTitle("No Card Data Loaded".Red().Italics());
         Editor.Disable();
     }
 

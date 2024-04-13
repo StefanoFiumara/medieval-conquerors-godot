@@ -13,7 +13,7 @@ namespace MedievalConquerors.Addons.CardDataEditor;
 [Tool]
 public partial class CardDataEditor : ScrollContainer
 {
-	public event Action LibraryPressed;
+	public event Action LibraryNavigation;
 	
 	private RichTextLabel _panelTitle;
 	
@@ -69,7 +69,7 @@ public partial class CardDataEditor : ScrollContainer
 		_panelTitle = GetNode<RichTextLabel>("%currently_editing");
 		_saveButton = GetNode<Button>("%save_btn");
 		_newButton = GetNode<Button>("%new_btn");
-		_libraryButton = GetNode<Button>("%library_btn");
+		_libraryButton = GetNode<Button>("%library_nav_btn");
 		_cardTitle = GetNode<LineEdit>("%title_edit");
 		_description = GetNode<TextEdit>("%desc_edit");
 		_cardTypeOptions = GetNode<CardTypeOptions>("%card_type_selector");
@@ -85,6 +85,12 @@ public partial class CardDataEditor : ScrollContainer
 		_addAttributeButton.Pressed += CreateNewAttribute;
 		_saveButton.Pressed += SaveCardResource;
 		_newButton.Pressed += CreateNewCard;
+		_libraryButton.Pressed += OnLibraryNavigation;
+	}
+
+	private void OnLibraryNavigation()
+	{
+		LibraryNavigation?.Invoke();
 	}
 
 	public void SetTitle(string title)
@@ -99,7 +105,7 @@ public partial class CardDataEditor : ScrollContainer
 		_description.Editable = true;
 		_cardTypeOptions.Disabled = false;
 		_attributeSelector.Disabled = false;
-		_addAttributeButton.Disabled = false;
+		_addAttributeButton.Disabled = _attributeSelector.Selected == 0;
 		_tagOptions.Enable();
 	}
 
@@ -206,5 +212,6 @@ public partial class CardDataEditor : ScrollContainer
 		_addAttributeButton.Pressed -= CreateNewAttribute;
 		_saveButton.Pressed -= SaveCardResource;
 		_newButton.Pressed -= CreateNewCard;
+		_libraryButton.Pressed -= OnLibraryNavigation;
 	}
 }
