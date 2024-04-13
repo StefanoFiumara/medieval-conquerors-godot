@@ -7,7 +7,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2uco"]
 
-[node name="Card Data Editor" type="ScrollContainer"]
+[node name="card_data_editor" type="ScrollContainer"]
 offset_right = 635.0
 offset_bottom = 700.0
 horizontal_scroll_mode = 0

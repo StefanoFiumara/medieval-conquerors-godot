@@ -11,11 +11,14 @@ public partial class CardDataEditorLoader : EditorPlugin
 	private PackedScene _editorScene;
 	private PackedScene _libraryScene;
 	
+	private PanelContainer _container;
+	
 	private CardDataEditor _editor;
 	private CardLibrary _library;
 	
 	public override void _EnterTree()
 	{
+		_container = new PanelContainer { Name = "Card Data Editor"};
 		CallDeferred(nameof(CreateCardDataEditor));
 	}
 
@@ -34,24 +37,15 @@ public partial class CardDataEditorLoader : EditorPlugin
 		_editor.GetNode("%editor_vbox_container").AddChild(reloadButton);
 		
 		//  TODO: Move the navigation header inside its own scene and add it to the container separately so all navigation logic can go here.
-		var container = new PanelContainer { Name = "Card Data Editor"};
-
-		container.AddChild(_editor);
-		container.AddChild(_library);
+		_container.AddChild(_editor);
+		_container.AddChild(_library);
 		
-		_library.SearchResultClicked += LoadCard;
+		_library.SearchResultClicked += NavigateToEditor;
 		_library.EditorNavigation += NavigateToEditor;
 		_editor.LibraryNavigation += NavigateToLibrary;
 
 		_library.Visible = false;
-		AddControlToDock(DockSlot.RightUl, container);
-	}
-
-	private void LoadCard(CardData card)
-	{
-		_editor.LoadedData = card;
-		_library.Visible = false;
-		_editor.Visible = true;
+		AddControlToDock(DockSlot.RightUl, _container);
 	}
 
 	private void NavigateToLibrary()
@@ -59,31 +53,38 @@ public partial class CardDataEditorLoader : EditorPlugin
 		_library.Visible = true;
 		_editor.Visible = false;
 	}
-	
-	private void NavigateToEditor()
+
+	private void NavigateToEditor() => NavigateToEditor(default);
+	private void NavigateToEditor(CardData card)
 	{
+		if (card != default) 
+			_editor.LoadedData = card;
+		
 		_library.Visible = false;
 		_editor.Visible = true;
 	}
 	
 	private void OnReloadPressed()
 	{
-		_library.SearchResultClicked -= LoadCard;
-		_editor?.QueueFree();
-		_library?.QueueFree();
+		_library.SearchResultClicked -= NavigateToEditor;
+		_library.EditorNavigation -= NavigateToEditor;
+		_editor.LibraryNavigation -= NavigateToLibrary;
+
+		foreach (var node in _container.GetChildren()) 
+			node.QueueFree();
 		
 		CallDeferred(nameof(CreateCardDataEditor));
 	}
 
 	public override void _ExitTree()
 	{
-		RemoveControlFromDocks(_editor);
-		RemoveControlFromDocks(_library);
-		_library.SearchResultClicked -= LoadCard;
+		RemoveControlFromDocks(_container);
+		
+		_library.SearchResultClicked -= NavigateToEditor;
 		_library.EditorNavigation -= NavigateToEditor;
 		_editor.LibraryNavigation -= NavigateToLibrary;
-		_editor.Free();
-		_library.Free();
+		
+		_container.Free();
 	}
 }
 #endif

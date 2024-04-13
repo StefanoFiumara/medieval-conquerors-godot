@@ -13,6 +13,7 @@ offset_right = -1285.0
 offset_bottom = -380.0
 grow_horizontal = 2
 grow_vertical = 2
+horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 script = ExtResource("1_fkgwc")
 
