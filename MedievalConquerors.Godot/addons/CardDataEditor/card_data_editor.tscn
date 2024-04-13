@@ -10,6 +10,7 @@
 [node name="card_data_editor" type="ScrollContainer"]
 offset_right = 635.0
 offset_bottom = 700.0
+size_flags_vertical = 3
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 script = ExtResource("1_j6uo3")
@@ -29,32 +30,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 5
-
-[node name="nav_container" type="HBoxContainer" parent="margin/editor_vbox_container"]
-layout_mode = 2
-
-[node name="library_nav_btn" type="Button" parent="margin/editor_vbox_container/nav_container"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(155, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.619608, 0.745098, 0.964706, 1)
-theme_override_colors/font_disabled_color = Color(0.619608, 0.745098, 0.964706, 0.654902)
-text = "Library"
-
-[node name="VSeparator" type="VSeparator" parent="margin/editor_vbox_container/nav_container"]
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="editor_nav_btn" type="Button" parent="margin/editor_vbox_container/nav_container"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(155, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.619608, 0.745098, 0.964706, 1)
-theme_override_colors/font_disabled_color = Color(0.619608, 0.745098, 0.964706, 0.654902)
-disabled = true
-text = "Card Editor"
 
 [node name="currently_editing" type="RichTextLabel" parent="margin/editor_vbox_container"]
 unique_name_in_owner = true

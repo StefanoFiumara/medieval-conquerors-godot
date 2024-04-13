@@ -11,9 +11,6 @@ namespace MedievalConquerors.addons.CardDataEditor.Library;
 [Tool]
 public partial class CardLibrary : ScrollContainer
 {
-	public event Action EditorNavigation;
-	
-	private Button _editorNavButton;
 	private Button _clearButton;
 	private LineEdit _searchInput;
 	private TagOptions _tagFilter;
@@ -32,18 +29,11 @@ public partial class CardLibrary : ScrollContainer
 		_tagFilter = GetNode<TagOptions>("%tag_filter");
 		_typeFilter = GetNode<CardTypeOptions>("%type_filter");
 		_resultsContainer = GetNode<GridContainer>("%results_container");
-		_editorNavButton = GetNode<Button>("%editor_nav_btn");
 		
 		_clearButton.Pressed += ClearSearch;
 		_searchInput.TextChanged += SearchTextChanged;
 		_tagFilter.TagsChanged += UpdateResults;
 		_typeFilter.ItemSelected += TypeFilterOnItemSelected;
-		_editorNavButton.Pressed += OnEditorNavigation;
-	}
-
-	private void OnEditorNavigation()
-	{
-		EditorNavigation?.Invoke();
 	}
 
 	private void ClearSearch()
