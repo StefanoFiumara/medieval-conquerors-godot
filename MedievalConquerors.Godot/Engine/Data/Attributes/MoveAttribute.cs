@@ -1,4 +1,6 @@
-﻿namespace MedievalConquerors.Engine.Data.Attributes;
+﻿using LiteDB;
+
+namespace MedievalConquerors.Engine.Data.Attributes;
 
 public class MoveAttribute : ICardAttribute
 {
@@ -14,6 +16,7 @@ public class MoveAttribute : ICardAttribute
         }
     }
     
+    [BsonIgnore]
     public int RemainingDistance { get; private set; }
     
     public bool CanMove(int amount) => RemainingDistance >= amount;
