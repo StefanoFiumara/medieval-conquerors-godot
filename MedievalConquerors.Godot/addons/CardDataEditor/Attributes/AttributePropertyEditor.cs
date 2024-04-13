@@ -2,7 +2,7 @@ using System.Reflection;
 using Godot;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.addons.CardDataEditor.AttributeEditor;
+namespace MedievalConquerors.addons.CardDataEditor.Attributes;
 
 [Tool]
 public partial class AttributePropertyEditor : HBoxContainer
@@ -25,6 +25,7 @@ public partial class AttributePropertyEditor : HBoxContainer
 		if (prop.PropertyType == typeof(string))
 		{
 			_intEditor.Hide();
+			_strEditor.Text = (string)prop.GetValue(attr);
 			_strEditor.TextChanged += txt =>
 			{
 				prop.SetValue(attr, txt);
@@ -34,6 +35,7 @@ public partial class AttributePropertyEditor : HBoxContainer
 		else if (prop.PropertyType == typeof(int))
 		{
 			_strEditor.Hide();
+			_intEditor.Value = (int) (prop.GetValue(attr) ?? 0);
 			_intEditor.ValueChanged += v =>
 			{
 				prop.SetValue(attr, (int)v);

@@ -18,6 +18,8 @@ script = ExtResource("1_j6uo3")
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 5
 
 [node name="currently_editing" type="RichTextLabel" parent="editor_vbox_container"]
 unique_name_in_owner = true
@@ -55,6 +57,13 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(155, 0)
 layout_mode = 2
 text = "Create New Card"
+
+[node name="library_btn" type="Button" parent="editor_vbox_container/save_load"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(155, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.298039, 0.647059, 1, 1)
+text = "Library"
 
 [node name="title_editor" type="HBoxContainer" parent="editor_vbox_container"]
 layout_mode = 2

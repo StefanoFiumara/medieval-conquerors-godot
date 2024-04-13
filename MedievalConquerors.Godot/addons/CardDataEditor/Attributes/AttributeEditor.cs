@@ -2,10 +2,10 @@ using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.addons.CardDataEditor.AttributeEditor;
+namespace MedievalConquerors.addons.CardDataEditor.Attributes;
 
 [Tool]
-public partial class CardAttributeEditor : PanelContainer
+public partial class AttributeEditor : PanelContainer
 {
 	private Label _titleLabel;
 	private PackedScene _propertyEditor;
@@ -15,7 +15,7 @@ public partial class CardAttributeEditor : PanelContainer
 	
 	public override void _Ready()
 	{
-		_propertyEditor = GD.Load<PackedScene>("res://addons/CardDataEditor/AttributeEditor/attribute_property_editor.tscn");
+		_propertyEditor = GD.Load<PackedScene>("res://addons/CardDataEditor/Attributes/attribute_property_editor.tscn");
 		RemoveButton = GetNode<Button>("%delete_attribute_button");
 		_titleLabel = GetNode<Label>("%attribute_name_label");
 		_propertiesContainer = GetNode<GridContainer>("%attribute_properties_container");

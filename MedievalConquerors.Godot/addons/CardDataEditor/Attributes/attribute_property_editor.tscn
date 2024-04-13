@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bti603u6u2oh"]
 
-[ext_resource type="Script" path="res://addons/CardDataEditor/AttributeEditor/AttributePropertyEditor.cs" id="1_fant5"]
+[ext_resource type="Script" path="res://addons/CardDataEditor/Attributes/AttributePropertyEditor.cs" id="1_fant5"]
 
 [node name="attribute_property_editor" type="HBoxContainer"]
 theme_override_constants/separation = 15

@@ -28,9 +28,9 @@ public partial class AttributeOptions : OptionButton
 	{
 		var selected = GetItemText(GetSelectedId());
 		if (_attributeTypeMap.TryGetValue(selected, out var attributeType))
-	    {
-	        return (ICardAttribute)Activator.CreateInstance(attributeType);
-	    }
+		{
+			return (ICardAttribute)Activator.CreateInstance(attributeType);
+		}
 
 		return null;
 	}
