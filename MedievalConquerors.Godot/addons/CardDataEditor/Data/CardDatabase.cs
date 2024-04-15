@@ -3,7 +3,7 @@ using System.IO;
 using LiteDB;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.Addons.CardDataEditor;
+namespace MedievalConquerors.Addons.CardDataEditor.Data;
 
 public sealed class CardDatabase : IDisposable
 {
@@ -30,6 +30,14 @@ public sealed class CardDatabase : IDisposable
 		return data.Id;
 	}
 
+	public bool DeleteCardData(CardData data)
+	{
+		if (data.Id == 0)
+			return false;
+
+		return _cardCollection.Delete(data.Id);
+	}
+    
 	public void Dispose()
 	{
 		_cardDatabase?.Dispose();

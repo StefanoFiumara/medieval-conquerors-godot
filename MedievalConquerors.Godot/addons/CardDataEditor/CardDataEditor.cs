@@ -2,31 +2,32 @@ using System;
 using System.Linq;
 using Godot;
 using MedievalConquerors.Addons.CardDataEditor.Controls;
+using MedievalConquerors.Addons.CardDataEditor.Data;
 using MedievalConquerors.Addons.CardDataEditor.UIStates;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.StateManagement;
 using MedievalConquerors.Extensions;
-using AttributeEditor = MedievalConquerors.addons.CardDataEditor.Attributes.AttributeEditor;
+using AttributeEditor = MedievalConquerors.Addons.CardDataEditor.Attributes.AttributeEditor;
 
 namespace MedievalConquerors.Addons.CardDataEditor;
 
 [Tool]
 public partial class CardDataEditor : ScrollContainer
 {
-	private RichTextLabel _panelTitle;
+	[Export] private RichTextLabel _panelTitle;
 	
-	private Button _newButton;
-	private Button _saveButton;
+	[Export] private Button _newButton;
+	[Export] private Button _saveButton;
 	
-	private LineEdit _cardTitle;
-	private TextEdit _description;
+	[Export] private LineEdit _cardTitle;
+	[Export] private TextEdit _description;
 	
-	private CardTypeOptions _cardTypeOptions;
-	private TagOptions _tagOptions;
-	private AttributeOptions _attributeSelector;
-	private Button _addAttributeButton;
+	[Export] private CardTypeOptions _cardTypeOptions;
+	[Export] private TagOptions _tagOptions;
+	[Export] private AttributeOptions _attributeSelector;
+	[Export] private Button _addAttributeButton;
 	
-	private VBoxContainer _attributesContainer;
+	[Export] private VBoxContainer _attributesContainer;
 	
 	private CardData _loadedData;
 	private StateMachine _stateMachine;
@@ -63,20 +64,12 @@ public partial class CardDataEditor : ScrollContainer
 	{	
 		_attributeEditor = GD.Load<PackedScene>("res://addons/CardDataEditor/Attributes/attribute_editor.tscn");
 		
-		_panelTitle = GetNode<RichTextLabel>("%currently_editing");
-		_saveButton = GetNode<Button>("%save_btn");
-		_newButton = GetNode<Button>("%new_btn");
-		_cardTitle = GetNode<LineEdit>("%title_edit");
-		_description = GetNode<TextEdit>("%desc_edit");
-		_cardTypeOptions = GetNode<CardTypeOptions>("%card_type_selector");
-		_tagOptions = GetNode<TagOptions>("%tags_grid");
-		_attributeSelector = GetNode<AttributeOptions>("%attr_selector");
-		_addAttributeButton = GetNode<Button>("%add_attr_btn");
-		_attributesContainer = GetNode<VBoxContainer>("%attributes_container");
-		
 		LoadedData = null;
 		_stateMachine = new StateMachine(new NoDataState(this));
-		
+	}
+
+	public override void _EnterTree()
+	{
 		_attributeSelector.ItemSelected += OnAttributeSelectorItemSelected;
 		_addAttributeButton.Pressed += CreateNewAttribute;
 		_saveButton.Pressed += SaveCardResource;
@@ -157,7 +150,7 @@ public partial class CardDataEditor : ScrollContainer
 		_attributesContainer.AddChild(editor);
 		
 		editor.Load(attr);
-		editor.RemoveButton.Pressed += () =>
+		editor.RemovePressed += () =>
 		{
 			_attributesContainer.RemoveChild(editor);
 			LoadedData.Attributes.Remove(attr);

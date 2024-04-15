@@ -26,6 +26,12 @@ public partial class GameController : Node
 
 	public Game Game => _game;
 
+	public override void _Ready()
+	{
+		_game.Awake();
+		_game.Perform(new BeginGameAction(0));
+	}
+
 	public override void _EnterTree()
 	{ 
 		_log = new GodotLogger(_logLevel);
@@ -38,12 +44,6 @@ public partial class GameController : Node
 		{
 			VisualizeRange(tc.Position, 2);
 		}
-	}
-
-	public override void _Ready()
-	{
-		_game.Awake();
-		_game.Perform(new BeginGameAction(0));
 	}
 
 	// TEMP: Testing variable ranges

@@ -3,28 +3,22 @@ using Godot;
 using Godot.Collections;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.addons.CardDataEditor.Library;
+namespace MedievalConquerors.Addons.CardDataEditor.Library;
 
 [Tool]
 public partial class CardResult : PanelContainer
 {
 	public event Action<CardData> OnSelected;
 
-	private Button _editButton;
-	private Label _titleLabel;
-	private Label _cardTypeLabel;
-	private Label _descLabel;
+	[Export] private Button _editButton;
+	[Export] private Label _titleLabel;
+	[Export] private Label _cardTypeLabel;
+	[Export] private Label _descLabel;
 
 	private CardData _cardData;
 	
-
-	public override void _Ready()
+	public override void _EnterTree()
 	{
-		_editButton = GetNode<Button>("%edit_button");
-		_titleLabel = GetNode<Label>("%card_title");
-		_descLabel = GetNode<Label>("%card_desc");
-		_cardTypeLabel = GetNode<Label>("%card_type");
-
 		_editButton.Pressed += OnCardSelected;
 	}
 

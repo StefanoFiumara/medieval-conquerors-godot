@@ -1,35 +1,32 @@
 using System;
 using System.Linq;
 using Godot;
-using MedievalConquerors.Addons.CardDataEditor;
 using MedievalConquerors.Addons.CardDataEditor.Controls;
+using MedievalConquerors.Addons.CardDataEditor.Data;
 using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Extensions;
 
-namespace MedievalConquerors.addons.CardDataEditor.Library;
+namespace MedievalConquerors.Addons.CardDataEditor.Library;
 
 [Tool]
 public partial class CardLibrary : ScrollContainer
 {
-	private Button _clearButton;
-	private LineEdit _searchInput;
-	private TagOptions _tagFilter;
-	private CardTypeOptions _typeFilter;
+	[Export] private Button _clearButton;
+	[Export] private LineEdit _searchInput;
+	[Export] private TagOptions _tagFilter;
+	[Export] private CardTypeOptions _typeFilter;
+	[Export] private GridContainer _resultsContainer;
 	
-	private GridContainer _resultsContainer;
 	private PackedScene _searchResultScene;
 	
 	public event Action<CardData> SearchResultClicked;
+	
 	public override void _Ready()
 	{
 		_searchResultScene = GD.Load<PackedScene>("res://addons/CardDataEditor/Library/search_card_result.tscn");
-			
-		_clearButton = GetNode<Button>("%clear_btn");
-		_searchInput = GetNode<LineEdit>("%search_input");
-		_tagFilter = GetNode<TagOptions>("%tag_filter");
-		_typeFilter = GetNode<CardTypeOptions>("%type_filter");
-		_resultsContainer = GetNode<GridContainer>("%results_container");
-		
+	}
+
+	public override void _EnterTree()
+	{
 		_clearButton.Pressed += ClearSearch;
 		_searchInput.TextChanged += SearchTextChanged;
 		_tagFilter.TagsChanged += UpdateResults;

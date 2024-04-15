@@ -2,11 +2,13 @@
 
 [ext_resource type="Script" path="res://addons/CardDataEditor/NavigationBar.cs" id="1_wj246"]
 
-[node name="nav_container" type="HBoxContainer"]
+[node name="nav_container" type="HBoxContainer" node_paths=PackedStringArray("_libraryBtn", "_editorBtn", "_reloadBtn")]
 script = ExtResource("1_wj246")
+_libraryBtn = NodePath("library_nav_btn")
+_editorBtn = NodePath("editor_nav_btn")
+_reloadBtn = NodePath("reload_plugin_btn")
 
 [node name="library_nav_btn" type="Button" parent="."]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(155, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -19,7 +21,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="editor_nav_btn" type="Button" parent="."]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(155, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -32,7 +33,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="reload_plugin_btn" type="Button" parent="."]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 tooltip_text = "Reload Plugin"

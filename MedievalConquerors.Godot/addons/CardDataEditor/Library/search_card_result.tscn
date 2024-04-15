@@ -16,9 +16,13 @@ bg_color = Color(0.277528, 0.277528, 0.277528, 0.294118)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bhutb"]
 
-[node name="search_card_result" type="PanelContainer"]
+[node name="search_card_result" type="PanelContainer" node_paths=PackedStringArray("_editButton", "_titleLabel", "_cardTypeLabel", "_descLabel")]
 custom_minimum_size = Vector2(210, 120)
 script = ExtResource("1_0s3hp")
+_editButton = NodePath("edit_button")
+_titleLabel = NodePath("background/margin/summary_container/card_title")
+_cardTypeLabel = NodePath("background/margin/summary_container/card_type")
+_descLabel = NodePath("background/margin/summary_container/card_desc")
 
 [node name="background" type="NinePatchRect" parent="."]
 layout_mode = 2
@@ -47,7 +51,6 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 
 [node name="card_title" type="Label" parent="background/margin/summary_container"]
-unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Card Title Label Card Title Label"
@@ -55,7 +58,6 @@ clip_text = true
 text_overrun_behavior = 3
 
 [node name="card_type" type="Label" parent="background/margin/summary_container"]
-unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -65,7 +67,6 @@ clip_text = true
 text_overrun_behavior = 3
 
 [node name="card_desc" type="Label" parent="background/margin/summary_container"]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_vertical = 10
@@ -77,7 +78,6 @@ clip_text = true
 text_overrun_behavior = 3
 
 [node name="edit_button" type="Button" parent="."]
-unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_d51f2")
 theme_override_styles/hover = SubResource("StyleBoxFlat_aey1k")

@@ -1,25 +1,35 @@
+using System;
 using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Extensions;
 
-namespace MedievalConquerors.addons.CardDataEditor.Attributes;
+namespace MedievalConquerors.Addons.CardDataEditor.Attributes;
 
 [Tool]
 public partial class AttributeEditor : PanelContainer
 {
-	private Label _titleLabel;
 	private PackedScene _propertyEditor;
-	private GridContainer _propertiesContainer;
+	
+	[Export] private Label _titleLabel;
+	[Export] private GridContainer _propertiesContainer;
+	[Export] private Button _removeButton;
 
-	public Button RemoveButton { get; private set; }
+	public event Action RemovePressed;
 	
 	public override void _Ready()
 	{
 		_propertyEditor = GD.Load<PackedScene>("res://addons/CardDataEditor/Attributes/attribute_property_editor.tscn");
-		RemoveButton = GetNode<Button>("%delete_attribute_button");
-		_titleLabel = GetNode<Label>("%attribute_name_label");
-		_propertiesContainer = GetNode<GridContainer>("%attribute_properties_container");
+	}
+
+	public override void _EnterTree()
+	{
+		_removeButton.Pressed += OnRemovePressed;
+	}
+
+	public override void _ExitTree()
+	{
+		_removeButton.Pressed -= OnRemovePressed;
 	}
 
 	public void Load(ICardAttribute attribute)
@@ -37,5 +47,10 @@ public partial class AttributeEditor : PanelContainer
 
 			propEditor.Load(attribute, prop);
 		}
+	}
+
+	protected virtual void OnRemovePressed()
+	{
+		RemovePressed?.Invoke();
 	}
 }

@@ -9,8 +9,7 @@ namespace MedievalConquerors.Addons.CardDataEditor.Controls;
 [Tool]
 public partial class TagOptions : GridContainer
 {
-	private Dictionary<Tags, CheckBox> _tagSelectors;
-	private List<Tags> _tagOptions;
+	private readonly Dictionary<Tags, CheckBox> _tagSelectors = new();
 	
 	public event Action TagsChanged;
 
@@ -40,12 +39,11 @@ public partial class TagOptions : GridContainer
 		}
 	}
 
-	public override void _Ready()
+	public override void _EnterTree()
 	{
-		_tagSelectors = new();
-		_tagOptions = Enum.GetValues<Tags>().Skip(1).ToList();
+		_tagSelectors.Clear();
 
-		foreach (var tag in _tagOptions)
+		foreach (var tag in Enum.GetValues<Tags>().Skip(1))
 		{
 			var checkBox = new CheckBox();
 			checkBox.Text = tag.ToString();
@@ -60,19 +58,19 @@ public partial class TagOptions : GridContainer
 		TagsChanged?.Invoke();
 	}
 
-	public void Disable()
-	{
-		foreach (var checkBox in _tagSelectors.Values)
-		{
-			checkBox.Disabled = true;
-		}
-	}
-	
 	public void Enable()
 	{
 		foreach (var checkBox in _tagSelectors.Values)
 		{
 			checkBox.Disabled = false;
+		}
+	}
+
+	public void Disable()
+	{
+		foreach (var checkBox in _tagSelectors.Values)
+		{
+			checkBox.Disabled = true;
 		}
 	}
 
@@ -83,6 +81,7 @@ public partial class TagOptions : GridContainer
 			foreach (var checkBox in _tagSelectors.Values)
 			{
 				checkBox.Toggled -= OnTagsChanged;
+				checkBox.QueueFree();
 			}
 		}
 	}

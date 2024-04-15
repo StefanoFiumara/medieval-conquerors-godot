@@ -2,23 +2,23 @@
 
 [ext_resource type="Script" path="res://addons/CardDataEditor/Attributes/AttributePropertyEditor.cs" id="1_fant5"]
 
-[node name="attribute_property_editor" type="HBoxContainer"]
+[node name="attribute_property_editor" type="HBoxContainer" node_paths=PackedStringArray("_titleLabel", "_intEditor", "_strEditor")]
 theme_override_constants/separation = 15
 script = ExtResource("1_fant5")
+_titleLabel = NodePath("property_label")
+_intEditor = NodePath("property_editor_int")
+_strEditor = NodePath("property_editor_str")
 
 [node name="property_label" type="Label" parent="."]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Property Name:"
 horizontal_alignment = 2
 
 [node name="property_editor_int" type="SpinBox" parent="."]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
 [node name="property_editor_str" type="LineEdit" parent="."]
-unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

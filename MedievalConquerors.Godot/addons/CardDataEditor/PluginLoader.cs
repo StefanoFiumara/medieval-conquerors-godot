@@ -1,7 +1,7 @@
 #if TOOLS
 using Godot;
-using MedievalConquerors.addons.CardDataEditor;
-using MedievalConquerors.addons.CardDataEditor.Library;
+using MedievalConquerors.Addons.CardDataEditor;
+using MedievalConquerors.Addons.CardDataEditor.Library;
 using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Addons.CardDataEditor;

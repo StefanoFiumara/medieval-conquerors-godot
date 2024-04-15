@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://addons/CardDataEditor/Controls/TagOptions.cs" id="1_kstia"]
 [ext_resource type="Script" path="res://addons/CardDataEditor/Controls/CardTypeOptions.cs" id="2_wwgh3"]
 
-[node name="card_library" type="ScrollContainer"]
+[node name="card_library" type="ScrollContainer" node_paths=PackedStringArray("_clearButton", "_searchInput", "_tagFilter", "_typeFilter", "_resultsContainer")]
 custom_minimum_size = Vector2(300, 0)
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,6 +17,11 @@ size_flags_vertical = 3
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 script = ExtResource("1_fkgwc")
+_clearButton = NodePath("margin/library_vbox_container/clear_margin/clear_btn")
+_searchInput = NodePath("margin/library_vbox_container/search_container/search_input")
+_tagFilter = NodePath("margin/library_vbox_container/tag_filter_container/tag_filter")
+_typeFilter = NodePath("margin/library_vbox_container/type_filter_container/type_filter")
+_resultsContainer = NodePath("margin/library_vbox_container/results_container")
 
 [node name="margin" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -36,7 +41,6 @@ layout_mode = 2
 theme_override_constants/margin_left = 115
 
 [node name="clear_btn" type="Button" parent="margin/library_vbox_container/clear_margin"]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(155, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -53,7 +57,6 @@ text = "Search: "
 horizontal_alignment = 2
 
 [node name="search_input" type="LineEdit" parent="margin/library_vbox_container/search_container"]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -69,10 +72,9 @@ text = "Tags:"
 horizontal_alignment = 2
 
 [node name="tag_filter" type="GridContainer" parent="margin/library_vbox_container/tag_filter_container"]
-unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-columns = 5
+columns = 4
 script = ExtResource("1_kstia")
 
 [node name="type_filter_container" type="HBoxContainer" parent="margin/library_vbox_container"]
@@ -86,7 +88,6 @@ text = "Type:"
 horizontal_alignment = 2
 
 [node name="type_filter" type="OptionButton" parent="margin/library_vbox_container/type_filter_container"]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 30)
 layout_mode = 2
 item_count = 4
@@ -105,7 +106,6 @@ script = ExtResource("2_wwgh3")
 layout_mode = 2
 
 [node name="results_container" type="GridContainer" parent="margin/library_vbox_container"]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 columns = 3

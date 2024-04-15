@@ -1,6 +1,6 @@
 using System;
 using Godot;
-namespace MedievalConquerors.addons.CardDataEditor;
+namespace MedievalConquerors.Addons.CardDataEditor;
 
 public enum EditorPanel
 {
@@ -14,12 +14,11 @@ public partial class NavigationBar : HBoxContainer
 	public event Action EditorPressed;
 	public event Action ReloadPressed;
 	
-	private Button _libraryBtn;
-	private Button _editorBtn;
-	private Button _reloadBtn;
+	[Export] private Button _libraryBtn;
+	[Export] private Button _editorBtn;
+	[Export] private Button _reloadBtn;
 
 	private EditorPanel _activePanel;
-
 	public EditorPanel ActivePanel
 	{
 		get => _activePanel;
@@ -31,12 +30,8 @@ public partial class NavigationBar : HBoxContainer
 		}
 	}
 	
-	public override void _Ready()
+	public override void _EnterTree()
 	{
-		_libraryBtn = GetNode<Button>("%library_nav_btn");
-		_editorBtn = GetNode<Button>("%editor_nav_btn");
-		_reloadBtn = GetNode<Button>("%reload_plugin_btn");
-		
 		_editorBtn.Pressed += OnEditorBtnPressed;
 		_reloadBtn.Pressed += OnReloadBtnPressed;
 		_libraryBtn.Pressed += OnLibraryBtnPressed;
@@ -53,5 +48,12 @@ public partial class NavigationBar : HBoxContainer
 	private void OnEditorBtnPressed()
 	{
 		EditorPressed?.Invoke();
+	}
+
+	public override void _ExitTree()
+	{
+		_editorBtn.Pressed -= OnEditorBtnPressed;
+		_reloadBtn.Pressed -= OnReloadBtnPressed;
+		_libraryBtn.Pressed -= OnLibraryBtnPressed;
 	}
 }
