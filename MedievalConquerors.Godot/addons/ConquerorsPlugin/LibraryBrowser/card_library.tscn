@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://r8nd3ueedopk"]
 
-[ext_resource type="Script" path="res://addons/CardDataEditor/Library/CardLibrary.cs" id="1_fkgwc"]
-[ext_resource type="Script" path="res://addons/CardDataEditor/Controls/TagOptions.cs" id="1_kstia"]
-[ext_resource type="Script" path="res://addons/CardDataEditor/Controls/CardTypeOptions.cs" id="2_wwgh3"]
+[ext_resource type="Script" path="res://addons/ConquerorsPlugin/LibraryBrowser/CardLibrary.cs" id="1_fkgwc"]
+[ext_resource type="Script" path="res://addons/ConquerorsPlugin/Controls/TagOptions.cs" id="1_kstia"]
+[ext_resource type="Script" path="res://addons/ConquerorsPlugin/Controls/CardTypeOptions.cs" id="2_wwgh3"]
 
 [node name="card_library" type="ScrollContainer" node_paths=PackedStringArray("_clearButton", "_searchInput", "_tagFilter", "_typeFilter", "_resultsContainer")]
 custom_minimum_size = Vector2(300, 0)

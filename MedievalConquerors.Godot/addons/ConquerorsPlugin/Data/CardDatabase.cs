@@ -3,7 +3,7 @@ using System.IO;
 using LiteDB;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.Addons.CardDataEditor.Data;
+namespace MedievalConquerors.ConquerorsPlugin.Data;
 
 public sealed class CardDatabase : IDisposable
 {

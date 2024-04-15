@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://duxepdiymnmc0"]
 
-[ext_resource type="Script" path="res://addons/CardDataEditor/NavigationBar.cs" id="1_wj246"]
+[ext_resource type="Script" path="res://addons/ConquerorsPlugin/Navigation/NavigationBar.cs" id="1_wj246"]
 
 [node name="nav_container" type="HBoxContainer" node_paths=PackedStringArray("_libraryBtn", "_editorBtn", "_reloadBtn")]
 script = ExtResource("1_wj246")

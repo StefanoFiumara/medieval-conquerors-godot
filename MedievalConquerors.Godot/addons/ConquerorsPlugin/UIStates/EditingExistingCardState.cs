@@ -1,6 +1,7 @@
+using MedievalConquerors.ConquerorsPlugin.Editor;
 using MedievalConquerors.Extensions;
 
-namespace MedievalConquerors.Addons.CardDataEditor.UIStates;
+namespace MedievalConquerors.ConquerorsPlugin.UIStates;
 
 public class EditingExistingCardState : EditorState
 {

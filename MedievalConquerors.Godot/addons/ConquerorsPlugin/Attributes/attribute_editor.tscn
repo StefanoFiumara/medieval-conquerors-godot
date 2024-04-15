@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bxlv4w3wwtsro"]
 
-[ext_resource type="Script" path="res://addons/CardDataEditor/Attributes/AttributeEditor.cs" id="1_ukxad"]
+[ext_resource type="Script" path="res://addons/ConquerorsPlugin/Attributes/AttributeEditor.cs" id="1_ukxad"]
 
 [node name="attribute_editor" type="PanelContainer" node_paths=PackedStringArray("_titleLabel", "_propertiesContainer", "_removeButton")]
 anchors_preset = 15

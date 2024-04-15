@@ -2,7 +2,7 @@ using System.Reflection;
 using Godot;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.Addons.CardDataEditor.Attributes;
+namespace MedievalConquerors.ConquerorsPlugin.Attributes;
 
 [Tool]
 public partial class AttributePropertyEditor : HBoxContainer

@@ -4,7 +4,7 @@ using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.Addons.CardDataEditor.Controls;
+namespace MedievalConquerors.ConquerorsPlugin.Controls;
 
 [Tool]
 public partial class TagOptions : GridContainer

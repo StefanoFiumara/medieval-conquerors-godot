@@ -1,15 +1,15 @@
 using System;
 using System.Linq;
 using Godot;
-using MedievalConquerors.Addons.CardDataEditor.Controls;
-using MedievalConquerors.Addons.CardDataEditor.Data;
-using MedievalConquerors.Addons.CardDataEditor.UIStates;
+using MedievalConquerors.ConquerorsPlugin.Attributes;
+using MedievalConquerors.ConquerorsPlugin.Controls;
+using MedievalConquerors.ConquerorsPlugin.Data;
+using MedievalConquerors.ConquerorsPlugin.UIStates;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.StateManagement;
 using MedievalConquerors.Extensions;
-using AttributeEditor = MedievalConquerors.Addons.CardDataEditor.Attributes.AttributeEditor;
 
-namespace MedievalConquerors.Addons.CardDataEditor;
+namespace MedievalConquerors.ConquerorsPlugin.Editor;
 
 [Tool]
 public partial class CardDataEditor : ScrollContainer
@@ -64,7 +64,7 @@ public partial class CardDataEditor : ScrollContainer
 
 	public override void _Ready()
 	{	
-		_attributeEditor = GD.Load<PackedScene>("res://addons/CardDataEditor/Attributes/attribute_editor.tscn");
+		_attributeEditor = GD.Load<PackedScene>("res://addons/ConquerorsPlugin/Attributes/attribute_editor.tscn");
 		
 		LoadedData = null;
 		_stateMachine = new StateMachine(new NoDataState(this));

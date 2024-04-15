@@ -4,7 +4,7 @@ using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Extensions;
 
-namespace MedievalConquerors.Addons.CardDataEditor.Attributes;
+namespace MedievalConquerors.ConquerorsPlugin.Attributes;
 
 [Tool]
 public partial class AttributeEditor : PanelContainer
@@ -19,7 +19,7 @@ public partial class AttributeEditor : PanelContainer
 	
 	public override void _Ready()
 	{
-		_propertyEditor = GD.Load<PackedScene>("res://addons/CardDataEditor/Attributes/attribute_property_editor.tscn");
+		_propertyEditor = GD.Load<PackedScene>("res://addons/ConquerorsPlugin/Attributes/attribute_property_editor.tscn");
 	}
 
 	public override void _EnterTree()

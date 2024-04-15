@@ -1,6 +1,7 @@
 using System;
 using Godot;
-namespace MedievalConquerors.Addons.CardDataEditor;
+
+namespace MedievalConquerors.ConquerorsPlugin.Navigation;
 
 public enum EditorPanel
 {

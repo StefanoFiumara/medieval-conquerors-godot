@@ -7,6 +7,7 @@ public interface ICardData
 {
     public string Title { get; set; }
     public string Description { get; set; }
+    public string ImagePath { get; set; }
     public CardType CardType { get; set; }
     public Tags Tags { get; set; }
     public List<ICardAttribute> Attributes { get; set; }
@@ -17,6 +18,7 @@ public class CardData : ICardData
     public int Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
+    public string ImagePath { get; set; }
     public CardType CardType { get; set; }
     public Tags Tags { get; set; }
     public List<ICardAttribute> Attributes { get; set; } = new();

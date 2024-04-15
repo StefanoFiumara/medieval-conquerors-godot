@@ -1,12 +1,11 @@
 using System;
 using Godot;
-using Godot.Collections;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.Addons.CardDataEditor.Library;
+namespace MedievalConquerors.ConquerorsPlugin.LibraryBrowser;
 
 [Tool]
-public partial class CardResult : PanelContainer
+public partial class CardSearchResult : PanelContainer
 {
 	public event Action<CardData> OnSelected;
 

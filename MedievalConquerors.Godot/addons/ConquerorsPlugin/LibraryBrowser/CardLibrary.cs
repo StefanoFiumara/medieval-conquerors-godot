@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using Godot;
-using MedievalConquerors.Addons.CardDataEditor.Controls;
-using MedievalConquerors.Addons.CardDataEditor.Data;
+using MedievalConquerors.ConquerorsPlugin.Controls;
+using MedievalConquerors.ConquerorsPlugin.Data;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.Addons.CardDataEditor.Library;
+namespace MedievalConquerors.ConquerorsPlugin.LibraryBrowser;
 
 [Tool]
 public partial class CardLibrary : ScrollContainer
@@ -22,7 +22,7 @@ public partial class CardLibrary : ScrollContainer
 	
 	public override void _Ready()
 	{
-		_searchResultScene = GD.Load<PackedScene>("res://addons/CardDataEditor/Library/search_card_result.tscn");
+		_searchResultScene = GD.Load<PackedScene>("res://addons/ConquerorsPlugin/LibraryBrowser/card_search_result.tscn");
 	}
 
 	public override void _EnterTree()
@@ -80,7 +80,7 @@ public partial class CardLibrary : ScrollContainer
 		
 		foreach (var card in results)
 		{
-			var cardResult = _searchResultScene.Instantiate<CardResult>();
+			var cardResult = _searchResultScene.Instantiate<CardSearchResult>();
 			_resultsContainer.AddChild(cardResult);
 			cardResult.Load(card);
 			cardResult.OnSelected += SendToEditor;

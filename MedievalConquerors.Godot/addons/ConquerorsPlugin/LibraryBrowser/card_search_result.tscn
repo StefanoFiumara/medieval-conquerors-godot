@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://c3eq7v64aeyj7"]
 
-[ext_resource type="Script" path="res://addons/CardDataEditor/Library/CardResult.cs" id="1_0s3hp"]
+[ext_resource type="Script" path="res://addons/ConquerorsPlugin/LibraryBrowser/CardSearchResult.cs" id="1_0s3hp"]
 [ext_resource type="Texture2D" uid="uid://bcp3vaby3lte6" path="res://Assets/UI/panel_woodPaperWear.png" id="1_hhtjn"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d51f2"]

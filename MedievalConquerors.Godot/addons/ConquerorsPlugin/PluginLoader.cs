@@ -1,10 +1,11 @@
 #if TOOLS
 using Godot;
-using MedievalConquerors.Addons.CardDataEditor;
-using MedievalConquerors.Addons.CardDataEditor.Library;
+using MedievalConquerors.ConquerorsPlugin.Editor;
+using MedievalConquerors.ConquerorsPlugin.LibraryBrowser;
+using MedievalConquerors.ConquerorsPlugin.Navigation;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.Addons.CardDataEditor;
+namespace MedievalConquerors.ConquerorsPlugin;
 
 [Tool]
 public partial class PluginLoader : EditorPlugin
@@ -27,9 +28,9 @@ public partial class PluginLoader : EditorPlugin
 
 	private void CreateCardDataEditor()
 	{
-		_editorScene = GD.Load<PackedScene>("res://addons/CardDataEditor/card_data_editor.tscn");
-		_libraryScene = GD.Load<PackedScene>("res://addons/CardDataEditor/Library/card_library.tscn");
-		_navigationScene = GD.Load<PackedScene>("res://addons/CardDataEditor/nav_container.tscn");
+		_editorScene = GD.Load<PackedScene>("res://addons/ConquerorsPlugin/Editor/card_data_editor.tscn");
+		_libraryScene = GD.Load<PackedScene>("res://addons/ConquerorsPlugin/LibraryBrowser/card_library.tscn");
+		_navigationScene = GD.Load<PackedScene>("res://addons/ConquerorsPlugin/Navigation/navigation_bar.tscn");
 
 		_navigation = _navigationScene.Instantiate<NavigationBar>();
 		_editor = _editorScene.Instantiate<CardDataEditor>();
