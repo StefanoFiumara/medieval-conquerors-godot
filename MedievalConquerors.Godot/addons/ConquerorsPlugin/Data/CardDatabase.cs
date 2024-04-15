@@ -11,6 +11,7 @@ public sealed class CardDatabase : IDisposable
 	private readonly ILiteCollection<CardData> _cardCollection;
 
 	public ILiteQueryable<CardData> Query => _cardCollection.Query();
+	
 	public CardDatabase()
 	{
 		var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "GameData", "CardLibrary.db");
