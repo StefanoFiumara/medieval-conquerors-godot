@@ -18,6 +18,7 @@ public partial class CardDataEditor : ScrollContainer
 	
 	[Export] private Button _newButton;
 	[Export] private Button _saveButton;
+	[Export] private Button _deleteButton;
 	
 	[Export] private LineEdit _cardTitle;
 	[Export] private TextEdit _description;
@@ -39,9 +40,9 @@ public partial class CardDataEditor : ScrollContainer
 		set
 		{
 			_loadedData = value;
+			Reset();
 			if (value != null)
 			{
-				Reset();
 				_cardTitle.Text = _loadedData.Title;
 				_description.Text = _loadedData.Description;
 				_cardTypeOptions.SelectedCardType = _loadedData.CardType;
@@ -57,6 +58,7 @@ public partial class CardDataEditor : ScrollContainer
 			}
 			
 			_saveButton.Disabled = _loadedData == null;
+			_deleteButton.Disabled = _loadedData == null;
 		}
 	}
 
@@ -74,6 +76,7 @@ public partial class CardDataEditor : ScrollContainer
 		_addAttributeButton.Pressed += CreateNewAttribute;
 		_saveButton.Pressed += SaveCardResource;
 		_newButton.Pressed += CreateNewCard;
+		_deleteButton.Pressed += DeleteLoadedCard;
 	}
 
 	public void SetTitle(string title)
@@ -158,6 +161,15 @@ public partial class CardDataEditor : ScrollContainer
 		};
 	}
 
+	private void DeleteLoadedCard()
+	{
+		using var database = new CardDatabase();
+		database.DeleteCardData(LoadedData);
+
+		LoadedData = null;
+		_stateMachine.ChangeState(new NoDataState(this));
+	}
+	
 	private void UpdateLoadedResourceFromEditor()
 	{
 		// TODO: set up auto update of these basic properties so that this method can be removed
@@ -195,5 +207,6 @@ public partial class CardDataEditor : ScrollContainer
 		_addAttributeButton.Pressed -= CreateNewAttribute;
 		_saveButton.Pressed -= SaveCardResource;
 		_newButton.Pressed -= CreateNewCard;
+		_deleteButton.Pressed -= DeleteLoadedCard;
 	}
 }

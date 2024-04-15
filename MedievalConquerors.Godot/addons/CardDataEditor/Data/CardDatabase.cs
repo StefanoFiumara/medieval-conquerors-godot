@@ -32,9 +32,6 @@ public sealed class CardDatabase : IDisposable
 
 	public bool DeleteCardData(CardData data)
 	{
-		if (data.Id == 0)
-			return false;
-
 		return _cardCollection.Delete(data.Id);
 	}
     

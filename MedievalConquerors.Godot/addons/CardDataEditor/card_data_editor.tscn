@@ -7,7 +7,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2uco"]
 
-[node name="card_data_editor" type="ScrollContainer" node_paths=PackedStringArray("_panelTitle", "_newButton", "_saveButton", "_cardTitle", "_description", "_cardTypeOptions", "_tagOptions", "_attributeSelector", "_addAttributeButton", "_attributesContainer")]
+[node name="card_data_editor" type="ScrollContainer" node_paths=PackedStringArray("_panelTitle", "_newButton", "_saveButton", "_deleteButton", "_cardTitle", "_description", "_cardTypeOptions", "_tagOptions", "_attributeSelector", "_addAttributeButton", "_attributesContainer")]
 offset_right = 635.0
 offset_bottom = 700.0
 size_flags_vertical = 3
@@ -17,6 +17,7 @@ script = ExtResource("1_j6uo3")
 _panelTitle = NodePath("margin/editor_vbox_container/currently_editing")
 _newButton = NodePath("margin/editor_vbox_container/save_load/new_btn")
 _saveButton = NodePath("margin/editor_vbox_container/save_load/save_btn")
+_deleteButton = NodePath("margin/editor_vbox_container/save_load/delete_btn")
 _cardTitle = NodePath("margin/editor_vbox_container/title_editor/title_edit")
 _description = NodePath("margin/editor_vbox_container/desc_editor/desc_edit")
 _cardTypeOptions = NodePath("margin/editor_vbox_container/card_type_editor/card_type_options")
@@ -44,7 +45,7 @@ theme_override_constants/separation = 5
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_t2uco")
 bbcode_enabled = true
-text = "[i][color=red]No Card Data Loaded[/color][/i]"
+text = "[color=red]No Card Data Loaded[/color]"
 fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
