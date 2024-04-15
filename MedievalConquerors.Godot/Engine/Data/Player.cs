@@ -46,6 +46,7 @@ public class Player : IPlayer
                 {
                     Title = $"Test Card {i}",
                     Description = $"Test Description {i}",
+                    ImagePath = "res://Assets/CardImages/knight.png",
                     Tags = Tags.None,
                     Attributes = new()
                 }, this)));

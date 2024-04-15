@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Views/Main/GameController.cs" id="1_68c8e"]
 [ext_resource type="Resource" uid="uid://ejs7dyka7per" path="res://GameData/GameSettings/GameSettings.tres" id="2_ui7yv"]
 [ext_resource type="PackedScene" uid="uid://bm1p2sik6ymcj" path="res://Views/Maps/Map.tscn" id="4_138dg"]
-[ext_resource type="PackedScene" uid="uid://2ijuki0tpf0d" path="res://Views/Entities/Hand.tscn" id="4_wy1k2"]
+[ext_resource type="PackedScene" uid="uid://2ijuki0tpf0d" path="res://Views/Entities/hand_view.tscn" id="4_wy1k2"]
 [ext_resource type="PackedScene" uid="uid://cjocqbvli4dlx" path="res://Views/UI/turn_banner.tscn" id="5_j5nqk"]
 
 [node name="game_controller" type="Node2D" node_paths=PackedStringArray("_gameMap")]

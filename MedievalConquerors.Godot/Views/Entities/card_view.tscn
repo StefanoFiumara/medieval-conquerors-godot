@@ -10,9 +10,16 @@
 
 [sub_resource type="Theme" id="Theme_pldyj"]
 
-[node name="card_view" type="Node2D"]
+[node name="card_view" type="Node2D" node_paths=PackedStringArray("_title", "_description", "_image", "_foodCost", "_woodCost", "_goldCost", "_stoneCost")]
 texture_filter = 1
 script = ExtResource("1_r8q4a")
+_title = NodePath("container/title_banner/title_text")
+_description = NodePath("container/description_panel/description_text")
+_image = NodePath("container/image")
+_foodCost = NodePath("container/cost_panel/food_cost")
+_woodCost = NodePath("container/cost_panel/wood_cost")
+_goldCost = NodePath("container/cost_panel/gold_cost")
+_stoneCost = NodePath("container/cost_panel/stone_cost")
 
 [node name="container" type="Node2D" parent="."]
 position = Vector2(-128, -180)
@@ -79,8 +86,8 @@ patch_margin_left = 52
 patch_margin_top = 67
 patch_margin_right = 52
 patch_margin_bottom = 73
-metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
+metadata/_edit_group_ = true
 
 [node name="food_cost" type="RichTextLabel" parent="container/cost_panel"]
 texture_filter = 2

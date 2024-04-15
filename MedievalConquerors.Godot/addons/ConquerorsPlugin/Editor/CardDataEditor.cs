@@ -22,7 +22,8 @@ public partial class CardDataEditor : ScrollContainer
 	
 	[Export] private LineEdit _cardTitle;
 	[Export] private TextEdit _description;
-	
+
+	[Export] private ImageSelector _imageSelector;
 	[Export] private CardTypeOptions _cardTypeOptions;
 	[Export] private TagOptions _tagOptions;
 	[Export] private AttributeOptions _attributeSelector;
@@ -47,6 +48,7 @@ public partial class CardDataEditor : ScrollContainer
 				_description.Text = _loadedData.Description;
 				_cardTypeOptions.SelectedCardType = _loadedData.CardType;
 				_tagOptions.SelectedTags = _loadedData.Tags;
+				_imageSelector.SelectedImagePath = _loadedData.ImagePath;
 
 				foreach (var attr in value.Attributes) 
 					CreateAttributeEditor(attr);
@@ -92,6 +94,7 @@ public partial class CardDataEditor : ScrollContainer
 		_cardTypeOptions.Disabled = false;
 		_attributeSelector.Disabled = false;
 		_addAttributeButton.Disabled = _attributeSelector.Selected == 0;
+		_imageSelector.Disabled = false;
 		_tagOptions.Enable();
 	}
 
@@ -104,6 +107,7 @@ public partial class CardDataEditor : ScrollContainer
 		_tagOptions.Disable();
 		_attributeSelector.Disabled = true;
 		_addAttributeButton.Disabled = true;
+		_imageSelector.Disabled = true;
 	}
 
 	private void OnAttributeSelectorItemSelected(long i)
@@ -177,6 +181,7 @@ public partial class CardDataEditor : ScrollContainer
 		LoadedData.Description = _description.Text.Trim();
 		LoadedData.CardType = _cardTypeOptions.SelectedCardType;
 		LoadedData.Tags = _tagOptions.SelectedTags;
+		LoadedData.ImagePath = _imageSelector.SelectedImagePath;
 		//NOTE: Attributes are automatically updated
 	}
 
@@ -196,7 +201,7 @@ public partial class CardDataEditor : ScrollContainer
 		}
 		catch(Exception e)
 		{
-			GD.PrintErr($"Failed to save Card Data");
+			GD.PrintErr("Failed to save Card Data");
 			GD.PrintErr(e.ToString());
 		}
 	}

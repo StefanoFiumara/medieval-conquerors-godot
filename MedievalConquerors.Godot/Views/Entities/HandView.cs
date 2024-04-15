@@ -19,7 +19,6 @@ public partial class HandView : Node2D
 	private const int MaxHandCount = 13;
 	private const int PreviewSectionHeight = 300;
 	
-	private PackedScene _cardScene;
 	private readonly List<CardView> _cards = new();
 	
 	private int _previewXMin;
@@ -32,19 +31,32 @@ public partial class HandView : Node2D
 	private Viewport _viewport;
 	private readonly TweenTracker<CardView> _tweenTracker = new();
 	
+	[Export] private PackedScene _cardScene;
 	[Export] private Curve _spreadCurve;
 	[Export] private Curve _heightCurve;
 	[Export] private Curve _rotationCurve;
 	
 	public override void _Ready()
 	{
-		_cardScene = GD.Load<PackedScene>("res://Views/Entities/Card.tscn");
-		_viewport = GetViewport();
-		
 		_game = GetParent<GameController>().Game;
 		_events = _game.GetComponent<EventAggregator>();
 		
 		_events.Subscribe<DrawCardsAction>(GameEvent.Prepare<DrawCardsAction>(), OnPrepareDrawCards);
+	}
+
+	public override void _EnterTree()
+	{
+		_viewport = GetViewport();
+		AnchorViewToScreen();
+		_viewport.SizeChanged += AnchorViewToScreen;
+	}
+
+	public override void _ExitTree() => _viewport.SizeChanged -= AnchorViewToScreen;
+
+	private void AnchorViewToScreen()
+	{
+		var viewportRect = _viewport.GetVisibleRect();
+		Position = new Vector2(viewportRect.Size.X * 0.5f, viewportRect.Size.Y - 150f);
 	}
 
 	private void OnPrepareDrawCards(DrawCardsAction action)

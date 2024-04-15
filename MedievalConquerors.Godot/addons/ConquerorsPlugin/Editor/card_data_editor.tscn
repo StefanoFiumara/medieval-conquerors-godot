@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" path="res://addons/ConquerorsPlugin/Editor/CardDataEditor.cs" id="1_sh3r2"]
 [ext_resource type="Script" path="res://addons/ConquerorsPlugin/Controls/CardTypeOptions.cs" id="2_87lta"]
-[ext_resource type="Script" path="res://addons/ConquerorsPlugin/Controls/ImageOptions.cs" id="2_s63xh"]
+[ext_resource type="PackedScene" uid="uid://bh6f2471u0ypf" path="res://addons/ConquerorsPlugin/Controls/image_selector.tscn" id="2_ildny"]
 [ext_resource type="Script" path="res://addons/ConquerorsPlugin/Controls/TagOptions.cs" id="3_yh4g2"]
 [ext_resource type="Script" path="res://addons/ConquerorsPlugin/Controls/AttributeOptions.cs" id="4_pbjlj"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2uco"]
 
-[node name="card_data_editor" type="ScrollContainer" node_paths=PackedStringArray("_panelTitle", "_newButton", "_saveButton", "_deleteButton", "_cardTitle", "_description", "_cardTypeOptions", "_tagOptions", "_attributeSelector", "_addAttributeButton", "_attributesContainer")]
+[node name="card_data_editor" type="ScrollContainer" node_paths=PackedStringArray("_panelTitle", "_newButton", "_saveButton", "_deleteButton", "_cardTitle", "_description", "_imageSelector", "_cardTypeOptions", "_tagOptions", "_attributeSelector", "_addAttributeButton", "_attributesContainer")]
 offset_right = 635.0
 offset_bottom = 700.0
 size_flags_vertical = 3
@@ -21,6 +21,7 @@ _saveButton = NodePath("margin/editor_vbox_container/save_load/save_btn")
 _deleteButton = NodePath("margin/editor_vbox_container/save_load/delete_btn")
 _cardTitle = NodePath("margin/editor_vbox_container/title_editor/title_edit")
 _description = NodePath("margin/editor_vbox_container/desc_editor/desc_edit")
+_imageSelector = NodePath("margin/editor_vbox_container/image_selector/image_selector")
 _cardTypeOptions = NodePath("margin/editor_vbox_container/card_type_editor/card_type_options")
 _tagOptions = NodePath("margin/editor_vbox_container/tags/tags_grid")
 _attributeSelector = NodePath("margin/editor_vbox_container/attribute_selector/attribute_options")
@@ -128,11 +129,9 @@ layout_mode = 2
 text = "Image:"
 horizontal_alignment = 2
 
-[node name="image_options" type="OptionButton" parent="margin/editor_vbox_container/image_selector"]
-custom_minimum_size = Vector2(0, 64)
+[node name="image_selector" parent="margin/editor_vbox_container/image_selector" instance=ExtResource("2_ildny")]
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_s63xh")
 
 [node name="card_type_editor" type="HBoxContainer" parent="margin/editor_vbox_container"]
 layout_mode = 2

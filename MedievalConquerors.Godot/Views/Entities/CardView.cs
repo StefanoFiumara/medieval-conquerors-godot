@@ -8,29 +8,17 @@ namespace MedievalConquerors.Views.Entities;
 
 public partial class CardView : Node2D
 {
-	private RichTextLabel _title;
-	private RichTextLabel _description;
-	private Sprite2D _image;
+	[Export] private RichTextLabel _title;
+	[Export] private RichTextLabel _description;
+	[Export] private Sprite2D _image;
 	
-	private RichTextLabel _foodCost;
-	private RichTextLabel _woodCost;
-	private RichTextLabel _goldCost;
-	private RichTextLabel _stoneCost;
+	[Export] private RichTextLabel _foodCost;
+	[Export] private RichTextLabel _woodCost;
+	[Export] private RichTextLabel _goldCost;
+	[Export] private RichTextLabel _stoneCost;
 	
 	private Card _card;
 	
-	public override void _Ready()
-	{
-		_title = GetNode<RichTextLabel>("container/title_banner/title_text");
-		_description = GetNode<RichTextLabel>("container/description_panel/description_text");
-		_image = GetNode<Sprite2D>("container/image");
-		
-		_foodCost = GetNode<RichTextLabel>("container/cost_panel/food_cost");
-		_woodCost = GetNode<RichTextLabel>("container/cost_panel/wood_cost");
-		_goldCost = GetNode<RichTextLabel>("container/cost_panel/gold_cost");
-		_stoneCost = GetNode<RichTextLabel>("container/cost_panel/stone_cost");
-	}
-
 	public void Initialize(Card card)
 	{
 		_card = card;
@@ -39,10 +27,11 @@ public partial class CardView : Node2D
 		_description.Text = _card.CardData.Description;
 		
 		// NOTE: Assumes _cardData.Image is a 256x256 sprite.
-		// TODO: Figure out where to load image data from
-		//			IDEA: store image resource path in CardData.Image, and load from here? 
-		//_image.Texture = _card.CardData.Image;
-
+		if (!string.IsNullOrEmpty(_card.CardData.ImagePath))
+		{
+			_image.Texture = GD.Load<Texture2D>(_card.CardData.ImagePath);
+		}
+		
 		var cost = _card.Attributes.OfType<ResourceCostAttribute>().SingleOrDefault();
 		if (cost != null)
 		{
@@ -50,6 +39,10 @@ public partial class CardView : Node2D
 			_woodCost.Text = $"{cost.Wood}".Center();
 			_goldCost.Text = $"{cost.Gold}".Center();
 			_stoneCost.Text = $"{cost.Stone}".Center();
+		}
+		else
+		{
+			// TODO: Hide Resource Panel? Is this ever the case?
 		}
 	}
 }
