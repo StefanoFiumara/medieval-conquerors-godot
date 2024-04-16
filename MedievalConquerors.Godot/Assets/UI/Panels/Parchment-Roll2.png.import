@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bktu0kb0vurcr"
-path="res://.godot/imported/bannerScroll.png-ba2342114cd9c4517d5bf921949c7759.ctex"
+uid="uid://b3xkcymn6w5pv"
+path="res://.godot/imported/Parchment-Roll2.png-499b9b998bce1ca5252f9dbb98fef423.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI/bannerScroll.png"
-dest_files=["res://.godot/imported/bannerScroll.png-ba2342114cd9c4517d5bf921949c7759.ctex"]
+source_file="res://Assets/UI/Panels/Parchment-Roll2.png"
+dest_files=["res://.godot/imported/Parchment-Roll2.png-499b9b998bce1ca5252f9dbb98fef423.ctex"]
 
 [params]
 

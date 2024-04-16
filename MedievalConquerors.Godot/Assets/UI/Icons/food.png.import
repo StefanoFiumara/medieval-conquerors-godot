@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwe0oxlpo8qkp"
-path="res://.godot/imported/hexagon_woodPaperWear.png-90d88e0ebc64f991b53c64e350c8d22f.ctex"
+uid="uid://d1q4nyma6hauw"
+path="res://.godot/imported/food.png-3a353f500edfb5d985e2abf0d7f997db.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI/hexagon_woodPaperWear.png"
-dest_files=["res://.godot/imported/hexagon_woodPaperWear.png-90d88e0ebc64f991b53c64e350c8d22f.ctex"]
+source_file="res://Assets/UI/Icons/food.png"
+dest_files=["res://.godot/imported/food.png-3a353f500edfb5d985e2abf0d7f997db.ctex"]
 
 [params]
 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using MedievalConquerors.Engine.Data.Attributes;
 
 namespace MedievalConquerors.Engine.Data;
 
@@ -49,6 +50,9 @@ public class Player : IPlayer
                     ImagePath = "res://Assets/CardImages/knight.png",
                     Tags = Tags.None,
                     Attributes = new()
+                    {
+                        new ResourceCostAttribute { Food = 4, Gold = 2 }
+                    }
                 }, this)));
     }
     public List<Card> this[Zone z] => _zoneMap.ContainsKey(z) ? _zoneMap[z] : null;

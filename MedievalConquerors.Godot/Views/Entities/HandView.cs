@@ -56,7 +56,7 @@ public partial class HandView : Node2D
 	private void AnchorViewToScreen()
 	{
 		var viewportRect = _viewport.GetVisibleRect();
-		Position = new Vector2(viewportRect.Size.X * 0.5f, viewportRect.Size.Y - 150f);
+		Position = new Vector2(viewportRect.Size.X * 0.5f, viewportRect.Size.Y - 175f);
 	}
 
 	private void OnPrepareDrawCards(DrawCardsAction action)
@@ -106,6 +106,7 @@ public partial class HandView : Node2D
 	{
 		for (int i = 0; i < _cards.Count; i++)
 		{
+			// TODO: Re-enable debug drawing of these rects
 			var sectionRect = new Rect2(
 				x: _previewXMin + i * _previewSectionSize,
 				y: -150,
@@ -134,9 +135,7 @@ public partial class HandView : Node2D
 			.SetParallel();
 
 		var (handPos, _) = CalculateHandPosition(card);
-		// TODO: Use constant Y position instead of the calculated handPos.Y
-		//       Currently, cards in the middle of the hand are previewed higher than the edges due to the height curve.
-		tween.TweenProperty(card, "position", handPos + Vector2.Up * 140f, tweenDuration);
+		tween.TweenProperty(card, "position", handPos + Vector2.Up * (120f + handPos.Y), tweenDuration);
 		tween.TweenProperty(card, "rotation", 0, tweenDuration);
 		tween.TweenProperty(card, "scale", Vector2.One * 1.3f, tweenDuration);
 		
@@ -148,8 +147,8 @@ public partial class HandView : Node2D
 	{
 		if (_cards.Count > 0)
 		{
-			_previewXMin = (int)(_cards[0].Position.X - 150 * _cards[0].Scale.X);
-			_previewXMax = (int)(_cards[^1].Position.X + 150 * _cards[0].Scale.X);
+			_previewXMin = (int)(_cards[0].Position.X - 100 * _cards[0].Scale.X);
+			_previewXMax = (int)(_cards[^1].Position.X + 100 * _cards[0].Scale.X);
 			_previewSectionSize = (_previewXMax - _previewXMin) / _cards.Count;
 		}
 		else

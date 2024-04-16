@@ -94,7 +94,7 @@ public partial class MapView : TileMap
 			if (mapCoord != None)
 			{
 				HighlightTile(mapCoord, HighlightLayer.MouseHover);
-				_hovered = mapCoord;				
+				_hovered = mapCoord;
 			}
 		}
 	}

@@ -8,21 +8,26 @@ namespace MedievalConquerors.Views.Entities;
 
 public partial class CardView : Node2D
 {
-	[Export] private RichTextLabel _title;
+	[Export] private Label _title;
 	[Export] private RichTextLabel _description;
 	[Export] private Sprite2D _image;
 	
-	[Export] private RichTextLabel _foodCost;
-	[Export] private RichTextLabel _woodCost;
-	[Export] private RichTextLabel _goldCost;
-	[Export] private RichTextLabel _stoneCost;
+	[Export] private Label _foodCost;
+	[Export] private Label _woodCost;
+	[Export] private Label _goldCost;
+	[Export] private Label _stoneCost;
+	
+	[Export] private TextureRect _foodIcon;
+	[Export] private TextureRect _woodIcon;
+	[Export] private TextureRect _goldIcon;
+	[Export] private TextureRect _stoneIcon;
 	
 	private Card _card;
 	
 	public void Initialize(Card card)
 	{
 		_card = card;
-		_title.Text = _card.CardData.Title.Center();
+		_title.Text = _card.CardData.Title;
 		// TODO: Append tags to card description
 		_description.Text = _card.CardData.Description;
 		
@@ -35,10 +40,20 @@ public partial class CardView : Node2D
 		var cost = _card.Attributes.OfType<ResourceCostAttribute>().SingleOrDefault();
 		if (cost != null)
 		{
-			_foodCost.Text = $"{cost.Food}".Center();
-			_woodCost.Text = $"{cost.Wood}".Center();
-			_goldCost.Text = $"{cost.Gold}".Center();
-			_stoneCost.Text = $"{cost.Stone}".Center();
+			_foodCost.Text = $"{cost.Food}";
+			_woodCost.Text = $"{cost.Wood}";
+			_goldCost.Text = $"{cost.Gold}";
+			_stoneCost.Text = $"{cost.Stone}";
+			
+			_foodIcon.Visible = cost.Food > 0;
+			_woodIcon.Visible = cost.Wood > 0;
+			_goldIcon.Visible = cost.Gold > 0;
+			_stoneIcon.Visible = cost.Stone > 0;
+			
+			_foodCost.Visible = cost.Food > 0;
+			_woodCost.Visible = cost.Wood > 0;
+			_goldCost.Visible = cost.Gold > 0;
+			_stoneCost.Visible = cost.Stone > 0;
 		}
 		else
 		{

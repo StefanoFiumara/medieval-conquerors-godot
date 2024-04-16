@@ -20,8 +20,8 @@ public partial class ImageSelector : HBoxContainer
 	{
 		get
 		{
-			var selected = _imageOptions.GetItemText(_imageOptions.GetSelectedId());
-			return selected == "None" ? null : $"{RootPath}/{selected}";
+			var selected = _imageOptions?.GetItemText(_imageOptions?.GetSelectedId() ?? 0);
+			return selected != "None" ? $"{RootPath}/{selected}" : null;
 		}
 		set
 		{

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bcp3vaby3lte6"
-path="res://.godot/imported/panel_woodPaperWear.png-77e546b3c5bf38227bda3d594dea6f66.ctex"
+path="res://.godot/imported/panel_woodPaperWear.png-d2934689e351580ef72d73f91d08103e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI/panel_woodPaperWear.png"
-dest_files=["res://.godot/imported/panel_woodPaperWear.png-77e546b3c5bf38227bda3d594dea6f66.ctex"]
+source_file="res://Assets/UI/Panels/panel_woodPaperWear.png"
+dest_files=["res://.godot/imported/panel_woodPaperWear.png-d2934689e351580ef72d73f91d08103e.ctex"]
 
 [params]
 
