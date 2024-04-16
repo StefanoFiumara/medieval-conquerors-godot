@@ -27,8 +27,10 @@ public partial class CardView : Node2D
 	public void Initialize(Card card)
 	{
 		_card = card;
+		
+		// TODO: Update title color based on card type?
 		_title.Text = _card.CardData.Title;
-		// TODO: Append tags to card description
+		// TODO: Append tags and card type to description
 		_description.Text = _card.CardData.Description;
 		
 		// NOTE: Assumes _cardData.Image is a 256x256 sprite.
