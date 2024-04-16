@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://c3eq7v64aeyj7"]
 
 [ext_resource type="Script" path="res://addons/ConquerorsPlugin/LibraryBrowser/CardSearchResult.cs" id="1_0s3hp"]
-[ext_resource type="Texture2D" uid="uid://bcp3vaby3lte6" path="res://Assets/UI/Panels/panel_woodPaperWear.png" id="1_hhtjn"]
+[ext_resource type="Texture2D" uid="uid://b535fcqw7h0gu" path="res://Assets/UI/Panels/panel_Example1.png" id="2_l60yk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d51f2"]
 
@@ -28,12 +28,12 @@ _descLabel = NodePath("background/margin/summary_container/card_desc")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource("1_hhtjn")
-region_rect = Rect2(0, 0, 128, 128)
-patch_margin_left = 63
-patch_margin_top = 41
-patch_margin_right = 55
-patch_margin_bottom = 49
+texture = ExtResource("2_l60yk")
+region_rect = Rect2(25, 25, 401, 101)
+patch_margin_left = 17
+patch_margin_top = 15
+patch_margin_right = 16
+patch_margin_bottom = 20
 
 [node name="margin" type="MarginContainer" parent="background"]
 layout_mode = 1
@@ -43,26 +43,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 15
+theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 20
 
 [node name="summary_container" type="VBoxContainer" parent="background/margin"]
 layout_mode = 2
 
 [node name="card_title" type="Label" parent="background/margin/summary_container"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
 text = "Card Title Label Card Title Label"
 clip_text = true
 text_overrun_behavior = 3
 
 [node name="card_type" type="Label" parent="background/margin/summary_container"]
 layout_mode = 2
-size_flags_vertical = 2
+size_flags_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 9
-text = "Card Title Label Card Title Label"
+text = "Card Type Label"
 clip_text = true
 text_overrun_behavior = 3
 
