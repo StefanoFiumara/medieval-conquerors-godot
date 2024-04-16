@@ -8,7 +8,7 @@
 ### Resource Bank
 - Players can only store a certain amount of resources
 - storage space is expanded when gathering posts are built (lumber camp, mill, etc.)
-- If a gathering post is destroyed, any resources over the maximum
+- If a gathering post is destroyed, any resources exceeding the maximum available in the bank are lost
 
 ### Zone of Influence
 - Players have a zone of influence

@@ -8,7 +8,7 @@ The goal of the game is to expand your small town and gather enough resources to
 Many strategies are available, craft your deck towards early game agression with cheap units or with the goal of building up strong defensive structures in order to survive until the late game, where much more powerful units can be trained.
 
 ## 2. Game Overview
-At the start of the game, players draw a set number of cards from their deck and begin while a sole town center on their side of the map. On each player's turn, they can play cards from their hands to expand their town. In the early game, player's will focus on training villagers to gather resources and building gathering posts near resource tiles to increase their storage limits.
+At the start of the game, players draw a set number of cards from their deck and begin with a town center on their side of the map. On each player's turn, they can play cards from their hands to expand their town. In the early game, player's will focus on spawning villagers to gather resources and building gathering posts near resource tiles to increase their storage limits.
 
 At certain milestones, players will be able to advance through the ages, from the Dark Age, through the Feudal, Castle, and Imperial ages. Each age unlocks the ability to play more powerful cards, including new units, buildings, and technologies in order to increase their strength.
 
