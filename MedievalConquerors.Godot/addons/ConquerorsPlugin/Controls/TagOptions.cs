@@ -83,6 +83,8 @@ public partial class TagOptions : GridContainer
 				checkBox.Toggled -= OnTagsChanged;
 				checkBox.QueueFree();
 			}
+			
+			_tagSelectors.Clear();
 		}
 	}
 }

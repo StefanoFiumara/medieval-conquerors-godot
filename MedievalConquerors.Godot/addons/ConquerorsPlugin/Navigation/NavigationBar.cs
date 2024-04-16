@@ -26,8 +26,8 @@ public partial class NavigationBar : HBoxContainer
 		set
 		{
 			_activePanel = value;
-			_libraryBtn.Disabled = value == EditorPanel.Library;
-			_editorBtn.Disabled = value == EditorPanel.CardData;
+			if(_libraryBtn != null) _libraryBtn.Disabled = value == EditorPanel.Library;
+			if(_editorBtn != null) _editorBtn.Disabled = value == EditorPanel.CardData;
 		}
 	}
 	

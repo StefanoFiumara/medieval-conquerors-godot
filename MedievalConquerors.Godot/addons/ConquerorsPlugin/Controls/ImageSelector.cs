@@ -20,19 +20,21 @@ public partial class ImageSelector : HBoxContainer
 	{
 		get
 		{
-			var selected = _imageOptions?.GetItemText(_imageOptions?.GetSelectedId() ?? 0);
-			return selected != "None" ? $"{RootPath}/{selected}" : null;
+			var selected = _imageOptions?.GetItemText(_imageOptions?.GetSelectedId() ?? 0) ?? "None";
+			return selected != "None" ? $"{RootPath}/{selected}" : string.Empty;
 		}
 		set
 		{
+			if (string.IsNullOrEmpty(value)) return;
+			
 			var fileName = Path.GetFileName(value);
 			if (_imagePaths.Contains(fileName))
 			{
-				_imageOptions.Select(_imagePaths.IndexOf(fileName) + 1);
+				_imageOptions?.Select(_imagePaths.IndexOf(fileName) + 1);
 			}
 			else
 			{
-				_imageOptions.Select(0);
+				_imageOptions?.Select(0);
 			}
 		}
 	}
