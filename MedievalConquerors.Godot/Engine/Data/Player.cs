@@ -45,8 +45,8 @@ public class Player : IPlayer
             .Select(i => new Card(
                 new CardData
                 {
-                    Title = $"Test Card {i}",
-                    Description = $"Test Description {i}",
+                    Title = $"Knight",
+                    Description = $"Mighty Mounted Royal Warrior",
                     ImagePath = "res://Assets/CardImages/knight.png",
                     Tags = Tags.None,
                     Attributes = new()
