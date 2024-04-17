@@ -71,12 +71,15 @@ public class CardSelectionState : ITurnState
         if (clickedObject is not Card c)
             return this;
 
+        // TODO: Token selection for MoveAction?
+
         _logger.Info($"clicked on card: {c.CardData.Title}");
-        
         if (_cardSystem.IsPlayable(c))
         {
             // TODO: switch to TileSelectionState
             // pass selected card as parameter to compose final PlayCardAction later
+            
+            // TODO: How to visualize this in the View? Should we receive the HandView/CardView instead of just Card?
         }
         
         return this;
