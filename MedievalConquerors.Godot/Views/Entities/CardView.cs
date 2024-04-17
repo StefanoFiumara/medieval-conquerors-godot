@@ -22,24 +22,24 @@ public partial class CardView : Node2D
 	[Export] private TextureRect _goldIcon;
 	[Export] private TextureRect _stoneIcon;
 	
-	private Card _card;
+	public Card Card { get; private set; }
 	
 	public void Initialize(Card card)
 	{
-		_card = card;
+		Card = card;
 		
 		// TODO: Update title color based on card type?
-		_title.Text = _card.CardData.Title;
+		_title.Text = Card.CardData.Title;
 		// TODO: Append tags and card type to description
-		_description.Text = _card.CardData.Description;
+		_description.Text = Card.CardData.Description;
 		
 		// NOTE: Assumes _cardData.Image is a 256x256 sprite.
-		if (!string.IsNullOrEmpty(_card.CardData.ImagePath))
+		if (!string.IsNullOrEmpty(Card.CardData.ImagePath))
 		{
-			_image.Texture = GD.Load<Texture2D>(_card.CardData.ImagePath);
+			_image.Texture = GD.Load<Texture2D>(Card.CardData.ImagePath);
 		}
 		
-		var cost = _card.Attributes.OfType<ResourceCostAttribute>().SingleOrDefault();
+		var cost = Card.Attributes.OfType<ResourceCostAttribute>().SingleOrDefault();
 		if (cost != null)
 		{
 			_foodCost.Text = $"{cost.Food}";

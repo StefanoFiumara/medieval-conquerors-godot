@@ -5,5 +5,5 @@ namespace MedievalConquerors.Engine.Input.InputStates;
 
 public interface ITurnState : IState
 {
-    ITurnState OnReceivedInput(IGameObject clickedObject);
+    ITurnState OnReceivedInput(IClickable clickedObject);
 }

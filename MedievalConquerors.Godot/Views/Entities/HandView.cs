@@ -7,6 +7,7 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
+using MedievalConquerors.Engine.Input;
 using MedievalConquerors.Utils;
 using MedievalConquerors.Views.Main;
 
@@ -41,6 +42,8 @@ public partial class HandView : Node2D
 		_game = GetParent<GameController>().Game;
 		_events = _game.GetComponent<EventAggregator>();
 		
+		
+        
 		_events.Subscribe<DrawCardsAction>(GameEvent.Prepare<DrawCardsAction>(), OnPrepareDrawCards);
 	}
 
@@ -223,46 +226,27 @@ public partial class HandView : Node2D
 	{
 		var cardView = _cardScene.Instantiate<CardView>();
 			
-		// Spawn card offscreen, to be animated in by SetCardPositions
+		// Spawn card offscreen, to be animated in by TweenToHandPositions
 		cardView.Position = (Vector2.Left * 1200) + (Vector2.Down * 300);
 			
 		_cards.Add(cardView);
 		AddChild(cardView);
 		
-		// TEMP: card should never be null.
-		if(card != null)
-			cardView.Initialize(card);
-	}
-
-	// TEMP: Only for debugging
-	public override void _Input(InputEvent inputEvent)
-	{
-		// Only respond to KeyDown events
-		if (inputEvent.IsEcho()) return;
-		
-		if (inputEvent is InputEventKey e && e.IsPressed())
-		{
-			if (e.Keycode == Key.Left)
-			{
-				RemoveCard();
-				//TweenToHandPositions();
-			}
-			else if (e.Keycode == Key.Right)
-			{
-				_game.Perform(new DrawCardsAction(0, 1));
-			}
-		}
+		cardView.Initialize(card);
 	}
 	
-	// TEMP: For testing hand animations
-	private void RemoveCard()
+	public override void _Input(InputEvent inputEvent)
 	{
-		if (_cards.Count == 0) return;
+		// Only respond to KeyDown/KeyUp events
+		if (inputEvent.IsEcho()) return;
 
-		var card = _cards[0];
-		_cards.Remove(card);
-		card.QueueFree();
-		CalculatePreviewBoundaries();
-		QueueRedraw();
+		if (inputEvent is InputEventMouseButton mouseEvent && mouseEvent.IsReleased())
+		{
+			if (mouseEvent.ButtonIndex == MouseButton.Left && _hoveredIndex != -1)
+			{
+				_events.Publish(InputSystem.ClickedEvent, _cards[_hoveredIndex].Card);
+				_viewport.SetInputAsHandled();
+			}
+		}
 	}
 }

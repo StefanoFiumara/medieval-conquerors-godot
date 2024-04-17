@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Engine.Events;
+using MedievalConquerors.Engine.Input;
 using MedievalConquerors.Views.Main;
 
 namespace MedievalConquerors.Views.Maps;
@@ -33,33 +36,46 @@ public partial class MapView : TileMap
 	private bool _isDragging = false;
 	private Vector2 _dragOffset;
 	private Vector2 _zoomTarget;
-	
+	private EventAggregator _events;
+
 	public override void _Ready()
 	{
 		_viewport = GetViewport();
 		_game = GetParent<GameController>().Game;
 		_map = _game.GetComponent<IGameBoard>();
 		_zoomTarget = Scale;
+		_events = _game.GetComponent<EventAggregator>();
 	}
 	
-	public override void _UnhandledInput(InputEvent input)
+	public override void _Input(InputEvent input)
 	{
 		if (input.IsEcho()) return;
 		if (input is not InputEventMouseButton buttonEvent) return;
-		
+
+		if (HandleMouseInput(buttonEvent))
+		{
+			_viewport.SetInputAsHandled();
+		}
+	}
+
+	private bool HandleMouseInput(InputEventMouseButton buttonEvent)
+	{
 		switch (buttonEvent.ButtonIndex)
 		{
+			case MouseButton.Left when buttonEvent.IsReleased():
+				_events.Publish(InputSystem.ClickedEvent, _map.GetTile(GetTileCoord(buttonEvent.Position)));
+				return true;
 			case MouseButton.Middle:
-			{
 				SetDragging(buttonEvent.Pressed);
-				break;
-			}
+				return true;
 			case MouseButton.WheelUp:
 				_zoomTarget *= 1.05f;
-				break;
+				return true;
 			case MouseButton.WheelDown:
 				_zoomTarget *= 0.95f;
-				break;
+				return true;
+			default:
+				return false;
 		}
 	}
 

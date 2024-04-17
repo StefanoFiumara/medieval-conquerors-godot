@@ -6,7 +6,7 @@ namespace MedievalConquerors.Engine.Data;
 
 public interface ITileData
 {
-    List<IGameObject> Objects { get; }
+    List<Card> Objects { get; }
     Vector2I Position { get; }
     TileTerrain Terrain { get; }
     ResourceType ResourceType { get; }
@@ -15,9 +15,9 @@ public interface ITileData
     bool IsWalkable { get; } //  TODO: Better name?
 }
 
-public class TileData : ITileData
+public class TileData : ITileData, IClickable
 {
-    public List<IGameObject> Objects { get; }
+    public List<Card> Objects { get; }
     public Vector2I Position { get; }
     public TileTerrain Terrain { get; }
     public ResourceType ResourceType { get; }
@@ -32,6 +32,6 @@ public class TileData : ITileData
         ResourceType = resourceType;
         ResourceYield = resourceYield;
 
-        Objects = new List<IGameObject>();
+        Objects = new List<Card>();
     }
 }
