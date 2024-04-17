@@ -13,7 +13,7 @@ public interface ICardData
     public List<ICardAttribute> Attributes { get; set; }
 }
 
-public class CardData : ICardData
+public class CardData : ICardData, IClickable
 {
     public int Id { get; set; }
     public string Title { get; set; }
@@ -31,7 +31,7 @@ public interface ICardAttribute
     ICardAttribute Clone();
 }
 
-public class Card : IGameObject
+public class Card : IClickable
 {
     public ICardData CardData { get; }
     public List<ICardAttribute> Attributes { get; }

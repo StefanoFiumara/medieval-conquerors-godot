@@ -2,6 +2,7 @@
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
+using MedievalConquerors.Engine.Input;
 using MedievalConquerors.Engine.Logging;
 
 namespace MedievalConquerors.Engine;
@@ -26,7 +27,10 @@ public static class GameFactory
         game.AddComponent<BoardSystem>();
 
         game.AddComponent<TurnSystem>();
+        game.AddComponent<InputSystem>();
 
+        game.AddComponent<CardSystem>();
+        game.AddComponent<GlobalGameStateSystem>();
         // game.AddComponent<VictorySystem>();
         
         // game.AddComponent<GlobalGameStateSystem>();

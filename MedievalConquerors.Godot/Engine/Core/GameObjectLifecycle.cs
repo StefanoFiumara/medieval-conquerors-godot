@@ -29,6 +29,7 @@ public static class LifecycleExtensions
 	
 	public static void Update(this IGame game)
 	{
+		// TODO: Cache components so we don't have to query every frame
 		foreach (var system in game.Components().OfType<IUpdate>())
 		{
 			system.Update();
