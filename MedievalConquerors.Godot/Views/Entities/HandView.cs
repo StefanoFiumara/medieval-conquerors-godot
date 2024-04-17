@@ -17,7 +17,7 @@ public partial class HandView : Node2D
 	private const float MaxHandWidth = 750f;
 	private const float HandHeight = 95f;
 	private const int MaxHandCount = 13;
-	private const int PreviewSectionHeight = 300;
+	private const int PreviewSectionHeight = 350;
 	
 	private readonly List<CardView> _cards = new();
 	
@@ -83,12 +83,13 @@ public partial class HandView : Node2D
 		}
 
 		CalculatePreviewBoundaries();
+		QueueRedraw();
 	}
 
 	public override void _Process(double elapsed)
 	{
 		var mousePos = ToLocal(_viewport.GetMousePosition());
-		var hovered = GetHoveredCardIndex(mousePos);
+		var hovered = CalculateHoveredIndex(mousePos);
 
 		if (hovered != _hoveredIndex)
 		{
@@ -102,11 +103,10 @@ public partial class HandView : Node2D
 		}
 	}
 
-	private int GetHoveredCardIndex(Vector2 mousePos)
+	private int CalculateHoveredIndex(Vector2 mousePos)
 	{
 		for (int i = 0; i < _cards.Count; i++)
 		{
-			// TODO: Re-enable debug drawing of these rects
 			var sectionRect = new Rect2(
 				x: _previewXMin + i * _previewSectionSize,
 				y: -150,
@@ -121,6 +121,21 @@ public partial class HandView : Node2D
 		}
 
 		return -1;
+	}
+
+	public override void _Draw()
+	{
+		for (int i = 0; i < _cards.Count; i++)
+		{
+			var sectionRect = new Rect2(
+				x: _previewXMin + i * _previewSectionSize,
+				y: -150,
+				width: _previewSectionSize,
+				height: PreviewSectionHeight
+			);
+
+			DrawRect(sectionRect, Colors.Magenta, false, 2);
+		}
 	}
 
 	private Tween TweenToPreviewPosition(int index)
@@ -248,5 +263,6 @@ public partial class HandView : Node2D
 		_cards.Remove(card);
 		card.QueueFree();
 		CalculatePreviewBoundaries();
+		QueueRedraw();
 	}
 }
