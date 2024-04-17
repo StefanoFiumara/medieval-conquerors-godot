@@ -14,3 +14,6 @@
 - Players have a zone of influence
 - players can build anywhere on the map, but buildings outside of the zone of influence take double damage from enemy units
 - zone of influence increases when advancing to the next age
+
+### Landmarks
+- Civilization specific cards that give unique bonuses 

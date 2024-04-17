@@ -46,7 +46,7 @@ public partial class ImageSelector : HBoxContainer
 		set
 		{
 			_disabled = value;
-			_imageOptions.Disabled = value;
+			if(_imageOptions != null) _imageOptions.Disabled = value;
 		}
 	}
 
