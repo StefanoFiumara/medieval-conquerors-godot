@@ -29,7 +29,7 @@ public partial class GameController : Node
 	public override void _Ready()
 	{
 		_game.Awake();
-		_game.Perform(new BeginGameAction(0));
+		_game.Perform(new BeginGameAction(Match.LocalPlayerId));
 	}
 
 	public override void _EnterTree()
@@ -47,7 +47,6 @@ public partial class GameController : Node
 	}
 
 	// TEMP: Testing variable ranges
-	
 	private void VisualizeRange(Vector2I startTile, int range)
 	{
 		var reachable = _board.GetReachable(startTile, range).Select(t => t.Position);

@@ -11,7 +11,7 @@ public interface IGameBoard : IGameComponent
 	ITileData GetTile(Vector2I pos);
 	IEnumerable<ITileData> GetNeighbors(Vector2I pos);
 	IEnumerable<ITileData> GetReachable(Vector2I pos, int range);
-	IEnumerable<ITileData> SearchTiles(Func<ITileData, bool> predicate);
+	List<ITileData> SearchTiles(Func<ITileData, bool> predicate);
 	int Distance(Vector2I start, Vector2I end);
 
 	// TODO: Other functions we may want to implement:
@@ -93,9 +93,9 @@ public class HexGameBoard : GameComponent, IGameBoard
 		}
 	}
 
-	public IEnumerable<ITileData> SearchTiles(Func<ITileData, bool> predicate)
+	public List<ITileData> SearchTiles(Func<ITileData, bool> predicate)
 	{
-		return _tiles.Values.Where(predicate);
+		return _tiles.Values.Where(predicate).ToList();
 	}
 
 	public int Distance(Vector2I start, Vector2I end)

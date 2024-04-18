@@ -6,18 +6,16 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
-using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
 using MedievalConquerors.Utils;
 using MedievalConquerors.Views.Main;
 
 namespace MedievalConquerors.Views.Entities;
 
-public partial class HandView : Node2D
+public partial class HandView : Node2D, IGameComponent
 {
 	private const float MaxHandWidth = 750f;
 	private const float HandHeight = 95f;
-	private const int MaxHandCount = 13;
 	private const int PreviewSectionHeight = 350;
 	
 	private readonly List<CardView> _cards = new();
@@ -27,7 +25,6 @@ public partial class HandView : Node2D
 	private int _previewSectionSize = 150;
 	private int _hoveredIndex = -1;
 	
-	private Game _game;
 	private EventAggregator _events;
 	private Viewport _viewport;
 	private readonly TweenTracker<CardView> _tweenTracker = new();
@@ -37,13 +34,14 @@ public partial class HandView : Node2D
 	[Export] private Curve _heightCurve;
 	[Export] private Curve _rotationCurve;
 	
+	public IGame Game { get; set; }
+	
 	public override void _Ready()
 	{
-		_game = GetParent<GameController>().Game;
-		_events = _game.GetComponent<EventAggregator>();
+		Game = GetParent<GameController>().Game;
+		Game.AddComponent(this);
 		
-		
-        
+		_events = Game.GetComponent<EventAggregator>();
 		_events.Subscribe<DrawCardsAction>(GameEvent.Prepare<DrawCardsAction>(), OnPrepareDrawCards);
 	}
 
@@ -55,6 +53,53 @@ public partial class HandView : Node2D
 	}
 
 	public override void _ExitTree() => _viewport.SizeChanged -= AnchorViewToScreen;
+
+	public override void _Process(double elapsed)
+	{
+		var mousePos = ToLocal(_viewport.GetMousePosition());
+		var hovered = CalculateHoveredIndex(mousePos);
+
+		if (hovered != _hoveredIndex)
+		{
+			if (hovered != -1)
+			{
+				TweenToPreviewPosition(hovered);
+			}
+			
+			_hoveredIndex = hovered;
+			TweenToHandPositions();
+		}
+	}
+
+	public override void _Input(InputEvent inputEvent)
+	{
+		// Only respond to KeyDown/KeyUp events
+		if (inputEvent.IsEcho()) return;
+
+		if (inputEvent is InputEventMouseButton mouseEvent && mouseEvent.IsReleased())
+		{
+			if (mouseEvent.ButtonIndex == MouseButton.Left && _hoveredIndex != -1)
+			{
+				_events.Publish(InputSystem.ClickedEvent, _cards[_hoveredIndex]);
+				_viewport.SetInputAsHandled();
+			}
+		}
+	}
+
+	public override void _Draw()
+	{
+		for (int i = 0; i < _cards.Count; i++)
+		{
+			var sectionRect = new Rect2(
+				x: _previewXMin + i * _previewSectionSize,
+				y: -150,
+				width: _previewSectionSize,
+				height: PreviewSectionHeight
+			);
+
+			DrawRect(sectionRect, Colors.Magenta, false, 2);
+		}
+	}
 
 	private void AnchorViewToScreen()
 	{
@@ -74,7 +119,7 @@ public partial class HandView : Node2D
 		var drawAction = (DrawCardsAction) action;
 
 		// TODO: Draw animation for opposite player?
-		if (drawAction.TargetPlayerId != 0) yield break;
+		if (drawAction.TargetPlayerId != Match.LocalPlayerId) yield break;
 
 		foreach (var card in drawAction.DrawnCards)
 		{
@@ -87,23 +132,6 @@ public partial class HandView : Node2D
 
 		CalculatePreviewBoundaries();
 		QueueRedraw();
-	}
-
-	public override void _Process(double elapsed)
-	{
-		var mousePos = ToLocal(_viewport.GetMousePosition());
-		var hovered = CalculateHoveredIndex(mousePos);
-
-		if (hovered != _hoveredIndex)
-		{
-			if (hovered != -1)
-			{
-				TweenToPreviewPosition(hovered);
-			}
-			
-			_hoveredIndex = hovered;
-			TweenToHandPositions();
-		}
 	}
 
 	private int CalculateHoveredIndex(Vector2 mousePos)
@@ -124,21 +152,6 @@ public partial class HandView : Node2D
 		}
 
 		return -1;
-	}
-
-	public override void _Draw()
-	{
-		for (int i = 0; i < _cards.Count; i++)
-		{
-			var sectionRect = new Rect2(
-				x: _previewXMin + i * _previewSectionSize,
-				y: -150,
-				width: _previewSectionSize,
-				height: PreviewSectionHeight
-			);
-
-			DrawRect(sectionRect, Colors.Magenta, false, 2);
-		}
 	}
 
 	private Tween TweenToPreviewPosition(int index)
@@ -227,26 +240,11 @@ public partial class HandView : Node2D
 		var cardView = _cardScene.Instantiate<CardView>();
 			
 		// Spawn card offscreen, to be animated in by TweenToHandPositions
-		cardView.Position = (Vector2.Left * 1200) + (Vector2.Down * 300);
+		cardView.Position = (Vector2.Left * 1200) + (Vector2.Down * 400);
 			
 		_cards.Add(cardView);
 		AddChild(cardView);
 		
 		cardView.Initialize(card);
-	}
-	
-	public override void _Input(InputEvent inputEvent)
-	{
-		// Only respond to KeyDown/KeyUp events
-		if (inputEvent.IsEcho()) return;
-
-		if (inputEvent is InputEventMouseButton mouseEvent && mouseEvent.IsReleased())
-		{
-			if (mouseEvent.ButtonIndex == MouseButton.Left && _hoveredIndex != -1)
-			{
-				_events.Publish(InputSystem.ClickedEvent, _cards[_hoveredIndex].Card);
-				_viewport.SetInputAsHandled();
-			}
-		}
 	}
 }

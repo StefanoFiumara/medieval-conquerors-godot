@@ -17,16 +17,18 @@ public class InputSystem : GameComponent, IAwake, IDestroy
     private ActionSystem _actionSystem;
     
     private ILogger _logger;
-
+    private Match _match;
+    
     public void Awake()
     {
         _actionSystem = Game.GetComponent<ActionSystem>();
+        _match = Game.GetComponent<Match>();
         _events = Game.GetComponent<EventAggregator>();
+        
         _events.Subscribe<IClickable>(ClickedEvent, OnInput);
 
         _logger = Game.GetComponent<ILogger>();
         
-        // TODO: Define initial state
         _stateMachine = new StateMachine(new CardSelectionState(Game, _logger));
     }
 
@@ -35,6 +37,12 @@ public class InputSystem : GameComponent, IAwake, IDestroy
         if (_actionSystem.IsActive)
             return;
 
+        // TODO: Should this check be at the state level?
+        //       Some input states can be transitioned without it 
+        //       needing to be the player's turn (e.g. preview discard pile)
+        if (_match.CurrentPlayer != _match.LocalPlayer)
+            return;
+        
         if (_stateMachine.CurrentState is ITurnState turnState)
         {
             var newState = turnState.OnReceivedInput(selected);
@@ -45,43 +53,5 @@ public class InputSystem : GameComponent, IAwake, IDestroy
     public void Destroy()
     {
         _events.Unsubscribe(ClickedEvent, OnInput);
-    }
-}
-
-public class CardSelectionState : ITurnState
-{
-    private readonly IGame _game;
-    private readonly ILogger _logger;
-
-    private readonly CardSystem _cardSystem;
-
-    public CardSelectionState(IGame game, ILogger logger)
-    {
-        _game = game;
-        _logger = logger;
-
-        _cardSystem = _game.GetComponent<CardSystem>();
-    }
-    
-    public void Enter() { }
-    public void Exit() { }
-
-    public ITurnState OnReceivedInput(IClickable clickedObject)
-    {
-        if (clickedObject is not Card c)
-            return this;
-
-        // TODO: Token selection for MoveAction?
-
-        _logger.Info($"clicked on card: {c.CardData.Title}");
-        if (_cardSystem.IsPlayable(c))
-        {
-            // TODO: switch to TileSelectionState
-            // pass selected card as parameter to compose final PlayCardAction later
-            
-            // TODO: How to visualize this in the View? Should we receive the HandView/CardView instead of just Card?
-        }
-        
-        return this;
     }
 }

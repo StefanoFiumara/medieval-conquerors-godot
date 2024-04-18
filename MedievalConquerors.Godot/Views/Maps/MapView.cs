@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Godot;
 using MedievalConquerors.Engine.Core;
@@ -17,7 +16,7 @@ public enum HighlightLayer
 	RedTeam = 4
 }
 
-public partial class MapView : TileMap
+public partial class MapView : TileMap, IGameComponent
 {
 	private static readonly Vector2I None = new(int.MinValue, int.MinValue);
 	
@@ -25,8 +24,8 @@ public partial class MapView : TileMap
 	//		 Currently it is receiving custom tile data that it is not using.
 	private static readonly Vector2I AtlasCoord = new(5, 0);
 	private const int TileSetId = 1;
-	
-	private Game _game;
+
+	public IGame Game { get; set; }
 	private IGameBoard _map;
 	
 	private Viewport _viewport;
@@ -40,11 +39,13 @@ public partial class MapView : TileMap
 
 	public override void _Ready()
 	{
+		Game = GetParent<GameController>().Game;
+		Game.AddComponent(this);
+		
+		_events = Game.GetComponent<EventAggregator>();
+		_map = Game.GetComponent<IGameBoard>();
 		_viewport = GetViewport();
-		_game = GetParent<GameController>().Game;
-		_map = _game.GetComponent<IGameBoard>();
 		_zoomTarget = Scale;
-		_events = _game.GetComponent<EventAggregator>();
 	}
 	
 	public override void _Input(InputEvent input)

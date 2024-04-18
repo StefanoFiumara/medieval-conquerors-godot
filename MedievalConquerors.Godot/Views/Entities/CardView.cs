@@ -6,7 +6,7 @@ using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Views.Entities;
 
-public partial class CardView : Node2D
+public partial class CardView : Node2D, IClickable
 {
 	[Export] private Label _title;
 	[Export] private RichTextLabel _description;

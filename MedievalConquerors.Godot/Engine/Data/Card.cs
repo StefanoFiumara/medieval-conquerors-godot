@@ -31,7 +31,7 @@ public interface ICardAttribute
     ICardAttribute Clone();
 }
 
-public class Card : IClickable
+public class Card
 {
     public ICardData CardData { get; }
     public List<ICardAttribute> Attributes { get; }

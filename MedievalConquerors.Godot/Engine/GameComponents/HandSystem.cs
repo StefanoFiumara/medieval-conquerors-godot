@@ -15,8 +15,8 @@ public class HandSystem : GameComponent, IAwake
     {
 	    _events = Game.GetComponent<EventAggregator>();
 	    _match = Game.GetComponent<Match>();
-	    _events.Subscribe<DrawCardsAction>(GameEvent.Perform<DrawCardsAction>(), OnPerformDrawCards);
 	    
+	    _events.Subscribe<DrawCardsAction>(GameEvent.Perform<DrawCardsAction>(), OnPerformDrawCards);
     }
 
 	private void OnPerformDrawCards(DrawCardsAction action)
