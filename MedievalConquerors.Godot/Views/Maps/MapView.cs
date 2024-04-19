@@ -22,7 +22,7 @@ public partial class MapView : TileMap, IGameComponent
 	
 	// TODO: Should we move the highlight tile gfx to a different TileSet?
 	//		 Currently it is receiving custom tile data that it is not using.
-	private static readonly Vector2I AtlasCoord = new(5, 0);
+	private static readonly Vector2I HighlightCoord = new(5, 0);
 	private const int TileSetId = 1;
 
 	public IGame Game { get; set; }
@@ -143,10 +143,20 @@ public partial class MapView : TileMap, IGameComponent
 	{
 		if (coord != None)
 		{
-			SetCell((int)layer, coord, TileSetId, AtlasCoord);
+			SetCell((int)layer, coord, TileSetId, HighlightCoord);
 		}
 	}
 
+	public bool IsHighlighted(Vector2I coord, HighlightLayer layer)
+	{
+		if (coord != None)
+		{
+			return GetCellAtlasCoords((int)layer, coord) == HighlightCoord;
+		}
+
+		return false;
+	}
+	
 	public void RemoveHighlight(Vector2I coord, HighlightLayer layer)
 	{
 		if (coord != None)

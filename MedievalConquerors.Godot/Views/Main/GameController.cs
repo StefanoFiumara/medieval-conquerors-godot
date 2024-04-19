@@ -17,8 +17,7 @@ public partial class GameController : Node
 	[Export] private GameSettings _settings;
 	
 	// TODO: Load different maps through this resource
-	[Export] private MapView _gameMap;
-	
+	[Export] private MapView _mapView;
 	
 	private Game _game;
 	private ILogger _log;
@@ -26,31 +25,37 @@ public partial class GameController : Node
 
 	public Game Game => _game;
 
+	public override void _EnterTree()
+	{ 
+		_log = new GodotLogger(_logLevel);
+		_map = GameMapFactory.CreateHexMap(_mapView);
+		_game = GameFactory.Create(_log, _map, _settings);
+
+		var match = _game.GetComponent<Match>();
+		var townCenters = _map.SearchTiles(t => t.Terrain == TileTerrain.TownCenter);
+
+		// Set town centers based on map
+		// TODO: Seems a bit hacky?
+		match.LocalPlayer.TownCenter = townCenters.Single(tc => _mapView.IsHighlighted(tc.Position, HighlightLayer.BlueTeam));
+		match.EnemyPlayer.TownCenter = townCenters.Single(tc => _mapView.IsHighlighted(tc.Position, HighlightLayer.RedTeam));
+		
+		var reachable = _map.GetReachable(match.LocalPlayer.TownCenter.Position, 1).Select(t => t.Position);
+		_mapView.HighlightTiles(reachable, HighlightLayer.BlueTeam);
+		
+		var reachable2 = _map.GetReachable(match.EnemyPlayer.TownCenter.Position, 1).Select(t => t.Position);
+		_mapView.HighlightTiles(reachable2, HighlightLayer.RedTeam);
+	}
+
 	public override void _Ready()
 	{
 		_game.Awake();
 		_game.Perform(new BeginGameAction(Match.LocalPlayerId));
 	}
 
-	public override void _EnterTree()
-	{ 
-		_log = new GodotLogger(_logLevel);
-		_map = GameMapFactory.CreateHexMap(_gameMap);
-		_game = GameFactory.Create(_log, _map, _settings);
-		
-		// TEMP: testing range visualizer
-		var townCenters = _map.SearchTiles(t => t.Terrain == TileTerrain.TownCenter);
-		foreach (var tc in townCenters)
-		{
-			VisualizeRange(tc.Position, 2);
-		}
-	}
-
 	// TEMP: Testing variable ranges
 	private void VisualizeRange(Vector2I startTile, int range)
 	{
-		var reachable = _map.GetReachable(startTile, range).Select(t => t.Position);
-		_gameMap.HighlightTiles(reachable, HighlightLayer.RangeVisualizer);
+		
 	}
 	
 	public override void _Process(double elapsed)

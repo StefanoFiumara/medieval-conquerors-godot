@@ -7,6 +7,7 @@ namespace MedievalConquerors.Engine.Data;
 public interface IPlayer
 {
     int Id { get; }
+    ITileData TownCenter { get; set; }
     List<Card> Deck { get; }
     List<Card> Hand { get; }
     List<Card> Discard { get; }
@@ -21,6 +22,7 @@ public interface IPlayer
 public class Player : IPlayer
 {
     public int Id { get; }
+    public ITileData TownCenter { get; set; }
     public List<Card> Deck { get; } = new();
     public List<Card> Hand { get; } = new();
     public List<Card> Discard { get; } = new();

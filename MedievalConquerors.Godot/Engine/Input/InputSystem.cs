@@ -3,7 +3,6 @@ using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input.InputStates;
-using MedievalConquerors.Engine.Logging;
 using MedievalConquerors.Engine.StateManagement;
 
 namespace MedievalConquerors.Engine.Input;
@@ -16,7 +15,6 @@ public class InputSystem : GameComponent, IAwake, IDestroy
     private IEventAggregator _events;
     private ActionSystem _actionSystem;
     
-    private ILogger _logger;
     private Match _match;
     
     public void Awake()
@@ -27,9 +25,7 @@ public class InputSystem : GameComponent, IAwake, IDestroy
         
         _events.Subscribe<IClickable>(ClickedEvent, OnInput);
 
-        _logger = Game.GetComponent<ILogger>();
-        
-        _stateMachine = new StateMachine(new CardSelectionState(Game, _logger));
+        _stateMachine = new StateMachine(new CardSelectionState(Game));
     }
 
     private void OnInput(IClickable selected)
@@ -38,7 +34,7 @@ public class InputSystem : GameComponent, IAwake, IDestroy
             return;
 
         // TODO: Should this check be at the state level?
-        //       Some input states can be transitioned without it 
+        //       Some input states can be transitioned without
         //       needing to be the player's turn (e.g. preview discard pile)
         if (_match.CurrentPlayer != _match.LocalPlayer)
             return;

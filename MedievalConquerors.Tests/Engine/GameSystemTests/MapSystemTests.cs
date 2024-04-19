@@ -38,7 +38,7 @@ public class MapSystemTests : GameSystemTestFixture
         var card = _player.Hand.First();
         
         var firstPosition = new Vector2I(5, 5);
-        var playAction = new PlayCardAction(_player, card, firstPosition);
+        var playAction = new PlayCardAction(card, firstPosition);
         Game.Perform(playAction);
         Game.Update();
         
@@ -70,7 +70,7 @@ public class MapSystemTests : GameSystemTestFixture
         var card = _player.Hand.First();
         
         var firstPosition = new Vector2I(5, 5);
-        var playAction = new PlayCardAction(_player, card, firstPosition);
+        var playAction = new PlayCardAction(card, firstPosition);
         Game.Perform(playAction);
         Game.Update();
         
@@ -92,7 +92,7 @@ public class MapSystemTests : GameSystemTestFixture
         var card = _player.Hand.First();
         
         var firstPosition = new Vector2I(5, 5);
-        var playAction = new PlayCardAction(_player, card, firstPosition);
+        var playAction = new PlayCardAction(card, firstPosition);
         Game.Perform(playAction);
         Game.Update();
         
@@ -146,7 +146,7 @@ public class MapSystemTests : GameSystemTestFixture
         var card = _player.Hand.First();
         
         var firstPosition = new Vector2I(5, 5);
-        var playAction = new PlayCardAction(_player, card, firstPosition);
+        var playAction = new PlayCardAction(card, firstPosition);
         Game.Perform(playAction);
         Game.Update();
         
@@ -186,7 +186,7 @@ public class MapSystemTests : GameSystemTestFixture
         // Play a card
         var cardToPlay = _player.Hand.First();
         var positionToPlay = new Vector2I(5, 5);
-        var playAction = new PlayCardAction(_player, cardToPlay, positionToPlay);
+        var playAction = new PlayCardAction(cardToPlay, positionToPlay);
         Game.Perform(playAction);
         Game.Update();
         

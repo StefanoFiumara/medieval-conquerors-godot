@@ -177,7 +177,4 @@ public class ActionSystemTests : GameSystemTestFixture
         Assert.Equal(action1.Id, senderId);
         Assert.NotEqual(action2.Id, senderId);
     }
-    
-    // TODO: Figure out how to unit test reactions
-    // TODO: Figure out if we can unit test viewers?
 }

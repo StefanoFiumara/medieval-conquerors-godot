@@ -47,7 +47,7 @@ public static class GameMapFactory
         
         GD.PrintRich("=== Parsed TileMap Data ===".Orange());
         var table = AsciiTable.Create(yieldData);
-        GD.PrintRich($"[color=orange]{table}");
+        GD.PrintRich($"{table}".Orange());
         return tiles;
     }
 }

@@ -86,7 +86,7 @@ public class CardSystem : GameComponent, IAwake
         {
             // TODO: more robust check for available tiles for this card, query attributes?
             var randomTargetTile = _map.SearchTiles(t => t.Terrain == TileTerrain.Grass).ToList().GetRandom();
-            var playAction = new PlayCardAction(_match.CurrentPlayer, card, randomTargetTile.Position);
+            var playAction = new PlayCardAction(card, randomTargetTile.Position);
             if (playAction.Validate(Game).IsValid)
             {
                 _playable.Add(card);

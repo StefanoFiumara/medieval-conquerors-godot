@@ -4,7 +4,6 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
-using NSubstitute;
 using Xunit.Abstractions;
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
@@ -36,7 +35,7 @@ public class PlayerSystemTests : GameSystemTestFixture
         var cardToPlay = _player.Hand.First();
         
         var positionToPlay = new Vector2I(5, 5);
-        var playAction = new PlayCardAction(_player, cardToPlay, positionToPlay);
+        var playAction = new PlayCardAction(cardToPlay, positionToPlay);
         
         Game.Perform(playAction);
         Game.Update();
@@ -60,7 +59,7 @@ public class PlayerSystemTests : GameSystemTestFixture
         // Play a card
         var cardToPlay = _player.Hand.First();
         var positionToPlay = new Vector2I(5, 5);
-        var playAction = new PlayCardAction(_player, cardToPlay, positionToPlay);
+        var playAction = new PlayCardAction(cardToPlay, positionToPlay);
         Game.Perform(playAction);
         Game.Update();
         

@@ -12,10 +12,10 @@ public class CardSelectionState : ITurnState
     private readonly ILogger _logger;
     private readonly CardSystem _cardSystem;
 
-    public CardSelectionState(IGame game, ILogger logger)
+    public CardSelectionState(IGame game)
     {
         _game = game;
-        _logger = logger;
+        _logger = game.GetComponent<ILogger>();
         _cardSystem = game.GetComponent<CardSystem>();
     }
     
@@ -24,16 +24,16 @@ public class CardSelectionState : ITurnState
 
     public ITurnState OnReceivedInput(IClickable clickedObject)
     {
-        if (clickedObject is not CardView c)
+        if (clickedObject is not CardView view)
             return this;
 
         // TODO: Token selection for MoveAction?
 
-        _logger.Info($"clicked on card: {c.Card.CardData.Title}");
-        if (_cardSystem.IsPlayable(c.Card))
+        _logger.Info($"clicked on card: {view.Card.CardData.Title}");
+        if (_cardSystem.IsPlayable(view.Card))
         {
-            _logger.Info($"Card {c.Card.CardData.Title} is Playable!");
-            return new TileSelectionState(c, _game, _logger);
+            _logger.Info($"Card {view.Card.CardData.Title} is Playable!");
+            return new TileSelectionState(view, _game);
         }
         
         return this;

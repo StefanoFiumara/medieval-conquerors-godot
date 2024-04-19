@@ -8,9 +8,9 @@ public class PlayCardAction : GameAction
     public Card CardToPlay { get; }
     public Vector2I TargetTile { get; }
 
-    public PlayCardAction(IPlayer sourcePlayer, Card cardToPlay, Vector2I targetTile)
+    public PlayCardAction(Card cardToPlay, Vector2I targetTile)
     {
-        SourcePlayer = sourcePlayer;
+        SourcePlayer = cardToPlay.Owner;
         CardToPlay = cardToPlay;
         TargetTile = targetTile;
     }
