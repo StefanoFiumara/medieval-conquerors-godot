@@ -51,6 +51,6 @@ public enum Zone
     None = -1,
     Deck = 0,
     Hand = 1,
-    Board = 2,
+    Map = 2,
     Discard = 3
 }

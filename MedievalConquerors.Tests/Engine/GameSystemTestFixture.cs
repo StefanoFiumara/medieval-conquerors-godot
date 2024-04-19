@@ -17,7 +17,7 @@ public abstract class GameSystemTestFixture
 {
     protected readonly Fixture Fixture;
     protected readonly IGameSettings Settings = Substitute.For<IGameSettings>();
-    protected readonly IGameBoard Board = CreateMockGameBoard();
+    protected readonly IMap Map = CreateMockGameMap();
 
     protected readonly IGame Game;
     protected readonly IEventAggregator Events;
@@ -27,14 +27,9 @@ public abstract class GameSystemTestFixture
         var logger = new TestLogger(output, LogLevel.Info);
         Fixture = new Fixture();
         
-        Fixture.Register(CreateCardData);
-        Game = GameFactory.Create(logger, Board, Settings);
+        Game = GameFactory.Create(logger, Map, Settings);
         
         Events = Game.GetComponent<EventAggregator>();
-        var match = Game.GetComponent<Match>();
-        
-        SetupPlayer(match.LocalPlayer);
-        SetupPlayer(match.EnemyPlayer);
         
         Game.Awake();
     }
@@ -46,26 +41,7 @@ public abstract class GameSystemTestFixture
         Events.Subscriptions.Should().BeEmpty();
     }
 
-    private ICardData CreateCardData()
-    {
-        var substitute = Substitute.For<ICardData>();
-        substitute.Title.Returns(Fixture.Create<string>());
-        substitute.Description.Returns(Fixture.Create<string>());
-        substitute.Attributes.Returns(new List<ICardAttribute>());
-        return substitute;
-    }
-
-    private void SetupPlayer(IPlayer player)
-    {
-        var dummyCards = Fixture.Build<Card>()
-            .FromFactory((ICardData data) => new Card(data, player, Zone.Deck))
-            .Without(c => c.BoardPosition)
-            .CreateMany(30);
-        
-        player.Deck.AddRange(dummyCards);
-    }
-
-    private static IGameBoard CreateMockGameBoard()
+    private static IMap CreateMockGameMap()
     {
         var tileData = new Dictionary<Vector2I, ITileData>();
         
@@ -78,6 +54,6 @@ public abstract class GameSystemTestFixture
             }
         }
 
-        return new HexGameBoard(tileData);
+        return new HexMap(tileData);
     }
 }

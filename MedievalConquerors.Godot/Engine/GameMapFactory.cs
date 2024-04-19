@@ -14,14 +14,14 @@ public static class CustomTileData
     public const string ResourceType = "ResourceType";
     public const string ResourceYield = "ResourceYield";
 }
-public static class GameBoardFactory
+public static class GameMapFactory
 {
-    // Create a game board using a Godot TileMap
+    // Create a map using a Godot TileMap
     // NOTE: TileMap must be configured with Pointy-top hex tiles and Odd Offset Coordinates
-    public static IGameBoard CreateHexBoard(TileMap tileMap)
+    public static IMap CreateHexMap(TileMap tileMap)
     {
         var tileData = CreateTileData(tileMap);
-        return new HexGameBoard(tileData);
+        return new HexMap(tileData);
     }
 	
     private static Dictionary<Vector2I, ITileData> CreateTileData(TileMap tileMap)

@@ -26,7 +26,7 @@ public partial class MapView : TileMap, IGameComponent
 	private const int TileSetId = 1;
 
 	public IGame Game { get; set; }
-	private IGameBoard _map;
+	private IMap _map;
 	
 	private Viewport _viewport;
 	
@@ -43,7 +43,7 @@ public partial class MapView : TileMap, IGameComponent
 		Game.AddComponent(this);
 		
 		_events = Game.GetComponent<EventAggregator>();
-		_map = Game.GetComponent<IGameBoard>();
+		_map = Game.GetComponent<IMap>();
 		_viewport = GetViewport();
 		_zoomTarget = Scale;
 	}

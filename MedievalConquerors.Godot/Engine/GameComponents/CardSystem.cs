@@ -68,12 +68,12 @@ public class CardSystem : GameComponent, IAwake
     private readonly List<Card> _playable = new();
 
     private Match _match;
-    private IGameBoard _map;
+    private IMap _map;
 
     public void Awake()
     {
         _match = Game.GetComponent<Match>();
-        _map = Game.GetComponent<IGameBoard>();
+        _map = Game.GetComponent<IMap>();
     }
 
     public bool IsPlayable(Card card) => _playable.Contains(card);

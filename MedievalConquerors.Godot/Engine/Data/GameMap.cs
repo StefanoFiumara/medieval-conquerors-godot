@@ -6,7 +6,7 @@ using MedievalConquerors.Engine.Core;
 
 namespace MedievalConquerors.Engine.Data;
 
-public interface IGameBoard : IGameComponent
+public interface IMap : IGameComponent
 {
 	ITileData GetTile(Vector2I pos);
 	IEnumerable<ITileData> GetNeighbors(Vector2I pos);
@@ -20,9 +20,9 @@ public interface IGameBoard : IGameComponent
 	//			* https://www.redblobgames.com/grids/hexagons/
 }
 
-// NOTE: HexGameBoard logic assumes pointy-top hex tiles with Odd Offset coordinates
+// NOTE: HexMap logic assumes pointy-top hex tiles with Odd Offset coordinates
 // TODO: Unit tests for this logic
-public class HexGameBoard : GameComponent, IGameBoard
+public class HexMap : GameComponent, IMap
 {
 	private readonly Dictionary<Vector2I, ITileData> _tiles;
 
@@ -46,7 +46,7 @@ public class HexGameBoard : GameComponent, IGameBoard
 		new( 1,  1),
 	};
 
-	public HexGameBoard(Dictionary<Vector2I, ITileData> tileData)
+	public HexMap(Dictionary<Vector2I, ITileData> tileData)
 	{
 		_tiles = tileData;
 	}

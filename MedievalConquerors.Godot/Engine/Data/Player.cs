@@ -10,7 +10,7 @@ public interface IPlayer
     List<Card> Deck { get; }
     List<Card> Hand { get; }
     List<Card> Discard { get; }
-    List<Card> Board { get; }
+    List<Card> Map { get; }
 
     List<Card> this[Zone z] { get; }
         
@@ -24,7 +24,7 @@ public class Player : IPlayer
     public List<Card> Deck { get; } = new();
     public List<Card> Hand { get; } = new();
     public List<Card> Discard { get; } = new();
-    public List<Card> Board { get; } = new();
+    public List<Card> Map { get; } = new();
 
     private readonly Dictionary<Zone, List<Card>> _zoneMap;
 
@@ -37,7 +37,7 @@ public class Player : IPlayer
             { Zone.Deck, Deck },
             { Zone.Hand, Hand },
             { Zone.Discard, Discard },
-            { Zone.Board, Board },
+            { Zone.Map, Map },
         };
         
         // TEMP: Add some temporary cards
@@ -46,8 +46,9 @@ public class Player : IPlayer
                 new CardData
                 {
                     Title = $"Knight {i}",
-                    Description = $"Mighty Mounted Royal Warrior",
+                    Description = $"Mighty Mounted Royal Warrior {i}",
                     ImagePath = "res://Assets/CardImages/knight.png",
+                    CardType = CardType.Unit,
                     Tags = Tags.None,
                     Attributes = new()
                     {
@@ -55,6 +56,7 @@ public class Player : IPlayer
                     }
                 }, this)));
     }
+    
     public List<Card> this[Zone z] => _zoneMap.ContainsKey(z) ? _zoneMap[z] : null;
 
     public void MoveCard(Card target, Zone toZone)

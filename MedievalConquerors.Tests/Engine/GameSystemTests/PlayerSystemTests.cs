@@ -4,6 +4,7 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
+using NSubstitute;
 using Xunit.Abstractions;
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
@@ -29,7 +30,57 @@ public class PlayerSystemTests : GameSystemTestFixture
     }
     
     [Fact]
-    public void PlayerSystem_Performs_DiscardCardsAction_And_Discards_From_Hand()
+    public void PlayerSystem_Performs_PlayCardAction_And_Moves_To_MapZone()
+    {
+        // Play a card
+        var cardToPlay = _player.Hand.First();
+        
+        var positionToPlay = new Vector2I(5, 5);
+        var playAction = new PlayCardAction(_player, cardToPlay, positionToPlay);
+        
+        Game.Perform(playAction);
+        Game.Update();
+
+        _player.Map.Should().HaveCount(1);
+        _player.Hand.Should().HaveCount(5);
+        _player.Map.Should().HaveCount(1);
+        
+        cardToPlay.Zone.Should().Be(Zone.Map);
+        cardToPlay.MapPosition.Should().Be(positionToPlay);
+        
+        var tile = Map.GetTile(positionToPlay);
+        
+        tile.Units.Should().HaveCount(1);
+        tile.Units.Single().Should().Be(cardToPlay);
+    }
+    
+    [Fact]
+    public void PlayerSystem_Performs_DiscardCardsAction_And_Moves_To_DiscardZone()
+    {
+        // Play a card
+        var cardToPlay = _player.Hand.First();
+        var positionToPlay = new Vector2I(5, 5);
+        var playAction = new PlayCardAction(_player, cardToPlay, positionToPlay);
+        Game.Perform(playAction);
+        Game.Update();
+        
+        // Then discard it
+        var toDiscard = _player.Map.Take(1).ToList();
+        var discardAction = new DiscardCardsAction(toDiscard, _player);
+
+        Game.Perform(discardAction);
+        Game.Update();
+        
+        _player.Map.Should().BeEmpty();
+        _player.Discard.Should().HaveCount(1);
+        _player.Discard.Should().AllSatisfy(c => c.Zone.Should().Be(Zone.Discard));
+
+        Map.GetTile(positionToPlay).Units.Should().BeEmpty();
+        toDiscard.Single().MapPosition.Should().Be(MapSystem.InvalidTile);
+    }
+    
+    [Fact]
+    public void PlayerSystem_Performs_DiscardCardsAction_And_Moves_Multiple_Cards_To_DiscardZone()
     {
         // Discard 2 random cards
         var toDiscard = _player.Hand.Take(2).ToList();
@@ -41,53 +92,5 @@ public class PlayerSystemTests : GameSystemTestFixture
         _player.Hand.Should().HaveCount(4);
         _player.Discard.Should().HaveCount(2);
         _player.Discard.Should().AllSatisfy(c => c.Zone.Should().Be(Zone.Discard));
-    }
-    
-    [Fact]
-    public void PlayerSystem_Performs_PlayCardAction_And_PlacesOnBoard()
-    {
-        // Play a card
-        var cardToPlay = _player.Hand.First();
-        var positionToPlay = new Vector2I(5, 5);
-        var playAction = new PlayCardAction(_player, cardToPlay, positionToPlay);
-        
-        Game.Perform(playAction);
-        Game.Update();
-
-        _player.Board.Should().HaveCount(1);
-        _player.Hand.Should().HaveCount(5);
-        _player.Board.Should().HaveCount(1);
-        
-        cardToPlay.Zone.Should().Be(Zone.Board);
-        cardToPlay.BoardPosition.Should().Be(positionToPlay);
-        
-        var tile = Board.GetTile(positionToPlay);
-        
-        tile.Objects.Should().HaveCount(1);
-        tile.Objects.Single().Should().Be(cardToPlay);
-    }
-    
-    [Fact]
-    public void PlayerSystem_Performs_DiscardCardsAction_And_Discards_From_Board()
-    {
-        // Play a card
-        var cardToPlay = _player.Hand.First();
-        var positionToPlay = new Vector2I(5, 5);
-        var playAction = new PlayCardAction(_player, cardToPlay, positionToPlay);
-        Game.Perform(playAction);
-        Game.Update();
-        
-        // Then discard it
-        var toDiscard = _player.Board.Take(1).ToList();
-        var discardAction = new DiscardCardsAction(toDiscard, _player);
-
-        Game.Perform(discardAction);
-        Game.Update();
-        
-        _player.Board.Should().BeEmpty();
-        _player.Discard.Should().HaveCount(1);
-        _player.Discard.Should().AllSatisfy(c => c.Zone.Should().Be(Zone.Discard));
-
-        Board.GetTile(positionToPlay).Objects.Should().BeEmpty();
     }
 }

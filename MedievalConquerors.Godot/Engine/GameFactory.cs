@@ -9,12 +9,12 @@ namespace MedievalConquerors.Engine;
 
 public static class GameFactory
 {
-    public static Game Create(ILogger logger, IGameBoard gameBoard, IGameSettings settings)
+    public static Game Create(ILogger logger, IMap map, IGameSettings settings)
     {
         var game = new Game();
         
         game.AddComponent(logger);
-        game.AddComponent(gameBoard);
+        game.AddComponent(map);
         game.AddComponent(settings);
         
         game.AddComponent<Match>();
@@ -24,7 +24,7 @@ public static class GameFactory
         
         game.AddComponent<HandSystem>();
         game.AddComponent<PlayerSystem>();
-        game.AddComponent<BoardSystem>();
+        game.AddComponent<MapSystem>();
 
         game.AddComponent<TurnSystem>();
         game.AddComponent<InputSystem>();

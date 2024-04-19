@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Godot;
+using MedievalConquerors.Engine.GameComponents;
 
 namespace MedievalConquerors.Engine.Data;
 
@@ -37,14 +38,14 @@ public class Card
     public List<ICardAttribute> Attributes { get; }
     public IPlayer Owner { get; }
     public Zone Zone { get; set; }
-    public Vector2I BoardPosition { get; set; }
+    public Vector2I MapPosition { get; set; }
 
-    public Card(ICardData cardData, IPlayer owner, Zone zone = Zone.None, Vector2I boardPosition = default)
+    public Card(ICardData cardData, IPlayer owner, Zone zone = Zone.None, Vector2I mapPosition = default)
     {
         CardData = cardData;
         Owner = owner;
         Zone = zone;
-        BoardPosition = Zone == Zone.Board ? boardPosition : new Vector2I(int.MinValue, int.MinValue);
+        MapPosition = Zone == Zone.Map ? mapPosition : MapSystem.InvalidTile;
 
         Attributes = new List<ICardAttribute>();
         foreach (var dataAttribute in CardData.Attributes)

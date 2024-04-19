@@ -22,7 +22,7 @@ public partial class GameController : Node
 	
 	private Game _game;
 	private ILogger _log;
-	private IGameBoard _board;
+	private IMap _map;
 
 	public Game Game => _game;
 
@@ -35,11 +35,11 @@ public partial class GameController : Node
 	public override void _EnterTree()
 	{ 
 		_log = new GodotLogger(_logLevel);
-		_board = GameBoardFactory.CreateHexBoard(_gameMap);
-		_game = GameFactory.Create(_log, _board, _settings);
+		_map = GameMapFactory.CreateHexMap(_gameMap);
+		_game = GameFactory.Create(_log, _map, _settings);
 		
 		// TEMP: testing range visualizer
-		var townCenters = _board.SearchTiles(t => t.Terrain == TileTerrain.TownCenter);
+		var townCenters = _map.SearchTiles(t => t.Terrain == TileTerrain.TownCenter);
 		foreach (var tc in townCenters)
 		{
 			VisualizeRange(tc.Position, 2);
@@ -49,7 +49,7 @@ public partial class GameController : Node
 	// TEMP: Testing variable ranges
 	private void VisualizeRange(Vector2I startTile, int range)
 	{
-		var reachable = _board.GetReachable(startTile, range).Select(t => t.Position);
+		var reachable = _map.GetReachable(startTile, range).Select(t => t.Position);
 		_gameMap.HighlightTiles(reachable, HighlightLayer.RangeVisualizer);
 	}
 	
