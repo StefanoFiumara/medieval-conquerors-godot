@@ -30,7 +30,8 @@ public abstract class GameSystemTestFixture
         Game = GameFactory.Create(logger, Map, Settings);
         
         Events = Game.GetComponent<EventAggregator>();
-        
+        Game.GetComponent<Match>().LocalPlayer.Resources.Food = 4;
+        Game.GetComponent<Match>().LocalPlayer.Resources.Gold = 2;
         Game.Awake();
     }
 

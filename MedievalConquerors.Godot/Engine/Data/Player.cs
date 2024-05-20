@@ -8,6 +8,7 @@ public interface IPlayer
 {
     int Id { get; }
     ITileData TownCenter { get; set; }
+    ResourceBank Resources { get; }
     List<Card> Deck { get; }
     List<Card> Hand { get; }
     List<Card> Discard { get; }
@@ -23,6 +24,7 @@ public class Player : IPlayer
 {
     public int Id { get; }
     public ITileData TownCenter { get; set; }
+    public ResourceBank Resources { get; }
     public List<Card> Deck { get; } = new();
     public List<Card> Hand { get; } = new();
     public List<Card> Discard { get; } = new();
@@ -33,6 +35,7 @@ public class Player : IPlayer
     public Player(int id)
     {
         Id = id;
+        Resources = new();
         
         _zoneMap = new Dictionary<Zone, List<Card>>
         {

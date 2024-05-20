@@ -33,7 +33,7 @@ public static class GameFactory
         game.AddComponent<GlobalGameStateSystem>();
         // game.AddComponent<VictorySystem>();
         
-        // game.AddComponent<ResourceSystem>();
+        game.AddComponent<ResourceSystem>();
         // game.AddComponent<AgeSystem>();
         
         // // TODO: Only add AISystem when in Single Player Mode, otherwise, add "NetworkSystem" for multiplayer
