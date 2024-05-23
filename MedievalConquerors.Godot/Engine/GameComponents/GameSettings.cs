@@ -4,5 +4,5 @@ namespace MedievalConquerors.Engine.GameComponents;
 
 public interface IGameSettings : IGameComponent
 {
-	
+	int StartingHandCount { get; }
 }

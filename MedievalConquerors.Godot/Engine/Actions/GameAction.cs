@@ -19,7 +19,7 @@ public class GameAction
 
     
     // TODO: Possible to set SourcePlayer from ctor? What about when using IAbilityLoader?
-    // TODO: Should we just store the source player ID so it can be grabbed from  the match instead?
+    // TODO: Should we just store the source player ID so it can be grabbed from the match instead?
     //       This may be useful for networking later.
     /// <summary>
     /// The player that initiated this GameAction

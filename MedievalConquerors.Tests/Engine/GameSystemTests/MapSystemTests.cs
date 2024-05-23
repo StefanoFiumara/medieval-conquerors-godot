@@ -151,7 +151,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Update();
         
         // set up move attribute
-        // TODO: Update Tests to Rest() attributes as part of engine flow?
+        // TODO: Update Tests to Reset() attributes as part of engine flow?
         var moveAttribute = new MovementAttribute
         {
             Distance = 2,

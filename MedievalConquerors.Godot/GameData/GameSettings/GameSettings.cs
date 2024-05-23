@@ -9,4 +9,7 @@ namespace MedievalConquerors.GameData.GameSettings;
 public partial class GameSettings : Resource, IGameSettings
 {
 	public IGame Game { get; set; }
+	
+	[Export]
+	public int StartingHandCount { get; set; }
 }
