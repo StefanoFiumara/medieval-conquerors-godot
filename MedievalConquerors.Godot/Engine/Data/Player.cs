@@ -60,6 +60,10 @@ public class Player : IPlayer
                         new ResourceCostAttribute { Food = 4, Gold = 2 }
                     }
                 }, this)));
+
+        // TEMP: Add some starting resources
+        Resources.Food = 4;
+        Resources.Gold = 2;
     }
     
     public List<Card> this[Zone z] => _zoneMap.ContainsKey(z) ? _zoneMap[z] : null;

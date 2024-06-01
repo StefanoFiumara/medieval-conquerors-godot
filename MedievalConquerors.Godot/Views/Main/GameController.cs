@@ -39,6 +39,7 @@ public partial class GameController : Node
 		match.LocalPlayer.TownCenter = townCenters.Single(tc => _mapView.IsHighlighted(tc.Position, HighlightLayer.BlueTeam));
 		match.EnemyPlayer.TownCenter = townCenters.Single(tc => _mapView.IsHighlighted(tc.Position, HighlightLayer.RedTeam));
 		
+		// TODO: Formalize each player's zone of influence, so we can get it from outside MapView
 		var reachable = _map.GetReachable(match.LocalPlayer.TownCenter.Position, 1).Select(t => t.Position);
 		_mapView.HighlightTiles(reachable, HighlightLayer.BlueTeam);
 		

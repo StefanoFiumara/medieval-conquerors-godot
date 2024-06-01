@@ -145,7 +145,6 @@ public partial class MapView : TileMap, IGameComponent
 	{
 		if (coord != None)
 		{
-			// SetCell((int)layer, coord, TileSetId, HighlightCoord);
 			// NOTE: The layer ID also matches up with the scene collection ID for the glow color for that layer
 			SetCell((int)layer, coord, TileSetId, Vector2I.Zero, (int)layer);
 		}
@@ -155,8 +154,9 @@ public partial class MapView : TileMap, IGameComponent
 	{
 		if (coord != None)
 		{
-			//GetCellAlternativeTile()
-			// TODO: Need to figure out how to identify the new animated scene glow tile
+			// NOTE: Since we are looking at highlight layers, it is ok to simple check if a cell is being used.
+			//		 This indicates that it is highlighted, since there is no other reason for a tile to be
+			//		 active on this layer.
 			return GetUsedCells((int)layer).Contains(coord);
 		}
 
