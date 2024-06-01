@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://86vkrku6umuc"]
+
+[ext_resource type="Texture2D" uid="uid://c88s03g5xk4yy" path="res://Assets/TileSets/hex-tile-sprites.png" id="1_i21tx"]
+
+[sub_resource type="Animation" id="Animation_iilee"]
+resource_name = "glow"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.588235), Color(1, 1, 1, 1), Color(1, 1, 1, 0.588235)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ne3wb"]
+_data = {
+"glow": SubResource("Animation_iilee")
+}
+
+[node name="tile_glow" type="Sprite2D"]
+modulate = Color(1, 1, 1, 0.956359)
+texture = ExtResource("1_i21tx")
+region_enabled = true
+region_rect = Rect2(1280, 767, 255, 255)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ne3wb")
+}
+autoplay = "glow"

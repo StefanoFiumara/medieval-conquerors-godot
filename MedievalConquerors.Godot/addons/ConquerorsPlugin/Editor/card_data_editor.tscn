@@ -119,6 +119,7 @@ custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 size_flags_horizontal = 3
 editable = false
+autowrap_mode = 2
 
 [node name="image_selector" type="HBoxContainer" parent="margin/editor_vbox_container"]
 layout_mode = 2

@@ -68,6 +68,16 @@ public partial class HandView : Node2D, IGameComponent
 			
 			_hoveredIndex = hovered;
 			TweenToHandPositions();
+
+			// TODO: This might have to exclude cards that are actively being selected by the input system, how to integrate?
+			// IDEA: Move to input system and expose _hoveredIndex? Or have a property for hovered CardView?
+			for (int i = 0; i < _cards.Count; i++)
+			{
+				if(i == _hoveredIndex)
+					_cards[_hoveredIndex].Highlight();
+				else
+					_cards[i].RemoveHighlight();
+			}
 		}
 	}
 
@@ -245,6 +255,6 @@ public partial class HandView : Node2D, IGameComponent
 		_cards.Add(cardView);
 		AddChild(cardView);
 		
-		cardView.Initialize(card);
+		cardView.Initialize(Game, card);
 	}
 }

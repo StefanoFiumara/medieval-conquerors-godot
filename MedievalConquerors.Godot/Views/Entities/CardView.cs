@@ -1,7 +1,9 @@
 using System.Linq;
 using Godot;
+using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
+using MedievalConquerors.Engine.GameComponents;
 
 namespace MedievalConquerors.Views.Entities;
 
@@ -10,6 +12,7 @@ public partial class CardView : Node2D, IClickable
 	[Export] private Label _title;
 	[Export] private RichTextLabel _description;
 	[Export] private Sprite2D _image;
+	[Export] private NinePatchRect _glow;
 	
 	[Export] private Label _foodCost;
 	[Export] private Label _woodCost;
@@ -20,17 +23,45 @@ public partial class CardView : Node2D, IClickable
 	[Export] private TextureRect _woodIcon;
 	[Export] private TextureRect _goldIcon;
 	[Export] private TextureRect _stoneIcon;
+
+	private CardSystem _cardSystem;
+
+	private Tween _glowTween;
+	private Color _targetHighlightColor;
+	private Color TargetHighlightColor
+	{
+		get => _targetHighlightColor;
+		set
+		{
+			_targetHighlightColor = value;
+			if (value == Colors.Transparent)
+			{
+				_glowTween?.Kill();
+				_glowTween = CreateTween().SetEase(Tween.EaseType.InOut);
+				_glowTween.TweenProperty(_glow, "modulate", Colors.Transparent, 0.25f);
+			}
+			else
+			{
+				_glowTween = CreateTween().SetLoops().SetEase(Tween.EaseType.InOut);
+				_glowTween.TweenProperty(_glow, "modulate", _targetHighlightColor, 0.5f);
+				_glowTween.TweenProperty(_glow, "modulate:a", 0.7f, 0.5f);
+			}
+		}
+	}
 	
 	public Card Card { get; private set; }
-	
-	public void Initialize(Card card)
+
+	public void Initialize(IGame game, Card card)
 	{
 		Card = card;
+		_cardSystem = game.GetComponent<CardSystem>();
 		
 		// TODO: Update title color based on card type?
 		_title.Text = Card.CardData.Title;
+		
 		// TODO: Append tags and card type to description
 		_description.Text = Card.CardData.Description;
+		RemoveHighlight();
 		
 		// NOTE: Assumes _cardData.Image is a 256x256 sprite.
 		if (!string.IsNullOrEmpty(Card.CardData.ImagePath))
@@ -60,5 +91,16 @@ public partial class CardView : Node2D, IClickable
 		{
 			// TODO: Hide Resource Panel? Is this ever the case?
 		}
+	}
+
+	public void Highlight()
+	{
+		var color = _cardSystem.IsPlayable(Card) ? Colors.LawnGreen : Colors.IndianRed;
+		TargetHighlightColor = color;
+	}
+
+	public void RemoveHighlight()
+	{
+		TargetHighlightColor = Colors.Transparent;
 	}
 }

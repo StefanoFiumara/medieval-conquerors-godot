@@ -1,19 +1,21 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.Input;
+using MedievalConquerors.Utils;
 using MedievalConquerors.Views.Main;
+using TileData = Godot.TileData;
 
 namespace MedievalConquerors.Views.Maps;
 
 public enum HighlightLayer
 {
 	MouseHover = 1,
-	RangeVisualizer = 2,
-	BlueTeam = 3,
-	RedTeam = 4
+	BlueTeam = 2,
+	RedTeam = 3
 }
 
 public partial class MapView : TileMap, IGameComponent
@@ -23,7 +25,7 @@ public partial class MapView : TileMap, IGameComponent
 	// TODO: Should we move the highlight tile gfx to a different TileSet?
 	//		 Currently it is receiving custom tile data that it is not using.
 	private static readonly Vector2I HighlightCoord = new(5, 0);
-	private const int TileSetId = 1;
+	private const int TileSetId = 2;
 
 	public IGame Game { get; set; }
 	private IMap _map;
@@ -143,7 +145,9 @@ public partial class MapView : TileMap, IGameComponent
 	{
 		if (coord != None)
 		{
-			SetCell((int)layer, coord, TileSetId, HighlightCoord);
+			// SetCell((int)layer, coord, TileSetId, HighlightCoord);
+			// NOTE: The layer ID also matches up with the scene collection ID for the glow color for that layer
+			SetCell((int)layer, coord, TileSetId, Vector2I.Zero, (int)layer);
 		}
 	}
 
@@ -151,7 +155,9 @@ public partial class MapView : TileMap, IGameComponent
 	{
 		if (coord != None)
 		{
-			return GetCellAtlasCoords((int)layer, coord) == HighlightCoord;
+			//GetCellAlternativeTile()
+			// TODO: Need to figure out how to identify the new animated scene glow tile
+			return GetUsedCells((int)layer).Contains(coord);
 		}
 
 		return false;
