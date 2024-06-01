@@ -1,4 +1,5 @@
-﻿using MedievalConquerors.Engine.Core;
+﻿using Godot;
+using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Logging;
@@ -24,7 +25,7 @@ public class CardSelectionState : IClickableState
     public void Enter() { }
     public void Exit() { }
 
-    public IClickableState OnReceivedInput(IClickable clickedObject)
+    public IClickableState OnReceivedInput(IClickable clickedObject, InputEventMouseButton mouseEvent)
     {
         if (clickedObject is not CardView view)
             return this;

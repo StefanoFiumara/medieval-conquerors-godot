@@ -1,13 +1,10 @@
-using System;
 using System.Collections.Generic;
 using Godot;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.Input;
-using MedievalConquerors.Utils;
 using MedievalConquerors.Views.Main;
-using TileData = Godot.TileData;
 
 namespace MedievalConquerors.Views.Maps;
 
@@ -15,28 +12,26 @@ public enum HighlightLayer
 {
 	MouseHover = 1,
 	BlueTeam = 2,
-	RedTeam = 3
+	RedTeam = 3,
+	TileSelectionHint = 4
 }
 
 public partial class MapView : TileMap, IGameComponent
 {
 	private static readonly Vector2I None = new(int.MinValue, int.MinValue);
 	
-	// TODO: Should we move the highlight tile gfx to a different TileSet?
-	//		 Currently it is receiving custom tile data that it is not using.
-	private static readonly Vector2I HighlightCoord = new(5, 0);
-	private const int TileSetId = 2;
+	private const int HighlightTileSetId = 2;
 
 	public IGame Game { get; set; }
+	
 	private IMap _map;
-	
 	private Viewport _viewport;
-	
 	private Vector2I _hovered = None;
 	
-	private bool _isDragging = false;
+	private bool _isDragging;
 	private Vector2 _dragOffset;
 	private Vector2 _zoomTarget;
+	
 	private EventAggregator _events;
 
 	public override void _Ready()
@@ -146,7 +141,7 @@ public partial class MapView : TileMap, IGameComponent
 		if (coord != None)
 		{
 			// NOTE: The layer ID also matches up with the scene collection ID for the glow color for that layer
-			SetCell((int)layer, coord, TileSetId, Vector2I.Zero, (int)layer);
+			SetCell((int)layer, coord, HighlightTileSetId, Vector2I.Zero, (int)layer);
 		}
 	}
 

@@ -83,14 +83,11 @@ public partial class HandView : Node2D, IGameComponent
 
 	public override void _Input(InputEvent inputEvent)
 	{
-		// Only respond to KeyDown/KeyUp events
-		if (inputEvent.IsEcho()) return;
-
 		if (inputEvent is InputEventMouseButton mouseEvent && mouseEvent.IsReleased())
 		{
 			if (mouseEvent.ButtonIndex == MouseButton.Left && _hoveredIndex != -1)
 			{
-				_events.Publish(InputSystem.ClickedEvent, _cards[_hoveredIndex]);
+				_events.Publish(InputSystem.ClickedEvent, _cards[_hoveredIndex], mouseEvent);
 				_viewport.SetInputAsHandled();
 			}
 		}
@@ -98,6 +95,7 @@ public partial class HandView : Node2D, IGameComponent
 
 	public override void _Draw()
 	{
+		// TODO: Add DebugMode flag in GameSettings.tres and only draw these rects when it is enabled.
 		for (int i = 0; i < _cards.Count; i++)
 		{
 			var sectionRect = new Rect2(

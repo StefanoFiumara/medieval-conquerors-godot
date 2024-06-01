@@ -1,4 +1,5 @@
-﻿using MedievalConquerors.Engine.Core;
+﻿using Godot;
+using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
@@ -23,12 +24,12 @@ public class InputSystem : GameComponent, IAwake, IDestroy
         _match = Game.GetComponent<Match>();
         _events = Game.GetComponent<EventAggregator>();
         
-        _events.Subscribe<IClickable>(ClickedEvent, OnInput);
+        _events.Subscribe<IClickable, InputEventMouseButton>(ClickedEvent, OnInput);
 
         _stateMachine = new StateMachine(new CardSelectionState(Game));
     }
 
-    private void OnInput(IClickable selected)
+    private void OnInput(IClickable selected, InputEventMouseButton mouseEvent)
     {
         if (_actionSystem.IsActive)
             return;
@@ -41,7 +42,9 @@ public class InputSystem : GameComponent, IAwake, IDestroy
         
         if (_stateMachine.CurrentState is IClickableState turnState)
         {
-            var newState = turnState.OnReceivedInput(selected);
+            // TODO: Implement a cancel action, e.g. via right click.
+            //       Currently we are not tracking right clicks.
+            var newState = turnState.OnReceivedInput(selected, mouseEvent);
             _stateMachine.ChangeState(newState);
         }   
     }
