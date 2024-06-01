@@ -7,14 +7,14 @@ namespace MedievalConquerors.Utils;
 /// Helper class to track active tweens on specific nodes.
 /// Kills existing tweens when a new tween on a node is added.
 /// </summary>
-/// <typeparam name="TNode">The type of node to track tweens for.</typeparam>
-public class TweenTracker<TNode> where TNode : Node
+/// <typeparam name="T">The type of object to track tweens for.</typeparam>
+public class TweenTracker<T> where T : GodotObject
 {
-    private readonly Dictionary<TNode, Tween> _activeTweens = new();
+    private readonly Dictionary<T, Tween> _activeTweens = new();
 
-    public bool IsTweening(TNode node) => _activeTweens.ContainsKey(node);
+    public bool IsTweening(T node) => _activeTweens.ContainsKey(node);
 
-    public void TrackTween(Tween tween, TNode target)
+    public void TrackTween(Tween tween, T target)
     {
         if (IsTweening(target))
         {
