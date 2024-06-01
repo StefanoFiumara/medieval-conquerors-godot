@@ -6,23 +6,25 @@ using MedievalConquerors.Views.Entities;
 
 namespace MedievalConquerors.Engine.Input.InputStates;
 
-public class CardSelectionState : ITurnState
+public class CardSelectionState : IClickableState
 {
     private readonly IGame _game;
     private readonly ILogger _logger;
     private readonly CardSystem _cardSystem;
+    private readonly HandView _handView;
 
     public CardSelectionState(IGame game)
     {
         _game = game;
         _logger = game.GetComponent<ILogger>();
         _cardSystem = game.GetComponent<CardSystem>();
+        _handView = game.GetComponent<HandView>();
     }
-    
+
     public void Enter() { }
     public void Exit() { }
 
-    public ITurnState OnReceivedInput(IClickable clickedObject)
+    public IClickableState OnReceivedInput(IClickable clickedObject)
     {
         if (clickedObject is not CardView view)
             return this;

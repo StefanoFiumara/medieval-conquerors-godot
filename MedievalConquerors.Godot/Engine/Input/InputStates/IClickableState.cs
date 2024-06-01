@@ -3,7 +3,7 @@ using MedievalConquerors.Engine.StateManagement;
 
 namespace MedievalConquerors.Engine.Input.InputStates;
 
-public interface ITurnState : IState
+public interface IClickableState : IState
 {
-    ITurnState OnReceivedInput(IClickable clickedObject);
+    IClickableState OnReceivedInput(IClickable clickedObject);
 }

@@ -7,7 +7,7 @@ using MedievalConquerors.Views.Entities;
 
 namespace MedievalConquerors.Engine.Input.InputStates;
 
-public class TileSelectionState : ITurnState
+public class TileSelectionState : IClickableState
 {
     private readonly CardView _selectedCard;
     private readonly IGame _game;
@@ -24,7 +24,7 @@ public class TileSelectionState : ITurnState
 
     public void Exit() { }
 
-    public ITurnState OnReceivedInput(IClickable clickedObject)
+    public IClickableState OnReceivedInput(IClickable clickedObject)
     {
         if (clickedObject is not TileData t)
             return this;

@@ -39,7 +39,7 @@ public class InputSystem : GameComponent, IAwake, IDestroy
         if (_match.CurrentPlayer != _match.LocalPlayer)
             return;
         
-        if (_stateMachine.CurrentState is ITurnState turnState)
+        if (_stateMachine.CurrentState is IClickableState turnState)
         {
             var newState = turnState.OnReceivedInput(selected);
             _stateMachine.ChangeState(newState);
