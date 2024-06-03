@@ -31,14 +31,17 @@ public class CardSelectionState : IClickableState
             return this;
 
         // TODO: Token selection for MoveAction?
-
         _logger.Info($"clicked on card: {view.Card.CardData.Title}");
-        if (_cardSystem.IsPlayable(view.Card))
+
+        if (!_cardSystem.IsPlayable(view.Card))
         {
-            _logger.Info($"Card {view.Card.CardData.Title} is Playable!");
-            return new TileSelectionState(view, _game);
-        }
+            _logger.Info($"Card {view.Card.CardData.Title} is not Playable!");
+            return this;
+        } 
+            
         
-        return this;
+        _logger.Info($"Card {view.Card.CardData.Title} is Playable!");
+        return new TileSelectionState(view, _game);
+
     }
 }
