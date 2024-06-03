@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Fano.ASCIITableUtil;
 using Godot;
@@ -14,6 +14,7 @@ public static class CustomTileData
     public const string ResourceType = "ResourceType";
     public const string ResourceYield = "ResourceYield";
 }
+
 public static class GameMapFactory
 {
     // Create a map using a Godot TileMap
