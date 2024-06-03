@@ -174,7 +174,7 @@ public partial class HandView : Node2D, IGameComponent
 			.SetParallel();
 
 		var (handPos, _) = CalculateHandPosition(card);
-		tween.TweenProperty(card, "position", handPos + Vector2.Up * (120f + handPos.Y), tweenDuration);
+		tween.TweenProperty(card, "position", handPos + Vector2.Up * (60f + handPos.Y), tweenDuration);
 		tween.TweenProperty(card, "rotation", 0, tweenDuration);
 		tween.TweenProperty(card, "scale", Vector2.One * 1.3f, tweenDuration);
 		
