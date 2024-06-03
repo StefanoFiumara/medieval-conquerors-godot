@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b3xkcymn6w5pv"
-path="res://.godot/imported/Parchment-Roll2.png-499b9b998bce1ca5252f9dbb98fef423.ctex"
+uid="uid://c88s03g5xk4yy"
+path="res://.godot/imported/hex-tile-spritesheet.png-e5ee3d8f5243470cd12c4507a43fbfd1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI/Panels/Parchment-Roll2.png"
-dest_files=["res://.godot/imported/Parchment-Roll2.png-499b9b998bce1ca5252f9dbb98fef423.ctex"]
+source_file="res://Assets/TileSets/hex-tile-spritesheet.png"
+dest_files=["res://.godot/imported/hex-tile-spritesheet.png-e5ee3d8f5243470cd12c4507a43fbfd1.ctex"]
 
 [params]
 

@@ -28,6 +28,7 @@ public abstract class GameSystemTestFixture
         Fixture = new Fixture();
 
         Settings.StartingHandCount.Returns(5);
+        Settings.DebugMode.Returns(false);
         
         Game = GameFactory.Create(logger, Map, Settings);
         

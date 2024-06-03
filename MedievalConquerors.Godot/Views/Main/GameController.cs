@@ -6,7 +6,6 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Logging;
-using MedievalConquerors.GameData.GameSettings;
 using MedievalConquerors.Views.Maps;
 
 namespace MedievalConquerors.Views.Main;
@@ -53,12 +52,6 @@ public partial class GameController : Node
 		_game.Perform(new BeginGameAction(Match.LocalPlayerId));
 	}
 
-	// TEMP: Testing variable ranges
-	private void VisualizeRange(Vector2I startTile, int range)
-	{
-		
-	}
-	
 	public override void _Process(double elapsed)
 	{
 		_game.Update();

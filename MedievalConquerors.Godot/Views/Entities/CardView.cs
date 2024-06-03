@@ -27,12 +27,15 @@ public partial class CardView : Node2D, IClickable
 	private CardSystem _cardSystem;
 
 	private Tween _glowTween;
+	
 	private Color _targetHighlightColor;
 	private Color TargetHighlightColor
 	{
 		get => _targetHighlightColor;
 		set
 		{
+			if (_targetHighlightColor == value) return;
+			
 			_targetHighlightColor = value;
 			if (value == Colors.Transparent)
 			{

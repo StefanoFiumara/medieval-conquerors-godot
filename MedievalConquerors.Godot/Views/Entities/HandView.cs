@@ -6,6 +6,7 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
+using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
 using MedievalConquerors.Utils;
 using MedievalConquerors.Views.Main;
@@ -25,6 +26,7 @@ public partial class HandView : Node2D, IGameComponent
 	private int _previewSectionSize = 150;
 	private int _hoveredIndex = -1;
 	
+	private IGameSettings _settings;
 	private EventAggregator _events;
 	private Viewport _viewport;
 	private readonly TweenTracker<CardView> _tweenTracker = new();
@@ -43,6 +45,8 @@ public partial class HandView : Node2D, IGameComponent
 		
 		_events = Game.GetComponent<EventAggregator>();
 		_events.Subscribe<DrawCardsAction>(GameEvent.Prepare<DrawCardsAction>(), OnPrepareDrawCards);
+
+		_settings = Game.GetComponent<IGameSettings>();
 	}
 
 	public override void _EnterTree()
@@ -95,7 +99,9 @@ public partial class HandView : Node2D, IGameComponent
 
 	public override void _Draw()
 	{
-		// TODO: Add DebugMode flag in GameSettings.tres and only draw these rects when it is enabled.
+		if (!_settings.DebugMode)
+			return;
+		
 		for (int i = 0; i < _cards.Count; i++)
 		{
 			var sectionRect = new Rect2(

@@ -1,13 +1,13 @@
 [gd_resource type="TileSet" load_steps=8 format=3 uid="uid://1svl535uy0h2"]
 
-[ext_resource type="Texture2D" uid="uid://c88s03g5xk4yy" path="res://Assets/TileSets/hex-tile-sprites.png" id="1_f201o"]
+[ext_resource type="Texture2D" uid="uid://c88s03g5xk4yy" path="res://Assets/TileSets/hex-tile-spritesheet.png" id="1_vbcfv"]
 [ext_resource type="PackedScene" uid="uid://ckaet07qewjtq" path="res://Views/Entities/tile_glow.tscn" id="2_irplx"]
 [ext_resource type="PackedScene" uid="uid://cj1p8gfhgt3q8" path="res://Views/Entities/tile_glow_blue.tscn" id="3_ddy7c"]
 [ext_resource type="PackedScene" uid="uid://m38hf45snpq8" path="res://Views/Entities/tile_glow_red.tscn" id="4_v1jyw"]
 [ext_resource type="PackedScene" uid="uid://86vkrku6umuc" path="res://Views/Entities/tile_glow_yellow.tscn" id="5_fcuu7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8xqxl"]
-texture = ExtResource("1_f201o")
+texture = ExtResource("1_vbcfv")
 texture_region_size = Vector2i(256, 256)
 4:1/0 = 0
 4:1/0/custom_data_0 = 9

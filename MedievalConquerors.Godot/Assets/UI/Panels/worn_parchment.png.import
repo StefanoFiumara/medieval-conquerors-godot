@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c88s03g5xk4yy"
-path="res://.godot/imported/hex-tile-sprites.png-20fba7081f26aa88f028ba65da23ef95.ctex"
+uid="uid://dxd7w4hhbsfh0"
+path="res://.godot/imported/worn_parchment.png-f250802c4b306aac2ae7a992387a31e1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/TileSets/hex-tile-sprites.png"
-dest_files=["res://.godot/imported/hex-tile-sprites.png-20fba7081f26aa88f028ba65da23ef95.ctex"]
+source_file="res://Assets/UI/Panels/worn_parchment.png"
+dest_files=["res://.godot/imported/worn_parchment.png-f250802c4b306aac2ae7a992387a31e1.ctex"]
 
 [params]
 

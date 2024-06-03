@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxd7w4hhbsfh0"
-path="res://.godot/imported/Worn-Parchment-BG-1.png-c7b969ff266476ff9eb895a9d25740f5.ctex"
+uid="uid://b3xkcymn6w5pv"
+path="res://.godot/imported/parchment_roll.png-dd912e6a1149a301a79314f9387a8956.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI/Panels/Worn-Parchment-BG-1.png"
-dest_files=["res://.godot/imported/Worn-Parchment-BG-1.png-c7b969ff266476ff9eb895a9d25740f5.ctex"]
+source_file="res://Assets/UI/Panels/parchment_roll.png"
+dest_files=["res://.godot/imported/parchment_roll.png-dd912e6a1149a301a79314f9387a8956.ctex"]
 
 [params]
 
