@@ -26,6 +26,8 @@ public abstract class GameSystemTestFixture
     {
         var logger = new TestLogger(output, LogLevel.Info);
         Fixture = new Fixture();
+
+        Settings.StartingHandCount.Returns(5);
         
         Game = GameFactory.Create(logger, Map, Settings);
         
