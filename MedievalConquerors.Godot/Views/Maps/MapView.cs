@@ -1,10 +1,14 @@
+using System.Collections;
 using System.Collections.Generic;
 using Godot;
+using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.Input;
+using MedievalConquerors.Views.Entities;
 using MedievalConquerors.Views.Main;
+using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Views.Maps;
 
@@ -16,13 +20,16 @@ public enum HighlightLayer
 	TileSelectionHint = 4
 }
 
-public partial class MapView : TileMap, IGameComponent
+public partial class MapView : Node2D, IGameComponent
 {
 	private static readonly Vector2I None = new(int.MinValue, int.MinValue);
 	
 	private const int HighlightTileSetId = 2;
 
 	public IGame Game { get; set; }
+	
+	[Export] private PackedScene _tokenScene;
+	[Export] public TileMap TileMap { get; private set; }
 	
 	private IMap _map;
 	private Viewport _viewport;
@@ -43,6 +50,20 @@ public partial class MapView : TileMap, IGameComponent
 		_map = Game.GetComponent<IMap>();
 		_viewport = GetViewport();
 		_zoomTarget = Scale;
+	}
+
+	public Tween PlaceTokenAnimation(PlayCardAction action)
+	{
+		const double tweenDuration = 0.4;
+
+		var tokenView = CreateTokenView(action.CardToPlay);
+		tokenView.Position = TileMap.MapToLocal(action.TargetTile);
+		tokenView.Modulate = Colors.Transparent;
+		
+		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In);
+		tween.TweenProperty(tokenView, "modulate", Colors.White, tweenDuration);
+
+		return tween;
 	}
 	
 	public override void _Input(InputEvent input)
@@ -113,6 +134,21 @@ public partial class MapView : TileMap, IGameComponent
 		}
 	}
 
+	private TokenView CreateTokenView(Card card)
+	{
+		var tokenView = _tokenScene.Instantiate<TokenView>();
+		
+		// Spawn token offscreen, to be animated in by TweenToPosition
+		// TODO: Adjust offscreen position for animation
+		tokenView.Position = (Vector2.Up * 1200);
+		
+		TileMap.AddChild(tokenView);
+		tokenView.Initialize(Game, card);
+		
+		// TODO: store the tokenView somewhere for later access
+		return tokenView;
+	}
+	
 	private void SetDragging(bool dragging)
 	{
 		_isDragging = dragging;
@@ -122,13 +158,13 @@ public partial class MapView : TileMap, IGameComponent
 
 	private Vector2I GetTileCoord(Vector2 mousePos)
 	{
-		var mapCoord = LocalToMap(ToLocal(mousePos));
+		var mapCoord = TileMap.LocalToMap(ToLocal(mousePos));
 		return _map.GetTile(mapCoord) != null ? mapCoord : None;
 	}
 
 	public void Clear(HighlightLayer layer)
 	{
-		var cells = GetUsedCells((int)layer);
+		var cells = TileMap.GetUsedCells((int)layer);
 
 		foreach (var cell in cells)
 		{
@@ -141,7 +177,7 @@ public partial class MapView : TileMap, IGameComponent
 		if (coord != None)
 		{
 			// NOTE: The layer ID also matches up with the scene collection ID for the glow color for that layer
-			SetCell((int)layer, coord, HighlightTileSetId, Vector2I.Zero, (int)layer);
+			TileMap.SetCell((int)layer, coord, HighlightTileSetId, Vector2I.Zero, (int)layer);
 		}
 	}
 
@@ -152,7 +188,7 @@ public partial class MapView : TileMap, IGameComponent
 			// NOTE: Since we are looking at highlight layers, it is ok to simple check if a cell is being used.
 			//		 This indicates that it is highlighted, since there is no other reason for a tile to be
 			//		 active on this layer.
-			return GetUsedCells((int)layer).Contains(coord);
+			return TileMap.GetUsedCells((int)layer).Contains(coord);
 		}
 
 		return false;
@@ -162,7 +198,7 @@ public partial class MapView : TileMap, IGameComponent
 	{
 		if (coord != None)
 		{
-			SetCell((int) layer, coord);
+			TileMap.SetCell((int) layer, coord);
 		}
 	}
 	

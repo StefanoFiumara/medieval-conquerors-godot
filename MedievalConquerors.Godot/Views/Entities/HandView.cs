@@ -8,8 +8,11 @@ using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
+using MedievalConquerors.Engine.Logging;
+using MedievalConquerors.Extensions;
 using MedievalConquerors.Utils;
 using MedievalConquerors.Views.Main;
+using MedievalConquerors.Views.Maps;
 
 namespace MedievalConquerors.Views.Entities;
 
@@ -32,6 +35,10 @@ public partial class HandView : Node2D, IGameComponent
 	private readonly TweenTracker<CardView> _tweenTracker = new();
 	
 	[Export] private PackedScene _cardScene;
+	
+	// TODO: Do we need a more dynamic way to get a mapView reference? 
+	[Export] private MapView _mapView;
+	
 	[Export] private Curve _spreadCurve;
 	[Export] private Curve _heightCurve;
 	[Export] private Curve _rotationCurve;
@@ -44,6 +51,7 @@ public partial class HandView : Node2D, IGameComponent
 		Game.AddComponent(this);
 		
 		_events = Game.GetComponent<EventAggregator>();
+		_events.Subscribe<PlayCardAction>(GameEvent.Prepare<PlayCardAction>(), OnPreparePlayCard);
 		_events.Subscribe<DrawCardsAction>(GameEvent.Prepare<DrawCardsAction>(), OnPrepareDrawCards);
 
 		_settings = Game.GetComponent<IGameSettings>();
@@ -148,6 +156,56 @@ public partial class HandView : Node2D, IGameComponent
 		QueueRedraw();
 	}
 
+	private void OnPreparePlayCard(PlayCardAction action)
+	{
+		action.PerformPhase.Viewer = PlayCardAnimation;
+	}
+
+	private IEnumerator PlayCardAnimation(IGame game, GameAction action)
+	{
+		var playAction = (PlayCardAction) action;
+		
+		var tokenTween = _mapView.PlaceTokenAnimation(playAction);
+		
+		if (playAction.SourcePlayer.Id == Match.LocalPlayerId)
+		{
+			var playCardTween = PlayCardAnimation(playAction);
+			while (playCardTween.IsRunning())
+				yield return null;
+			
+			var handTweens = TweenToHandPositions();
+			while (handTweens.Any(t => t.IsRunning()))
+				yield return null;
+			
+			CalculatePreviewBoundaries();
+			QueueRedraw();
+		}
+
+		while (tokenTween.IsRunning())
+			yield return null;
+	}
+
+	private Tween PlayCardAnimation(PlayCardAction action)
+	{
+		const double tweenDuration = 0.4;
+		var cardView = _cards.Single(c => c.Card == action.CardToPlay);
+		
+		var globalTargetPosition = _mapView.TileMap.ToGlobal(_mapView.TileMap.MapToLocal(action.TargetTile));
+		var targetPosition = ToLocal(globalTargetPosition);
+		
+		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
+		tween.TweenProperty(cardView, "position", targetPosition, tweenDuration);
+		tween.TweenProperty(cardView, "scale", Vector2.One * 0.2f, tweenDuration).SetEase(Tween.EaseType.Out);
+		tween.TweenProperty(cardView, "modulate:a", 0f, tweenDuration);
+		tween.Chain().TweenCallback(Callable.From(() =>
+		{
+			_cards.Remove(cardView);
+			cardView.QueueFree();
+		}));
+		
+		return tween;
+	}
+
 	private int CalculateHoveredIndex(Vector2 mousePos)
 	{
 		for (int i = 0; i < _cards.Count; i++)
@@ -192,8 +250,8 @@ public partial class HandView : Node2D, IGameComponent
 	{
 		if (_cards.Count > 0)
 		{
-			_previewXMin = (int)(_cards[0].Position.X - 100 * _cards[0].Scale.X);
-			_previewXMax = (int)(_cards[^1].Position.X + 100 * _cards[0].Scale.X);
+			_previewXMin = (int)(_cards[0].Position.X - 100);
+			_previewXMax = (int)(_cards[^1].Position.X + 100);
 			_previewSectionSize = (_previewXMax - _previewXMin) / _cards.Count;
 		}
 		else

@@ -15,7 +15,7 @@ public partial class GameController : Node
 	[Export] private LogLevel _logLevel;
 	[Export] private GameSettings _settings;
 	
-	// TODO: Load different maps through this resource
+	// IDEA: We can load different maps through this resource
 	[Export] private MapView _mapView;
 	
 	private Game _game;
@@ -27,7 +27,7 @@ public partial class GameController : Node
 	public override void _EnterTree()
 	{ 
 		_log = new GodotLogger(_logLevel);
-		_map = GameMapFactory.CreateHexMap(_mapView);
+		_map = GameMapFactory.CreateHexMap(_mapView.TileMap);
 		_game = GameFactory.Create(_log, _map, _settings);
 
 		var match = _game.GetComponent<Match>();

@@ -1,11 +1,9 @@
-# Game Design Document: Medieval Conquerors
-
 ## 1. Introduction
 Medieval Conquerors is a competitive card game where players fight over resources on hexagonal game board. Each player crafts a deck of cards representing their civilization, with various units, buildings, and technologies that aid in their expansion and resource collection.
 
 The goal of the game is to expand your small town and gather enough resources to field a military large enough to overtake your opponent's town center. 
 
-Many strategies are available, craft your deck towards early game agression with cheap units or with the goal of building up strong defensive structures in order to survive until the late game, where much more powerful units can be trained.
+Many strategies are available, craft your deck towards early game aggression with cheap units or with the goal of building up strong defensive structures in order to survive until the late game, where much more powerful units can be trained.
 
 ## 2. Game Overview
 At the start of the game, players draw a set number of cards from their deck and begin with a town center on their side of the map. On each player's turn, they can play cards from their hands to expand their town. In the early game, player's will focus on spawning villagers to gather resources and building gathering posts near resource tiles to increase their storage limits.

@@ -18,8 +18,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "913a197cd56aeeff",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "card-designs.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -85,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "game-design-doc.md",
+                "file": "card-designs.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "game-design-doc.md",
+                "file": "card-designs.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "game-design-doc.md"
+                "file": "card-designs.md"
               }
             }
           }
@@ -146,10 +159,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "55e2f4ac2452ebb2",
+  "active": "913a197cd56aeeff",
   "lastOpenFiles": [
+    "game-design-doc.md",
     "card-designs.md",
     "mechanics-ideas.md",
+    "planned-cards-list.md",
+    "Untitled",
     "Welcome.md"
   ]
 }
