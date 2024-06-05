@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Godot;
+using MedievalConquerors.Engine.Input;
 
 namespace MedievalConquerors.Engine.Data;
 
@@ -24,7 +25,7 @@ public class TileData : ITileData, IClickable
     public ResourceType ResourceType { get; }
     public int ResourceYield { get; }
 
-    public bool IsWalkable => Terrain == TileTerrain.Grass && Units.Count == 0;
+    public bool IsWalkable => Terrain == TileTerrain.Grass && Units.Count == 0 && Building == null;
 	
     public TileData(Vector2I position, TileTerrain terrain, ResourceType resourceType, int resourceYield)
     {

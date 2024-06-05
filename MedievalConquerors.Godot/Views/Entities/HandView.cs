@@ -189,12 +189,11 @@ public partial class HandView : Node2D, IGameComponent
 	{
 		const double tweenDuration = 0.4;
 		var cardView = _cards.Single(c => c.Card == action.CardToPlay);
-		
-		var globalTargetPosition = _mapView.TileMap.ToGlobal(_mapView.TileMap.MapToLocal(action.TargetTile));
-		var targetPosition = ToLocal(globalTargetPosition);
+
+		var targetPosition = _mapView.GetTileGlobalPosition(action.TargetTile);
 		
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
-		tween.TweenProperty(cardView, "position", targetPosition, tweenDuration);
+		tween.TweenProperty(cardView, "position", ToLocal(targetPosition), tweenDuration);
 		tween.TweenProperty(cardView, "scale", Vector2.One * 0.2f, tweenDuration).SetEase(Tween.EaseType.Out);
 		tween.TweenProperty(cardView, "modulate:a", 0f, tweenDuration);
 		tween.Chain().TweenCallback(Callable.From(() =>

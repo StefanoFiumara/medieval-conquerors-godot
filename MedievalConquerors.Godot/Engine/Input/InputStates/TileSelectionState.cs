@@ -18,7 +18,7 @@ public class TileSelectionState : IClickableState
     private readonly IGame _game;
     private readonly ILogger _logger;
     
-    private readonly IMap _map;
+    private readonly IGameMap _map;
     private readonly MapView _mapView;
 
     private List<Vector2I> _validTiles;
@@ -29,7 +29,7 @@ public class TileSelectionState : IClickableState
         _selectedCard = selectedCard;
         _game = game;
         _mapView = game.GetComponent<MapView>();
-        _map = game.GetComponent<IMap>();
+        _map = game.GetComponent<IGameMap>();
         _logger = game.GetComponent<ILogger>();
     }
 

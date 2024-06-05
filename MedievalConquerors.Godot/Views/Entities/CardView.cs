@@ -4,6 +4,7 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.GameComponents;
+using MedievalConquerors.Engine.Input;
 
 namespace MedievalConquerors.Views.Entities;
 

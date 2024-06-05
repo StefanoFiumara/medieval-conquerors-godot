@@ -9,7 +9,7 @@ namespace MedievalConquerors.Engine;
 
 public static class GameFactory
 {
-    public static Game Create(ILogger logger, IMap map, IGameSettings settings)
+    public static Game Create(ILogger logger, IGameMap map, IGameSettings settings)
     {
         var game = new Game();
         

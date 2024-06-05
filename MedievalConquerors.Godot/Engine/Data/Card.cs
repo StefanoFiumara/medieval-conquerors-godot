@@ -14,7 +14,7 @@ public interface ICardData
     public List<ICardAttribute> Attributes { get; set; }
 }
 
-public class CardData : ICardData, IClickable
+public class CardData : ICardData
 {
     public int Id { get; set; }
     public string Title { get; set; }
@@ -27,7 +27,6 @@ public class CardData : ICardData, IClickable
 
 public interface ICardAttribute
 {
-    // TODO: better name for this?
     void Reset();
     ICardAttribute Clone();
 }

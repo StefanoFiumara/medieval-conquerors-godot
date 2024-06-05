@@ -1,6 +1,7 @@
 using Godot;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Engine.Input;
 
 namespace MedievalConquerors.Views.Entities;
 

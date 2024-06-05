@@ -31,7 +31,7 @@ public partial class MapView : Node2D, IGameComponent
 	[Export] private PackedScene _tokenScene;
 	[Export] public TileMap TileMap { get; private set; }
 	
-	private IMap _map;
+	private IGameMap _map;
 	private Viewport _viewport;
 	private Vector2I _hovered = None;
 	
@@ -47,25 +47,11 @@ public partial class MapView : Node2D, IGameComponent
 		Game.AddComponent(this);
 		
 		_events = Game.GetComponent<EventAggregator>();
-		_map = Game.GetComponent<IMap>();
+		_map = Game.GetComponent<IGameMap>();
 		_viewport = GetViewport();
 		_zoomTarget = Scale;
 	}
 
-	public Tween PlaceTokenAnimation(PlayCardAction action)
-	{
-		const double tweenDuration = 0.4;
-
-		var tokenView = CreateTokenView(action.CardToPlay);
-		tokenView.Position = TileMap.MapToLocal(action.TargetTile);
-		tokenView.Modulate = Colors.Transparent;
-		
-		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In);
-		tween.TweenProperty(tokenView, "modulate", Colors.White, tweenDuration);
-
-		return tween;
-	}
-	
 	public override void _Input(InputEvent input)
 	{
 		if (input.IsEcho()) return;
@@ -148,18 +134,37 @@ public partial class MapView : Node2D, IGameComponent
 		// TODO: store the tokenView somewhere for later access
 		return tokenView;
 	}
-	
-	private void SetDragging(bool dragging)
+
+	public Tween PlaceTokenAnimation(PlayCardAction action)
 	{
-		_isDragging = dragging;
-		if(_isDragging)
-			_dragOffset = Position - _viewport.GetMousePosition();
+		const double tweenDuration = 0.4;
+
+		var tokenView = CreateTokenView(action.CardToPlay);
+		tokenView.Position = TileMap.MapToLocal(action.TargetTile);
+		tokenView.Modulate = Colors.Transparent;
+		
+		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In);
+		tween.TweenProperty(tokenView, "modulate", Colors.White, tweenDuration);
+
+		return tween;
+	}
+
+	public Vector2 GetTileGlobalPosition(Vector2I coords)
+	{
+		return TileMap.ToGlobal(TileMap.MapToLocal(coords));
 	}
 
 	private Vector2I GetTileCoord(Vector2 mousePos)
 	{
 		var mapCoord = TileMap.LocalToMap(ToLocal(mousePos));
 		return _map.GetTile(mapCoord) != null ? mapCoord : None;
+	}
+
+	private void SetDragging(bool dragging)
+	{
+		_isDragging = dragging;
+		if(_isDragging)
+			_dragOffset = Position - _viewport.GetMousePosition();
 	}
 
 	public void Clear(HighlightLayer layer)

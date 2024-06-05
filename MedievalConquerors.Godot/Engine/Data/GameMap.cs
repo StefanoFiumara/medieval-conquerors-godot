@@ -6,7 +6,7 @@ using MedievalConquerors.Engine.Core;
 
 namespace MedievalConquerors.Engine.Data;
 
-public interface IMap : IGameComponent
+public interface IGameMap : IGameComponent
 {
 	ITileData GetTile(Vector2I pos);
 	IEnumerable<ITileData> GetNeighbors(Vector2I pos);
@@ -22,7 +22,7 @@ public interface IMap : IGameComponent
 
 // NOTE: HexMap logic assumes pointy-top hex tiles with Odd Offset coordinates
 // TODO: Unit tests for this logic
-public class HexMap : GameComponent, IMap
+public class HexMap : GameComponent, IGameMap
 {
 	private readonly Dictionary<Vector2I, ITileData> _tiles;
 

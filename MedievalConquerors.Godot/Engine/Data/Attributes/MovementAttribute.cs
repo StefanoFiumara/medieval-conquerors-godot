@@ -12,6 +12,9 @@ public class MovementAttribute : ICardAttribute
         set
         {
             _distance = value;
+            // TODO: May not need this, remaining distance can default to zero, and can be set with Reset() at the beginning of the player's turn.
+            //       This gives us the "Summoning Sickness" mechanic for free.
+            //       If this is implemented, we will have to update unit tests accordingly.
             RemainingDistance = value;
         }
     }
