@@ -15,9 +15,7 @@ namespace MedievalConquerors.Engine.Input.InputStates;
 public class MoveUnitFlowState : IClickableState
 {
     private readonly IGame _game;
-    
     private readonly MapView _mapView;
-    private readonly IGameMap _map;
     
     private Card _selectedUnit;
     private List<Vector2I> _validTiles;
@@ -30,7 +28,6 @@ public class MoveUnitFlowState : IClickableState
         _validTiles = new();
         
         _mapView = game.GetComponent<MapView>();
-        _map = game.GetComponent<IGameMap>();
     }
 
     public void Enter()
@@ -56,7 +53,7 @@ public class MoveUnitFlowState : IClickableState
         if (movement != null)
         {
             // TODO: Do we want to defer this logic to TargetSystem ? 
-            _validTiles = _map.GetReachable(_selectedUnit.MapPosition, movement.RemainingDistance).ToList();
+            _validTiles = _mapView.GameMap.GetReachable(_selectedUnit.MapPosition, movement.RemainingDistance).ToList();
         }
         
         // TODO: Should we have a separate layer/color for selected tiles vs Tile selection hints?

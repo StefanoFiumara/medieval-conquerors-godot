@@ -43,6 +43,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Update();
         
         // set up move attribute
+        card.Attributes.Clear();
         var moveAttribute = new MovementAttribute
         {
             Distance = 1
@@ -68,6 +69,7 @@ public class MapSystemTests : GameSystemTestFixture
     {
         // Play a card
         var card = _player.Hand.First();
+        card.Attributes.Clear();
         
         var firstPosition = new Vector2I(5, 5);
         var playAction = new PlayCardAction(card, firstPosition);
@@ -75,6 +77,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Update();
         
         // Then attempt to Move it.
+        
         var newPosition = new Vector2I(5, 4);
         var moveAction = new MoveUnitAction(_player, card, newPosition);
         Game.Perform(moveAction);
@@ -97,6 +100,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Update();
         
         // set up move attribute
+        card.Attributes.Clear();
         var moveAttribute = new MovementAttribute
         {
             Distance = 1
@@ -122,6 +126,7 @@ public class MapSystemTests : GameSystemTestFixture
         var card = _player.Hand.First();
         
         // set up move attribute
+        card.Attributes.Clear();
         var moveAttribute = new MovementAttribute
         {
             Distance = 1
@@ -135,7 +140,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Perform(moveAction);
         Game.Update();
 
-        card.MapPosition.Should().Be(new Vector2I(int.MinValue, int.MinValue));
+        card.MapPosition.Should().Be(HexMap.None);
         Map.GetTile(newPosition).Unit.Should().BeNull();
     }
     
@@ -151,7 +156,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Update();
         
         // set up move attribute
-        // TODO: Update Tests to Reset() attributes as part of engine flow?
+        card.Attributes.Clear();
         var moveAttribute = new MovementAttribute
         {
             Distance = 2,
@@ -198,6 +203,6 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Update();
      
         Map.GetTile(positionToPlay).Unit.Should().BeNull();
-        toDiscard.Single().MapPosition.Should().Be(MapSystem.InvalidTile);
+        toDiscard.Single().MapPosition.Should().Be(HexMap.None);
     }
 }

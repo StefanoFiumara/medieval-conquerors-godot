@@ -75,7 +75,7 @@ public class PlayerSystemTests : GameSystemTestFixture
         _player.Discard.Should().AllSatisfy(c => c.Zone.Should().Be(Zone.Discard));
 
         Map.GetTile(positionToPlay).Unit.Should().BeNull();
-        toDiscard.Single().MapPosition.Should().Be(MapSystem.InvalidTile);
+        toDiscard.Single().MapPosition.Should().Be(HexMap.None);
     }
     
     [Fact]

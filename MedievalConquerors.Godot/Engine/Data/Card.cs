@@ -44,7 +44,7 @@ public class Card
         CardData = cardData;
         Owner = owner;
         Zone = zone;
-        MapPosition = Zone == Zone.Map ? mapPosition : MapSystem.InvalidTile;
+        MapPosition = Zone == Zone.Map ? mapPosition : HexMap.None;
 
         Attributes = new List<ICardAttribute>();
         foreach (var dataAttribute in CardData.Attributes)

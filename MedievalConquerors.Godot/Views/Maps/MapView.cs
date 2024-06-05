@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
@@ -8,7 +9,6 @@ using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.Input;
 using MedievalConquerors.Views.Entities;
 using MedievalConquerors.Views.Main;
-using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Views.Maps;
 
@@ -22,8 +22,6 @@ public enum HighlightLayer
 
 public partial class MapView : Node2D, IGameComponent
 {
-	
-	
 	private const int HighlightTileSetId = 2;
 
 	public IGame Game { get; set; }
@@ -33,7 +31,8 @@ public partial class MapView : Node2D, IGameComponent
 	
 	// TODO: Consider making IGameMap public, so we don't have to get a reference
 	//       to this component AND the view each time we need to work with it.
-	private IGameMap _map;
+	public IGameMap GameMap { get; private set; }
+	
 	private Viewport _viewport;
 	private Vector2I _hovered = HexMap.None;
 	
@@ -43,15 +42,22 @@ public partial class MapView : Node2D, IGameComponent
 	
 	private EventAggregator _events;
 
+	private List<TokenView> _tokens;
+
 	public override void _Ready()
 	{
 		Game = GetParent<GameController>().Game;
 		Game.AddComponent(this);
 		
+		GameMap = Game.GetComponent<IGameMap>();
+		
 		_events = Game.GetComponent<EventAggregator>();
-		_map = Game.GetComponent<IGameMap>();
 		_viewport = GetViewport();
 		_zoomTarget = Scale;
+
+		_tokens = new();
+		
+		_events.Subscribe<MoveUnitAction>(GameEvent.Prepare<MoveUnitAction>(), OnPrepareMoveUnit);
 	}
 
 	public override void _Input(InputEvent input)
@@ -70,7 +76,7 @@ public partial class MapView : Node2D, IGameComponent
 		switch (buttonEvent.ButtonIndex)
 		{
 			case MouseButton.Left when buttonEvent.IsReleased():
-				_events.Publish(InputSystem.ClickedEvent, _map.GetTile(GetTileCoord(buttonEvent.Position)));
+				_events.Publish(InputSystem.ClickedEvent, GameMap.GetTile(GetTileCoord(buttonEvent.Position)));
 				return true;
 			case MouseButton.Middle:
 				SetDragging(buttonEvent.Pressed);
@@ -133,7 +139,7 @@ public partial class MapView : Node2D, IGameComponent
 		TileMap.AddChild(tokenView);
 		tokenView.Initialize(Game, card);
 		
-		// TODO: store the tokenView somewhere for later access
+		_tokens.Add(tokenView);
 		return tokenView;
 	}
 
@@ -151,6 +157,32 @@ public partial class MapView : Node2D, IGameComponent
 		return tween;
 	}
 
+	private void OnPrepareMoveUnit(MoveUnitAction action)
+	{
+		action.PerformPhase.Viewer = MoveTokenAnimation;
+	}
+
+	private IEnumerator MoveTokenAnimation(IGame game, GameAction action)
+	{
+		const double stepDuration = 0.3;
+		
+		var moveAction = (MoveUnitAction) action;
+		var path = GameMap.CalculatePath(moveAction.CardToMove.MapPosition, moveAction.TargetTile);
+
+		var token = _tokens.Single(t => t.Card == moveAction.CardToMove);
+
+		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine);
+
+		foreach (var tile in path)
+		{
+			var stepPosition = TileMap.MapToLocal(tile);
+			tween.TweenProperty(token, "position", stepPosition, stepDuration);
+		}
+
+		while (tween.IsRunning())
+			yield return null;
+	}
+	
 	public Vector2 GetTileGlobalPosition(Vector2I coords)
 	{
 		return TileMap.ToGlobal(TileMap.MapToLocal(coords));
@@ -159,7 +191,7 @@ public partial class MapView : Node2D, IGameComponent
 	private Vector2I GetTileCoord(Vector2 mousePos)
 	{
 		var mapCoord = TileMap.LocalToMap(ToLocal(mousePos));
-		return _map.GetTile(mapCoord) != null ? mapCoord : HexMap.None;
+		return GameMap.GetTile(mapCoord) != null ? mapCoord : HexMap.None;
 	}
 
 	private void SetDragging(bool dragging)

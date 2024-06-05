@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Core;
-using MedievalConquerors.Views.Maps;
 
 namespace MedievalConquerors.Engine.Data;
 
@@ -17,8 +16,6 @@ public interface IGameMap : IGameComponent
 	List<Vector2I> CalculatePath(Vector2I start, Vector2I end);
 
 	// TODO: Other functions we may want to implement:
-	//			* Pathfinding
-	//			    * List<ITileData> CreatePath(Vector2I start, Vector2I end);
 	//			* Field of View
 	//			* https://www.redblobgames.com/grids/hexagons/
 }
@@ -125,8 +122,7 @@ public class HexMap : GameComponent, IGameMap
 
 		return dx + dy - Mathf.FloorToInt(dx / 2.0);
 	}
-
-	// TODO: Test this function
+	
 	public List<Vector2I> CalculatePath(Vector2I start, Vector2I end)
 	{
 		var frontier = new PriorityQueue<Vector2I, int>();

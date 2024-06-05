@@ -3,7 +3,6 @@ using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
-using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Logging;
 using MedievalConquerors.Views.Entities;
@@ -19,7 +18,6 @@ public class PlayCardFlowState : IClickableState
     
     private readonly ILogger _logger;
     private readonly MapView _mapView;
-    private readonly IGameMap _map;
     
     private List<Vector2I> _validTiles;
 
@@ -29,14 +27,13 @@ public class PlayCardFlowState : IClickableState
         _selectedCard = selectedCard;
         
         _mapView = game.GetComponent<MapView>();
-        _map = game.GetComponent<IGameMap>();
         _logger = game.GetComponent<ILogger>();
     }
     public void Enter()
     {
         // TODO: Use Target System to find valid tiles for placing the _selectedCard.
         //       Remove the dependency on IGameMap from this class.
-        _validTiles = _map.SearchTiles(t => t.IsWalkable).Select(t => t.Position).ToList();
+        _validTiles = _mapView.GameMap.SearchTiles(t => t.IsWalkable).Select(t => t.Position).ToList();
         _mapView.HighlightTiles(_validTiles, HighlightLayer.TileSelectionHint);
     }
 

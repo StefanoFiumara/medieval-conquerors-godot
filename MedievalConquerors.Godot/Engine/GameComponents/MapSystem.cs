@@ -13,7 +13,6 @@ public class MapSystem : GameComponent, IAwake
     private IEventAggregator _events;
     private IGameMap _map;
     private Match _match;
-    public static Vector2I InvalidTile => new Vector2I(int.MinValue, int.MinValue);
 
     public void Awake()
     {
@@ -114,7 +113,7 @@ public class MapSystem : GameComponent, IAwake
     {
         foreach (var card in action.CardsToDiscard) 
         {
-            if (card.MapPosition != InvalidTile)
+            if (card.MapPosition != HexMap.None)
             {
                 var tile = _map.GetTile(card.MapPosition);
                 
@@ -123,7 +122,7 @@ public class MapSystem : GameComponent, IAwake
                 else
                     tile.Unit = null;
 
-                card.MapPosition = InvalidTile;
+                card.MapPosition = HexMap.None;
             }
         }
     }
@@ -144,13 +143,13 @@ public class MapSystem : GameComponent, IAwake
 
     private void OnPerformMoveUnit(MoveUnitAction action)
     {
+        var distanceTraveled = _map.CalculatePath(action.CardToMove.MapPosition, action.TargetTile).Count;
+        
         var oldTile = _map.GetTile(action.CardToMove.MapPosition);
         var newTile = _map.GetTile(action.TargetTile);
 
         oldTile.Unit = null;
         newTile.Unit = action.CardToMove;
-        
-        var distanceTraveled = _map.Distance(action.CardToMove.MapPosition, action.TargetTile);
         
         action.CardToMove.MapPosition = action.TargetTile;
         var moveAttr = action.CardToMove.GetAttribute<MovementAttribute>();
