@@ -6,19 +6,17 @@ namespace MedievalConquerors.Engine.Data.GameStates;
 
 public class IdleState : IState
 {
-    private readonly IGame _game;
+    private readonly CardSystem _cardSystem;
 
     public IdleState(IGame game)
     {
-        _game = game;
+        _cardSystem = game.GetComponent<CardSystem>();
     }
     
     public void Enter()
     {
-        _game.GetComponent<CardSystem>().Refresh();
-        
+        _cardSystem.Refresh();
         // TODO: Check AI System here to perform enemy action
-        
     }
     public void Exit() { }
 }
