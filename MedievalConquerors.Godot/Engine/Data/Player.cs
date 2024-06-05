@@ -57,7 +57,8 @@ public class Player : IPlayer
                     Tags = Tags.None,
                     Attributes = new()
                     {
-                        new ResourceCostAttribute { Food = 4, Gold = 2 }
+                        new ResourceCostAttribute { Food = 4, Gold = 2 },
+                        new MovementAttribute { Distance = 2 }
                     }
                 }, this)));
 

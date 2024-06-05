@@ -57,8 +57,8 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Update();
 
         card.MapPosition.Should().Be(newPosition);
-        Map.GetTile(newPosition).Units.Should().Contain(card);
-        Map.GetTile(firstPosition).Units.Should().BeEmpty();
+        Map.GetTile(newPosition).Unit.Should().Be(card);
+        Map.GetTile(firstPosition).Unit.Should().BeNull();
         
         moveAttribute.RemainingDistance.Should().Be(0);
     }
@@ -81,8 +81,8 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Update();
 
         card.MapPosition.Should().Be(firstPosition);
-        Map.GetTile(newPosition).Units.Should().BeEmpty();
-        Map.GetTile(firstPosition).Units.Should().Contain(card);
+        Map.GetTile(newPosition).Unit.Should().BeNull();
+        Map.GetTile(firstPosition).Unit.Should().Be(card);
     }
     
     [Fact]
@@ -111,8 +111,8 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Update();
 
         card.MapPosition.Should().Be(firstPosition);
-        Map.GetTile(firstPosition).Units.Should().Contain(card);
-        Map.GetTile(newPosition).Units.Should().BeEmpty();
+        Map.GetTile(firstPosition).Unit.Should().Be(card);
+        Map.GetTile(newPosition).Unit.Should().BeNull();
     }
     
     [Fact]
@@ -136,7 +136,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Update();
 
         card.MapPosition.Should().Be(new Vector2I(int.MinValue, int.MinValue));
-        Map.GetTile(newPosition).Units.Should().BeEmpty();
+        Map.GetTile(newPosition).Unit.Should().BeNull();
     }
     
     [Fact]
@@ -197,7 +197,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Perform(discardAction);
         Game.Update();
      
-        Map.GetTile(positionToPlay).Units.Should().BeEmpty();
+        Map.GetTile(positionToPlay).Unit.Should().BeNull();
         toDiscard.Single().MapPosition.Should().Be(MapSystem.InvalidTile);
     }
 }

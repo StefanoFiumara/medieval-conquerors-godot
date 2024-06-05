@@ -12,32 +12,31 @@ using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Engine.Input.InputStates;
 
-public class TileSelectionState : IClickableState
+public class PlayCardFlowState : IClickableState
 {
-    private readonly CardView _selectedCard;
     private readonly IGame _game;
+    private readonly CardView _selectedCard;
+    
     private readonly ILogger _logger;
-    
-    private readonly IGameMap _map;
     private readonly MapView _mapView;
-
-    private List<Vector2I> _validTiles;
+    private readonly IGameMap _map;
     
+    private List<Vector2I> _validTiles;
 
-    public TileSelectionState(CardView selectedCard, IGame game)
+    public PlayCardFlowState(IGame game, CardView selectedCard)
     {
-        _selectedCard = selectedCard;
         _game = game;
+        _selectedCard = selectedCard;
+        
         _mapView = game.GetComponent<MapView>();
         _map = game.GetComponent<IGameMap>();
         _logger = game.GetComponent<ILogger>();
     }
-
     public void Enter()
     {
         // TODO: Use Target System to find valid tiles for placing the _selectedCard.
-        //       Remove the dependency on IMap from this class.
-        _validTiles = _map.SearchTiles(t => t.Terrain == TileTerrain.Grass).Select(t => t.Position).ToList();
+        //       Remove the dependency on IGameMap from this class.
+        _validTiles = _map.SearchTiles(t => t.IsWalkable).Select(t => t.Position).ToList();
         _mapView.HighlightTiles(_validTiles, HighlightLayer.TileSelectionHint);
     }
 
@@ -52,7 +51,6 @@ public class TileSelectionState : IClickableState
             return this;
 
         _logger.Info($"Clicked on Tile {t.Position}");
-        
         if (!_validTiles.Contains(t.Position))
         {
             _logger.Warn($"{t.Position} is not a valid tile for the selected card!");
@@ -62,6 +60,6 @@ public class TileSelectionState : IClickableState
         var action = new PlayCardAction(_selectedCard.Card, t.Position);
         _game.Perform(action);
         
-        return new CardSelectionState(_game);
+        return new WaitingForInputState(_game);
     }
 }

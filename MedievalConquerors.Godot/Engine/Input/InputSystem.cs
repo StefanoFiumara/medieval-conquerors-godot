@@ -16,34 +16,24 @@ public class InputSystem : GameComponent, IAwake, IDestroy
     private IEventAggregator _events;
     private ActionSystem _actionSystem;
     
-    private Match _match;
-    
     public void Awake()
     {
         _actionSystem = Game.GetComponent<ActionSystem>();
-        _match = Game.GetComponent<Match>();
         _events = Game.GetComponent<EventAggregator>();
         
         _events.Subscribe<IClickable, InputEventMouseButton>(ClickedEvent, OnInput);
 
-        _stateMachine = new StateMachine(new CardSelectionState(Game));
+        _stateMachine = new StateMachine(new WaitingForInputState(Game));
     }
 
     private void OnInput(IClickable selected, InputEventMouseButton mouseEvent)
     {
         if (_actionSystem.IsActive)
             return;
-
-        // TODO: Should this check be at the state level?
-        //       Some input states can be transitioned without
-        //       needing to be the player's turn (e.g. preview discard pile)
-        if (_match.CurrentPlayer != _match.LocalPlayer)
-            return;
-        
+ 
         if (_stateMachine.CurrentState is IClickableState turnState)
         {
-            // TODO: Implement a cancel action, e.g. via right click.
-            //       Currently we are not tracking right clicks.
+            // TODO: Implement a cancel action
             var newState = turnState.OnReceivedInput(selected, mouseEvent);
             _stateMachine.ChangeState(newState);
         }   

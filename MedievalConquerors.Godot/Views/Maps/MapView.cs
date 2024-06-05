@@ -22,7 +22,7 @@ public enum HighlightLayer
 
 public partial class MapView : Node2D, IGameComponent
 {
-	private static readonly Vector2I None = new(int.MinValue, int.MinValue);
+	
 	
 	private const int HighlightTileSetId = 2;
 
@@ -31,9 +31,11 @@ public partial class MapView : Node2D, IGameComponent
 	[Export] private PackedScene _tokenScene;
 	[Export] public TileMap TileMap { get; private set; }
 	
+	// TODO: Consider making IGameMap public, so we don't have to get a reference
+	//       to this component AND the view each time we need to work with it.
 	private IGameMap _map;
 	private Viewport _viewport;
-	private Vector2I _hovered = None;
+	private Vector2I _hovered = HexMap.None;
 	
 	private bool _isDragging;
 	private Vector2 _dragOffset;
@@ -110,9 +112,9 @@ public partial class MapView : Node2D, IGameComponent
 		if (mapCoord != _hovered)
 		{
 			RemoveHighlight(_hovered, HighlightLayer.MouseHover);
-			_hovered = None;
+			_hovered = HexMap.None;
 
-			if (mapCoord != None)
+			if (mapCoord != HexMap.None)
 			{
 				HighlightTile(mapCoord, HighlightLayer.MouseHover);
 				_hovered = mapCoord;
@@ -157,7 +159,7 @@ public partial class MapView : Node2D, IGameComponent
 	private Vector2I GetTileCoord(Vector2 mousePos)
 	{
 		var mapCoord = TileMap.LocalToMap(ToLocal(mousePos));
-		return _map.GetTile(mapCoord) != null ? mapCoord : None;
+		return _map.GetTile(mapCoord) != null ? mapCoord : HexMap.None;
 	}
 
 	private void SetDragging(bool dragging)
@@ -179,7 +181,7 @@ public partial class MapView : Node2D, IGameComponent
 
 	public void HighlightTile(Vector2I coord, HighlightLayer layer)
 	{
-		if (coord != None)
+		if (coord != HexMap.None)
 		{
 			// NOTE: The layer ID also matches up with the scene collection ID for the glow color for that layer
 			TileMap.SetCell((int)layer, coord, HighlightTileSetId, Vector2I.Zero, (int)layer);
@@ -188,7 +190,7 @@ public partial class MapView : Node2D, IGameComponent
 
 	public bool IsHighlighted(Vector2I coord, HighlightLayer layer)
 	{
-		if (coord != None)
+		if (coord != HexMap.None)
 		{
 			// NOTE: Since we are looking at highlight layers, it is ok to simple check if a cell is being used.
 			//		 This indicates that it is highlighted, since there is no other reason for a tile to be
@@ -201,7 +203,7 @@ public partial class MapView : Node2D, IGameComponent
 	
 	public void RemoveHighlight(Vector2I coord, HighlightLayer layer)
 	{
-		if (coord != None)
+		if (coord != HexMap.None)
 		{
 			TileMap.SetCell((int) layer, coord);
 		}

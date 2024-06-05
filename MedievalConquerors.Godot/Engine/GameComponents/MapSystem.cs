@@ -44,7 +44,7 @@ public class MapSystem : GameComponent, IAwake
 
 
         else if (action.CardToPlay.CardData.CardType == CardType.Unit) 
-            tile.Units.Add(action.CardToPlay);
+            tile.Unit = action.CardToPlay;
 
         action.CardToPlay.MapPosition = action.TargetTile;
     }
@@ -121,7 +121,7 @@ public class MapSystem : GameComponent, IAwake
                 if (card == tile.Building)
                     tile.Building = null;
                 else
-                    tile.Units.Remove(card);
+                    tile.Unit = null;
 
                 card.MapPosition = InvalidTile;
             }
@@ -147,8 +147,8 @@ public class MapSystem : GameComponent, IAwake
         var oldTile = _map.GetTile(action.CardToMove.MapPosition);
         var newTile = _map.GetTile(action.TargetTile);
 
-        oldTile.Units.Remove(action.CardToMove);
-        newTile.Units.Add(action.CardToMove);
+        oldTile.Unit = null;
+        newTile.Unit = action.CardToMove;
         
         var distanceTraveled = _map.Distance(action.CardToMove.MapPosition, action.TargetTile);
         

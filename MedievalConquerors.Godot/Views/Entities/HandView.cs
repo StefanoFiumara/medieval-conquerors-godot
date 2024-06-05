@@ -8,8 +8,6 @@ using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
-using MedievalConquerors.Engine.Logging;
-using MedievalConquerors.Extensions;
 using MedievalConquerors.Utils;
 using MedievalConquerors.Views.Main;
 using MedievalConquerors.Views.Maps;

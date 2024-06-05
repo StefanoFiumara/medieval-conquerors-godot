@@ -49,8 +49,8 @@ public class PlayerSystemTests : GameSystemTestFixture
         
         var tile = Map.GetTile(positionToPlay);
         
-        tile.Units.Should().HaveCount(1);
-        tile.Units.Single().Should().Be(cardToPlay);
+        tile.Unit.Should().NotBeNull();
+        tile.Unit.Should().Be(cardToPlay);
     }
     
     [Fact]
@@ -74,7 +74,7 @@ public class PlayerSystemTests : GameSystemTestFixture
         _player.Discard.Should().HaveCount(1);
         _player.Discard.Should().AllSatisfy(c => c.Zone.Should().Be(Zone.Discard));
 
-        Map.GetTile(positionToPlay).Units.Should().BeEmpty();
+        Map.GetTile(positionToPlay).Unit.Should().BeNull();
         toDiscard.Single().MapPosition.Should().Be(MapSystem.InvalidTile);
     }
     
