@@ -31,6 +31,7 @@ public class PlayCardFlowState : IClickableState
     }
     public void Enter()
     {
+        // TODO: animate selected card away from hand
         // TODO: Use Target System to find valid tiles for placing the _selectedCard.
         //       Remove the dependency on IGameMap from this class.
         _validTiles = _mapView.GameMap.SearchTiles(t => t.IsWalkable).Select(t => t.Position).ToList();
@@ -39,20 +40,25 @@ public class PlayCardFlowState : IClickableState
 
     public void Exit()
     {
+        // TODO: Return selected card back to hand
         _mapView.RemoveHighlights(_validTiles, HighlightLayer.TileSelectionHint);
     }
 
     public IClickableState OnReceivedInput(IClickable clickedObject, InputEventMouseButton mouseEvent)
     {
+        // TODO: If new card is selected, switch selected card and recalculate valid tiles
         if (clickedObject is not TileData t)
             return this;
 
         _logger.Info($"Clicked on Tile {t.Position}");
         if (!_validTiles.Contains(t.Position))
         {
+            // TODO: If tile is invalid, cancel selection
             _logger.Warn($"{t.Position} is not a valid tile for the selected card!");
             return this;
         }
+        
+        // TODO: If selected card was clicked again, cancel selection
         
         var action = new PlayCardAction(_selectedCard.Card, t.Position);
         _game.Perform(action);
