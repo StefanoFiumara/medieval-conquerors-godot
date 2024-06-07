@@ -25,7 +25,9 @@ public partial class HandView : Node2D, IGameComponent
 	private int _previewXMin;
 	private int _previewXMax;
 	private int _previewSectionSize = 150;
+	
 	private int _hoveredIndex = -1;
+	private int _selectedIndex = -1;
 	
 	private IGameSettings _settings;
 	private EventAggregator _events;
@@ -71,7 +73,7 @@ public partial class HandView : Node2D, IGameComponent
 
 		if (hovered != _hoveredIndex)
 		{
-			if (hovered != -1)
+			if (hovered != -1 && hovered != _selectedIndex)
 			{
 				TweenToPreviewPosition(hovered);
 			}
@@ -79,10 +81,11 @@ public partial class HandView : Node2D, IGameComponent
 			_hoveredIndex = hovered;
 			TweenToHandPositions();
 
-			// TODO: This might have to exclude cards that are actively being selected by the input system, how to integrate?
-			// IDEA: Move to input system and expose _hoveredIndex? Or have a property for hovered CardView?
 			for (int i = 0; i < _cards.Count; i++)
 			{
+				if(i == _selectedIndex)
+					continue;
+				
 				if(i == _hoveredIndex)
 					_cards[_hoveredIndex].Highlight();
 				else
@@ -102,7 +105,7 @@ public partial class HandView : Node2D, IGameComponent
 			}
 		}
 	}
-
+	
 	public override void _Draw()
 	{
 		if (!_settings.DebugMode)
@@ -121,6 +124,15 @@ public partial class HandView : Node2D, IGameComponent
 		}
 	}
 
+	public void SetSelected(CardView card)
+	{
+		_selectedIndex = _cards.IndexOf(card);
+	}
+	public void ResetSelection()
+	{
+		_selectedIndex = -1;
+	}
+	
 	private void AnchorViewToScreen()
 	{
 		var viewportRect = _viewport.GetVisibleRect();
@@ -167,7 +179,7 @@ public partial class HandView : Node2D, IGameComponent
 		
 		if (playAction.SourcePlayer.Id == Match.LocalPlayerId)
 		{
-			var playCardTween = PlayCardAnimation(playAction);
+			var playCardTween = PlayCardTween(playAction);
 			while (playCardTween.IsRunning())
 				yield return null;
 			
@@ -183,7 +195,7 @@ public partial class HandView : Node2D, IGameComponent
 			yield return null;
 	}
 
-	private Tween PlayCardAnimation(PlayCardAction action)
+	private Tween PlayCardTween(PlayCardAction action)
 	{
 		const double tweenDuration = 0.4;
 		var cardView = _cards.Single(c => c.Card == action.CardToPlay);
@@ -266,8 +278,9 @@ public partial class HandView : Node2D, IGameComponent
 		
 		for (var i = 0; i < _cards.Count; i++)
 		{
-			// Do not animate hovered card.
+			// Do not animate hovered/selected card.
 			if (i == _hoveredIndex) continue;
+			if(i == _selectedIndex) continue;
 			
 			var card = _cards[i];
 			card.ZIndex = i;
