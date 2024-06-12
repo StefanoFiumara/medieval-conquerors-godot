@@ -46,6 +46,7 @@ public partial class CardView : Node2D, IClickable
 			}
 			else
 			{
+				_glowTween?.Kill();
 				_glowTween = CreateTween().SetLoops().SetEase(Tween.EaseType.InOut);
 				_glowTween.TweenProperty(_glow, "modulate", _targetHighlightColor, 0.5f);
 				var highlightGlow = _targetHighlightColor with { A = 0.7f };

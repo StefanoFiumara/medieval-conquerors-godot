@@ -30,22 +30,6 @@ public class SelectUnitState : BaseInputState
 
     public override void Enter()
     {
-        CalculateReachableTiles(_selectedUnit);
-    }
-
-    public override void Exit()
-    {
-        _mapView.RemoveHighlight(_selectedUnit.MapPosition, HighlightLayer.TileSelectionHint);
-        _mapView.RemoveHighlights(_validTiles, HighlightLayer.TileSelectionHint);
-    }
-
-    private void CalculateReachableTiles(Card unit)
-    {
-        _mapView.RemoveHighlight(_selectedUnit.MapPosition, HighlightLayer.TileSelectionHint);
-        _mapView.RemoveHighlights(_validTiles, HighlightLayer.TileSelectionHint);
-
-        _selectedUnit = unit;
-        
         var movement = _selectedUnit.GetAttribute<MovementAttribute>();
 
         if (movement != null)
@@ -59,11 +43,30 @@ public class SelectUnitState : BaseInputState
         _mapView.HighlightTiles(_validTiles, HighlightLayer.TileSelectionHint);
     }
 
+    public override void Exit()
+    {
+        _mapView.RemoveHighlight(_selectedUnit.MapPosition, HighlightLayer.TileSelectionHint);
+        _mapView.RemoveHighlights(_validTiles, HighlightLayer.TileSelectionHint);
+    }
+
+    private void Reselect(Card unit)
+    {
+        Exit();
+        _selectedUnit = unit;
+        Enter();
+    }
+
     public override IClickableState OnReceivedInput(IClickable clickedObject, InputEventMouseButton mouseEvent)
     {
+        if (mouseEvent.ButtonIndex == MouseButton.Right)
+            return new WaitingForInputState(Game);
+        
         if (clickedObject is not TileData selectedTile) 
             return this;
 
+        if (selectedTile.Position == _selectedUnit.MapPosition)
+            return new WaitingForInputState(Game);
+        
         if (_validTiles.Contains(selectedTile.Position))
         {
             var action = new MoveUnitAction(_selectedUnit.Owner, _selectedUnit, selectedTile.Position);
@@ -71,26 +74,19 @@ public class SelectUnitState : BaseInputState
 
             return new WaitingForInputState(Game);
         }
-
-        if (selectedTile.Position == _selectedUnit.MapPosition)
-        {
-            // Cancel selection
-            return new WaitingForInputState(Game);
-        }
         
-        // TODO: Check this unit belongs to local player
         if (IsOwnedUnit(clickedObject))
         {
-            CalculateReachableTiles(selectedTile.Unit);
+            Reselect(selectedTile.Unit);
             return this;
         }
-
+        
         if (IsEnemyUnit(clickedObject))
         {
+            // TODO: check enemy unit is in range for attack
             // TODO: perform AttackUnitAction
         }
         
-        //       Do we need a separate flow for that? If not, is MoveUnitFlowState the correct name for this state?
         return this;
     }
 }
