@@ -34,6 +34,8 @@ public partial class HandView : Node2D, IGameComponent
 	private Viewport _viewport;
 	private readonly TweenTracker<CardView> _tweenTracker = new();
 	
+	private ActionSystem _actionSystem;
+	
 	[Export] private PackedScene _cardScene;
 	
 	// TODO: Do we need a more dynamic way to get a mapView reference? 
@@ -49,6 +51,8 @@ public partial class HandView : Node2D, IGameComponent
 	{
 		Game = GetParent<GameController>().Game;
 		Game.AddComponent(this);
+
+		_actionSystem = Game.GetComponent<ActionSystem>();
 		
 		_events = Game.GetComponent<EventAggregator>();
 		_events.Subscribe<PlayCardAction>(GameEvent.Prepare<PlayCardAction>(), OnPreparePlayCard);
@@ -68,6 +72,7 @@ public partial class HandView : Node2D, IGameComponent
 
 	public override void _Process(double elapsed)
 	{
+		if (_actionSystem.IsActive) return;
 		var mousePos = ToLocal(_viewport.GetMousePosition());
 		var hovered = CalculateHoveredIndex(mousePos);
 
@@ -98,6 +103,10 @@ public partial class HandView : Node2D, IGameComponent
 	{
 		if (inputEvent is InputEventMouseButton mouseEvent && mouseEvent.IsReleased())
 		{
+			if (mouseEvent.ButtonIndex == MouseButton.Right)
+			{
+				_events.Publish(InputSystem.ClickedEvent, (IClickable)null, mouseEvent);
+			}
 			if (mouseEvent.ButtonIndex == MouseButton.Left && _hoveredIndex != -1)
 			{
 				_events.Publish(InputSystem.ClickedEvent, _cards[_hoveredIndex], mouseEvent);
@@ -131,6 +140,7 @@ public partial class HandView : Node2D, IGameComponent
 	public void ResetSelection()
 	{
 		_selectedIndex = -1;
+		TweenToHandPositions();
 	}
 	
 	private void AnchorViewToScreen()

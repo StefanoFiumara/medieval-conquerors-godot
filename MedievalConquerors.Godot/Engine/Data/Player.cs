@@ -58,7 +58,7 @@ public class Player : IPlayer
                     Attributes = new()
                     {
                         new ResourceCostAttribute { Food = 4, Gold = 2 },
-                        new MovementAttribute { Distance = 10 }
+                        new MovementAttribute { Distance = 2 }
                     }
                 }, this)));
 

@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "card-designs.md",
+                "file": "mechanics-ideas.md",
                 "mode": "source",
                 "source": false
               }
@@ -98,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "card-designs.md",
+                "file": "mechanics-ideas.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "card-designs.md",
+                "file": "mechanics-ideas.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "card-designs.md"
+                "file": "mechanics-ideas.md"
               }
             }
           }
@@ -162,9 +162,9 @@
   "active": "913a197cd56aeeff",
   "lastOpenFiles": [
     "game-design-doc.md",
+    "planned-cards-list.md",
     "card-designs.md",
     "mechanics-ideas.md",
-    "planned-cards-list.md",
     "Untitled",
     "Welcome.md"
   ]

@@ -33,7 +33,6 @@ public class InputSystem : GameComponent, IAwake, IDestroy
  
         if (_stateMachine.CurrentState is IClickableState turnState)
         {
-            // TODO: Implement a cancel action
             var newState = turnState.OnReceivedInput(selected, mouseEvent);
             _stateMachine.ChangeState(newState);
         }   

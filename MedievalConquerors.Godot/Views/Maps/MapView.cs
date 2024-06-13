@@ -76,7 +76,7 @@ public partial class MapView : Node2D, IGameComponent
 		switch (buttonEvent.ButtonIndex)
 		{
 			case MouseButton.Left when buttonEvent.IsReleased():
-				_events.Publish(InputSystem.ClickedEvent, GameMap.GetTile(GetTileCoord(buttonEvent.Position)));
+				_events.Publish(InputSystem.ClickedEvent, GameMap.GetTile(GetTileCoord(buttonEvent.Position)), buttonEvent);
 				return true;
 			case MouseButton.Middle:
 				SetDragging(buttonEvent.Pressed);
