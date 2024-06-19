@@ -4,7 +4,6 @@ using Godot;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.GameComponents;
-using MedievalConquerors.Engine.Logging;
 using MedievalConquerors.Views.Entities;
 using MedievalConquerors.Views.Maps;
 using TileData = MedievalConquerors.Engine.Data.TileData;
@@ -33,6 +32,7 @@ public class PlayCardState : BaseInputState
         // TODO: Formalize highlight colors in one file (Game settings?)
         _handView.SetSelected(_selectedCard);
         _selectedCard.Highlight(Colors.Cyan);
+        
         
         var tween = _selectedCard.CreateTween().SetParallel().SetTrans(Tween.TransitionType.Sine);
         

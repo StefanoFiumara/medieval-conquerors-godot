@@ -1,0 +1,46 @@
+- Villager
+	- Economic Unit
+	- Can only be spawned inside economic buildings with enough garrison capacity
+- Town Center
+	- Economic Building
+	- Can Garrison Villagers (economic unit)
+		- Limit 6
+	- Resource Collector
+		- Collects resources in surrounding tiles
+		- Collects resources based on the number of garrisoned villagers
+	- Has hit points
+		- When hit points are reduced to zero, the player is eliminated
+- Gathering Posts (Lumber Camp / Mining Camp / Mill)
+	- Economic Building
+	- Can Garrison Villagers
+		- Limit 3
+	- Resource Bank
+		- Expands the storage capacity of the player's resource bank
+	- Resource Collector
+		- Collects specified resources in surrounding tiles
+		- Collects resources based on the number of garrisoned villagers
+	- Has hit points
+		- When damaged, a garrisoned villager is killed
+		- When hit points are reduced to zero, the building is destroyed
+
+### Required Changes
+- Add storage limit to `ResourceBank.cs`
+- Convert Resource Bank to use floating point values for resources
+- Add `GarrisonAttribute`
+	- Allows other units to garrison inside this building
+	- Properties:
+		- `int Limit` - Maximum allowed
+		- `List<Card> Units` - List of currently garrisoned units for this building
+		- Helper methods to determine if a unit can garrison here.
+- Add `TargetSystem
+	- Use to property determine available targetable tiles for units based on their attributes
+- Add `HitPointsAttribute`
+	- Holds the health value for units and buildings
+	- Properties:
+		- `int Health`
+		- `void TakeDamage(int)` - Or do it directly in the action handler
+- Add `ResourceCollectorAttribute`
+	- Marks the building as a resource collector and specifies which resource can be collected
+	- Properties:
+		- `ResourceType` - which resources can be collected
+		- `float GatherRate` - How quickly this building gathers resources during each resource collection step
