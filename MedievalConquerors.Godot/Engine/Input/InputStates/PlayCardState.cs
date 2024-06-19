@@ -78,8 +78,8 @@ public class PlayCardState : BaseInputState
             if (IsOwnedUnit(t))
                 return new SelectUnitState(Game, t.Unit);
             // TODO: If invalid tile has a building, move to building selection (not implemented yet)
-            else
-                return new WaitingForInputState(Game);
+            
+            return new WaitingForInputState(Game);
         }
         
         var action = new PlayCardAction(_selectedCard.Card, t.Position);

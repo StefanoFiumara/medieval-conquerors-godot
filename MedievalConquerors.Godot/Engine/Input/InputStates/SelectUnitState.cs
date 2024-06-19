@@ -49,15 +49,18 @@ public class SelectUnitState : BaseInputState
         _mapView.RemoveHighlights(_validTiles, HighlightLayer.TileSelectionHint);
     }
 
-    private void Reselect(Card unit)
+    private BaseInputState Reselect(Card unit)
     {
         Exit();
         _selectedUnit = unit;
         Enter();
+
+        return this;
     }
 
     public override IClickableState OnReceivedInput(IClickable clickedObject, InputEventMouseButton mouseEvent)
     {
+        // TODO: Switch to using right click for move/attack commands, left click for re-selection
         if (mouseEvent.ButtonIndex == MouseButton.Right)
             return new WaitingForInputState(Game);
         
@@ -67,24 +70,21 @@ public class SelectUnitState : BaseInputState
         if (selectedTile.Position == _selectedUnit.MapPosition)
             return new WaitingForInputState(Game);
         
+        if (IsOwnedUnit(clickedObject))
+            return Reselect(selectedTile.Unit);
+        
+        if (IsEnemyUnit(clickedObject))
+        {
+            // TODO: check enemy unit is in range for attack
+            // TODO: perform AttackUnitAction
+        }
+        
         if (_validTiles.Contains(selectedTile.Position))
         {
             var action = new MoveUnitAction(_selectedUnit.Owner, _selectedUnit, selectedTile.Position);
             Game.Perform(action);
 
             return new WaitingForInputState(Game);
-        }
-        
-        if (IsOwnedUnit(clickedObject))
-        {
-            Reselect(selectedTile.Unit);
-            return this;
-        }
-        
-        if (IsEnemyUnit(clickedObject))
-        {
-            // TODO: check enemy unit is in range for attack
-            // TODO: perform AttackUnitAction
         }
         
         return this;
