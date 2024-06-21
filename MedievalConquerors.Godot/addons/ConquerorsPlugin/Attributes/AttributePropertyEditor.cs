@@ -34,5 +34,15 @@ public partial class AttributePropertyEditor : HBoxContainer
 				prop.SetValue(attr, (int)v);
 			};
 		}
+		
+		else if (prop.PropertyType == typeof(float))
+		{
+			_strEditor.Hide();
+			_intEditor.Value = (float) (prop.GetValue(attr) ?? 0);
+			_intEditor.ValueChanged += v =>
+			{
+				prop.SetValue(attr, (float)v);
+			};
+		}
 	}
 }

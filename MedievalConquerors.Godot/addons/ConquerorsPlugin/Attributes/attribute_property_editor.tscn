@@ -18,6 +18,8 @@ horizontal_alignment = 2
 [node name="property_editor_int" type="SpinBox" parent="."]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+step = 0.1
+custom_arrow_step = 0.1
 
 [node name="property_editor_str" type="LineEdit" parent="."]
 layout_mode = 2

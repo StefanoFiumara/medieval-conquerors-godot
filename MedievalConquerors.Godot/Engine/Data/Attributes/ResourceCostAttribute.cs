@@ -2,10 +2,10 @@
 
 public class ResourceCostAttribute : ICardAttribute
 {
-    public int Food { get; set; }
-    public int Wood { get; set; }
-    public int Gold { get; set; }
-    public int Stone { get; set; }
+    public float Food { get; set; }
+    public float Wood { get; set; }
+    public float Gold { get; set; }
+    public float Stone { get; set; }
 
     public void Reset()
     {
