@@ -26,14 +26,15 @@
 ### Required Changes
 - ~~Add storage limit to `ResourceBank.cs`~~
 - ~~Convert Resource Bank to use floating point values for resources~~
-- Add `GarrisonAttribute`
-	- Allows other units to garrison inside this building
-	- Properties:
-		- `int Limit` - Maximum allowed
-		- `List<Card> Units` - List of currently garrisoned units for this building
-		- Helper methods to determine if a unit can garrison here.
+- ~~Add `GarrisonAttribute`~~
+	- ~~Allows other units to garrison inside this building~~
+	- ~~Properties:~~
+		- ~~`int Limit` - Maximum allowed~~
+		- ~~`List<Card> Units` - List of currently garrisoned units for this building~~
+		- ~~Helper methods to determine if a unit can garrison here.~~
 - Add `TargetSystem
 	- Use to property determine available targetable tiles for units based on their attributes
+	- Update `InputSystem` to use `TargetSystem` instead of the map directly
 - Add `HitPointsAttribute`
 	- Holds the health value for units and buildings
 	- Properties:
