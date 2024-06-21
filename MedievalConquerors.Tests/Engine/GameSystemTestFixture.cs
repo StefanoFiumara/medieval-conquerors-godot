@@ -21,6 +21,7 @@ public abstract class GameSystemTestFixture
 
     protected readonly IGame Game;
     protected readonly IEventAggregator Events;
+    protected readonly Match Match;
 
     protected GameSystemTestFixture(ITestOutputHelper output)
     {
@@ -31,10 +32,12 @@ public abstract class GameSystemTestFixture
         Settings.DebugMode.Returns(false);
         
         Game = GameFactory.Create(logger, Map, Settings);
-        
         Events = Game.GetComponent<EventAggregator>();
-        Game.GetComponent<Match>().LocalPlayer.Resources.Food = 4;
-        Game.GetComponent<Match>().LocalPlayer.Resources.Gold = 2;
+        
+        Match = Game.GetComponent<Match>();
+        Match.LocalPlayer.Resources[ResourceType.Food] = 4;
+        Match.LocalPlayer.Resources[ResourceType.Gold] = 2;
+        
         Game.Awake();
     }
 

@@ -5,16 +5,25 @@ namespace MedievalConquerors.Engine.Data;
 
 public class ResourceBank
 {
-    public int Food { get; set; }
-    public int Wood { get; set; }
-    public int Gold { get; set; }
-    public int Stone { get; set; }
+    public float Food { get; private set; }
+    public float Wood { get; private set; }
+    public float Gold { get; private set; }
+    public float Stone { get; private set; }
 
+    public float StorageLimit { get; private set; }
+
+    private float TotalResources => Food + Wood + Gold + Stone;
+
+    public ResourceBank(float storageLimit)
+    {
+        StorageLimit = storageLimit;
+    }
+    
     public bool CanAfford(ResourceCostAttribute resourceCost)
     {
-        return Food >= resourceCost.Food
-               && Wood >= resourceCost.Wood
-               && Gold >= resourceCost.Gold
+        return    Food  >= resourceCost.Food
+               && Wood  >= resourceCost.Wood
+               && Gold  >= resourceCost.Gold
                && Stone >= resourceCost.Stone;
     }
 
@@ -23,13 +32,34 @@ public class ResourceBank
         if (!CanAfford(resourceCost))
             throw new ArgumentException("Cannot afford resource cost");
         
-        Food -= resourceCost.Food;
-        Wood -= resourceCost.Wood;
-        Gold -= resourceCost.Gold;
+        Food  -= resourceCost.Food;
+        Wood  -= resourceCost.Wood;
+        Gold  -= resourceCost.Gold;
         Stone -= resourceCost.Stone;
     }
-    
-    public int this[ResourceType resourceType]
+
+    public void IncreaseLimit(float amount)
+    {
+        StorageLimit += amount;
+    }
+
+    public void DecreaseLimit(float amount)
+    {
+        if (TotalResources != 0)
+        {
+            float resourcesToRemove = TotalResources - StorageLimit + amount;
+            float ratio = resourcesToRemove / TotalResources;
+        
+            Food -= Food * ratio;
+            Wood -= Wood * ratio;
+            Gold -= Gold * ratio;
+            Stone -= Stone * ratio;
+        }
+        
+        StorageLimit -= amount;
+    }
+
+    public float this[ResourceType resourceType]
     {
         get
         {
@@ -44,19 +74,22 @@ public class ResourceBank
         }
         set
         {
+            float availableSpace = StorageLimit - (TotalResources - this[resourceType]);
+            float newAmount = (value > availableSpace) ? availableSpace : value;
+
             switch (resourceType)
             {
                 case ResourceType.Food:
-                    Food = value;
+                    Food = newAmount;
                     break;
                 case ResourceType.Wood:
-                    Wood = value;
+                    Wood = newAmount;
                     break;
                 case ResourceType.Gold:
-                    Gold = value;
+                    Gold = newAmount;
                     break;
                 case ResourceType.Stone:
-                    Stone = value;
+                    Stone = newAmount;
                     break;
                 default:
                     throw new ArgumentException("Invalid resource type");

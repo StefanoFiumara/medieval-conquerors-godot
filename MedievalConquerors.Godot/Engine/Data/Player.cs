@@ -7,12 +7,14 @@ namespace MedievalConquerors.Engine.Data;
 public interface IPlayer
 {
     int Id { get; }
+    
     ITileData TownCenter { get; set; }
     ResourceBank Resources { get; }
-    List<Card> Deck { get; }
-    List<Card> Hand { get; }
+    
+    List<Card> Deck    { get; }
+    List<Card> Hand    { get; }
     List<Card> Discard { get; }
-    List<Card> Map { get; }
+    List<Card> Map     { get; }
 
     List<Card> this[Zone z] { get; }
         
@@ -23,20 +25,20 @@ public interface IPlayer
 public class Player : IPlayer
 {
     public int Id { get; }
+    
     public ITileData TownCenter { get; set; }
     public ResourceBank Resources { get; }
-    public List<Card> Deck { get; } = new();
-    public List<Card> Hand { get; } = new();
+    
+    public List<Card> Deck    { get; } = new();
+    public List<Card> Hand    { get; } = new();
     public List<Card> Discard { get; } = new();
-    public List<Card> Map { get; } = new();
+    public List<Card> Map     { get; } = new();
 
     private readonly Dictionary<Zone, List<Card>> _zoneMap;
 
     public Player(int id)
     {
         Id = id;
-        Resources = new();
-        
         _zoneMap = new Dictionary<Zone, List<Card>>
         {
             { Zone.Deck, Deck },
@@ -45,6 +47,14 @@ public class Player : IPlayer
             { Zone.Map, Map },
         };
         
+        // TODO: parameterize starting storage limit
+        Resources = new ResourceBank(storageLimit: 60)
+        {
+            // TODO: Parameterize Starting Resources
+            [ResourceType.Food] = 40,
+            [ResourceType.Gold] = 20
+        };
+
         // TEMP: Add some temporary cards
         Deck.AddRange(Enumerable.Range(0, 30)
             .Select(i => new Card(
@@ -61,10 +71,6 @@ public class Player : IPlayer
                         new MovementAttribute { Distance = 2 }
                     }
                 }, this)));
-
-        // TEMP: Add some starting resources
-        Resources.Food = 40;
-        Resources.Gold = 20;
     }
     
     public List<Card> this[Zone z] => _zoneMap.ContainsKey(z) ? _zoneMap[z] : null;

@@ -24,8 +24,8 @@
 		- When hit points are reduced to zero, the building is destroyed
 
 ### Required Changes
-- Add storage limit to `ResourceBank.cs`
-- Convert Resource Bank to use floating point values for resources
+- ~~Add storage limit to `ResourceBank.cs`~~
+- ~~Convert Resource Bank to use floating point values for resources~~
 - Add `GarrisonAttribute`
 	- Allows other units to garrison inside this building
 	- Properties:
@@ -40,7 +40,8 @@
 		- `int Health`
 		- `void TakeDamage(int)` - Or do it directly in the action handler
 - Add `ResourceCollectorAttribute`
-	- Marks the building as a resource collector and specifies which resource can be collected
+	- Marks the building as a resource collector and specifies which resource can be collected and stored
 	- Properties:
 		- `ResourceType` - which resources can be collected
 		- `float GatherRate` - How quickly this building gathers resources during each resource collection step
+		- `float StorageLimit` - How much this building can store - to increase the player's storage limit in the resource bank
