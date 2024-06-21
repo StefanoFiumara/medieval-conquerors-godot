@@ -42,9 +42,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "bcd3e8201668796d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "card-designs.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -171,11 +183,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "afe832c5727f01dc",
+  "active": "bcd3e8201668796d",
   "lastOpenFiles": [
     "mechanics-ideas.md",
-    "planned-cards-list.md",
     "card-designs.md",
+    "planned-cards-list.md",
     "game-design-doc.md",
     "Untitled",
     "Welcome.md"

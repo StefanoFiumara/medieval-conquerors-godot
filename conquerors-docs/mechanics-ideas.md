@@ -8,6 +8,11 @@
 - storage space is expanded when gathering posts are built (lumber camp, mill, etc.)
 - If a gathering post is destroyed, any resources exceeding the maximum available in the bank are lost
 
+## Action Cards
+- Action cards can be played on units to perform a specific action
+- e.g. `Torch` action - unit does additional damage against buildings this turn
+- e.g. `Brace` action - spearmen units deal bonus damage to mounted units this turn
+- e.g. `Shield` action - armored units take less damage next turn
 ## Zone of Influence
 - Players have a zone of influence
 - players can build anywhere on the map, but buildings outside of the zone of influence take double damage from enemy units
