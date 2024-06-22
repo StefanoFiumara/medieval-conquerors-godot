@@ -7,10 +7,7 @@ public class ResourceCostAttribute : ICardAttribute
     public float Gold { get; set; }
     public float Stone { get; set; }
 
-    public void Reset()
-    {
-        // TODO: do we need to keep track of any cost changes here?
-    }
+    public void Reset() { }
     
     public ICardAttribute Clone() => AttributeMapper.Clone(this);
 }

@@ -32,17 +32,14 @@
 		- ~~`int Limit` - Maximum allowed~~
 		- ~~`List<Card> Units` - List of currently garrisoned units for this building~~
 		- ~~Helper methods to determine if a unit can garrison here.~~
-- Add `TargetSystem
-	- Use to property determine available targetable tiles for units based on their attributes
-	- Update `InputSystem` to use `TargetSystem` instead of the map directly
-- Add `HitPointsAttribute`
-	- Holds the health value for units and buildings
-	- Properties:
-		- `int Health`
-		- `void TakeDamage(int)` - Or do it directly in the action handler
-- Add `ResourceCollectorAttribute`
-	- Marks the building as a resource collector and specifies which resource can be collected and stored
-	- Properties:
-		- `ResourceType` - which resources can be collected
-		- `float GatherRate` - How quickly this building gathers resources during each resource collection step
-		- `float StorageLimit` - How much this building can store - to increase the player's storage limit in the resource bank
+- ~~Add `HitPointsAttribute`~~
+	- ~~Holds the health value for units and buildings~~
+	- ~~Properties:~~
+		- ~~`int Health`~~
+		- ~~`void TakeDamage(int)` - Or do it directly in the action handler~~
+- ~~Add `ResourceCollectorAttribute`~~
+	- ~~Marks the building as a resource collector and specifies which resource can be collected and stored~~
+	- ~~Properties:~~
+		- ~~`ResourceType` - which resources can be collected~~
+		- ~~`float GatherRate` - How quickly this building gathers resources during each resource collection step~~
+		- ~~`float StorageLimit` - How much this building can store - to increase the player's storage limit in the resource bank~~

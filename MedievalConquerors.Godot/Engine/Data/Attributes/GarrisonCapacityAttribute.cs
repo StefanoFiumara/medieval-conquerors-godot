@@ -3,8 +3,7 @@ using LiteDB;
 
 namespace MedievalConquerors.Engine.Data.Attributes;
 
-// TODO: System to use this attribute
-public class GarrisonAttribute : ICardAttribute
+public class GarrisonCapacityAttribute : ICardAttribute
 {
     public int Limit { get; set; }
 
@@ -22,10 +21,7 @@ public class GarrisonAttribute : ICardAttribute
             Units.Add(unit);
     }
     
-    public void Reset()
-    {
-        
-    }
+    public void Reset() { }
 
     public ICardAttribute Clone()
     {

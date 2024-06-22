@@ -8,8 +8,9 @@ public static partial class AttributeMapper
     public static partial MovementAttribute Clone(this MovementAttribute source);
     public static partial ResourceCostAttribute Clone(this ResourceCostAttribute source);
     
-    [MapperIgnoreTarget(nameof(GarrisonAttribute.Units))]
-    public static partial GarrisonAttribute Clone(this GarrisonAttribute source);
+    [MapperIgnoreTarget(nameof(GarrisonCapacityAttribute.Units))]
+    public static partial GarrisonCapacityAttribute Clone(this GarrisonCapacityAttribute source);
 
     public static partial HitPointsAttribute Clone(this HitPointsAttribute source);
+    public static partial ResourceCollectorAttribute Clone(this ResourceCollectorAttribute source);
 }
