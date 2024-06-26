@@ -6,7 +6,7 @@ public class ResourceCollectorAttribute : ICardAttribute
     public float GatherRate { get; set; }
     public float StorageLimitIncrease { get; set; }
     
-    public void Reset() { } 
+    public void OnTurnStart() { } 
 
     public ICardAttribute Clone()
     {

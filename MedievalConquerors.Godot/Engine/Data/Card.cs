@@ -3,23 +3,6 @@ using Godot;
 
 namespace MedievalConquerors.Engine.Data;
 
-public class CardData
-{
-    public int Id { get; set; }
-    public string Title { get; set; }
-    public string Description { get; set; }
-    public string ImagePath { get; set; }
-    public CardType CardType { get; set; }
-    public Tags Tags { get; set; }
-    public List<ICardAttribute> Attributes { get; set; } = new();
-}
-
-public interface ICardAttribute
-{
-    void Reset();
-    ICardAttribute Clone();
-}
-
 public class Card
 {
     public CardData CardData { get; }
@@ -41,4 +24,21 @@ public class Card
             Attributes.Add(dataAttribute.Clone());
         }
     }
+}
+
+public class CardData
+{
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public string ImagePath { get; set; }
+    public CardType CardType { get; set; }
+    public Tags Tags { get; set; }
+    public List<ICardAttribute> Attributes { get; set; } = new();
+}
+
+public interface ICardAttribute
+{
+    void OnTurnStart();
+    ICardAttribute Clone();
 }

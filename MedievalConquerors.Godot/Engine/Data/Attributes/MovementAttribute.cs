@@ -25,7 +25,7 @@ public class MovementAttribute : ICardAttribute
     public bool CanMove(int amount) => RemainingDistance >= amount;
     public void Move(int amount) => RemainingDistance -= amount;
 
-    public void Reset()
+    public void OnTurnStart()
     {
         RemainingDistance = Distance;
     }

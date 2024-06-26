@@ -21,7 +21,7 @@ public class GarrisonCapacityAttribute : ICardAttribute
             Units.Add(unit);
     }
     
-    public void Reset() { }
+    public void OnTurnStart() { }
 
     public ICardAttribute Clone()
     {

@@ -5,7 +5,7 @@ public class SpawnPointAttribute : ICardAttribute
     public Tags SpawnTags { get; set; }
     public int SpawnRange { get; set; }
     
-    public void Reset() { }
+    public void OnTurnStart() { }
 
     public ICardAttribute Clone()
     {

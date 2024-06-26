@@ -9,7 +9,7 @@ public class HitPointsAttribute : ICardAttribute
         Health -= amount;
     }
     
-    public void Reset() { }
+    public void OnTurnStart() { }
 
     public ICardAttribute Clone()
     {

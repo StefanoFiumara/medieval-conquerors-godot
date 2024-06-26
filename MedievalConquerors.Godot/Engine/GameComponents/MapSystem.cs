@@ -100,7 +100,7 @@ public class MapSystem : GameComponent, IAwake
         {
             foreach (var attr in card.Attributes)
             {
-                attr.Reset();
+                attr.OnTurnStart();
             }
         }
     }
