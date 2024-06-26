@@ -14,6 +14,11 @@ public class HandSystemTests : GameSystemTestFixture
     public HandSystemTests(ITestOutputHelper output) : base(output)
     {
         _player = Game.GetComponent<Match>().LocalPlayer;
+        
+        // Start the game with the given player
+        var action = new BeginGameAction(_player.Id);
+        Game.Perform(action);
+        Game.Update();
     }
 
     [Fact]
@@ -32,14 +37,15 @@ public class HandSystemTests : GameSystemTestFixture
     {
         var action = new DrawCardsAction(_player.Id, amountToDraw);
 
-        var initialDeckCount = _player.Deck.Count; 
+        var initialDeckCount = _player.Deck.Count;
+        var initialHand = _player.Hand.ToList();
         
         Game.Perform(action);
         Game.Update();
 
-        action.DrawnCards.Should().BeEquivalentTo(_player.Hand);
+        action.DrawnCards.Should().BeEquivalentTo(_player.Hand.Except(initialHand));
         
-        _player.Hand.Should().HaveCount(amountToDraw);
+        _player.Hand.Should().HaveCount(amountToDraw + initialHand.Count);
         _player.Deck.Should().HaveCount(initialDeckCount - amountToDraw);
         _player.Hand.Should().AllSatisfy(c => c.Zone.Should().Be(Zone.Hand));
     }

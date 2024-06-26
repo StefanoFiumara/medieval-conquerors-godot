@@ -5,6 +5,7 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.GameComponents;
+using MedievalConquerors.Extensions;
 using Xunit.Abstractions;
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
@@ -43,13 +44,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Update();
         
         // set up move attribute
-        card.Attributes.Clear();
-        var moveAttribute = new MovementAttribute
-        {
-            Distance = 1
-        };
-        card.CardData.Attributes.Add(moveAttribute);
-        card.Attributes.Add(moveAttribute);
+        card.GetAttribute<MovementAttribute>().Distance = 1;
         
         // Then move it
         var newPosition = new Vector2I(5, 4);
@@ -61,7 +56,7 @@ public class MapSystemTests : GameSystemTestFixture
         Map.GetTile(newPosition).Unit.Should().Be(card);
         Map.GetTile(firstPosition).Unit.Should().BeNull();
         
-        moveAttribute.RemainingDistance.Should().Be(0);
+        card.GetAttribute<MovementAttribute>().RemainingDistance.Should().Be(0);
     }
 
     [Fact]
@@ -69,7 +64,7 @@ public class MapSystemTests : GameSystemTestFixture
     {
         // Play a card
         var card = _player.Hand.First();
-        card.Attributes.Clear();
+        card.Attributes.Remove(card.GetAttribute<MovementAttribute>());
         
         var firstPosition = new Vector2I(5, 5);
         var playAction = new PlayCardAction(card, firstPosition);
@@ -100,13 +95,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Update();
         
         // set up move attribute
-        card.Attributes.Clear();
-        var moveAttribute = new MovementAttribute
-        {
-            Distance = 1
-        };
-        card.CardData.Attributes.Add(moveAttribute);
-        card.Attributes.Add(moveAttribute);
+        card.GetAttribute<MovementAttribute>().Distance = 1;
         
         // Then move it
         var newPosition = new Vector2I(5, 3); // 2 tiles away
@@ -126,13 +115,7 @@ public class MapSystemTests : GameSystemTestFixture
         var card = _player.Hand.First();
         
         // set up move attribute
-        card.Attributes.Clear();
-        var moveAttribute = new MovementAttribute
-        {
-            Distance = 1
-        };
-        card.CardData.Attributes.Add(moveAttribute);
-        card.Attributes.Add(moveAttribute);
+        card.GetAttribute<MovementAttribute>().Distance = 1;
         
         // Then attempt to move it
         var newPosition = new Vector2I(5, 3);
@@ -156,13 +139,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Update();
         
         // set up move attribute
-        card.Attributes.Clear();
-        var moveAttribute = new MovementAttribute
-        {
-            Distance = 2,
-        };
-        card.CardData.Attributes.Add(moveAttribute);
-        card.Attributes.Add(moveAttribute);
+        card.GetAttribute<MovementAttribute>().Distance = 2;
         
         // Then move it
         var newPosition = new Vector2I(5, 3); // 2 tiles away
@@ -170,7 +147,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Perform(moveAction);
         Game.Update();
 
-        moveAttribute.RemainingDistance.Should().Be(0);
+        card.GetAttribute<MovementAttribute>().RemainingDistance.Should().Be(0);
         
         // Change turn to opposite player
         var turnAction = new ChangeTurnAction(_match.OppositePlayer.Id);
@@ -182,7 +159,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Perform(turnAction);
         Game.Update();
         
-        moveAttribute.RemainingDistance.Should().Be(moveAttribute.Distance);
+        card.GetAttribute<MovementAttribute>().RemainingDistance.Should().Be(card.GetAttribute<MovementAttribute>().Distance);
     }
     
     [Fact]

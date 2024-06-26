@@ -4,6 +4,7 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.GameComponents;
+using MedievalConquerors.Extensions;
 using Xunit.Abstractions;
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
@@ -34,8 +35,12 @@ public class CardSystemTests : GameSystemTestFixture
     public void CardSystem_Marks_Cards_As_Playable()
     {
         var card = _player.Hand.First();
-        // clear existing cost attributes
-        card.Attributes.Clear();
+        
+        // clear resource costs
+        card.GetAttribute<ResourceCostAttribute>().Food = 0;
+        card.GetAttribute<ResourceCostAttribute>().Wood = 0;
+        card.GetAttribute<ResourceCostAttribute>().Gold = 0;
+        card.GetAttribute<ResourceCostAttribute>().Stone = 0;
         
         _underTest.Refresh();
         
@@ -48,12 +53,8 @@ public class CardSystemTests : GameSystemTestFixture
     public void CardSystem_Marks_Card_Unplayable_When_PlayCondition_Is_Unmet()
     {
         var card = _player.Hand.First();
-        
-        card.Attributes.Clear();
-        card.Attributes.Add(new ResourceCostAttribute
-        {
-            Food = 999
-        });
+
+        card.GetAttribute<ResourceCostAttribute>().Food = 999;
         
         _underTest.Refresh();
 

@@ -61,6 +61,11 @@ public abstract class GameSystemTestFixture
             }
         }
 
+        var townCenter1Pos = new Vector2I(4, 4);
+        var townCenter2Pos = new Vector2I(6, 6);
+        tileData[townCenter1Pos] = new TileData(townCenter1Pos, TileTerrain.TownCenter, ResourceType.None, 0);
+        tileData[townCenter2Pos] = new TileData(townCenter2Pos, TileTerrain.TownCenter, ResourceType.None, 0);
+        
         return new HexMap(tileData);
     }
 }

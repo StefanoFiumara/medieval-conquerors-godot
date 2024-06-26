@@ -43,7 +43,9 @@
 		- ~~`ResourceType` - which resources can be collected~~
 		- ~~`float GatherRate` - How quickly this building gathers resources during each resource collection step~~
 		- ~~`float StorageLimit` - How much this building can store - to increase the player's storage limit in the resource bank~~
-- Add `GarrisonSystem` to handle `GarrisonAttribute`
-- Add `HealthSystem` to handle `HitPointsAttribute`
+- ~~Add `GarrisonSystem` to handle `GarrisonAttribute`~~
+	- ~~intercept `PlayCardAction`~~ 
+		- ~~When Card is a unit and `TargetTile` is a building, reply with `GarrisonAction`~~
 - Add `ResourceSystem` to handle `ResourceCollectorAttribute`
+- Add `HealthSystem` to handle `HitPointsAttribute`
 - Implement attributes described above into card data

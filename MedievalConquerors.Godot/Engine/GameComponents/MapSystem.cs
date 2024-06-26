@@ -1,5 +1,4 @@
-﻿using Godot;
-using MedievalConquerors.Engine.Actions;
+﻿using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
@@ -23,12 +22,7 @@ public class MapSystem : GameComponent, IAwake
         _events.Subscribe<MoveUnitAction>(GameEvent.Perform<MoveUnitAction>(), OnPerformMoveUnit);
         _events.Subscribe<MoveUnitAction, ActionValidatorResult>(GameEvent.Validate<MoveUnitAction>(), OnValidateMoveUnit);
         
-        // TODO: Unit tests for these actions/validations
         _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
-        _events.Subscribe<PlayCardAction, ActionValidatorResult>(GameEvent.Validate<PlayCardAction>(), OnValidatePlayCard);
-        _events.Subscribe<PlayCardAction, ActionValidatorResult>(GameEvent.Validate<PlayCardAction>(), OnValidatePlayBuilding);
-        _events.Subscribe<PlayCardAction, ActionValidatorResult>(GameEvent.Validate<PlayCardAction>(), OnValidatePlayUnit);
-        _events.Subscribe<PlayCardAction, ActionValidatorResult>(GameEvent.Validate<PlayCardAction>(), OnValidatePlayTechnology);
         
         _events.Subscribe<DiscardCardsAction>(GameEvent.Perform<DiscardCardsAction>(), OnPerformDiscardCards);
         _events.Subscribe<ChangeTurnAction>(GameEvent.Perform<ChangeTurnAction>(), OnPerformChangeTurn);
@@ -40,73 +34,16 @@ public class MapSystem : GameComponent, IAwake
         
         if (action.CardToPlay.CardData.CardType == CardType.Building)
             tile.Building = action.CardToPlay;
-
-
-        else if (action.CardToPlay.CardData.CardType == CardType.Unit) 
-            tile.Unit = action.CardToPlay;
+        
+        else if (action.CardToPlay.CardData.CardType == CardType.Unit)
+        {
+            if (tile.Building != null)
+                Game.AddReaction(new GarrisonAction(action.CardToPlay, tile.Building));
+            else
+                tile.Unit = action.CardToPlay;
+        }
 
         action.CardToPlay.MapPosition = action.TargetTile;
-    }
-
-    private void OnValidatePlayUnit(PlayCardAction action, ActionValidatorResult validator)
-    {
-        if (action.CardToPlay.CardData.CardType != CardType.Unit)
-            return;
-        
-        var tile = _map.GetTile(action.TargetTile);
-        
-        // Units cannot be placed onto tiles that are not walkable
-        if (!tile.IsWalkable) 
-            validator.Invalidate("This tile is not walkable.");
-
-
-        if (tile.Building == null) return;
-        
-        // Validate unit can be placed inside the tile's building
-        // TODO: Generalize this, maybe with an attribute on the building?
-        //       This currently only check economic and military, but other tags should be checked
-        //       e.g. Mounted units can only be placed on or around stables
-            
-        var tileHasEconomicBuilding = tile.Building.CardData.Tags.HasFlag(Tags.Economic);
-        var cardIsEconomicUnit =action.CardToPlay.CardData.Tags.HasFlag(Tags.Economic);
-
-        if (tileHasEconomicBuilding && !cardIsEconomicUnit)
-            validator.Invalidate("Only economic units can be placed inside economic buildings.");
-            
-        var tileHasMilitaryBuilding = tile.Building.CardData.Tags.HasFlag(Tags.Military);
-        var cardIsMilitaryUnit =action.CardToPlay.CardData.Tags.HasFlag(Tags.Military);
-
-        if (tileHasMilitaryBuilding && !cardIsMilitaryUnit)
-            validator.Invalidate("Only military units can be placed inside military buildings.");
-    }
-
-    private void OnValidatePlayBuilding(PlayCardAction action, ActionValidatorResult validator)
-    {
-        if (action.CardToPlay.CardData.CardType != CardType.Building)
-            return;
-        
-        var tile = _map.GetTile(action.TargetTile);
-        if (tile.Building != null)
-            validator.Invalidate("This tile already contains a building.");
-    }
-
-    private void OnValidatePlayTechnology(PlayCardAction action, ActionValidatorResult validator)
-    {
-        if (action.CardToPlay.CardData.CardType != CardType.Technology)
-            return;
-        
-        var tile = _map.GetTile(action.TargetTile);
-        if (tile.Building == null)
-            validator.Invalidate("Technology card must be played on a building.");
-        
-        // TODO: Validate that this technology is valid for this building
-        //       Probably do this with an attribute on the building?
-    }
-
-    private void OnValidatePlayCard(PlayCardAction action, ActionValidatorResult validator)
-    {
-        var tile = _map.GetTile(action.TargetTile);
-        // TODO: Validate card can only be played within specific range from player's town center
     }
 
     private void OnPerformDiscardCards(DiscardCardsAction action)

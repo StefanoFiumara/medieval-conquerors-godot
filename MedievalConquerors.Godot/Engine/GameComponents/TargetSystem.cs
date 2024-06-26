@@ -1,45 +1,57 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
+using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
 public class TargetSystem : GameComponent, IAwake
 {
-    private HexMap _gameMap;
+    private HexMap _map;
+    private EventAggregator _events;
 
     public void Awake()
     {
-        _gameMap = Game.GetComponent<HexMap>();
+        _events = Game.GetComponent<EventAggregator>();
+        _map = Game.GetComponent<HexMap>();
+        _events.Subscribe<PlayCardAction, ActionValidatorResult>(GameEvent.Validate<PlayCardAction>(), OnValidatePlayCard);
     }
 
+    private void OnValidatePlayCard(PlayCardAction action, ActionValidatorResult validator)
+    {
+        var tile = _map.GetTile(action.TargetTile);
+        var validTiles = GetTargetCandidates(action.CardToPlay);
+
+        if (!validTiles.Contains(tile.Position))
+            validator.Invalidate("Invalid target tile for card.");
+    }
+    
     public List<Vector2I> GetTargetCandidates(Card source)
     {
+        var player = source.Owner;
         var spawnPointAttribute = source.GetAttribute<SpawnPointAttribute>();
+        var buildings = player.Map.Where(c => c.CardData.CardType == CardType.Building);
         
         if(spawnPointAttribute == null)
             return new List<Vector2I>();
 
         if (spawnPointAttribute.SpawnTags == Tags.TownCenter)
-        {
-            // NOTE: Ignore spawn range property and instead use player's range of influence
-            return _gameMap.GetReachable(source.Owner.TownCenter.Position, source.Owner.InfluenceRange).ToList();
-        }
+            return _map.GetReachable(player.TownCenter.Position, player.InfluenceRange).ToList();
+
+        if (spawnPointAttribute.SpawnRange == 0)
+            return buildings.Select(b => b.MapPosition).ToList();
         
         var targetCandidates = new List<Vector2I>();
-        // TODO: We may want to allow the card type to be configurable in SpawnPointAttribute
-        //       if we want to spawn units on other units or non-buildings 
-        var buildings = source.Owner.Map.Where(c => c.CardData.CardType == CardType.Building);
-
         foreach (var building in buildings)
         {
             if (building.CardData.Tags.HasFlag(spawnPointAttribute.SpawnTags))
             {
-                var surroundingNeighbors = _gameMap.GetReachable(building.MapPosition, spawnPointAttribute.SpawnRange);
+                var surroundingNeighbors = _map.GetReachable(building.MapPosition, spawnPointAttribute.SpawnRange);
                 targetCandidates.AddRange(surroundingNeighbors);
             }
         }

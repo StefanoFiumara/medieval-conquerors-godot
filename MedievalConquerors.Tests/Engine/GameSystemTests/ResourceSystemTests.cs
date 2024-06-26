@@ -5,6 +5,7 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.GameComponents;
+using MedievalConquerors.Extensions;
 using Xunit.Abstractions;
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
@@ -28,8 +29,10 @@ public class ResourceSystemTests : GameSystemTestFixture
     {
         var card = _player.Hand.First();
 
-        card.Attributes.Clear();
-        card.Attributes.Add(new ResourceCostAttribute { Food = 1 });
+        card.GetAttribute<ResourceCostAttribute>().Food = 1;
+        card.GetAttribute<ResourceCostAttribute>().Wood = 0;
+        card.GetAttribute<ResourceCostAttribute>().Gold = 0;
+        card.GetAttribute<ResourceCostAttribute>().Stone = 0;
 
         var positionToPlay = new Vector2I(5, 5);
         var action = new PlayCardAction(card, positionToPlay);
@@ -44,11 +47,7 @@ public class ResourceSystemTests : GameSystemTestFixture
     {
         var card = _player.Hand.First();
 
-        card.Attributes.Clear();
-        card.Attributes.Add(new ResourceCostAttribute
-        {
-            Food = 999
-        });
+        card.GetAttribute<ResourceCostAttribute>().Food = 999;
         
         var positionToPlay = new Vector2I(5, 5);
         var action = new PlayCardAction(card, positionToPlay);

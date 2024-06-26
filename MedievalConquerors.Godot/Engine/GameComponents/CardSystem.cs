@@ -13,14 +13,14 @@ public class CardSystem : GameComponent, IAwake
     private readonly List<Card> _playable = new();
 
     private Match _match;
-    private HexMap _map;
     private ILogger _logger;
+    private TargetSystem _targetSystem;
 
     public void Awake()
     {
         _logger = Game.GetComponent<ILogger>();
         _match = Game.GetComponent<Match>();
-        _map = Game.GetComponent<HexMap>();
+        _targetSystem = Game.GetComponent<TargetSystem>();
     }
 
     public bool IsPlayable(Card card) => _playable.Contains(card);
@@ -31,9 +31,12 @@ public class CardSystem : GameComponent, IAwake
         
         foreach (var card in _match.CurrentPlayer.Hand)
         {
-            // TODO: more robust check for available tiles for this card, query attributes?
-            var randomTargetTile = _map.SearchTiles(t => t.IsWalkable).GetRandom();
-            var playAction = new PlayCardAction(card, randomTargetTile.Position);
+            var targetCandidates = _targetSystem.GetTargetCandidates(card);
+            if (targetCandidates.Count == 0)
+                continue;
+            
+            var randomTargetTile = targetCandidates.GetRandom();
+            var playAction = new PlayCardAction(card, randomTargetTile);
             var validatorResult = playAction.Validate(Game);
             if (validatorResult.IsValid)
             {

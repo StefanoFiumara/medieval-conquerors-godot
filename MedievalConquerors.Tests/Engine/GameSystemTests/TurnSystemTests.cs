@@ -27,9 +27,15 @@ public class TurnSystemTests : GameSystemTestFixture
     [InlineData(Match.EnemyPlayerId)]
     public void Match_Tracks_CurrentPlayer_Id(int nextPlayerId)
     {
-        var action = new ChangeTurnAction(nextPlayerId);
+        // Start the game with the given player
+        var player = Game.GetComponent<Match>().LocalPlayer;
+        var beginGameAction = new BeginGameAction(player.Id);
+        Game.Perform(beginGameAction);
+        Game.Update();
         
-        Game.Perform(action);
+        var turnAction = new ChangeTurnAction(nextPlayerId);
+        
+        Game.Perform(turnAction);
         Game.Update();
 
         var match = Game.GetComponent<Match>();
@@ -54,5 +60,4 @@ public class TurnSystemTests : GameSystemTestFixture
         match.CurrentPlayer.Hand.Should().HaveCount(6); // 5 starting cards, + turn draw.
         match.OppositePlayer.Hand.Should().HaveCount(5); // 5 starting cards
     }
-
 }

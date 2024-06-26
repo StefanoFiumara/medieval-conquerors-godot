@@ -34,7 +34,9 @@ public partial class GameController : Node
 		var townCenters = _map.SearchTiles(t => t.Terrain == TileTerrain.TownCenter);
 
 		// Set town centers based on map
-		// TODO: Seems a bit hacky?
+		// TODO: Set this value from the game state, rather than from a view
+		// IDEA: Have a different TileTerrain type for Blue/Red team, so that we don't have to rely on the highlight
+		//       layers in here, and we can instead respond to BeginGameAction inside one of our game systems. 
 		match.LocalPlayer.TownCenter = townCenters.Single(tc => _mapView.IsHighlighted(tc.Position, HighlightLayer.BlueTeam));
 		match.EnemyPlayer.TownCenter = townCenters.Single(tc => _mapView.IsHighlighted(tc.Position, HighlightLayer.RedTeam));
 		
