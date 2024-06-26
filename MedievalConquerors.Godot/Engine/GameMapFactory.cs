@@ -19,15 +19,15 @@ public static class GameMapFactory
 {
     // Create a map using a Godot TileMap
     // NOTE: TileMap must be configured with Pointy-top hex tiles and Odd Offset Coordinates
-    public static IGameMap CreateHexMap(TileMap tileMap)
+    public static HexMap CreateHexMap(TileMap tileMap)
     {
         var tileData = CreateTileData(tileMap);
         return new HexMap(tileData);
     }
 	
-    private static Dictionary<Vector2I, ITileData> CreateTileData(TileMap tileMap)
+    private static Dictionary<Vector2I, TileData> CreateTileData(TileMap tileMap)
     {
-        var tiles = new  Dictionary<Vector2I, ITileData>();
+        var tiles = new  Dictionary<Vector2I, TileData>();
         var cells = tileMap.GetUsedCells(0).ToList();
 		
         foreach (var pos in cells)

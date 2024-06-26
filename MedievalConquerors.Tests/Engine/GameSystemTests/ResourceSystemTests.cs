@@ -11,7 +11,7 @@ namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
 public class ResourceSystemTests : GameSystemTestFixture
 {
-    private readonly IPlayer _player;
+    private readonly Player _player;
 
     public ResourceSystemTests(ITestOutputHelper output) : base(output)
     {

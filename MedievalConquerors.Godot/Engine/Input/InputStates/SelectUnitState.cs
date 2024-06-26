@@ -34,7 +34,7 @@ public class SelectUnitState : BaseInputState
 
         if (movement != null)
         {
-            // TODO: Do we want to defer this logic to TargetSystem ? 
+            // TODO: Do we want to defer this logic to TargetSystem so we can get rid of the public GameMap reference in MapView? 
             _validTiles = _mapView.GameMap.GetReachable(_selectedUnit.MapPosition, movement.RemainingDistance).ToList();
         }
         

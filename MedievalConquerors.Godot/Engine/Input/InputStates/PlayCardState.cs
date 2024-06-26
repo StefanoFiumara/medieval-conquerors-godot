@@ -44,7 +44,7 @@ public class PlayCardState : BaseInputState
         tween.TweenProperty(_selectedCard, "scale", Vector2.One * previewScale, tweenDuration);
         
         // TODO: Use Target System to find valid tiles for placing the _selectedCard.
-        //       Remove the dependency on IGameMap from this class.
+        //       Remove the dependency on HexMap from this class.
         _validTiles = _targetSystem.GetTargetCandidates(_selectedCard.Card);
         _mapView.HighlightTiles(_validTiles, HighlightLayer.TileSelectionHint);
     }

@@ -1,20 +1,9 @@
 ﻿using System.Collections.Generic;
 using Godot;
-using MedievalConquerors.Engine.GameComponents;
 
 namespace MedievalConquerors.Engine.Data;
 
-public interface ICardData
-{
-    public string Title { get; set; }
-    public string Description { get; set; }
-    public string ImagePath { get; set; }
-    public CardType CardType { get; set; }
-    public Tags Tags { get; set; }
-    public List<ICardAttribute> Attributes { get; set; }
-}
-
-public class CardData : ICardData
+public class CardData
 {
     public int Id { get; set; }
     public string Title { get; set; }
@@ -33,13 +22,13 @@ public interface ICardAttribute
 
 public class Card
 {
-    public ICardData CardData { get; }
+    public CardData CardData { get; }
     public List<ICardAttribute> Attributes { get; }
-    public IPlayer Owner { get; }
+    public Player Owner { get; }
     public Zone Zone { get; set; }
     public Vector2I MapPosition { get; set; }
 
-    public Card(ICardData cardData, IPlayer owner, Zone zone = Zone.None, Vector2I mapPosition = default)
+    public Card(CardData cardData, Player owner, Zone zone = Zone.None, Vector2I mapPosition = default)
     {
         CardData = cardData;
         Owner = owner;

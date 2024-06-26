@@ -4,31 +4,11 @@ using MedievalConquerors.Engine.Data.Attributes;
 
 namespace MedievalConquerors.Engine.Data;
 
-public interface IPlayer
-{
-    int Id { get; }
-    
-    ITileData TownCenter { get; set; }
-    int InfluenceRange { get; set; }
-    
-    ResourceBank Resources { get; }
-    
-    List<Card> Deck    { get; }
-    List<Card> Hand    { get; }
-    List<Card> Discard { get; }
-    List<Card> Map     { get; }
-
-    List<Card> this[Zone z] { get; }
-        
-    void MoveCard(Card target, Zone toZone);
-    void MoveCards(List<Card> targets, Zone toZone);
-}
-
-public class Player : IPlayer
+public class Player
 {
     public int Id { get; }
     
-    public ITileData TownCenter { get; set; }
+    public TileData TownCenter { get; set; }
     public int InfluenceRange { get; set; }
     
     public ResourceBank Resources { get; }

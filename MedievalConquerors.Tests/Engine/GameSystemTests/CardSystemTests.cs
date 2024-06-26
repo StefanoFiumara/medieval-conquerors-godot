@@ -10,7 +10,7 @@ namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
 public class CardSystemTests : GameSystemTestFixture
 {
-    private readonly IPlayer _player;
+    private readonly Player _player;
     private CardSystem _underTest;
 
     public CardSystemTests(ITestOutputHelper output) : base(output)

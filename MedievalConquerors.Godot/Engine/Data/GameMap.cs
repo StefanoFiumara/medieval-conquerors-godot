@@ -6,27 +6,16 @@ using MedievalConquerors.Engine.Core;
 
 namespace MedievalConquerors.Engine.Data;
 
-public interface IGameMap : IGameComponent
-{
-	ITileData GetTile(Vector2I pos);
-	IEnumerable<Vector2I> GetNeighbors(Vector2I pos);
-	IEnumerable<Vector2I> GetReachable(Vector2I pos, int range);
-	List<ITileData> SearchTiles(Func<ITileData, bool> predicate);
-	int Distance(Vector2I start, Vector2I end);
-	List<Vector2I> CalculatePath(Vector2I start, Vector2I end);
-
-	// TODO: Other functions we may want to implement:
-	//			* Field of View
-	//			* https://www.redblobgames.com/grids/hexagons/
-}
-
-// NOTE: HexMap logic assumes pointy-top hex tiles with Odd Offset coordinates
 // TODO: Unit tests for this logic
-public class HexMap : GameComponent, IGameMap
+// TODO: Other functions we may want to implement:
+//			* Field of View
+//			* https://www.redblobgames.com/grids/hexagons/
+// NOTE: HexMap logic assumes pointy-top hex tiles with Odd Offset coordinates
+public class HexMap : GameComponent
 {
 	public static readonly Vector2I None = new(int.MinValue, int.MinValue);
 	
-	private readonly Dictionary<Vector2I, ITileData> _tiles;
+	private readonly Dictionary<Vector2I, TileData> _tiles;
 
 	private static readonly Vector2I[] EvenHexDirections = 
 	{
@@ -48,12 +37,12 @@ public class HexMap : GameComponent, IGameMap
 		new( 1,  1),
 	};
 
-	public HexMap(Dictionary<Vector2I, ITileData> tileData)
+	public HexMap(Dictionary<Vector2I, TileData> tileData)
 	{
 		_tiles = tileData;
 	}
 	
-	public ITileData GetTile(Vector2I pos)
+	public TileData GetTile(Vector2I pos)
 	{
 		return _tiles.GetValueOrDefault(pos);
 	}
@@ -95,7 +84,7 @@ public class HexMap : GameComponent, IGameMap
 		}
 	}
 
-	public List<ITileData> SearchTiles(Func<ITileData, bool> predicate)
+	public List<TileData> SearchTiles(Func<TileData, bool> predicate)
 	{
 		return _tiles.Values.Where(predicate).ToList();
 	}

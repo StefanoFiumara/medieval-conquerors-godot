@@ -5,10 +5,10 @@ namespace MedievalConquerors.Engine.Actions;
 
 public class DiscardCardsAction : GameAction
 {
-    public IPlayer Target { get; }
+    public Player Target { get; }
     public List<Card> CardsToDiscard { get; set; }
 
-    public DiscardCardsAction(List<Card> toDiscard, IPlayer target)
+    public DiscardCardsAction(List<Card> toDiscard, Player target)
     {
         CardsToDiscard = toDiscard;
         Target = target;

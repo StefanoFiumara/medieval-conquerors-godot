@@ -10,11 +10,11 @@ namespace MedievalConquerors.Engine.GameComponents;
 
 public class TargetSystem : GameComponent, IAwake
 {
-    private IGameMap _gameMap;
+    private HexMap _gameMap;
 
     public void Awake()
     {
-        _gameMap = Game.GetComponent<IGameMap>();
+        _gameMap = Game.GetComponent<HexMap>();
     }
 
     public List<Vector2I> GetTargetCandidates(Card source)

@@ -9,7 +9,7 @@ namespace MedievalConquerors.Engine;
 
 public static class GameFactory
 {
-    public static Game Create(ILogger logger, IGameMap map, IGameSettings settings)
+    public static Game Create(ILogger logger, HexMap map, IGameSettings settings)
     {
         var game = new Game();
         
@@ -36,7 +36,7 @@ public static class GameFactory
         game.AddComponent<ResourceSystem>();
         // game.AddComponent<AgeSystem>();
         
-        // // TODO: Only add AISystem when in Single Player Mode, otherwise, add "NetworkSystem" for multiplayer
+        // // TODO: Only add AISystem when in Single Player Mode, otherwise, add "NetworkSystem" for multPlayer
         // game.AddComponent<AISystem>();
         
         game.AddComponent<TargetSystem>();

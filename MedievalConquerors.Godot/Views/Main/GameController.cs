@@ -20,7 +20,7 @@ public partial class GameController : Node
 	
 	private Game _game;
 	private ILogger _log;
-	private IGameMap _map;
+	private HexMap _map;
 
 	public Game Game => _game;
 

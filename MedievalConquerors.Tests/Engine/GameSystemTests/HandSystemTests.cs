@@ -9,7 +9,7 @@ namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
 public class HandSystemTests : GameSystemTestFixture
 {
-    private readonly IPlayer _player;
+    private readonly Player _player;
     
     public HandSystemTests(ITestOutputHelper output) : base(output)
     {

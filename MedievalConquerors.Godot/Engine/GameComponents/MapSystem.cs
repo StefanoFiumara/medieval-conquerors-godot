@@ -11,13 +11,13 @@ namespace MedievalConquerors.Engine.GameComponents;
 public class MapSystem : GameComponent, IAwake
 {
     private IEventAggregator _events;
-    private IGameMap _map;
+    private HexMap _map;
     private Match _match;
 
     public void Awake()
     {
         _events = Game.GetComponent<EventAggregator>();
-        _map = Game.GetComponent<IGameMap>();
+        _map = Game.GetComponent<HexMap>();
         _match = Game.GetComponent<Match>();
         
         _events.Subscribe<MoveUnitAction>(GameEvent.Perform<MoveUnitAction>(), OnPerformMoveUnit);

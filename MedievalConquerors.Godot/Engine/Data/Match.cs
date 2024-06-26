@@ -9,19 +9,19 @@ public class Match : GameComponent
     public const int LocalPlayerId = 0;
     public const int EnemyPlayerId = 1;
     
-    public IPlayer LocalPlayer { get; } = new Player(LocalPlayerId);
-    public IPlayer EnemyPlayer { get; } = new Player(EnemyPlayerId);
+    public Player LocalPlayer { get; } = new Player(LocalPlayerId);
+    public Player EnemyPlayer { get; } = new Player(EnemyPlayerId);
 
-    public IReadOnlyList<IPlayer> Players { get; }
+    public IReadOnlyList<Player> Players { get; }
     
     public int CurrentPlayerId { get; set; }
 
-    public IPlayer CurrentPlayer => Players[CurrentPlayerId];
-    public IPlayer OppositePlayer => Players[1 - CurrentPlayerId];
+    public Player CurrentPlayer => Players[CurrentPlayerId];
+    public Player OppositePlayer => Players[1 - CurrentPlayerId];
 
     public Match()
     {
-        Players = new ReadOnlyCollection<IPlayer>(new[] { LocalPlayer, EnemyPlayer });
+        Players = new ReadOnlyCollection<Player>(new[] { LocalPlayer, EnemyPlayer });
     }
 }
 

@@ -29,9 +29,9 @@ public partial class MapView : Node2D, IGameComponent
 	[Export] private PackedScene _tokenScene;
 	[Export] public TileMap TileMap { get; private set; }
 	
-	// TODO: Consider making IGameMap public, so we don't have to get a reference
+	// TODO: Consider making HexMap public, so we don't have to get a reference
 	//       to this component AND the view each time we need to work with it.
-	public IGameMap GameMap { get; private set; }
+	public HexMap GameMap { get; private set; }
 	
 	private Viewport _viewport;
 	private Vector2I _hovered = HexMap.None;
@@ -49,7 +49,7 @@ public partial class MapView : Node2D, IGameComponent
 		Game = GetParent<GameController>().Game;
 		Game.AddComponent(this);
 		
-		GameMap = Game.GetComponent<IGameMap>();
+		GameMap = Game.GetComponent<HexMap>();
 		
 		_events = Game.GetComponent<EventAggregator>();
 		_viewport = GetViewport();

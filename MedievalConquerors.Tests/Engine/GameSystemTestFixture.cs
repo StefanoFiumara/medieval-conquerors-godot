@@ -17,7 +17,7 @@ public abstract class GameSystemTestFixture
 {
     protected readonly Fixture Fixture;
     protected readonly IGameSettings Settings = Substitute.For<IGameSettings>();
-    protected readonly IGameMap Map = CreateMockGameMap();
+    protected readonly HexMap Map = CreateMockGameMap();
 
     protected readonly IGame Game;
     protected readonly IEventAggregator Events;
@@ -48,9 +48,9 @@ public abstract class GameSystemTestFixture
         Events.Subscriptions.Should().BeEmpty();
     }
 
-    private static IGameMap CreateMockGameMap()
+    private static HexMap CreateMockGameMap()
     {
-        var tileData = new Dictionary<Vector2I, ITileData>();
+        var tileData = new Dictionary<Vector2I, TileData>();
         
         for (int y = 0; y < 10; y++)
         {

@@ -4,20 +4,7 @@ using MedievalConquerors.Engine.Input;
 
 namespace MedievalConquerors.Engine.Data;
 
-public interface ITileData
-{
-    Card Building { get; set; }
-    Card Unit { get; set; }
-    Vector2I Position { get; }
-    TileTerrain Terrain { get; }
-    ResourceType ResourceType { get; }
-    int ResourceYield { get; }
-    
-    bool IsEmpty { get; }
-    bool IsWalkable { get; } //  TODO: Better name?
-}
-
-public class TileData : ITileData, IClickable
+public class TileData : IClickable
 {
     public Card Building { get; set; }
     public Card Unit { get; set; }

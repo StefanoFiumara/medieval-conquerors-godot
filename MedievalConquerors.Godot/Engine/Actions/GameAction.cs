@@ -24,7 +24,7 @@ public class GameAction
     /// <summary>
     /// The player that initiated this GameAction
     /// </summary>
-    public IPlayer SourcePlayer { get; set; }
+    public Player SourcePlayer { get; set; }
 
     /// <summary>
     /// The card that initiated this GameAction
