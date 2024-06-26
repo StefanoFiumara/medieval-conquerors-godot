@@ -13,4 +13,6 @@ public static partial class AttributeMapper
 
     public static partial HitPointsAttribute Clone(this HitPointsAttribute source);
     public static partial ResourceCollectorAttribute Clone(this ResourceCollectorAttribute source);
+
+    public static partial SpawnPointAttribute Clone(this SpawnPointAttribute source);
 }

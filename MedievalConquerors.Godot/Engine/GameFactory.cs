@@ -39,7 +39,7 @@ public static class GameFactory
         // // TODO: Only add AISystem when in Single Player Mode, otherwise, add "NetworkSystem" for multiplayer
         // game.AddComponent<AISystem>();
         
-        // game.AddComponent<TargetSystem>();
+        game.AddComponent<TargetSystem>();
         
         // game.AddComponent<DiscardSystem>();
         

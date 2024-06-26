@@ -17,6 +17,7 @@ public class PlayCardState : BaseInputState
     
     private readonly MapView _mapView;
     private readonly HandView _handView;
+    private readonly TargetSystem _targetSystem;
 
     public PlayCardState(IGame game, CardView selectedCard) : base(game)
     {
@@ -24,6 +25,7 @@ public class PlayCardState : BaseInputState
         
         _mapView = game.GetComponent<MapView>();
         _handView = game.GetComponent<HandView>();
+        _targetSystem = game.GetComponent<TargetSystem>();
     }
     public override void Enter()
     {
@@ -43,7 +45,7 @@ public class PlayCardState : BaseInputState
         
         // TODO: Use Target System to find valid tiles for placing the _selectedCard.
         //       Remove the dependency on IGameMap from this class.
-        _validTiles = _mapView.GameMap.SearchTiles(t => t.IsWalkable).Select(t => t.Position).ToList();
+        _validTiles = _targetSystem.GetTargetCandidates(_selectedCard.Card);
         _mapView.HighlightTiles(_validTiles, HighlightLayer.TileSelectionHint);
     }
 

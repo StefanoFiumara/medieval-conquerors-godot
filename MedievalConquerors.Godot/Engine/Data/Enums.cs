@@ -9,7 +9,7 @@ public enum TileTerrain
     Grass = 1,
     Forest = 2,
     DeepWater = 3,
-    TownCenter = 4, // TEMP: Only Used to dictate a player's starting TC, possibly not needed
+    TownCenter = 4, // NOTE: Only Used to dictate a player's starting TC
     ShoreFish = 5,
     Berries = 6,
     Deer = 7,
@@ -35,6 +35,7 @@ public enum Tags
     Melee = 1 << 3,
     Ranged = 1 << 4,
     Mounted = 1 << 5,
+    TownCenter = 1 << 6 // NOTE: Special case for spawn point attributes
 }
 
 public enum ResourceType

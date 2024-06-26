@@ -38,12 +38,12 @@ public partial class GameController : Node
 		match.LocalPlayer.TownCenter = townCenters.Single(tc => _mapView.IsHighlighted(tc.Position, HighlightLayer.BlueTeam));
 		match.EnemyPlayer.TownCenter = townCenters.Single(tc => _mapView.IsHighlighted(tc.Position, HighlightLayer.RedTeam));
 		
-		// TODO: Formalize each player's zone of influence, so we can get it from outside MapView
-		var reachable = _map.GetReachable(match.LocalPlayer.TownCenter.Position, 1);
-		_mapView.HighlightTiles(reachable, HighlightLayer.BlueTeam);
+		// TODO: this should updated dynamically as Player's Influence Range changes, perhaps in MapView when responding to some actions.
+		var tilesInfluencedLocal = _map.GetReachable(match.LocalPlayer.TownCenter.Position, match.LocalPlayer.InfluenceRange);
+		_mapView.HighlightTiles(tilesInfluencedLocal, HighlightLayer.BlueTeam);
 		
-		var reachable2 = _map.GetReachable(match.EnemyPlayer.TownCenter.Position, 1);
-		_mapView.HighlightTiles(reachable2, HighlightLayer.RedTeam);
+		var tilesInfluencedEnemy = _map.GetReachable(match.EnemyPlayer.TownCenter.Position, match.EnemyPlayer.InfluenceRange);
+		_mapView.HighlightTiles(tilesInfluencedEnemy, HighlightLayer.RedTeam);
 	}
 
 	public override void _Ready()

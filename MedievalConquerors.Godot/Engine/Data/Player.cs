@@ -9,6 +9,8 @@ public interface IPlayer
     int Id { get; }
     
     ITileData TownCenter { get; set; }
+    int InfluenceRange { get; set; }
+    
     ResourceBank Resources { get; }
     
     List<Card> Deck    { get; }
@@ -27,6 +29,8 @@ public class Player : IPlayer
     public int Id { get; }
     
     public ITileData TownCenter { get; set; }
+    public int InfluenceRange { get; set; }
+    
     public ResourceBank Resources { get; }
     
     public List<Card> Deck    { get; } = new();
@@ -46,6 +50,8 @@ public class Player : IPlayer
             { Zone.Discard, Discard },
             { Zone.Map, Map },
         };
+        
+        InfluenceRange = 3;
         
         // TODO: parameterize starting storage limit
         Resources = new ResourceBank(storageLimit: 60)
@@ -68,7 +74,9 @@ public class Player : IPlayer
                     Attributes = new()
                     {
                         new ResourceCostAttribute { Food = 4, Gold = 2 },
-                        new MovementAttribute { Distance = 2 }
+                        new MovementAttribute { Distance = 2 },
+                        // TODO: Test with other buildings once available
+                        new SpawnPointAttribute { SpawnTags = Tags.TownCenter }
                     }
                 }, this)));
     }
