@@ -19,6 +19,8 @@ public partial class AttributePropertyEditor : HBoxContainer
 		{
 			_intEditor.Hide();
 			_strEditor.Text = (string)prop.GetValue(attr);
+			_intEditor.Step = 0.1;
+			_intEditor.CustomArrowStep = 0.1;
 			_strEditor.TextChanged += txt =>
 			{
 				prop.SetValue(attr, txt);
@@ -29,6 +31,8 @@ public partial class AttributePropertyEditor : HBoxContainer
 		{
 			_strEditor.Hide();
 			_intEditor.Value = (int) (prop.GetValue(attr) ?? 0);
+			_intEditor.Step = 1;
+			_intEditor.CustomArrowStep = 1;
 			_intEditor.ValueChanged += v =>
 			{
 				prop.SetValue(attr, (int)v);

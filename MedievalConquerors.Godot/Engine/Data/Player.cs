@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MedievalConquerors.Engine.Data.Attributes;
+using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Engine.Data;
 
@@ -43,22 +44,17 @@ public class Player
 
         // TEMP: Add some temporary cards
         Deck.AddRange(Enumerable.Range(0, 30)
-            .Select(i => new Card(
-                new CardData
-                {
-                    Title = $"Knight {i}",
-                    Description = $"Mighty Mounted Royal Warrior {i}",
-                    ImagePath = "res://Assets/CardImages/knight.png",
-                    CardType = CardType.Unit,
-                    Tags = Tags.None,
-                    Attributes = new()
-                    {
-                        new ResourceCostAttribute { Food = 4, Gold = 2 },
-                        new MovementAttribute { Distance = 2 },
-                        // TODO: Test with other buildings once available
-                        new SpawnPointAttribute { SpawnTags = Tags.TownCenter }
-                    }
-                }, this)));
+            .Select(i => CardBuilder.Build(this)
+                .WithTitle($"Knight {i}")
+                .WithDescription($"Mighty Mounted Royal Warrior {i}")
+                .WithImagePath("res://Assets/CardImages/knight.png")
+                .WithCardType(CardType.Unit)
+                .WithTags(Tags.Military | Tags.Mounted | Tags.Melee)
+                .WithResourceCost(food: 4, gold: 2)
+                .WithMovement(distance: 2)
+                // TODO: Test with other buildings once available
+                .WithSpawnPoint(Tags.TownCenter)
+                .Create()));
     }
     
     public List<Card> this[Zone z] => _zoneMap.ContainsKey(z) ? _zoneMap[z] : null;

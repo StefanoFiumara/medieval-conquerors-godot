@@ -17,12 +17,10 @@ public class GarrisonCapacityAttribute : ICardAttribute
 
     public void Garrison(Card unit)
     {
-        if(CanGarrison(unit))
-            Units.Add(unit);
+        Units.Add(unit);
     }
     
     public void OnTurnStart() { }
-
     public ICardAttribute Clone()
     {
         return AttributeMapper.Clone(this);

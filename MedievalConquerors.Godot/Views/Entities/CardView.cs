@@ -5,6 +5,7 @@ using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
+using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Views.Entities;
 
@@ -74,8 +75,8 @@ public partial class CardView : Node2D, IClickable
 		{
 			_image.Texture = GD.Load<Texture2D>(Card.CardData.ImagePath);
 		}
-		
-		var cost = Card.Attributes.OfType<ResourceCostAttribute>().SingleOrDefault();
+
+		var cost = Card.GetAttribute<ResourceCostAttribute>();
 		if (cost != null)
 		{
 			_foodCost.Text = $"{cost.Food}";

@@ -36,5 +36,6 @@ public class TurnSystem : GameComponent, IAwake
     {
         _match.CurrentPlayerId = action.NextPlayerId;
         Game.AddReaction(new DrawCardsAction(action.NextPlayerId, 1));
+        Game.AddReaction(new CollectResourcesAction(action.NextPlayerId));
     }
 }

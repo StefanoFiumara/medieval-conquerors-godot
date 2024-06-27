@@ -64,7 +64,7 @@ public class MapSystemTests : GameSystemTestFixture
     {
         // Play a card
         var card = _player.Hand.First();
-        card.Attributes.Remove(card.GetAttribute<MovementAttribute>());
+        card.Attributes.Remove(typeof(MovementAttribute));
         
         var firstPosition = new Vector2I(5, 5);
         var playAction = new PlayCardAction(card, firstPosition);

@@ -68,14 +68,23 @@ public class MapSystem : GameComponent, IAwake
     {
         var moveAttr = action.CardToMove.GetAttribute<MovementAttribute>();
         
-        if(action.CardToMove.Zone != Zone.Map)
+        if (action.CardToMove.Zone != Zone.Map)
+        {
             validator.Invalidate("Card is not on the map.");
-        
-        if(moveAttr == null)
-            validator.Invalidate("Card does not have MoveAttribute.");
+            return;
+        }
 
-        else if (!moveAttr.CanMove(_map.Distance(action.CardToMove.MapPosition, action.TargetTile)))
+        if (moveAttr == null)
+        {
+            validator.Invalidate("Card does not have MoveAttribute.");
+            return;
+        }
+
+        var distanceToTarget = _map.CalculatePath(action.CardToMove.MapPosition, action.TargetTile).Count;
+        if (!moveAttr.CanMove(distanceToTarget))
+        {
             validator.Invalidate("Card's MoveAttribute does not have enough distance remaining.");
+        }
     }
 
     private void OnPerformMoveUnit(MoveUnitAction action)
@@ -98,7 +107,7 @@ public class MapSystem : GameComponent, IAwake
         var player = _match.Players[action.NextPlayerId];
         foreach (var card in player.Map)
         {
-            foreach (var attr in card.Attributes)
+            foreach (var attr in card.Attributes.Values)
             {
                 attr.OnTurnStart();
             }

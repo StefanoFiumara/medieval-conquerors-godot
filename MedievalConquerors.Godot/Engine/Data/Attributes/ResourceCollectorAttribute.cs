@@ -4,7 +4,7 @@ public class ResourceCollectorAttribute : ICardAttribute
 {
     public ResourceType Resource { get; set; }
     public float GatherRate { get; set; }
-    public float StorageLimitIncrease { get; set; }
+    public int StorageLimitIncrease { get; set; }
     
     public void OnTurnStart() { } 
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Godot;
 
 namespace MedievalConquerors.Engine.Data;
@@ -6,7 +7,7 @@ namespace MedievalConquerors.Engine.Data;
 public class Card
 {
     public CardData CardData { get; }
-    public List<ICardAttribute> Attributes { get; }
+    public Dictionary<Type, ICardAttribute> Attributes { get; }
     public Player Owner { get; }
     public Zone Zone { get; set; }
     public Vector2I MapPosition { get; set; }
@@ -18,10 +19,10 @@ public class Card
         Zone = zone;
         MapPosition = Zone == Zone.Map ? mapPosition : HexMap.None;
 
-        Attributes = new List<ICardAttribute>();
+        Attributes = new();
         foreach (var dataAttribute in CardData.Attributes)
         {
-            Attributes.Add(dataAttribute.Clone());
+            Attributes.Add(dataAttribute.GetType(), dataAttribute.Clone());
         }
     }
 }

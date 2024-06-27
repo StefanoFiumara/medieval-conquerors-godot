@@ -1,20 +1,21 @@
 ﻿using System;
+using Godot;
 using MedievalConquerors.Engine.Data.Attributes;
 
 namespace MedievalConquerors.Engine.Data;
 
 public class ResourceBank
 {
-    public float Food { get; private set; }
-    public float Wood { get; private set; }
-    public float Gold { get; private set; }
-    public float Stone { get; private set; }
+    public int Food { get; private set; }
+    public int Wood { get; private set; }
+    public int Gold { get; private set; }
+    public int Stone { get; private set; }
 
-    public float StorageLimit { get; private set; }
+    public int StorageLimit { get; private set; }
 
-    private float TotalResources => Food + Wood + Gold + Stone;
+    private int TotalResources => Food + Wood + Gold + Stone;
 
-    public ResourceBank(float storageLimit)
+    public ResourceBank(int storageLimit)
     {
         StorageLimit = storageLimit;
     }
@@ -38,28 +39,30 @@ public class ResourceBank
         Stone -= resourceCost.Stone;
     }
 
-    public void IncreaseLimit(float amount)
+    public void IncreaseLimit(int amount)
     {
         StorageLimit += amount;
     }
 
-    public void DecreaseLimit(float amount)
+    public void DecreaseLimit(int amount)
     {
         if (TotalResources != 0)
         {
-            float resourcesToRemove = TotalResources - StorageLimit + amount;
-            float ratio = resourcesToRemove / TotalResources;
+            // TODO: double check this logic when testing storage limits
+            int resourcesToRemove = TotalResources - StorageLimit + amount;
+            float ratio = resourcesToRemove / (float)TotalResources;
         
-            Food -= Food * ratio;
-            Wood -= Wood * ratio;
-            Gold -= Gold * ratio;
-            Stone -= Stone * ratio;
+            // TODO: should this floor instead of ceil? 
+            Food -= Mathf.CeilToInt(Food * ratio);
+            Wood -= Mathf.CeilToInt(Wood * ratio);
+            Gold -= Mathf.CeilToInt(Gold * ratio);
+            Stone -= Mathf.CeilToInt(Stone * ratio);
         }
         
         StorageLimit -= amount;
     }
 
-    public float this[ResourceType resourceType]
+    public int this[ResourceType resourceType]
     {
         get
         {
@@ -74,8 +77,8 @@ public class ResourceBank
         }
         set
         {
-            float availableSpace = StorageLimit - (TotalResources - this[resourceType]);
-            float newAmount = (value > availableSpace) ? availableSpace : value;
+            int availableSpace = StorageLimit - (TotalResources - this[resourceType]);
+            int newAmount = (value > availableSpace) ? availableSpace : value;
 
             switch (resourceType)
             {

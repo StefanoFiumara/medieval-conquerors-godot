@@ -47,21 +47,20 @@ public class HexMap : GameComponent
 		return _tiles.GetValueOrDefault(pos);
 	}
 
-	public IEnumerable<Vector2I> GetNeighbors(Vector2I pos)
+	public IEnumerable<TileData> GetNeighbors(Vector2I pos)
 	{
 		var directions = pos.Y % 2 == 0 ? EvenHexDirections : OddHexDirections;
 
 		foreach (var dir in directions)
 		{
 			var neighbor = pos + dir;
-			if (_tiles.TryGetValue(neighbor, out var tile) && tile.IsWalkable)
+			if (_tiles.TryGetValue(neighbor, out var tile))
 			{
-				yield return tile.Position;
+				yield return tile;
 			}
 		}
 	}
-
-	// TODO: Pathfinding algorithm instead?
+	
 	public IEnumerable<Vector2I> GetReachable(Vector2I pos, int range)
 	{
 		var visited = new HashSet<Vector2I> { pos };
@@ -70,14 +69,15 @@ public class HexMap : GameComponent
 		for (int i = 1; i <= range; i++)
 		{
 			outerEdges.Add(new List<Vector2I>());
-			foreach (var position in outerEdges[i-1])
+			foreach (var edge in outerEdges[i-1])
 			{
-				foreach (var neighbor in GetNeighbors(position))
+				foreach (var neighbor in GetNeighbors(edge).Where(n => n.IsWalkable))
 				{
-					if (visited.Add(neighbor))
+					var position = neighbor.Position;
+					if (visited.Add(position))
 					{
-						outerEdges[i].Add(neighbor);
-						yield return neighbor;
+						outerEdges[i].Add(position);
+						yield return position;
 					}
 				}
 			}
@@ -89,29 +89,6 @@ public class HexMap : GameComponent
 		return _tiles.Values.Where(predicate).ToList();
 	}
 
-	public int Distance(Vector2I start, Vector2I end)
-	{
-		if (start.X == end.X)
-		{
-			return Mathf.Abs(end.Y - start.Y);
-		}
-
-		if (start.Y == end.Y)
-		{
-			return Mathf.Abs(end.X - start.X);
-		}
-
-		int dx = Mathf.Abs(end.X - start.X);
-		int dy = Mathf.Abs(end.Y - start.Y);
-
-		if (start.Y < end.Y)
-		{
-			return dx + dy - Mathf.CeilToInt(dx / 2.0);
-		}
-
-		return dx + dy - Mathf.FloorToInt(dx / 2.0);
-	}
-	
 	public List<Vector2I> CalculatePath(Vector2I start, Vector2I end)
 	{
 		var frontier = new PriorityQueue<Vector2I, int>();
@@ -133,15 +110,16 @@ public class HexMap : GameComponent
 			if (current == end)
 				break;
 			
-			foreach (var neighbor in GetNeighbors(current))
+			foreach (var neighbor in GetNeighbors(current).Where(n => n.IsWalkable))
 			{
+				var position = neighbor.Position;
 				var newCost = costSoFar[current] + 1;
-				if (!costSoFar.ContainsKey(neighbor) || newCost < costSoFar[neighbor])
+				if (!costSoFar.ContainsKey(position) || newCost < costSoFar[position])
 				{
-					costSoFar[neighbor] = newCost;
-					var priority = newCost + Distance(end, neighbor);
-					frontier.Enqueue(neighbor, priority);
-					cameFrom[neighbor] = current;
+					costSoFar[position] = newCost;
+					var priority = newCost + Distance(end, position);
+					frontier.Enqueue(position, priority);
+					cameFrom[position] = current;
 				}
 			}
 		}
@@ -157,6 +135,29 @@ public class HexMap : GameComponent
 
 		path.Reverse();
 		return path;
+	}
+
+	private int Distance(Vector2I start, Vector2I end)
+	{
+		if (start.X == end.X)
+		{
+			return Mathf.Abs(end.Y - start.Y);
+		}
+
+		if (start.Y == end.Y)
+		{
+			return Mathf.Abs(end.X - start.X);
+		}
+
+		int dx = Mathf.Abs(end.X - start.X);
+		int dy = Mathf.Abs(end.Y - start.Y);
+
+		if (start.Y < end.Y)
+		{
+			return dx + dy - Mathf.CeilToInt(dx / 2.0);
+		}
+
+		return dx + dy - Mathf.FloorToInt(dx / 2.0);
 	}
 }
 

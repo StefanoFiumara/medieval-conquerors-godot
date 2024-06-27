@@ -1,4 +1,3 @@
-using System.Linq;
 using Godot;
 using MedievalConquerors.Engine;
 using MedievalConquerors.Engine.Actions;
@@ -29,23 +28,6 @@ public partial class GameController : Node
 		_log = new GodotLogger(_logLevel);
 		_map = GameMapFactory.CreateHexMap(_mapView.TileMap);
 		_game = GameFactory.Create(_log, _map, _settings);
-
-		var match = _game.GetComponent<Match>();
-		var townCenters = _map.SearchTiles(t => t.Terrain == TileTerrain.TownCenter);
-
-		// Set town centers based on map
-		// TODO: Set this value from the game state, rather than from a view
-		// IDEA: Have a different TileTerrain type for Blue/Red team, so that we don't have to rely on the highlight
-		//       layers in here, and we can instead respond to BeginGameAction inside one of our game systems. 
-		match.LocalPlayer.TownCenter = townCenters.Single(tc => _mapView.IsHighlighted(tc.Position, HighlightLayer.BlueTeam));
-		match.EnemyPlayer.TownCenter = townCenters.Single(tc => _mapView.IsHighlighted(tc.Position, HighlightLayer.RedTeam));
-		
-		// TODO: this should updated dynamically as Player's Influence Range changes, perhaps in MapView when responding to some actions.
-		var tilesInfluencedLocal = _map.GetReachable(match.LocalPlayer.TownCenter.Position, match.LocalPlayer.InfluenceRange);
-		_mapView.HighlightTiles(tilesInfluencedLocal, HighlightLayer.BlueTeam);
-		
-		var tilesInfluencedEnemy = _map.GetReachable(match.EnemyPlayer.TownCenter.Position, match.EnemyPlayer.InfluenceRange);
-		_mapView.HighlightTiles(tilesInfluencedEnemy, HighlightLayer.RedTeam);
 	}
 
 	public override void _Ready()

@@ -34,11 +34,8 @@ public class ActionSystemTests : GameSystemTestFixture
     public void ActionSystem_OnUpdate_Raises_BeginSequenceNotification()
     {
         bool eventRaised = false;
-        void BeginSequenceHandler()
-        {
-            eventRaised = true;
-        }
-        
+        void BeginSequenceHandler() => eventRaised = true;
+
         Events.Subscribe(ActionSystem.BeginSequenceEvent, BeginSequenceHandler);
         
         var action = new GameAction();
