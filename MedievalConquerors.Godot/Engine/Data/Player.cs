@@ -33,17 +33,19 @@ public class Player
         };
         
         InfluenceRange = 3;
-        
-        // TODO: parameterize starting storage limit
-        Resources = new ResourceBank(storageLimit: 60)
+
+        Resources = new ResourceBank(storageLimit: 40 * 4)
         {
             // TODO: Parameterize Starting Resources
-            [ResourceType.Food] = 40,
-            [ResourceType.Gold] = 20
+            [ResourceType.Food]  = 40,
+            [ResourceType.Wood]  = 40,
+            [ResourceType.Gold]  = 40,
+            [ResourceType.Stone] = 40
         };
+        // TODO: parameterize starting storage limit
 
         // TEMP: Add some temporary cards
-        Deck.AddRange(Enumerable.Range(0, 30)
+        Deck.AddRange(Enumerable.Range(0, 5)
             .Select(i => CardBuilder.Build(this)
                 .WithTitle($"Knight {i}")
                 .WithDescription($"Mighty Mounted Royal Warrior {i}")
@@ -55,6 +57,17 @@ public class Player
                 // TODO: Test with other buildings once available
                 .WithSpawnPoint(Tags.TownCenter)
                 .Create()));
+        
+        Deck.Add(CardBuilder.Build(this)
+            .WithTitle("Lumber Camp")
+            .WithDescription("Assigned villagers collect adjacent resources")
+            .WithImagePath("res://Assets/CardImages/lumbercamp.png")
+            .WithCardType(CardType.Building)
+            .WithTags(Tags.Economic)
+            .WithResourceCost(wood: 2)
+            .WithResourceCollector(ResourceType.Wood, gatherRate: 1f, storageLimitIncrease: 5)
+            .WithSpawnPoint(Tags.TownCenter)
+            .Create());
     }
     
     public List<Card> this[Zone z] => _zoneMap.ContainsKey(z) ? _zoneMap[z] : null;

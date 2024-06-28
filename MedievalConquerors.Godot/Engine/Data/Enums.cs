@@ -4,17 +4,17 @@ namespace MedievalConquerors.Engine.Data;
 
 public enum TileTerrain
 {
-    None = -1,
-    Water = 0,
-    Grass = 1,
-    Forest = 2,
-    DeepWater = 3,
-    TownCenter = 4, // NOTE: Only Used to dictate a player's starting TC
-    ShoreFish = 5,
-    Berries = 6,
-    Deer = 7,
-    Gold = 8,
-    Stone = 9
+    None = 0,
+    Water = 1,
+    Grass = 2,
+    Forest = 3,
+    DeepWater = 4,
+    TownCenter = 5, // NOTE: Only Used to dictate a player's starting TC
+    ShoreFish = 6,
+    Berries = 7,
+    Deer = 8,
+    Gold = 9,
+    Stone = 10
 }
 
 public enum CardType
@@ -40,18 +40,18 @@ public enum Tags
 
 public enum ResourceType
 {
-    None = -1,
-    Food = 0,
-    Wood = 1,
-    Gold = 2,
-    Stone = 3
+    None = 0,
+    Food = 1,
+    Wood = 2,
+    Gold = 3,
+    Stone = 4
 }
 
 public enum Zone
 {
-    None = -1,
-    Deck = 0,
-    Hand = 1,
-    Map = 2,
-    Discard = 3
+    None = 0,
+    Deck = 1,
+    Hand = 2,
+    Map = 3,
+    Discard = 4
 }

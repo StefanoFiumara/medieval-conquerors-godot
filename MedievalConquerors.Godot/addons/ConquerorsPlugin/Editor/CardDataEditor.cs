@@ -46,7 +46,7 @@ public partial class CardDataEditor : ScrollContainer
 			{
 				_cardTitle.Text = _loadedData.Title;
 				_description.Text = _loadedData.Description;
-				_cardTypeOptions.SelectedCardType = _loadedData.CardType;
+				_cardTypeOptions.SelectedOption = _loadedData.CardType;
 				_tagOptions.SelectedTags = _loadedData.Tags;
 				_imageSelector.SelectedImagePath = _loadedData.ImagePath;
 
@@ -120,7 +120,7 @@ public partial class CardDataEditor : ScrollContainer
 	{
 		_cardTitle.Text = string.Empty;
 		_description.Text = string.Empty;
-		_cardTypeOptions.SelectedCardType = CardType.None;
+		_cardTypeOptions.SelectedOption = CardType.None;
 		_tagOptions.SelectedTags = Tags.None;
 
 		var attributeControls = _attributesContainer.GetChildren();
@@ -179,7 +179,7 @@ public partial class CardDataEditor : ScrollContainer
 		// TODO: set up auto update of these basic properties so that this method can be removed
 		LoadedData.Title = _cardTitle.Text.Trim();
 		LoadedData.Description = _description.Text.Trim();
-		LoadedData.CardType = _cardTypeOptions.SelectedCardType;
+		LoadedData.CardType = _cardTypeOptions.SelectedOption;
 		LoadedData.Tags = _tagOptions.SelectedTags;
 		LoadedData.ImagePath = _imageSelector.SelectedImagePath;
 		//NOTE: Attributes are automatically updated

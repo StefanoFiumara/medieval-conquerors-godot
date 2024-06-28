@@ -50,7 +50,19 @@ public class CardBuilder
         _data.Tags = tags;
         return this;
     }
-    
+
+    public CardBuilder WithResourceCollector(ResourceType resource, float gatherRate, int storageLimitIncrease)
+    {
+        _data.Attributes.Add(new ResourceCollectorAttribute
+        {
+            Resource = resource,
+            GatherRate = gatherRate,
+            StorageLimitIncrease = storageLimitIncrease
+        });
+
+        return this;
+    }
+
     public CardBuilder WithResourceCost(int food = 0, int wood = 0, int gold = 0, int stone = 0)
     {
         _data.Attributes.Add(new ResourceCostAttribute

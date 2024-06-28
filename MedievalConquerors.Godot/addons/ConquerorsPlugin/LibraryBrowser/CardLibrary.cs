@@ -41,7 +41,7 @@ public partial class CardLibrary : ScrollContainer
 		
 		_searchInput.Text = string.Empty;
 		_tagFilter.SelectedTags = Tags.None;
-		_typeFilter.SelectedCardType = CardType.None;
+		_typeFilter.SelectedOption = CardType.None;
 		
 		_searchInput.TextChanged += SearchTextChanged;
 		_tagFilter.TagsChanged += UpdateResults;
@@ -62,8 +62,8 @@ public partial class CardLibrary : ScrollContainer
 		
 		var query = database.Query;
 		
-		if (_typeFilter.SelectedCardType != CardType.None)
-			query = query.Where(c => c.CardType == _typeFilter.SelectedCardType);
+		if (_typeFilter.SelectedOption != CardType.None)
+			query = query.Where(c => c.CardType == _typeFilter.SelectedOption);
 
 		if (_searchInput.Text.Length > 2)
 		{

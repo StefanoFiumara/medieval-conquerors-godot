@@ -38,14 +38,9 @@ public class CardSystem : GameComponent, IAwake
             var randomTargetTile = targetCandidates.GetRandom();
             var playAction = new PlayCardAction(card, randomTargetTile);
             var validatorResult = playAction.Validate(Game);
+            
             if (validatorResult.IsValid)
-            {
                 _playable.Add(card);
-            }
-            else
-            {
-                _logger.Warn($"Card in hand was invalidated, Reasons:\n{string.Join('\n', validatorResult.ValidationErrors)}");
-            }
         }
     }
 }

@@ -2,7 +2,7 @@
 
 public class HitPointsAttribute : ICardAttribute
 {
-    public int Health { get; private set; }
+    public int Health { get; set; }
 
     public void TakeDamage(int amount)
     {

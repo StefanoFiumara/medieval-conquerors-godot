@@ -1,5 +1,6 @@
 using System.Reflection;
 using Godot;
+using MedievalConquerors.ConquerorsPlugin.Controls;
 using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.ConquerorsPlugin.Attributes;
@@ -10,43 +11,58 @@ public partial class AttributePropertyEditor : HBoxContainer
 	[Export] private Label _titleLabel;
 	[Export] private SpinBox _intEditor;
 	[Export] private LineEdit _strEditor;
-	
+	[Export] private TagOptions _tagsEditor;
+	[Export] private ResourceOptions _resourceEditor;
+
+	public override void _Ready()
+	{
+		_intEditor.Hide();
+		_strEditor.Hide();
+		_tagsEditor.Hide();
+		_resourceEditor.Hide();
+	}
+
 	public void Load(ICardAttribute attr, PropertyInfo prop)
 	{
 		_titleLabel.Text = $"{prop.Name}:";
 
 		if (prop.PropertyType == typeof(string))
 		{
-			_intEditor.Hide();
+			_strEditor.Show();
 			_strEditor.Text = (string)prop.GetValue(attr);
-			_intEditor.Step = 0.1;
-			_intEditor.CustomArrowStep = 0.1;
-			_strEditor.TextChanged += txt =>
-			{
-				prop.SetValue(attr, txt);
-			};
+			_strEditor.TextChanged += txt => prop.SetValue(attr, txt);
 		}
 		
 		else if (prop.PropertyType == typeof(int))
 		{
-			_strEditor.Hide();
+			_intEditor.Show();
 			_intEditor.Value = (int) (prop.GetValue(attr) ?? 0);
 			_intEditor.Step = 1;
 			_intEditor.CustomArrowStep = 1;
-			_intEditor.ValueChanged += v =>
-			{
-				prop.SetValue(attr, (int)v);
-			};
+			_intEditor.ValueChanged += v => prop.SetValue(attr, (int)v);
 		}
 		
 		else if (prop.PropertyType == typeof(float))
 		{
-			_strEditor.Hide();
+			_intEditor.Show();
 			_intEditor.Value = (float) (prop.GetValue(attr) ?? 0);
-			_intEditor.ValueChanged += v =>
-			{
-				prop.SetValue(attr, (float)v);
-			};
+			_intEditor.Step = 0.1;
+			_intEditor.CustomArrowStep = 0.1;
+			_intEditor.ValueChanged += v => prop.SetValue(attr, (float)v);
+		}
+		
+		else if (prop.PropertyType == typeof(Tags))
+		{
+			_tagsEditor.Show();
+			_tagsEditor.SelectedTags = (Tags) (prop.GetValue(attr) ?? Tags.None);
+			_tagsEditor.TagsChanged += () => prop.SetValue(attr, _tagsEditor.SelectedTags);
+		}
+		
+		else if (prop.PropertyType == typeof(ResourceType))
+		{
+			_resourceEditor.Show();
+			_resourceEditor.SelectedOption = (ResourceType)(prop.GetValue(attr) ?? ResourceType.None);
+			_resourceEditor.ItemSelected += i => prop.SetValue(attr, _resourceEditor.SelectedOption);
 		}
 	}
 }
