@@ -2,6 +2,7 @@ using System.Reflection;
 using Godot;
 using MedievalConquerors.ConquerorsPlugin.Controls;
 using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.ConquerorsPlugin.Attributes;
 
@@ -24,7 +25,7 @@ public partial class AttributePropertyEditor : HBoxContainer
 
 	public void Load(ICardAttribute attr, PropertyInfo prop)
 	{
-		_titleLabel.Text = $"{prop.Name}:";
+		_titleLabel.Text = $"{prop.Name.PrettyPrint()}:";
 
 		if (prop.PropertyType == typeof(string))
 		{

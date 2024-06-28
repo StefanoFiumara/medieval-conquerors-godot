@@ -1,5 +1,5 @@
 ## Buildings
-- [ ] Lumber Camp
+- [x] Lumber Camp
 - [ ] Mining Camp
 - [ ] Mill
 - [ ] Blacksmith

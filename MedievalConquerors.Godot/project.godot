@@ -34,7 +34,6 @@ import/blender/enabled=false
 
 [gui]
 
-theme/custom="res://Assets/UI/conquerors_theme.tres"
 theme/default_font_antialiasing=2
 theme/default_font_generate_mipmaps=true
 theme/lcd_subpixel_layout=3

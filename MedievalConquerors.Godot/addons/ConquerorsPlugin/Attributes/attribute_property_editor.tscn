@@ -14,15 +14,19 @@ _tagsEditor = NodePath("property_tags_editor")
 _resourceEditor = NodePath("resource_picker")
 
 [node name="property_label" type="Label" parent="."]
-custom_minimum_size = Vector2(150, 0)
+custom_minimum_size = Vector2(185, 0)
 layout_mode = 2
-text = "Property Name:"
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.380392, 0.882353, 1, 1)
+text = "Storage Limit Increase:"
 horizontal_alignment = 2
 
 [node name="property_editor_int" type="SpinBox" parent="."]
 visible = false
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
 step = 0.1
 custom_arrow_step = 0.1
 
@@ -30,10 +34,12 @@ custom_arrow_step = 0.1
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 0
 
 [node name="property_tags_editor" type="GridContainer" parent="."]
 visible = false
 layout_mode = 2
+size_flags_vertical = 0
 columns = 2
 script = ExtResource("2_4r3qp")
 
@@ -41,6 +47,8 @@ script = ExtResource("2_4r3qp")
 visible = false
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
 item_count = 5
 selected = 0
 popup/item_0/text = "None"
