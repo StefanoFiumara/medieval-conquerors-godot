@@ -29,8 +29,7 @@ public partial class MapView : Node2D, IGameComponent
 	[Export] private PackedScene _tokenScene;
 	[Export] public TileMap TileMap { get; private set; }
 	
-	// TODO: Consider making HexMap public, so we don't have to get a reference
-	//       to this component AND the view each time we need to work with it.
+	// TODO: Make this private
 	public HexMap GameMap { get; private set; }
 	
 	private Viewport _viewport;
@@ -58,6 +57,7 @@ public partial class MapView : Node2D, IGameComponent
 		_tokens = new();
 		
 		_events.Subscribe<MoveUnitAction>(GameEvent.Prepare<MoveUnitAction>(), OnPrepareMoveUnit);
+		_events.Subscribe<GarrisonAction>(GameEvent.Prepare<GarrisonAction>(), OnPrepareGarrison);
 	}
 
 	public override void _Input(InputEvent input)
@@ -182,7 +182,28 @@ public partial class MapView : Node2D, IGameComponent
 		while (tween.IsRunning())
 			yield return null;
 	}
+
+	private void OnPrepareGarrison(GarrisonAction action)
+	{
+		action.PerformPhase.Viewer = GarrisonAnimation;
+	}
 	
+	private IEnumerator GarrisonAnimation(IGame game, GameAction action)
+	{
+		var garrisonAction = (GarrisonAction)action;
+		var unitToken = _tokens.Single(t => t.Card == garrisonAction.Unit);
+
+		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine);
+		tween.TweenProperty(unitToken, "modulate", Colors.Transparent, 0.2);
+
+		while (tween.IsRunning())
+			yield return null;
+
+		// TODO: Update building token's UI to show garrisoned unit count
+		_tokens.Remove(unitToken);
+		unitToken.QueueFree();
+	}
+
 	public Vector2 GetTileGlobalPosition(Vector2I coords)
 	{
 		return TileMap.ToGlobal(TileMap.MapToLocal(coords));

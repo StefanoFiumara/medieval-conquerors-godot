@@ -38,13 +38,15 @@ public enum Tags
     TownCenter = 1 << 6 // NOTE: Special case for spawn point attributes
 }
 
+[Flags]
 public enum ResourceType
 {
     None = 0,
-    Food = 1,
-    Wood = 2,
-    Gold = 3,
-    Stone = 4
+    Food = 1 << 0,  // 1
+    Wood = 1 << 1,  // 2
+    Gold = 1 << 2,  // 4
+    Stone = 1 << 3, // 8
+    Mining = Gold | Stone
 }
 
 public enum Zone

@@ -12,7 +12,7 @@ public class GarrisonCapacityAttribute : ICardAttribute
     
     public bool CanGarrison(Card unit) => 
         Units.Count < Limit 
-        && unit.CardData.Tags.HasFlag(Tags.Economic) 
+        && unit.CardData.Tags.HasFlag(Tags.Economic)
         && unit.CardData.CardType == CardType.Unit;
 
     public void Garrison(Card unit)
@@ -21,6 +21,7 @@ public class GarrisonCapacityAttribute : ICardAttribute
     }
     
     public void OnTurnStart() { }
+    
     public ICardAttribute Clone()
     {
         return AttributeMapper.Clone(this);

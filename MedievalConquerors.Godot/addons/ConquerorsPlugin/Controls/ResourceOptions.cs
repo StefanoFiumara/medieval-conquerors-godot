@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.ConquerorsPlugin.Controls;

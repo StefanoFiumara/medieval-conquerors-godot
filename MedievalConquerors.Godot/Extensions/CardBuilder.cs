@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 
@@ -90,6 +91,16 @@ public class CardBuilder
             SpawnTags = spawnTags
         });
 
+        return this;
+    }
+
+    public CardBuilder WithGarrisonCapacity(int capacity)
+    {
+        _data.Attributes.Add(new GarrisonCapacityAttribute
+        {
+            Limit = capacity
+        });
+        
         return this;
     }
 

@@ -37,7 +37,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "card-designs.md",
+                "file": "economic-card-designs.md",
                 "mode": "source",
                 "source": false
               }
@@ -49,14 +49,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "card-designs.md",
+                "file": "economic-card-designs.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "52f29cbe22a24cb6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "to-do.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -122,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "card-designs.md",
+                "file": "to-do.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,7 +151,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "card-designs.md",
+                "file": "to-do.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -162,7 +174,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "card-designs.md"
+                "file": "to-do.md"
               }
             }
           }
@@ -183,10 +195,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "bcd3e8201668796d",
+  "active": "52f29cbe22a24cb6",
   "lastOpenFiles": [
+    "economic-card-designs.md",
     "planned-cards-list.md",
-    "card-designs.md",
+    "to-do.md",
     "mechanics-ideas.md",
     "game-design-doc.md",
     "Untitled",

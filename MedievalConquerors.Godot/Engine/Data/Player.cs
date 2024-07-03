@@ -45,7 +45,7 @@ public class Player
         // TODO: parameterize starting storage limit
 
         // TEMP: Add some temporary cards
-        Deck.AddRange(Enumerable.Range(0, 5)
+        Deck.AddRange(Enumerable.Range(0, 4)
             .Select(i => CardBuilder.Build(this)
                 .WithTitle($"Knight {i}")
                 .WithDescription($"Mighty Mounted Royal Warrior {i}")
@@ -59,14 +59,25 @@ public class Player
                 .Create()));
         
         Deck.Add(CardBuilder.Build(this)
-            .WithTitle("Lumber Camp")
+            .WithTitle("Mining Camp")
             .WithDescription("Assigned villagers collect adjacent resources")
-            .WithImagePath("res://Assets/CardImages/lumbercamp.png")
+            .WithImagePath("res://Assets/CardImages/mining_camp.png")
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
             .WithResourceCost(wood: 2)
-            .WithResourceCollector(ResourceType.Wood, gatherRate: 1f, storageLimitIncrease: 5)
+            .WithResourceCollector(ResourceType.Mining, gatherRate: 1f, storageLimitIncrease: 5)
+            .WithGarrisonCapacity(capacity: 3)
             .WithSpawnPoint(Tags.TownCenter)
+            .Create());
+        
+        Deck.Add(CardBuilder.Build(this)
+            .WithTitle("Villager")
+            .WithDescription("Collects resources when assigned to gathering posts")
+            .WithImagePath("res://Assets/CardImages/villager.png")
+            .WithCardType(CardType.Unit)
+            .WithTags(Tags.Economic)
+            .WithResourceCost(food: 2)
+            .WithSpawnPoint(Tags.Economic)
             .Create());
     }
     

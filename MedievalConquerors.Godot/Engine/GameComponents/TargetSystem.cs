@@ -42,17 +42,24 @@ public class TargetSystem : GameComponent, IAwake
 
         if (spawnPointAttribute.SpawnTags == Tags.TownCenter)
             return _map.GetReachable(player.TownCenter.Position, player.InfluenceRange).ToList();
-
-        if (spawnPointAttribute.SpawnRange == 0)
-            return buildings.Select(b => b.MapPosition).ToList();
-        
+  
         var targetCandidates = new List<Vector2I>();
         foreach (var building in buildings)
         {
             if (building.CardData.Tags.HasFlag(spawnPointAttribute.SpawnTags))
             {
-                var surroundingNeighbors = _map.GetReachable(building.MapPosition, spawnPointAttribute.SpawnRange);
-                targetCandidates.AddRange(surroundingNeighbors);
+                // TODO: We may want to pull the garrison check into an extension method, as well as other checks
+                //       that required fetching an attribute and calling a method or checking a property.
+                //       This is so we can just call `building.CanGarrison(source)` directly instead of using `GetAttribute`
+                if (spawnPointAttribute.SpawnRange == 0 && building.GetAttribute<GarrisonCapacityAttribute>()?.CanGarrison(source) == true)
+                {
+                    targetCandidates.Add(building.MapPosition);
+                }
+                else
+                {
+                    var surroundingNeighbors = _map.GetReachable(building.MapPosition, spawnPointAttribute.SpawnRange);
+                    targetCandidates.AddRange(surroundingNeighbors);
+                }
             }
         }
 
