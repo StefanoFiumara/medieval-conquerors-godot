@@ -192,6 +192,7 @@ public partial class MapView : Node2D, IGameComponent
 	{
 		var garrisonAction = (GarrisonAction)action;
 		var unitToken = _tokens.Single(t => t.Card == garrisonAction.Unit);
+		var buildingToken = _tokens.Single(t => t.Card == garrisonAction.Building);
 
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine);
 		tween.TweenProperty(unitToken, "modulate", Colors.Transparent, 0.2);
@@ -202,6 +203,9 @@ public partial class MapView : Node2D, IGameComponent
 		// TODO: Update building token's UI to show garrisoned unit count
 		_tokens.Remove(unitToken);
 		unitToken.QueueFree();
+
+		yield return true;
+		buildingToken.UpdateGarrisonInfo();
 	}
 
 	public Vector2 GetTileGlobalPosition(Vector2I coords)
