@@ -7,7 +7,7 @@ using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Extensions;
-using MedievalConquerors.Views.Maps;
+using MedievalConquerors.Views.Entities;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Engine.Input.InputStates;

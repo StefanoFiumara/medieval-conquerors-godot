@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace MedievalConquerors.Views.Entities;
+namespace MedievalConquerors.Views;
 
 public static class ViewConstants
 {

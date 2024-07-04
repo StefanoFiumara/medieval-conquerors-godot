@@ -5,7 +5,7 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Logging;
-using MedievalConquerors.Views.Maps;
+using MedievalConquerors.Views.Entities;
 
 namespace MedievalConquerors.Views.Main;
 

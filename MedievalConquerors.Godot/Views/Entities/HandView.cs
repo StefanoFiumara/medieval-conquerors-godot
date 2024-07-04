@@ -10,7 +10,6 @@ using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
 using MedievalConquerors.Utils;
 using MedievalConquerors.Views.Main;
-using MedievalConquerors.Views.Maps;
 
 namespace MedievalConquerors.Views.Entities;
 

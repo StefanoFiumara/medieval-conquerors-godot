@@ -7,10 +7,9 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.Input;
-using MedievalConquerors.Views.Entities;
 using MedievalConquerors.Views.Main;
 
-namespace MedievalConquerors.Views.Maps;
+namespace MedievalConquerors.Views.Entities;
 
 public enum HighlightLayer
 {
@@ -192,22 +191,24 @@ public partial class MapView : Node2D, IGameComponent
 	
 	private IEnumerator GarrisonAnimation(IGame game, GameAction action)
 	{
+		const double tweenDuration = 0.4;
+		
 		var garrisonAction = (GarrisonAction)action;
 		var unitToken = _tokens.Single(t => t.Card == garrisonAction.Unit);
 		var buildingToken = _tokens.Single(t => t.Card == garrisonAction.Building);
 
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine);
-		tween.TweenProperty(unitToken, "modulate", Colors.Transparent, 0.2);
+		tween.TweenProperty(unitToken, "modulate", Colors.Transparent, tweenDuration);
 
+		yield return true;
+		buildingToken.UpdateGarrisonInfo();
+		
 		while (tween.IsRunning())
 			yield return null;
 
 		// TODO: Update building token's UI to show garrisoned unit count
 		_tokens.Remove(unitToken);
 		unitToken.QueueFree();
-
-		yield return true;
-		buildingToken.UpdateGarrisonInfo();
 	}
 
 	public Vector2 GetTileGlobalPosition(Vector2I coords)

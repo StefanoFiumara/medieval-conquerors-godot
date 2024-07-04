@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://cjb85igujgkwe"]
 
-[ext_resource type="Script" path="res://Views/Maps/MapView.cs" id="1_20lxf"]
+[ext_resource type="Script" path="res://Views/Entities/MapView.cs" id="1_8o7o4"]
 [ext_resource type="TileSet" uid="uid://1svl535uy0h2" path="res://Assets/TileSets/HexTileSet.tres" id="2_beclu"]
-[ext_resource type="PackedScene" uid="uid://civascfpgtcfj" path="res://Views/Entities/token_view.tscn" id="2_oj7p0"]
+[ext_resource type="PackedScene" uid="uid://civascfpgtcfj" path="res://Views/Entities/token_view.tscn" id="2_u0vts"]
 
 [node name="map_view" type="Node2D" node_paths=PackedStringArray("TileMap")]
 scale = Vector2(0.39, 0.39)
-script = ExtResource("1_20lxf")
-_tokenScene = ExtResource("2_oj7p0")
+script = ExtResource("1_8o7o4")
+_tokenScene = ExtResource("2_u0vts")
 TileMap = NodePath("tile_map")
 
 [node name="tile_map" type="TileMap" parent="."]

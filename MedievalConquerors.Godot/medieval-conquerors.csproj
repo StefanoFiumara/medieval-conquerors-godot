@@ -11,5 +11,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GameData\" />
+    <Folder Include="Views\Maps\" />
   </ItemGroup>
 </Project>
