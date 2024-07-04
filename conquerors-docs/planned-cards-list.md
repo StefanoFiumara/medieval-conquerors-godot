@@ -1,6 +1,6 @@
 ## Buildings
 - [x] Lumber Camp
-- [ ] Mining Camp
+- [x] Mining Camp
 - [ ] Mill
 - [ ] Blacksmith
 - [ ] University
@@ -13,7 +13,7 @@
 
 ## Units
 - Economic
-    - [ ] Villager
+    - [x] Villager
     - _others?_
 
 - Military (basic)
@@ -21,7 +21,7 @@
     - [ ] Spearman
     - [ ] Horseman
     - [ ] Archer
-    - [ ] Lancer
+    - [x] Lancer
     - [ ] Crossbowman
 
 - Siege

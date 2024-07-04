@@ -46,7 +46,7 @@
 - ~~Add `GarrisonSystem` to handle `GarrisonAttribute`~~
 	- ~~intercept `PlayCardAction`~~ 
 		- ~~When Card is a unit and `TargetTile` is a building, reply with `GarrisonAction`~~
-- Add `ResourceSystem` to handle `ResourceCollectorAttribute`
-- Add `HealthSystem` to handle `HitPointsAttribute`
-	- Can remove from scope until we have attack actions
-- Implement attributes described above into card data
+- ~~Add `ResourceSystem` to handle `ResourceCollectorAttribute`~~
+- ~~Add `HealthSystem` to handle `HitPointsAttribute`~~
+	- ~~Can remove from scope until we have attack actions~~
+- ~~Implement attributes described above into card data~~

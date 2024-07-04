@@ -61,7 +61,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "to-do.md",
+                "file": "planned-cards-list.md",
                 "mode": "source",
                 "source": false
               }
@@ -134,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "to-do.md",
+                "file": "planned-cards-list.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -151,7 +151,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "to-do.md",
+                "file": "planned-cards-list.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -174,7 +174,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "to-do.md"
+                "file": "planned-cards-list.md"
               }
             }
           }
@@ -197,11 +197,11 @@
   },
   "active": "52f29cbe22a24cb6",
   "lastOpenFiles": [
-    "economic-card-designs.md",
-    "planned-cards-list.md",
-    "to-do.md",
     "mechanics-ideas.md",
     "game-design-doc.md",
+    "economic-card-designs.md",
+    "to-do.md",
+    "planned-cards-list.md",
     "Untitled",
     "Welcome.md"
   ]
