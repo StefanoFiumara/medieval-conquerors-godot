@@ -19,6 +19,7 @@ public partial class TurnBanner : Node2D
 	[Export] private RichTextLabel _turnLabel;
 
 	private const int BackgroundHeight = 140;
+	private const int BannerFontSize = 110; 
 
 	private Viewport _viewport;
 	
@@ -45,7 +46,7 @@ public partial class TurnBanner : Node2D
 		_background.Size = new Vector2(visibleRect.Size.X, BackgroundHeight * proportion.Y);
 		_background.Position = new Vector2(0, visibleRect.Size.Y * 0.5f - (BackgroundHeight * 0.5f));
 		
-		_turnLabel.AddThemeFontSizeOverride("normal_font_size", (int)(110 * proportion.Y));
+		_turnLabel.AddThemeFontSizeOverride("normal_font_size", (int)(BannerFontSize * proportion.Y));
 		_turnLabel.Size = _background.Size;
 		_turnLabel.Position = _background.Position;
 		
