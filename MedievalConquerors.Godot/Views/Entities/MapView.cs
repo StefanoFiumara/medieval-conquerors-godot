@@ -132,15 +132,12 @@ public partial class MapView : Node2D, IGameComponent
 	private TokenView CreateTokenView(Card card)
 	{
 		var tokenView = _tokenScene.Instantiate<TokenView>();
-		
-		// Spawn token offscreen, to be animated in by TweenToPosition
-		// TODO: Adjust offscreen position for animation
-		tokenView.Position = (Vector2.Up * 1200);
-		
-		TileMap.AddChild(tokenView);
+		tokenView.Modulate = Colors.Transparent;
 		tokenView.Initialize(Game, card);
 		
 		_tokens.Add(tokenView);
+		
+		TileMap.AddChild(tokenView);
 		return tokenView;
 	}
 
@@ -150,7 +147,6 @@ public partial class MapView : Node2D, IGameComponent
 
 		var tokenView = CreateTokenView(action.CardToPlay);
 		tokenView.Position = TileMap.MapToLocal(action.TargetTile);
-		tokenView.Modulate = Colors.Transparent;
 		
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In);
 		tween.TweenProperty(tokenView, "modulate", Colors.White, tweenDuration);
@@ -205,8 +201,7 @@ public partial class MapView : Node2D, IGameComponent
 		
 		while (tween.IsRunning())
 			yield return null;
-
-		// TODO: Update building token's UI to show garrisoned unit count
+		
 		_tokens.Remove(unitToken);
 		unitToken.QueueFree();
 	}
