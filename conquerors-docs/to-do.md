@@ -1,9 +1,6 @@
-- Update resource collector to support multiple resources (mining camp should gather both gold and stone)
 - Find images for:
 	- mill
 - View for garrison system
-	- Update token view to show number of garrisoned villagers in economic buildings
-	- Update the play card animation to fade away the token instead of placing it on top of building it is garrisoned in
 - View for resource collector
 	- Add animation for the resource collection step
-- 
+-  Place Town Center building on game start

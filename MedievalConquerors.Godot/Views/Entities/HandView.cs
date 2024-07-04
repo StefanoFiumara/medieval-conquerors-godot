@@ -19,6 +19,8 @@ public partial class HandView : Node2D, IGameComponent
 	private const float MaxHandWidth = 750f;
 	private const float HandHeight = 95f;
 	private const int PreviewSectionHeight = 350;
+
+	
 	
 	private readonly List<CardView> _cards = new();
 	
@@ -64,11 +66,11 @@ public partial class HandView : Node2D, IGameComponent
 	public override void _EnterTree()
 	{
 		_viewport = GetViewport();
-		AnchorViewToScreen();
-		_viewport.SizeChanged += AnchorViewToScreen;
+		CalculateViewPosition();
+		_viewport.SizeChanged += CalculateViewPosition;
 	}
 
-	public override void _ExitTree() => _viewport.SizeChanged -= AnchorViewToScreen;
+	public override void _ExitTree() => _viewport.SizeChanged -= CalculateViewPosition;
 
 	public override void _Process(double elapsed)
 	{
@@ -143,10 +145,13 @@ public partial class HandView : Node2D, IGameComponent
 		TweenToHandPositions();
 	}
 	
-	private void AnchorViewToScreen()
+	private void CalculateViewPosition()
 	{
-		var viewportRect = _viewport.GetVisibleRect();
-		Position = new Vector2(viewportRect.Size.X * 0.5f, viewportRect.Size.Y - 175f);
+		var visibleRect = _viewport.GetVisibleRect();
+		var proportion = visibleRect.Size / ViewConstants.ReferenceResolution;
+		var newScaleFactor = Mathf.Min(proportion.X, proportion.Y);
+		Scale = new Vector2(newScaleFactor, newScaleFactor);
+		Position = new Vector2(visibleRect.Size.X * 0.5f, visibleRect.Size.Y - (175f * Scale.Y));
 	}
 
 	private void OnPrepareDrawCards(DrawCardsAction action)
