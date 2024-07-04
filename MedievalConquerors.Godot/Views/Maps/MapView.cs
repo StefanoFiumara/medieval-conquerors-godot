@@ -52,6 +52,8 @@ public partial class MapView : Node2D, IGameComponent
 		
 		_events = Game.GetComponent<EventAggregator>();
 		_viewport = GetViewport();
+		
+		// TODO: Set scale/position based on reference resolution so that the map fits on the screen at different screen sizes 
 		_zoomTarget = Scale;
 
 		_tokens = new();

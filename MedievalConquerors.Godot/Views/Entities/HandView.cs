@@ -20,8 +20,6 @@ public partial class HandView : Node2D, IGameComponent
 	private const float HandHeight = 95f;
 	private const int PreviewSectionHeight = 350;
 
-	
-	
 	private readonly List<CardView> _cards = new();
 	
 	private int _previewXMin;

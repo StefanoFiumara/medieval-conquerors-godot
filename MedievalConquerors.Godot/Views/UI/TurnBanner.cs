@@ -12,14 +12,14 @@ namespace MedievalConquerors.Views.UI;
 
 public partial class TurnBanner : Node2D
 {
-	private Game _game;
-	private EventAggregator _events;
-
-	[Export] private ColorRect _background;
-	[Export] private RichTextLabel _turnLabel;
-
 	private const int BackgroundHeight = 140;
 	private const int BannerFontSize = 110; 
+	
+	[Export] private ColorRect _background;
+	[Export] private RichTextLabel _turnLabel;
+	
+	private Game _game;
+	private EventAggregator _events;
 
 	private Viewport _viewport;
 	
