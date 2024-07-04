@@ -1,6 +1,0 @@
-- Find images for:
-	- mill
-- View for garrison system
-- View for resource collector
-	- Add animation for the resource collection step
--  Place Town Center building on game start
