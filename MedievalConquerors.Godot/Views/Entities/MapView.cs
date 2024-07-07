@@ -109,10 +109,8 @@ public partial class MapView : Node2D, IGameComponent
 		}
 		
 		// Drag & zoom map
-		if (_isDragging)
-		{
+		if (_isDragging) 
 			Position = mousePosition + _dragOffset;
-		}
 		
 		// Tile Highlight on hover
 		var mapCoord = GetTileCoord(mousePosition);
@@ -214,7 +212,11 @@ public partial class MapView : Node2D, IGameComponent
 	private Vector2I GetTileCoord(Vector2 mousePos)
 	{
 		var mapCoord = TileMap.LocalToMap(ToLocal(mousePos));
-		return GameMap.GetTile(mapCoord) != null ? mapCoord : HexMap.None;
+		
+		if (GameMap.GetTile(mapCoord) != null)
+			return mapCoord;
+		
+		return HexMap.None;
 	}
 
 	private void SetDragging(bool dragging)
@@ -228,19 +230,15 @@ public partial class MapView : Node2D, IGameComponent
 	{
 		var cells = TileMap.GetUsedCells((int)layer);
 
-		foreach (var cell in cells)
-		{
+		foreach (var cell in cells) 
 			RemoveHighlight(cell, layer);
-		}
 	}
 
 	public void HighlightTile(Vector2I coord, HighlightLayer layer)
 	{
-		if (coord != HexMap.None)
-		{
-			// NOTE: The layer ID also matches up with the scene collection ID for the glow color for that layer
+		// NOTE: The layer ID also matches up with the scene collection ID for the glow color for that layer
+		if (coord != HexMap.None) 
 			TileMap.SetCell((int)layer, coord, HighlightTileSetId, Vector2I.Zero, (int)layer);
-		}
 	}
 
 	public bool IsHighlighted(Vector2I coord, HighlightLayer layer)
@@ -258,25 +256,19 @@ public partial class MapView : Node2D, IGameComponent
 	
 	public void RemoveHighlight(Vector2I coord, HighlightLayer layer)
 	{
-		if (coord != HexMap.None)
-		{
+		if (coord != HexMap.None) 
 			TileMap.SetCell((int) layer, coord);
-		}
 	}
 	
 	public void HighlightTiles(IEnumerable<Vector2I> coords, HighlightLayer layer)
 	{
-		foreach (var coord in coords)
-		{
+		foreach (var coord in coords) 
 			HighlightTile(coord, layer);
-		}
 	}
 	
 	public void RemoveHighlights(IEnumerable<Vector2I> coords, HighlightLayer layer)
 	{
-		foreach (var coord in coords)
-		{
+		foreach (var coord in coords) 
 			RemoveHighlight(coord, layer);
-		}
 	}
 }

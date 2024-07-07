@@ -239,9 +239,7 @@ public partial class HandView : Node2D, IGameComponent
 			);
 
 			if (sectionRect.HasPoint(mousePos))
-			{
 				return i;
-			}
 		}
 
 		return -1;
@@ -291,8 +289,8 @@ public partial class HandView : Node2D, IGameComponent
 		for (var i = 0; i < _cards.Count; i++)
 		{
 			// Do not animate hovered/selected card.
-			if (i == _hoveredIndex) continue;
-			if(i == _selectedIndex) continue;
+			if (i == _hoveredIndex)  continue;
+			if (i == _selectedIndex) continue;
 			
 			var card = _cards[i];
 			card.ZIndex = i;

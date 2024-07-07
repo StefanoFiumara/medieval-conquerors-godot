@@ -5,7 +5,6 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Extensions;
-using MedievalConquerors.Views.Entities;
 using MedievalConquerors.Views.Main;
 
 namespace MedievalConquerors.Views.UI;

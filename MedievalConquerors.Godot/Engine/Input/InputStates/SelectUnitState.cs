@@ -22,9 +22,7 @@ public class SelectUnitState : BaseInputState
     public SelectUnitState(IGame game, Card selectedUnit) : base(game)
     {
         _selectedUnit = selectedUnit;
-
         _validTiles = new();
-        
         _mapView = game.GetComponent<MapView>();
     }
 
