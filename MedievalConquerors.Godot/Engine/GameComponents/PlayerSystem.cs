@@ -29,10 +29,11 @@ public class PlayerSystem : GameComponent, IAwake
     {
         // Set town centers based on map
         var townCenters = _map.SearchTiles(t => t.Terrain == TileTerrain.TownCenter);
-        // TODO: Find where the TCs are on the map and assign them to the player
-        // TODO: Do we want a building card token here ?
         _match.LocalPlayer.TownCenter = townCenters.First();
         _match.EnemyPlayer.TownCenter = townCenters.Last();
+        
+        _map.SetTile(_match.LocalPlayer.TownCenter.Position, TileTerrain.Grass);
+        _map.SetTile(_match.EnemyPlayer.TownCenter.Position, TileTerrain.Grass);
 
         // TODO: this should updated dynamically as Player's Influence Range changes, perhaps in MapView when responding to some actions.
         // var tilesInfluencedLocal = _map.GetReachable(match.LocalPlayer.TownCenter.Position, match.LocalPlayer.InfluenceRange);

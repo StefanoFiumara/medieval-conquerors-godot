@@ -47,6 +47,14 @@ public class HexMap : GameComponent
 		return _tiles.GetValueOrDefault(pos);
 	}
 
+	public void SetTile(Vector2I pos, TileTerrain terrain, ResourceType resource = ResourceType.None, int resourceYield = 0)
+	{
+		if (_tiles.ContainsKey(pos))
+		{
+			_tiles[pos] = new TileData(pos, terrain, resource, resourceYield);
+		}
+	}
+
 	public IEnumerable<TileData> GetNeighbors(Vector2I pos)
 	{
 		var directions = pos.Y % 2 == 0 ? EvenHexDirections : OddHexDirections;
@@ -66,6 +74,9 @@ public class HexMap : GameComponent
 		var visited = new HashSet<Vector2I> { pos };
 		var outerEdges = new List<List<Vector2I>> { new() { pos } };
 
+		if(GetTile(pos).IsWalkable)
+			yield return pos;
+		
 		for (int i = 1; i <= range; i++)
 		{
 			outerEdges.Add(new List<Vector2I>());

@@ -210,6 +210,14 @@ public partial class HandView : Node2D, IGameComponent
 	private Tween PlayCardTween(PlayCardAction action)
 	{
 		const double tweenDuration = 0.4;
+
+		if (_cards.All(c => c.Card != action.CardToPlay))
+		{
+			var nullTween = CreateTween();
+			nullTween.TweenCallback(Callable.From(() => { }));
+			return nullTween;
+		}
+		
 		var cardView = _cards.Single(c => c.Card == action.CardToPlay);
 
 		var targetPosition = _mapView.GetTileGlobalPosition(action.TargetTile);
