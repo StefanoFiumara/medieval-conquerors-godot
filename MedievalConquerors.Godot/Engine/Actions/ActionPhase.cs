@@ -26,7 +26,7 @@ namespace MedievalConquerors.Engine.Actions
                 var sequence = Viewer(gameState, Owner);
                 while (sequence.MoveNext())
                 {
-                    var isKeyFrame = (sequence.Current is bool current) && current;
+                    var isKeyFrame = (sequence.Current is true);
 
                     if (isKeyFrame)
                     {

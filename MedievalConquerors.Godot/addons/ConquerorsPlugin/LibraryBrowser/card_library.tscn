@@ -105,7 +105,8 @@ script = ExtResource("2_wwgh3")
 [node name="separator" type="HSeparator" parent="margin/library_vbox_container"]
 layout_mode = 2
 
-[node name="results_container" type="GridContainer" parent="margin/library_vbox_container"]
-custom_minimum_size = Vector2(0, 300)
+[node name="results_container" type="ItemList" parent="margin/library_vbox_container"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-columns = 3
+size_flags_vertical = 3
+fixed_icon_size = Vector2i(64, 64)

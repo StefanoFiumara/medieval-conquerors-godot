@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using MedievalConquerors.ConquerorsPlugin.Controls;
@@ -14,23 +15,21 @@ public partial class CardLibrary : ScrollContainer
 	[Export] private LineEdit _searchInput;
 	[Export] private TagOptions _tagFilter;
 	[Export] private CardTypeOptions _typeFilter;
-	[Export] private GridContainer _resultsContainer;
-	
-	private PackedScene _searchResultScene;
+	[Export] private ItemList _resultsContainer;
 	
 	public event Action<CardData> SearchResultClicked;
+
+	private readonly List<CardData> _searchResults = new();
 	
-	public override void _Ready()
-	{
-		_searchResultScene = GD.Load<PackedScene>("res://addons/ConquerorsPlugin/LibraryBrowser/card_search_result.tscn");
-	}
 
 	public override void _EnterTree()
 	{
+		GD.Print("Library _EnterTree");
 		_clearButton.Pressed += ClearSearch;
 		_searchInput.TextChanged += SearchTextChanged;
 		_tagFilter.TagsChanged += UpdateResults;
 		_typeFilter.ItemSelected += TypeFilterOnItemSelected;
+		_resultsContainer.ItemSelected += SendToEditor;
 	}
 
 	private void ClearSearch()
@@ -56,8 +55,6 @@ public partial class CardLibrary : ScrollContainer
 
 	private void UpdateResults()
 	{
-		ClearResults();
-		
 		using var database = new CardDatabase();
 		
 		var query = database.Query;
@@ -77,28 +74,26 @@ public partial class CardLibrary : ScrollContainer
 		// NOTE: run enum filter in-memory, LiteDB has trouble with bitwise operators
 		if (_tagFilter.SelectedTags != Tags.None)
 			results = results.Where(c => c.Tags.HasFlag(_tagFilter.SelectedTags)).ToList();
+
 		
+		_resultsContainer.Clear();
+		_searchResults.Clear();
 		foreach (var card in results)
 		{
-			var cardResult = _searchResultScene.Instantiate<CardSearchResult>();
-			_resultsContainer.AddChild(cardResult);
-			cardResult.Load(card);
-			cardResult.OnSelected += SendToEditor;
-		}
-	}
+			_searchResults.Add(card);
 
-	private void ClearResults()
-	{
-		foreach (var node in _resultsContainer.GetChildren())
-		{
-			_resultsContainer.RemoveChild(node);
-			node.QueueFree();
+			var iconPath = string.IsNullOrEmpty(card.ImagePath)
+				? $"{ImageSelector.RootPath}/missing_icon.png"
+				: card.ImagePath.Replace(".png", "_icon.png");
+			
+			var icon = GD.Load<Texture2D>(iconPath);
+			_resultsContainer.AddItem(card.Title, icon);
 		}
 	}
 	
-	private void SendToEditor(CardData card)
+	private void SendToEditor(long selectedIndex)
 	{
-		SearchResultClicked?.Invoke(card);
+		SearchResultClicked?.Invoke(_searchResults[(int)selectedIndex]);
 	}
 
 	public override void _ExitTree()
@@ -107,5 +102,6 @@ public partial class CardLibrary : ScrollContainer
 		_searchInput.TextChanged -= SearchTextChanged;
 		_tagFilter.TagsChanged -= UpdateResults;
 		_typeFilter.ItemSelected -= TypeFilterOnItemSelected;
+		_resultsContainer.ItemSelected -= SendToEditor;
 	}
 }

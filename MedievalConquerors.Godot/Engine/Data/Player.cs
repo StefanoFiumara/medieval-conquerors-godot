@@ -47,16 +47,26 @@ public class Player
         // TEMP: Add some temporary cards
         Deck.AddRange(Enumerable.Range(0, 4)
             .Select(i => CardBuilder.Build(this)
-                .WithTitle($"Knight {i}")
-                .WithDescription($"Mighty Mounted Royal Warrior {i}")
-                .WithImagePath("res://Assets/CardImages/knight.png")
+                .WithTitle("Villager")
+                .WithDescription("Collects resources when assigned to gathering posts")
+                .WithImagePath("res://Assets/CardImages/villager.png")
                 .WithCardType(CardType.Unit)
-                .WithTags(Tags.Military | Tags.Mounted | Tags.Melee)
-                .WithResourceCost(food: 4, gold: 2)
-                .WithMovement(distance: 2)
-                // TODO: Test with other buildings once available
-                .WithSpawnPoint(Tags.TownCenter)
+                .WithTags(Tags.Economic)
+                .WithResourceCost(food: 2)
+                .WithSpawnPoint(Tags.Economic)
                 .Create()));
+        //
+        // CardBuilder.Build(this)
+        //         .WithTitle($"Knight {i}")
+        //         .WithDescription($"Mighty Mounted Royal Warrior {i}")
+        //         .WithImagePath("res://Assets/CardImages/knight.png")
+        //         .WithCardType(CardType.Unit)
+        //         .WithTags(Tags.Military | Tags.Mounted | Tags.Melee)
+        //         .WithResourceCost(food: 4, gold: 2)
+        //         .WithMovement(distance: 2)
+        //         // TODO: Test with other buildings once available
+        //         .WithSpawnPoint(Tags.TownCenter)
+        //         .Create();
         
         Deck.Add(CardBuilder.Build(this)
             .WithTitle("Mining Camp")
@@ -71,13 +81,15 @@ public class Player
             .Create());
         
         Deck.Add(CardBuilder.Build(this)
-            .WithTitle("Villager")
-            .WithDescription("Collects resources when assigned to gathering posts")
-            .WithImagePath("res://Assets/CardImages/villager.png")
-            .WithCardType(CardType.Unit)
+            .WithTitle("Mill")
+            .WithDescription("Assigned villagers collect food from adjacent berries or farms.")
+            .WithImagePath("res://Assets/CardImages/mill.png")
+            .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
-            .WithResourceCost(food: 2)
-            .WithSpawnPoint(Tags.Economic)
+            .WithResourceCost(wood: 2)
+            .WithResourceCollector(ResourceType.Food, gatherRate: 1f, storageLimitIncrease: 5)
+            .WithGarrisonCapacity(capacity: 3)
+            .WithSpawnPoint(Tags.TownCenter)
             .Create());
     }
     

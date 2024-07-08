@@ -79,7 +79,13 @@ public class CardBuilder
 
     public CardBuilder WithMovement(int distance = 0)
     {
-        _data.Attributes.Add(new MovementAttribute { Distance = distance});
+        _data.Attributes.Add(new MovementAttribute { Distance = distance });
+        return this;
+    }
+
+    public CardBuilder WithHealthPoints(int health)
+    {
+        _data.Attributes.Add(new HitPointsAttribute { Health = health });
         return this;
     }
 

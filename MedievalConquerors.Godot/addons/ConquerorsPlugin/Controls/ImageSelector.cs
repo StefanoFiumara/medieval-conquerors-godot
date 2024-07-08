@@ -8,7 +8,7 @@ namespace MedievalConquerors.ConquerorsPlugin.Controls;
 [Tool]
 public partial class ImageSelector : HBoxContainer
 {
-	private const string RootPath = "res://Assets/CardImages";
+	public const string RootPath = "res://Assets/CardImages";
 
 	[Export] private OptionButton _imageOptions;
 	[Export] private Button _refreshButton;
@@ -81,6 +81,6 @@ public partial class ImageSelector : HBoxContainer
 			.GroupBy(p => p.Replace("_icon", string.Empty).Replace(".import", string.Empty))
 			.ToDictionary(g => g.Key, g => g.ToList())
 			.Where(p => p.Value.Count == 4)
-			.Select(p => (imagePath: p.Key, iconPath: p.Key.Replace(".png", "_icon.png")));	
+			.Select(p => (imagePath: p.Key, iconPath: p.Key.Replace(".png", "_icon.png")));
 	}
 }
