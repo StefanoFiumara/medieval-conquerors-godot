@@ -9,6 +9,9 @@ namespace MedievalConquerors.Views.Entities;
 
 public partial class TokenView : Node2D, IClickable
 {
+	[Export] private NinePatchRect _background;
+	[Export] private Texture2D _localBorder;
+	[Export] private Texture2D _enemyBorder;
 	[Export] private Sprite2D _image;
 	[Export] private Label _garrisonInfo;
 	
@@ -22,6 +25,11 @@ public partial class TokenView : Node2D, IClickable
 			_image.Texture = GD.Load<Texture2D>(Card.CardData.ImagePath);
 		}
 
+		if (card.Owner.Id == Match.LocalPlayerId)
+			_background.Texture = _localBorder;
+		else if (card.Owner.Id == Match.EnemyPlayerId)
+			_background.Texture = _enemyBorder;
+		
 		UpdateGarrisonInfo();
 	}
 
