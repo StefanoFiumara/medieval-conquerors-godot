@@ -42,15 +42,17 @@ public class ResourceSystem : GameComponent, IAwake
             
             var tilesToCollect =
                 _map.GetNeighbors(card.MapPosition)
-                    .Where(t => collectorAttribute.Resource == t.ResourceType)
+                    .Where(t => collectorAttribute.Resource.HasFlag(t.ResourceType))
                     .Where(t => t.ResourceYield > 0);
 
             int collected = 0;
             foreach (var tile in tilesToCollect)
             {
-                player.Resources[collectorAttribute.Resource] += Mathf.CeilToInt(tile.ResourceYield * collectorAttribute.GatherRate);
+                var amountCollected = Mathf.CeilToInt(tile.ResourceYield * collectorAttribute.GatherRate);
+                player.Resources[tile.ResourceType] += amountCollected;
+                action.ResourcesCollected.Add(tile.Position, (tile.ResourceType, amountCollected));
+                
                 collected++;
-
                 if (collected >= garrisonAttribute.Units.Count)
                     break;
             }

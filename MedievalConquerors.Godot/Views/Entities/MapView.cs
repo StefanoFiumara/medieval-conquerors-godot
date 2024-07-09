@@ -6,8 +6,10 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
+using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
 using MedievalConquerors.Views.Main;
+using MedievalConquerors.Views.UI;
 
 namespace MedievalConquerors.Views.Entities;
 
@@ -52,13 +54,15 @@ public partial class MapView : Node2D, IGameComponent
 		_events = Game.GetComponent<EventAggregator>();
 		_viewport = GetViewport();
 		
-		// TODO: Set scale/position based on reference resolution so that the map fits on the screen at different screen sizes 
+		// TODO: Set scale/position based on reference resolution
+		// so that the map fits on the screen at different screen sizes on startup
 		_zoomTarget = Scale;
 
 		_tokens = new();
 		
 		_events.Subscribe<MoveUnitAction>(GameEvent.Prepare<MoveUnitAction>(), OnPrepareMoveUnit);
 		_events.Subscribe<GarrisonAction>(GameEvent.Prepare<GarrisonAction>(), OnPrepareGarrison);
+		_events.Subscribe<CollectResourcesAction>(GameEvent.Prepare<CollectResourcesAction>(), OnPrepareCollectResources);
 	}
 
 	public override void _Input(InputEvent input)
@@ -182,7 +186,7 @@ public partial class MapView : Node2D, IGameComponent
 	{
 		action.PerformPhase.Viewer = GarrisonAnimation;
 	}
-	
+
 	private IEnumerator GarrisonAnimation(IGame game, GameAction action)
 	{
 		const double tweenDuration = 0.4;
@@ -203,6 +207,30 @@ public partial class MapView : Node2D, IGameComponent
 		_tokens.Remove(unitToken);
 		unitToken.QueueFree();
 	}
+
+	private void OnPrepareCollectResources(CollectResourcesAction action)
+	{
+		action.PerformPhase.Viewer = CollectResourcesAnimation;
+	}
+
+	private IEnumerator CollectResourcesAnimation(IGame game, GameAction action)
+	{
+		const double stepDuration = 0.45;
+		var collectAction = (CollectResourcesAction)action;
+
+		yield return true;
+		
+		foreach (var collected in collectAction.ResourcesCollected)
+		{
+			var position = TileMap.MapToLocal(collected.Key);
+			var (resource, amount) = collected.Value;
+			var tween = this.CreateResourcePopup(position, resource, amount, stepDuration);
+
+			while (tween.IsRunning())
+				yield return null;
+		}
+	}
+
 
 	public Vector2 GetTileGlobalPosition(Vector2I coords)
 	{

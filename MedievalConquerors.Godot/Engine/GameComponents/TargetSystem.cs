@@ -31,10 +31,10 @@ public class TargetSystem : GameComponent, IAwake
             validator.Invalidate("Invalid target tile for card.");
     }
     
-    public List<Vector2I> GetTargetCandidates(Card source)
+    public List<Vector2I> GetTargetCandidates(Card card)
     {
-        var player = source.Owner;
-        var spawnPointAttribute = source.GetAttribute<SpawnPointAttribute>();
+        var player = card.Owner;
+        var spawnPointAttribute = card.GetAttribute<SpawnPointAttribute>();
         var buildings = player.Map.Where(c => c.CardData.CardType == CardType.Building);
         
         if(spawnPointAttribute == null)
@@ -48,10 +48,9 @@ public class TargetSystem : GameComponent, IAwake
         {
             if (building.CardData.Tags.HasFlag(spawnPointAttribute.SpawnTags))
             {
-                // TODO: We may want to pull the garrison check into an extension method, as well as other checks
-                //       that required fetching an attribute and calling a method or checking a property.
+                // TODO: We may want to pull the garrison check into an extension method, as well as other attribute checks
                 //       This is so we can just call `building.CanGarrison(source)` directly instead of using `GetAttribute`
-                if (spawnPointAttribute.SpawnRange == 0 && building.GetAttribute<GarrisonCapacityAttribute>()?.CanGarrison(source) == true)
+                if (spawnPointAttribute.SpawnRange == 0 && building.GetAttribute<GarrisonCapacityAttribute>()?.CanGarrison(card) == true)
                 {
                     targetCandidates.Add(building.MapPosition);
                 }
