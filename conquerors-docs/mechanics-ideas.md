@@ -15,13 +15,16 @@
 - e.g. `Shield` action - armored units take less damage next turn
 ## Zone of Influence
 - Players have a zone of influence
-- players can build anywhere on the map, but buildings outside of the zone of influence take double damage from enemy units
+- ~~players can build anywhere on the map, but buildings outside of the zone of influence take double damage from enemy units~~
+	- Players can only build inside their zone of influence
 - zone of influence increases when advancing to the next age
+	- zone of influence should increase to take up half the map at its maximum level
 
 ## Landmarks
 - Civilization specific buildings that give unique bonuses
 
 ## Technologies
 - Technologies are not applied across all units/buildings on the board, instead they are applied to specific buildings or units to boost that particular unit
+	- e.g. double-bit axe upgrades the lumber camp its played on to have increased gather rate
 - Unique civilization technologies that give special boosts
 - Some way to re-use techs if we go this route?

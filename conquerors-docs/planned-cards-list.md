@@ -1,7 +1,7 @@
 ## Buildings
 - [x] Lumber Camp
 - [x] Mining Camp
-- [ ] Mill
+- [x] Mill
 - [ ] Blacksmith
 - [ ] University
 - [ ] Barracks
@@ -41,7 +41,7 @@
 ## Technologies
 - Economic
     - [ ] Double-bit Axe _(increase lumber camp gather rate)_
-    - [ ] Horse Collar _(increase mill gather rate)_
+    - [ ] Horse Collar _(increase mill gather rate)_ TODO: better name?
     - [ ] Specialized Pick _(increase mining camp gather rate)_
 
 - Military
