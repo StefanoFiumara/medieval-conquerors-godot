@@ -37,10 +37,10 @@ public class Player
         Resources = new ResourceBank(storageLimit: 40 * 4)
         {
             // TODO: Parameterize Starting Resources
-            [ResourceType.Food]  = 40,
-            [ResourceType.Wood]  = 40,
-            [ResourceType.Gold]  = 40,
-            [ResourceType.Stone] = 40
+            [ResourceType.Food]  = 10,
+            [ResourceType.Wood]  = 10,
+            [ResourceType.Gold]  = 10,
+            [ResourceType.Stone] = 10
         };
         // TODO: parameterize starting storage limit
 

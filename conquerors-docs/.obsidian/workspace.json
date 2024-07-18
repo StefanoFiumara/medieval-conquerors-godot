@@ -37,7 +37,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "economic-card-designs.md",
+                "file": "card-designs/economic-cards.md",
                 "mode": "source",
                 "source": false
               }
@@ -49,7 +49,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "economic-card-designs.md",
+                "file": "card-designs/economic-cards.md",
                 "mode": "source",
                 "source": false
               }
@@ -199,10 +199,10 @@
   "lastOpenFiles": [
     "mechanics-ideas.md",
     "game-design-doc.md",
-    "economic-card-designs.md",
+    "card-designs/economic-cards.md",
+    "card-designs",
     "planned-cards-list.md",
     "to-do.md",
-    "Untitled",
     "Welcome.md"
   ]
 }

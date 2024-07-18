@@ -27,22 +27,8 @@ public class PlayCardState : BaseInputState
     }
     public override void Enter()
     {
-        const float previewScale = 0.6f;
-        const double tweenDuration = 0.3;
-        // TODO: Formalize highlight colors in one file (Game settings?)
-        _handView.SetSelected(_selectedCard);
-        _selectedCard.Highlight(Colors.Cyan);
+        _handView.SelectCardTween(_selectedCard);
         
-        
-        var tween = _selectedCard.CreateTween().SetParallel().SetTrans(Tween.TransitionType.Sine);
-        
-        // TODO: Store the card's width/height as constants in the CardView class
-        // TODO: Figure out if it's possible to derive these values from the scene itself
-        tween.TweenProperty(_selectedCard, "global_position", Vector2.Zero + Vector2.Right * 135 * previewScale + Vector2.Down * 185 * previewScale, tweenDuration);
-        tween.TweenProperty(_selectedCard, "scale", Vector2.One * previewScale, tweenDuration);
-        
-        // TODO: Use Target System to find valid tiles for placing the _selectedCard.
-        //       Remove the dependency on HexMap from this class.
         _validTiles = _targetSystem.GetTargetCandidates(_selectedCard.Card);
         _mapView.HighlightTiles(_validTiles, HighlightLayer.TileSelectionHint);
     }

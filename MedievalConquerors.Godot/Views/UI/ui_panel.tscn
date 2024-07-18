@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpol2wnv6wd"]
+
+[ext_resource type="Script" path="res://Views/UI/ResourcePanel.cs" id="1_miglb"]
+
+[node name="ui_panel" type="Control" node_paths=PackedStringArray("_label", "_panelContainer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_miglb")
+_label = NodePath("panel/margin/resource_container/resources_label")
+_panelContainer = NodePath("panel")
+
+[node name="panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -988.0
+offset_bottom = 158.0
+grow_horizontal = 0
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(988, 0)
+
+[node name="margin" type="MarginContainer" parent="panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="resource_container" type="HBoxContainer" parent="panel/margin"]
+layout_direction = 3
+layout_mode = 2
+
+[node name="resources_label" type="RichTextLabel" parent="panel/margin/resource_container"]
+clip_contents = false
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 70
+bbcode_enabled = true
+text = "[right][img]res://Assets/UI/Icons/food.png[/img] 40 [img]res://Assets/UI/Icons/wood.png[/img] 40 [img]res://Assets/UI/Icons/gold.png[/img] 40 [img]res://Assets/UI/Icons/stone.png[/img] 40[/right]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false

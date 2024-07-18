@@ -145,9 +145,7 @@ public partial class HandView : Node2D, IGameComponent
 	private void CalculateViewPosition()
 	{
 		var visibleRect = _viewport.GetVisibleRect();
-		var proportion = visibleRect.Size / ViewConstants.ReferenceResolution;
-		var newScaleFactor = Mathf.Min(proportion.X, proportion.Y);
-		Scale = new Vector2(newScaleFactor, newScaleFactor);
+		Scale = visibleRect.CalculateScaleFactor();
 		Position = new Vector2(visibleRect.Size.X * 0.5f, visibleRect.Size.Y - (175f * Scale.Y));
 	}
 
@@ -186,6 +184,8 @@ public partial class HandView : Node2D, IGameComponent
 	private IEnumerator PlayCardAnimation(IGame game, GameAction action)
 	{
 		var playAction = (PlayCardAction) action;
+
+		yield return true;
 		
 		var tokenTween = _mapView.PlaceTokenAnimation(playAction);
 		
@@ -232,6 +232,26 @@ public partial class HandView : Node2D, IGameComponent
 			cardView.QueueFree();
 		}));
 		
+		return tween;
+	}
+
+	public Tween SelectCardTween(CardView card)
+	{
+		const float previewScale = 0.6f;
+		const double tweenDuration = 0.3;
+		// TODO: Formalize highlight colors in one file (Game settings?)
+		SetSelected(card);
+		card.Highlight(Colors.Cyan);
+        
+		var tween = card.CreateTween().SetParallel().SetTrans(Tween.TransitionType.Sine);
+
+		// TODO: figure out how to reliably position the card below the resource panel in all resolutions 
+		// var proportion = _viewport.GetVisibleRect().CalculateScaleProportion();
+		// TODO: Store the card's width/height as constants in the CardView class
+		// TODO: Figure out if it's possible to derive these values from the scene itself
+		tween.TweenProperty(card, "global_position", Vector2.Zero + Vector2.Right * 135 * previewScale + Vector2.Down * 185 * previewScale, tweenDuration);
+		tween.TweenProperty(card, "scale", Vector2.One * previewScale, tweenDuration);
+
 		return tween;
 	}
 
