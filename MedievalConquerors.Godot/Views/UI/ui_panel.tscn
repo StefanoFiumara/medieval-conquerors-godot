@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b3m6uu5s21qyg" path="res://Assets/UI/Icons/gold.png" id="4_28c5y"]
 [ext_resource type="Texture2D" uid="uid://dwgqpljq1uely" path="res://Assets/UI/Icons/stone.png" id="5_mv2ly"]
 
-[node name="ui_panel" type="MarginContainer" node_paths=PackedStringArray("_foodLabel", "_woodLabel", "_goldLabel", "_stoneLabel", "_panelContainer")]
+[node name="ui_panel" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,11 +17,6 @@ theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 script = ExtResource("1_miglb")
-_foodLabel = NodePath("hbox_container/panel/margin/resources_grid/food_label")
-_woodLabel = NodePath("hbox_container/panel/margin/resources_grid/wood_label")
-_goldLabel = NodePath("hbox_container/panel/margin/resources_grid/gold_label")
-_stoneLabel = NodePath("hbox_container/panel/margin/resources_grid/stone_label")
-_panelContainer = NodePath("hbox_container/panel")
 
 [node name="hbox_container" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -49,6 +44,7 @@ expand_mode = 3
 stretch_mode = 5
 
 [node name="food_label" type="Label" parent="hbox_container/panel/margin/resources_grid"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 45
 text = "99"
@@ -61,6 +57,7 @@ expand_mode = 3
 stretch_mode = 5
 
 [node name="wood_label" type="Label" parent="hbox_container/panel/margin/resources_grid"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 45
 text = "99"
@@ -73,6 +70,7 @@ expand_mode = 3
 stretch_mode = 5
 
 [node name="gold_label" type="Label" parent="hbox_container/panel/margin/resources_grid"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 45
 text = "99"
@@ -85,6 +83,7 @@ expand_mode = 3
 stretch_mode = 5
 
 [node name="stone_label" type="Label" parent="hbox_container/panel/margin/resources_grid"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 45
 text = "99"

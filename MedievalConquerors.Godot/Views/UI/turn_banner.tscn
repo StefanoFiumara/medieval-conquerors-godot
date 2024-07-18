@@ -3,32 +3,40 @@
 [ext_resource type="Script" path="res://Views/UI/TurnBanner.cs" id="1_t2j4n"]
 [ext_resource type="FontFile" uid="uid://dk2d75spb4kj2" path="res://Assets/Fonts/Beyond Wonderland.ttf" id="2_6m8cg"]
 
-[node name="turn_banner" type="Node2D" node_paths=PackedStringArray("_background", "_turnLabel")]
+[node name="turn_banner" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_t2j4n")
-_background = NodePath("background")
-_turnLabel = NodePath("turn_text")
 
 [node name="background" type="ColorRect" parent="."]
 unique_name_in_owner = true
-offset_top = 289.5
-offset_right = 1280.0
-offset_bottom = 430.5
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 450.0
+offset_right = 1920.0
+offset_bottom = 630.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.698039)
 
 [node name="turn_text" type="RichTextLabel" parent="."]
 unique_name_in_owner = true
 clip_contents = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_top = 289.5
-offset_right = 1280.0
-offset_bottom = 430.5
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 755.0
+offset_top = 470.0
+offset_right = 1275.0
+offset_bottom = 611.001
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_vertical = 4
 mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("2_6m8cg")
 theme_override_font_sizes/normal_font_size = 125
@@ -36,4 +44,5 @@ bbcode_enabled = true
 text = "[center]Your Turn[/center]"
 fit_content = true
 scroll_active = false
+autowrap_mode = 0
 shortcut_keys_enabled = false

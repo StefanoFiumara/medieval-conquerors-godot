@@ -9,13 +9,14 @@ using MedievalConquerors.Views.Main;
 
 namespace MedievalConquerors.Views.UI;
 
-public partial class TurnBanner : Node2D
+public partial class TurnBanner : Control
 {
 	private const int BackgroundHeight = 140;
-	private const int BannerFontSize = 110; 
+	private const int BannerFontSize = 110;
+	[Export] private GameController _gameController;
 	
-	[Export] private ColorRect _background;
-	[Export] private RichTextLabel _turnLabel;
+	private ColorRect _background;
+	private RichTextLabel _turnLabel;
 	
 	private Game _game;
 	private EventAggregator _events;
@@ -24,17 +25,15 @@ public partial class TurnBanner : Node2D
 	
 	public override void _Ready()
 	{
-		_game = GetParent<GameController>().Game;
-		_events = _game.GetComponent<EventAggregator>();
+		_game = _gameController.Game;
+		_background = GetNode<ColorRect>("%background");
+		_turnLabel = GetNode<RichTextLabel>("%turn_text");
 		
+		_background.Scale = new Vector2(0, 1);
+		_turnLabel.Modulate = new Color(_turnLabel.Modulate, 0f);
+		
+		_events = _game.GetComponent<EventAggregator>();
 		_events.Subscribe<ChangeTurnAction>(GameEvent.Prepare<ChangeTurnAction>(), OnPrepareChangeTurnAction);
-	}
-
-	public override void _EnterTree()
-	{
-		_viewport = GetViewport();
-		CalculateViewPosition();
-		_viewport.SizeChanged += CalculateViewPosition;
 	}
 
 	private void CalculateViewPosition()
@@ -48,9 +47,6 @@ public partial class TurnBanner : Node2D
 		_turnLabel.AddThemeFontSizeOverride("normal_font_size", (int)(BannerFontSize * proportion.Y));
 		_turnLabel.Size = _background.Size;
 		_turnLabel.Position = _background.Position;
-		
-		_background.Scale = new Vector2(0, 1);
-		_turnLabel.Modulate = new Color(_turnLabel.Modulate, 0f);
 	}
 
 	private void OnPrepareChangeTurnAction(ChangeTurnAction action)

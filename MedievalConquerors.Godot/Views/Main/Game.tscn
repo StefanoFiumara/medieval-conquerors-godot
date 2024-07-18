@@ -20,8 +20,18 @@ position = Vector2(701, 243)
 position = Vector2(960, 930)
 _mapView = NodePath("../map_view")
 
-[node name="turn_banner" parent="." instance=ExtResource("5_j5nqk")]
+[node name="ui_layer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
-[node name="ui_panel" parent="." instance=ExtResource("6_64sui")]
-offset_right = 1920.0
-offset_bottom = 1080.0
+[node name="ui_panel" parent="ui_layer" node_paths=PackedStringArray("_gameController") instance=ExtResource("6_64sui")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_bottom = 0.0
+offset_left = -219.0
+offset_bottom = 364.0
+grow_horizontal = 0
+grow_vertical = 1
+_gameController = NodePath("../..")
+
+[node name="turn_banner" parent="ui_layer" node_paths=PackedStringArray("_gameController") instance=ExtResource("5_j5nqk")]
+_gameController = NodePath("../..")
