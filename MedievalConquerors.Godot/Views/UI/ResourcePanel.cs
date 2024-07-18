@@ -1,28 +1,24 @@
-using System.Text;
 using Godot;
-using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Extensions;
 using MedievalConquerors.Views.Main;
 
 namespace MedievalConquerors.Views.UI;
 
-public partial class ResourcePanel : Control
+public partial class ResourcePanel : MarginContainer
 {
-	[Export] private RichTextLabel _label;
+	[Export] private Label _foodLabel;
+	[Export] private Label _woodLabel;
+	[Export] private Label _goldLabel;
+	[Export] private Label _stoneLabel;
 	[Export] private PanelContainer _panelContainer;
 
 	private Match _match;
-	private Game _game;
-
-	private StringBuilder _sb;
 	private Viewport _viewport;
 	
 	public override void _Ready()
 	{
-		_game = GetParent<GameController>().Game;
-		_match = _game.GetComponent<Match>();
-		_sb = new StringBuilder();
+		var game = GetParent<GameController>().Game;
+		_match = game.GetComponent<Match>();
 	}
 
 	public override void _EnterTree()
@@ -41,19 +37,9 @@ public partial class ResourcePanel : Control
 	public override void _Process(double delta)
 	{
 		// TODO: Display storage limit (find icon)
-		_sb.Clear();
-
-		// TODO: apply some string padding to ensure that icons remain aligned when going from single to multiple digits
-		_sb.Append("[right]")
-			.Append(ResourceIcons.Food).Append(' ').Append(_match.LocalPlayer.Resources.Food)
-			.Append(' ')
-			.Append(ResourceIcons.Wood).Append(' ').Append(_match.LocalPlayer.Resources.Wood)
-			.Append(' ')
-			.Append(ResourceIcons.Gold).Append(' ').Append(_match.LocalPlayer.Resources.Gold)
-			.Append(' ')
-			.Append(ResourceIcons.Stone).Append(' ').Append(_match.LocalPlayer.Resources.Stone)
-			.Append("[/right]");
-		
-		_label.ParseBbcode(_sb.ToString());
+		_foodLabel.Text = _match.LocalPlayer.Resources.Food.ToString();
+		_woodLabel.Text = _match.LocalPlayer.Resources.Wood.ToString();
+		_goldLabel.Text = _match.LocalPlayer.Resources.Gold.ToString();
+		_stoneLabel.Text = _match.LocalPlayer.Resources.Stone.ToString();
 	}
 }

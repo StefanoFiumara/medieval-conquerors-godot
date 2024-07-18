@@ -23,9 +23,5 @@ _mapView = NodePath("../map_view")
 [node name="turn_banner" parent="." instance=ExtResource("5_j5nqk")]
 
 [node name="ui_panel" parent="." instance=ExtResource("6_64sui")]
-custom_minimum_size = Vector2(1920, 0)
-anchors_preset = 10
-anchor_bottom = 0.0
 offset_right = 1920.0
-offset_bottom = 56.0
-grow_vertical = 1
+offset_bottom = 1080.0
