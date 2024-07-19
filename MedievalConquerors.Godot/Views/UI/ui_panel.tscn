@@ -46,7 +46,9 @@ stretch_mode = 5
 [node name="food_label" type="Label" parent="hbox_container/panel/margin/resources_grid"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 45
+theme_override_colors/font_color = Color(0.968627, 0.415686, 0.403922, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 35
 text = "99"
 horizontal_alignment = 2
 
@@ -59,7 +61,9 @@ stretch_mode = 5
 [node name="wood_label" type="Label" parent="hbox_container/panel/margin/resources_grid"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 45
+theme_override_colors/font_color = Color(0.670588, 0.482353, 0.392157, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 35
 text = "99"
 horizontal_alignment = 2
 
@@ -72,7 +76,9 @@ stretch_mode = 5
 [node name="gold_label" type="Label" parent="hbox_container/panel/margin/resources_grid"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 45
+theme_override_colors/font_color = Color(0.988235, 0.866667, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 35
 text = "99"
 horizontal_alignment = 2
 
@@ -85,6 +91,8 @@ stretch_mode = 5
 [node name="stone_label" type="Label" parent="hbox_container/panel/margin/resources_grid"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 45
+theme_override_colors/font_color = Color(0.780392, 0.819608, 0.858824, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 35
 text = "99"
 horizontal_alignment = 2

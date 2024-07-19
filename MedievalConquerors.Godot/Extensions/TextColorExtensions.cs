@@ -32,7 +32,7 @@ public static class ResourceColors
     };
     
     public const string Food = "#f76a67";
-    public const string Wood = "#cb5829";
+    public const string Wood = "#ab7b64";
     public const string Gold = "#fcdd00";
     public const string Stone = "#c7d1db";
 }

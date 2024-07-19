@@ -90,7 +90,7 @@ layout_mode = 2
 
 [node name="title_text" type="Label" parent="scale_container/title_banner/center_container/vbox_container"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.588235, 0.396078, 0.356863, 1)
+theme_override_colors/font_color = Color(0.521569, 0.262745, 0.172549, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 35
 text = "Lorem Ipsum"
@@ -136,7 +136,7 @@ texture_filter = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = SubResource("Theme_pldyj")
-theme_override_colors/font_color = Color(0.796078, 0.345098, 0.160784, 1)
+theme_override_colors/font_color = Color(0.670588, 0.482353, 0.392157, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 26
 text = "99

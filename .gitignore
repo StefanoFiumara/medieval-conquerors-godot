@@ -12,3 +12,6 @@ export_presets.cfg
 **/obj
 **.user
 **.DotSettings
+
+# Build folder
+**/build

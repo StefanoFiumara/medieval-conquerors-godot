@@ -242,7 +242,7 @@ public partial class HandView : Node2D, IGameComponent
 		// TODO: Formalize highlight colors in one file (Game settings?)
 		SetSelected(card);
 		card.Highlight(Colors.Cyan);
-        
+		
 		var tween = card.CreateTween().SetParallel().SetTrans(Tween.TransitionType.Sine);
 
 		// TODO: figure out how to reliably position the card below the resource panel in all resolutions 
