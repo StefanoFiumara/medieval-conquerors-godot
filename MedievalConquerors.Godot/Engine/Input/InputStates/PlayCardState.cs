@@ -30,14 +30,14 @@ public class PlayCardState : BaseInputState
         _handView.SelectCardTween(_selectedCard);
         
         _validTiles = _targetSystem.GetTargetCandidates(_selectedCard.Card);
-        _mapView.HighlightTiles(_validTiles, HighlightLayer.TileSelectionHint);
+        _mapView.HighlightTiles(_validTiles, MapLayerType.SelectionHint);
     }
 
     public override void Exit()
     {
         _handView.ResetSelection();
         _selectedCard.RemoveHighlight();
-        _mapView.RemoveHighlights(_validTiles, HighlightLayer.TileSelectionHint);
+        _mapView.RemoveHighlights(_validTiles, MapLayerType.SelectionHint);
     }
 
     private BaseInputState Reselect(CardView newCard)

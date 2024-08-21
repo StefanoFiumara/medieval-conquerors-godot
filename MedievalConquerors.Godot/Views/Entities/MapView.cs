@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,19 +7,20 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
-using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
 using MedievalConquerors.Views.Main;
 using MedievalConquerors.Views.UI;
 
 namespace MedievalConquerors.Views.Entities;
 
-public enum HighlightLayer
+public enum MapLayerType
 {
+	// TODO: May not need all these types - review
+	Terrain = 0,
 	MouseHover = 1,
 	BlueTeam = 2,
 	RedTeam = 3,
-	TileSelectionHint = 4
+	SelectionHint = 4
 }
 
 public partial class MapView : Node2D, IGameComponent
@@ -28,7 +30,22 @@ public partial class MapView : Node2D, IGameComponent
 	public IGame Game { get; set; }
 	
 	[Export] private PackedScene _tokenScene;
-	[Export] public TileMap TileMap { get; private set; }
+
+	[Export] private TileMapLayer TerrainLayer { get; set; }
+	[Export] private TileMapLayer MouseHoverLayer { get; set; }
+	[Export] private TileMapLayer BlueTeamLayer { get; set; }
+	[Export] private TileMapLayer RedTeamLayer { get; set; }
+	[Export] private TileMapLayer SelectionHintLayer { get; set; }
+
+	public TileMapLayer this[MapLayerType layer] => layer switch
+	{
+		MapLayerType.Terrain => TerrainLayer,
+		MapLayerType.MouseHover => MouseHoverLayer,
+		MapLayerType.BlueTeam => BlueTeamLayer,
+		MapLayerType.RedTeam => RedTeamLayer,
+		MapLayerType.SelectionHint => SelectionHintLayer,
+		_ => throw new ArgumentOutOfRangeException(nameof(layer), layer, "Invalid map layer type")
+	};
 	
 	// TODO: Make this private
 	public HexMap GameMap { get; private set; }
@@ -53,12 +70,11 @@ public partial class MapView : Node2D, IGameComponent
 		
 		_events = Game.GetComponent<EventAggregator>();
 		_viewport = GetViewport();
+		_tokens = new();
 		
 		// TODO: Set scale/position based on reference resolution
 		// so that the map fits on the screen at different screen sizes on startup
 		_zoomTarget = Scale;
-
-		_tokens = new();
 		
 		_events.Subscribe<MoveUnitAction>(GameEvent.Prepare<MoveUnitAction>(), OnPrepareMoveUnit);
 		_events.Subscribe<GarrisonAction>(GameEvent.Prepare<GarrisonAction>(), OnPrepareGarrison);
@@ -120,12 +136,12 @@ public partial class MapView : Node2D, IGameComponent
 		var mapCoord = GetTileCoord(mousePosition);
 		if (mapCoord != _hovered)
 		{
-			RemoveHighlight(_hovered, HighlightLayer.MouseHover);
+			RemoveHighlight(_hovered, MapLayerType.MouseHover);
 			_hovered = HexMap.None;
 
 			if (mapCoord != HexMap.None)
 			{
-				HighlightTile(mapCoord, HighlightLayer.MouseHover);
+				HighlightTile(mapCoord, MapLayerType.MouseHover);
 				_hovered = mapCoord;
 			}
 		}
@@ -139,7 +155,7 @@ public partial class MapView : Node2D, IGameComponent
 		
 		_tokens.Add(tokenView);
 		
-		TileMap.AddChild(tokenView);
+		this[MapLayerType.Terrain].AddChild(tokenView);
 		return tokenView;
 	}
 
@@ -148,7 +164,7 @@ public partial class MapView : Node2D, IGameComponent
 		const double tweenDuration = 0.4;
 
 		var tokenView = CreateTokenView(action.CardToPlay);
-		tokenView.Position = TileMap.MapToLocal(action.TargetTile);
+		tokenView.Position = this[MapLayerType.Terrain].MapToLocal(action.TargetTile);
 		
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In);
 		tween.TweenProperty(tokenView, "modulate", Colors.White, tweenDuration);
@@ -174,7 +190,7 @@ public partial class MapView : Node2D, IGameComponent
 
 		foreach (var tile in path)
 		{
-			var stepPosition = TileMap.MapToLocal(tile);
+			var stepPosition = this[MapLayerType.Terrain].MapToLocal(tile);
 			tween.TweenProperty(token, "position", stepPosition, stepDuration);
 		}
 
@@ -222,7 +238,7 @@ public partial class MapView : Node2D, IGameComponent
 		
 		foreach (var collected in collectAction.ResourcesCollected)
 		{
-			var position = TileMap.MapToLocal(collected.Key);
+			var position = this[MapLayerType.Terrain].MapToLocal(collected.Key);
 			var (resource, amount) = collected.Value;
 			var tween = this.CreateResourcePopup(position, resource, amount, stepDuration);
 
@@ -234,12 +250,12 @@ public partial class MapView : Node2D, IGameComponent
 
 	public Vector2 GetTileGlobalPosition(Vector2I coords)
 	{
-		return TileMap.ToGlobal(TileMap.MapToLocal(coords));
+		return this[MapLayerType.Terrain].ToGlobal(this[MapLayerType.Terrain].MapToLocal(coords));
 	}
 
 	private Vector2I GetTileCoord(Vector2 mousePos)
 	{
-		var mapCoord = TileMap.LocalToMap(ToLocal(mousePos));
+		var mapCoord = this[MapLayerType.Terrain].LocalToMap(ToLocal(mousePos));
 		
 		if (GameMap.GetTile(mapCoord) != null)
 			return mapCoord;
@@ -254,47 +270,51 @@ public partial class MapView : Node2D, IGameComponent
 			_dragOffset = Position - _viewport.GetMousePosition();
 	}
 
-	public void Clear(HighlightLayer layer)
+	public void Clear(MapLayerType layer)
 	{
-		var cells = TileMap.GetUsedCells((int)layer);
+		// TODO: choose TileMapLayer based on highlight layer enum
+		var cells = this[layer].GetUsedCells();
 
 		foreach (var cell in cells) 
 			RemoveHighlight(cell, layer);
 	}
 
-	public void HighlightTile(Vector2I coord, HighlightLayer layer)
+	public void HighlightTile(Vector2I coord, MapLayerType layer)
 	{
 		// NOTE: The layer ID also matches up with the scene collection ID for the glow color for that layer
+		// TODO: choose TileMapLayer based on highlight layer enum
 		if (coord != HexMap.None) 
-			TileMap.SetCell((int)layer, coord, HighlightTileSetId, Vector2I.Zero, (int)layer);
+			this[layer].SetCell(coord, HighlightTileSetId, Vector2I.Zero, (int)layer);
 	}
 
-	public bool IsHighlighted(Vector2I coord, HighlightLayer layer)
+	public bool IsHighlighted(Vector2I coord, MapLayerType layer)
 	{
 		if (coord != HexMap.None)
 		{
 			// NOTE: Since we are looking at highlight layers, it is ok to simple check if a cell is being used.
 			//		 This indicates that it is highlighted, since there is no other reason for a tile to be
 			//		 active on this layer.
-			return TileMap.GetUsedCells((int)layer).Contains(coord);
+			// TODO: choose TileMapLayer based on highlight layer enum
+			return this[layer].GetUsedCells().Contains(coord);
 		}
 
 		return false;
 	}
 	
-	public void RemoveHighlight(Vector2I coord, HighlightLayer layer)
+	public void RemoveHighlight(Vector2I coord, MapLayerType layer)
 	{
+		// TODO: choose TileMapLayer based on highlight layer enum
 		if (coord != HexMap.None) 
-			TileMap.SetCell((int) layer, coord);
+			this[layer].SetCell(coord);
 	}
 	
-	public void HighlightTiles(IEnumerable<Vector2I> coords, HighlightLayer layer)
+	public void HighlightTiles(IEnumerable<Vector2I> coords, MapLayerType layer)
 	{
 		foreach (var coord in coords) 
 			HighlightTile(coord, layer);
 	}
 	
-	public void RemoveHighlights(IEnumerable<Vector2I> coords, HighlightLayer layer)
+	public void RemoveHighlights(IEnumerable<Vector2I> coords, MapLayerType layer)
 	{
 		foreach (var coord in coords) 
 			RemoveHighlight(coord, layer);

@@ -26,7 +26,7 @@ public partial class GameController : Node
 	public override void _EnterTree()
 	{ 
 		_log = new GodotLogger(_logLevel);
-		_map = GameMapFactory.CreateHexMap(_mapView.TileMap);
+		_map = GameMapFactory.CreateHexMap(_mapView[MapLayerType.Terrain]);
 		_game = GameFactory.Create(_log, _map, _settings);
 	}
 

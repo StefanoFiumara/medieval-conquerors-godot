@@ -37,14 +37,14 @@ public class SelectUnitState : BaseInputState
         }
         
         // TODO: Should we have a separate layer/color for selected tiles vs Tile selection hints?
-        _mapView.HighlightTile(_selectedUnit.MapPosition, HighlightLayer.TileSelectionHint);
-        _mapView.HighlightTiles(_validTiles, HighlightLayer.TileSelectionHint);
+        _mapView.HighlightTile(_selectedUnit.MapPosition, MapLayerType.SelectionHint);
+        _mapView.HighlightTiles(_validTiles, MapLayerType.SelectionHint);
     }
 
     public override void Exit()
     {
-        _mapView.RemoveHighlight(_selectedUnit.MapPosition, HighlightLayer.TileSelectionHint);
-        _mapView.RemoveHighlights(_validTiles, HighlightLayer.TileSelectionHint);
+        _mapView.RemoveHighlight(_selectedUnit.MapPosition, MapLayerType.SelectionHint);
+        _mapView.RemoveHighlights(_validTiles, MapLayerType.SelectionHint);
     }
 
     private BaseInputState Reselect(Card unit)
