@@ -104,9 +104,11 @@ public partial class MapView : Node2D, IGameComponent
 				return true;
 			case MouseButton.WheelUp:
 				_zoomTarget *= 1.05f;
+				if (_zoomTarget > Vector2.One) _zoomTarget = Vector2.One;
 				return true;
 			case MouseButton.WheelDown:
 				_zoomTarget *= 0.95f;
+				if (_zoomTarget < Vector2.One * 0.5f) _zoomTarget = Vector2.One * 0.5f;
 				return true;
 			default:
 				return false;
