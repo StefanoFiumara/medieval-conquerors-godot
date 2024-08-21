@@ -14,7 +14,7 @@ _settings = ExtResource("2_ui7yv")
 _mapView = NodePath("map_view")
 
 [node name="map_view" parent="." instance=ExtResource("3_5enh7")]
-position = Vector2(701, 243)
+position = Vector2(960, 450)
 
 [node name="hand_view" parent="." node_paths=PackedStringArray("_mapView") instance=ExtResource("4_wy1k2")]
 position = Vector2(960, 930)
