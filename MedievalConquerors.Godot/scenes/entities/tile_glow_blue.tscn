@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cj1p8gfhgt3q8"]
 
-[ext_resource type="Texture2D" uid="uid://ctrpqu56cavdf" path="res://Assets/TileSets/hex_tile_spritesheet.png" id="1_8ggbu"]
+[ext_resource type="Texture2D" uid="uid://ctrpqu56cavdf" path="res://assets2/tile_sets/hex_tile_spritesheet.png" id="1_8ggbu"]
 
 [sub_resource type="Animation" id="Animation_iilee"]
 resource_name = "glow"

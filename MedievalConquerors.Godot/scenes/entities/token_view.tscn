@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://civascfpgtcfj"]
 
 [ext_resource type="Script" path="res://src/Views/TokenView.cs" id="1_vbu4k"]
-[ext_resource type="Texture2D" uid="uid://0lk14g61rbhd" path="res://Assets/tile_tokens/town_center.png" id="2_hlxri"]
+[ext_resource type="Texture2D" uid="uid://0lk14g61rbhd" path="res://assets2/tile_tokens/town_center.png" id="2_hlxri"]
 [ext_resource type="PackedScene" uid="uid://cj1p8gfhgt3q8" path="res://scenes/entities/tile_glow_blue.tscn" id="5_76c6l"]
 [ext_resource type="PackedScene" uid="uid://m38hf45snpq8" path="res://scenes/entities/tile_glow_red.tscn" id="6_6mhrd"]
 
