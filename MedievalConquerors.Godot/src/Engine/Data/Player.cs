@@ -74,7 +74,7 @@ public class Player
             .WithTitle("Mining Camp")
             .WithDescription("Assigned villagers collect adjacent resources")
             .WithImagePath("res://assets/portraits/mining_camp.png")
-            .WithTokenImagePath("res://assets/tile_tokens/missing_icon.png")
+            .WithTokenImagePath("res://assets/tile_tokens/mining_camp.png")
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
             .WithResourceCost(wood: 2)
