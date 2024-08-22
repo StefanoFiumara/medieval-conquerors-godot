@@ -28,10 +28,9 @@ public class PlayerSystem : GameComponent, IAwake
     private void OnPrepareBeginGame(BeginGameAction action)
     {
         // Set town centers based on map
-        var townCenters = _map.SearchTiles(t => t.Terrain == TileTerrain.TownCenter);
-        _match.LocalPlayer.TownCenter = townCenters.First();
-        _match.EnemyPlayer.TownCenter = townCenters.Last();
-        
+        _match.LocalPlayer.TownCenter = _map.SearchTiles(t => t.Terrain == TileTerrain.StartingTownCenterBlue).Single();
+        _match.EnemyPlayer.TownCenter = _map.SearchTiles(t => t.Terrain == TileTerrain.StartingTownCenterRed).Single();
+         
         _map.SetTile(_match.LocalPlayer.TownCenter.Position, TileTerrain.Grass);
         _map.SetTile(_match.EnemyPlayer.TownCenter.Position, TileTerrain.Grass);
         

@@ -38,19 +38,19 @@ public class Player
         Resources = new ResourceBank(storageLimit: 9999)
         {
             // TODO: Parameterize Starting Resources via game settings
-            [ResourceType.Food]  = 99,
-            [ResourceType.Wood]  = 99,
-            [ResourceType.Gold]  = 99,
-            [ResourceType.Stone] = 99
+            [ResourceType.Food]  = 10,
+            [ResourceType.Wood]  = 10,
+            [ResourceType.Gold]  = 10,
+            [ResourceType.Stone] = 10
         };
         
         // TEMP: Add some temporary cards
-        Deck.AddRange(Enumerable.Range(0, 3)
+        Deck.AddRange(Enumerable.Range(0, 4)
             .Select(i => CardBuilder.Build(this)
                 .WithTitle("Villager")
                 .WithDescription("Collects resources when assigned to gathering posts")
                 .WithImagePath("res://assets/portraits/villager.png")
-                .WithTokenImagePath("res://assets/tile_tokens/missing_icon.png")
+                .WithTokenImagePath("res://assets/tile_tokens/villager.png")
                 .WithCardType(CardType.Unit)
                 .WithTags(Tags.Economic)
                 .WithResourceCost(food: 2)
@@ -61,7 +61,7 @@ public class Player
             .WithTitle($"Knight")
             .WithDescription($"Mighty Mounted Royal Warrior")
             .WithImagePath("res://assets/portraits/knight.png")
-            .WithTokenImagePath("res://assets/tile_tokens/missing_icon.png")
+            .WithTokenImagePath("res://assets/tile_tokens/knight.png")
             .WithCardType(CardType.Unit)
             .WithTags(Tags.Military | Tags.Mounted | Tags.Melee)
             .WithResourceCost(food: 4, gold: 2)
@@ -87,7 +87,7 @@ public class Player
             .WithTitle("Mill")
             .WithDescription("Assigned villagers collect food from adjacent berries or farms.")
             .WithImagePath("res://assets/portraits/mill.png")
-            .WithTokenImagePath("res://assets/tile_tokens/missing_icon.png")
+            .WithTokenImagePath("res://assets/tile_tokens/mill.png")
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
             .WithResourceCost(wood: 2)
