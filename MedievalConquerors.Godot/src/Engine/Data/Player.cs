@@ -45,7 +45,7 @@ public class Player
         };
         
         // TEMP: Add some temporary cards
-        Deck.AddRange(Enumerable.Range(0, 4)
+        Deck.AddRange(Enumerable.Range(0, 3)
             .Select(i => CardBuilder.Build(this)
                 .WithTitle("Villager")
                 .WithDescription("Collects resources when assigned to gathering posts")
