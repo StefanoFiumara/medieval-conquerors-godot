@@ -3,12 +3,12 @@
 importer="oggvorbisstr"
 type="AudioStreamOggVorbis"
 uid="uid://caldsw304biiv"
-path="res://.godot/imported/medieval.ogg-bc5b61e9c9f2c047917d41e6bd453298.oggvorbisstr"
+path="res://.godot/imported/medieval.ogg-7f0edf91afa544052e2ad93c1ede6617.oggvorbisstr"
 
 [deps]
 
-source_file="res://Assets/Audio/medieval.ogg"
-dest_files=["res://.godot/imported/medieval.ogg-bc5b61e9c9f2c047917d41e6bd453298.oggvorbisstr"]
+source_file="res://Assets/audio/medieval.ogg"
+dest_files=["res://.godot/imported/medieval.ogg-7f0edf91afa544052e2ad93c1ede6617.oggvorbisstr"]
 
 [params]
 

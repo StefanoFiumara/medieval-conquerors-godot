@@ -3,12 +3,12 @@
 importer="oggvorbisstr"
 type="AudioStreamOggVorbis"
 uid="uid://bd6jklpand45c"
-path="res://.godot/imported/022815townbgm.ogg-1da3078021a337e96469c246bed2cfcb.oggvorbisstr"
+path="res://.godot/imported/022815townbgm.ogg-cdb1cb6346e08780f1d62aaadffd2c25.oggvorbisstr"
 
 [deps]
 
-source_file="res://Assets/Audio/022815townbgm.ogg"
-dest_files=["res://.godot/imported/022815townbgm.ogg-1da3078021a337e96469c246bed2cfcb.oggvorbisstr"]
+source_file="res://Assets/audio/022815townbgm.ogg"
+dest_files=["res://.godot/imported/022815townbgm.ogg-cdb1cb6346e08780f1d62aaadffd2c25.oggvorbisstr"]
 
 [params]
 

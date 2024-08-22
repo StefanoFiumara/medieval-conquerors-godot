@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://50jcsn2rwh6l"
-path="res://.godot/imported/The_Old_Tower_Inn.mp3-a6af2006e03fcdf7e784ec7fe40843b3.mp3str"
+path="res://.godot/imported/The_Old_Tower_Inn.mp3-f0b74730ffc657f982527f505ef5e018.mp3str"
 
 [deps]
 
-source_file="res://Assets/Audio/The_Old_Tower_Inn.mp3"
-dest_files=["res://.godot/imported/The_Old_Tower_Inn.mp3-a6af2006e03fcdf7e784ec7fe40843b3.mp3str"]
+source_file="res://Assets/audio/The_Old_Tower_Inn.mp3"
+dest_files=["res://.godot/imported/The_Old_Tower_Inn.mp3-f0b74730ffc657f982527f505ef5e018.mp3str"]
 
 [params]
 

@@ -10,7 +10,11 @@
     <PackageReference Include="Riok.Mapperly" Version="3.3.0-next.5" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GameData\" />
-    <Folder Include="Views\Maps\" />
+    <Compile Remove="Views\**" />
+    <Compile Remove="GameData\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Views\**" />
+    <EmbeddedResource Remove="GameData\**" />
   </ItemGroup>
 </Project>
