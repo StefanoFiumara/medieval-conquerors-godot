@@ -21,14 +21,15 @@ public static class GameMapFactory
 	// NOTE: TileMap must be configured with Pointy-top hex tiles and Odd Offset Coordinates
 	public static HexMap CreateHexMap(TileMapLayer tileMap)
 	{
-		var tileData = CreateTileData(tileMap);
-		return new HexMap(tileData);
+		var (tileData, terrainAtlasMap) = CreateTileData(tileMap);
+		return new HexMap(tileData, terrainAtlasMap);
 	}
 	
-	private static Dictionary<Vector2I, TileData> CreateTileData(TileMapLayer tileMap)
+	private static (Dictionary<Vector2I, TileData>, Dictionary<TileTerrain, Vector2I> terrainAtlasMap) CreateTileData(TileMapLayer tileMap)
 	{
 		var tiles = new  Dictionary<Vector2I, TileData>();
 		var cells = tileMap.GetUsedCells().ToList();
+		var terrainAtlasMap = new Dictionary<TileTerrain, Vector2I>();
 		
 		foreach (var pos in cells)
 		{
@@ -38,6 +39,8 @@ public static class GameMapFactory
 			
 			var tile = new TileData(pos, terrain, resourceType, resourceYield);
 			tiles.Add(pos, tile);
+
+			terrainAtlasMap.TryAdd(terrain, tileMap.GetCellAtlasCoords(pos));
 		}
 		
 		var yieldData = tiles.Values
@@ -49,6 +52,6 @@ public static class GameMapFactory
 		GD.PrintRich("=== Parsed TileMap Data ===".Orange());
 		var table = AsciiTable.Create(yieldData);
 		GD.PrintRich($"{table}".Orange());
-		return tiles;
+		return (tiles, terrainAtlasMap);
 	}
 }

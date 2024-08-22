@@ -83,7 +83,7 @@ public partial class CardLibrary : ScrollContainer
 			_searchResults.Add(card);
 
 			var iconPath = string.IsNullOrEmpty(card.ImagePath)
-				? $"{ImageSelector.RootPath}/missing_icon.png"
+				? $"{ImageSelector.PortraitsPath}/missing_icon.png"
 				: card.ImagePath.Replace(".png", "_icon.png");
 			
 			var icon = GD.Load<Texture2D>(iconPath);

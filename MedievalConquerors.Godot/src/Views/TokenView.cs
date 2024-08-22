@@ -25,6 +25,9 @@ public partial class TokenView : Node2D, IClickable
 		//		1 == Enemy Player
 		_image.Frame = card.Owner.Id;
 		
+		// TODO: Set up glow tile based on alliance?
+		// TODO: Disable glow tile entirely and just focus on tooltip?
+		
 		// TODO: Put this info in a tooltip
 		UpdateGarrisonInfo();
 	}

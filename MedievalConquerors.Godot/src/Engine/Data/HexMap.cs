@@ -16,6 +16,9 @@ public class HexMap : GameComponent
 	public static readonly Vector2I None = new(int.MinValue, int.MinValue);
 	
 	private readonly Dictionary<Vector2I, TileData> _tiles;
+	private readonly Dictionary<TileTerrain, Vector2I> _terrainToAtlasCoordMap;
+
+	public event Action<TileData> OnTileChanged; 
 
 	private static readonly Vector2I[] EvenHexDirections = 
 	{
@@ -37,10 +40,13 @@ public class HexMap : GameComponent
 		new( 1,  1),
 	};
 
-	public HexMap(Dictionary<Vector2I, TileData> tileData)
+	public HexMap(Dictionary<Vector2I, TileData> tileData, Dictionary<TileTerrain, Vector2I> terrainToAtlasCoordMap)
 	{
 		_tiles = tileData;
+		_terrainToAtlasCoordMap = terrainToAtlasCoordMap;
 	}
+
+	public Vector2I GetAtlasCoord(TileTerrain terrain) => _terrainToAtlasCoordMap.ContainsKey(terrain) ? _terrainToAtlasCoordMap[terrain] : None;
 	
 	public TileData GetTile(Vector2I pos)
 	{
@@ -52,6 +58,7 @@ public class HexMap : GameComponent
 		if (_tiles.ContainsKey(pos))
 		{
 			_tiles[pos] = new TileData(pos, terrain, resource, resourceYield);
+			OnTileChanged?.Invoke(_tiles[pos]);
 		}
 	}
 

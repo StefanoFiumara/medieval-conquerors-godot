@@ -34,13 +34,13 @@ public class Player
         
         InfluenceRange = 3;
 
-        Resources = new ResourceBank(storageLimit: 40 * 4)
+        Resources = new ResourceBank(storageLimit: 9999)
         {
             // TODO: Parameterize Starting Resources
-            [ResourceType.Food]  = 10,
-            [ResourceType.Wood]  = 10,
-            [ResourceType.Gold]  = 10,
-            [ResourceType.Stone] = 10
+            [ResourceType.Food]  = 99,
+            [ResourceType.Wood]  = 99,
+            [ResourceType.Gold]  = 99,
+            [ResourceType.Stone] = 99
         };
         // TODO: parameterize starting storage limit
 
@@ -49,7 +49,8 @@ public class Player
             .Select(i => CardBuilder.Build(this)
                 .WithTitle("Villager")
                 .WithDescription("Collects resources when assigned to gathering posts")
-                .WithImagePath("res://Assets/CardImages/villager.png")
+                .WithImagePath("res://assets/portraits/villager.png")
+                .WithTokenImagePath("res://assets/tile_tokens/missing_icon.png")
                 .WithCardType(CardType.Unit)
                 .WithTags(Tags.Economic)
                 .WithResourceCost(food: 2)
@@ -59,7 +60,7 @@ public class Player
         // CardBuilder.Build(this)
         //         .WithTitle($"Knight {i}")
         //         .WithDescription($"Mighty Mounted Royal Warrior {i}")
-        //         .WithImagePath("res://Assets/CardImages/knight.png")
+        //         .WithImagePath("res://assets/portraits/knight.png")
         //         .WithCardType(CardType.Unit)
         //         .WithTags(Tags.Military | Tags.Mounted | Tags.Melee)
         //         .WithResourceCost(food: 4, gold: 2)
@@ -71,7 +72,8 @@ public class Player
         Deck.Add(CardBuilder.Build(this)
             .WithTitle("Mining Camp")
             .WithDescription("Assigned villagers collect adjacent resources")
-            .WithImagePath("res://Assets/CardImages/mining_camp.png")
+            .WithImagePath("res://assets/portraits/mining_camp.png")
+            .WithTokenImagePath("res://assets/tile_tokens/missing_icon.png")
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
             .WithResourceCost(wood: 2)
@@ -83,7 +85,8 @@ public class Player
         Deck.Add(CardBuilder.Build(this)
             .WithTitle("Mill")
             .WithDescription("Assigned villagers collect food from adjacent berries or farms.")
-            .WithImagePath("res://Assets/CardImages/mill.png")
+            .WithImagePath("res://assets/portraits/mill.png")
+            .WithTokenImagePath("res://assets/tile_tokens/missing_icon.png")
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
             .WithResourceCost(wood: 2)

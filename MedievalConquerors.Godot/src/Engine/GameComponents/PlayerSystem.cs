@@ -34,7 +34,7 @@ public class PlayerSystem : GameComponent, IAwake
         
         _map.SetTile(_match.LocalPlayer.TownCenter.Position, TileTerrain.Grass);
         _map.SetTile(_match.EnemyPlayer.TownCenter.Position, TileTerrain.Grass);
-
+        
         // TODO: this should updated dynamically as Player's Influence Range changes, perhaps in MapView when responding to some actions.
         // var tilesInfluencedLocal = _map.GetReachable(match.LocalPlayer.TownCenter.Position, match.LocalPlayer.InfluenceRange);
         // _mapView.HighlightTiles(tilesInfluencedLocal, HighlightLayer.BlueTeam);

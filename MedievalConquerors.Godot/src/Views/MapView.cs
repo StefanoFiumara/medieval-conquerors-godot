@@ -9,6 +9,7 @@ using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.Input;
 using MedievalConquerors.UI;
+using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Views;
 
@@ -68,15 +69,29 @@ public partial class MapView : Node2D, IGameComponent
 		
 		_events = Game.GetComponent<EventAggregator>();
 		_viewport = GetViewport();
-		_tokens = new();
+		_tokens = new List<TokenView>();
 		
 		// TODO: Set scale/position based on reference resolution
 		// so that the map fits on the screen at different screen sizes on startup
 		_zoomTarget = Scale;
 		
+		GameMap.OnTileChanged += OnTileMapChanged;
 		_events.Subscribe<MoveUnitAction>(GameEvent.Prepare<MoveUnitAction>(), OnPrepareMoveUnit);
 		_events.Subscribe<GarrisonAction>(GameEvent.Prepare<GarrisonAction>(), OnPrepareGarrison);
 		_events.Subscribe<CollectResourcesAction>(GameEvent.Prepare<CollectResourcesAction>(), OnPrepareCollectResources);
+	}
+
+	public override void _ExitTree()
+	{
+		GameMap.OnTileChanged -= OnTileMapChanged;
+	}
+
+	private void OnTileMapChanged(TileData newTile)
+	{
+		var newAtlasCoord = GameMap.GetAtlasCoord(newTile.Terrain);
+		
+		if(newAtlasCoord != HexMap.None)
+			this[MapLayerType.Terrain].SetCell(newTile.Position, 0, newAtlasCoord);
 	}
 
 	public override void _Input(InputEvent input)

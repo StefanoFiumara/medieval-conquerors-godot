@@ -40,6 +40,12 @@ public class CardBuilder
         return this;
     }
     
+    public CardBuilder WithTokenImagePath(string imagePath)
+    {
+        _data.TokenImagePath = imagePath;
+        return this;
+    }
+    
     public CardBuilder WithCardType(CardType cardType)
     {
         _data.CardType = cardType;

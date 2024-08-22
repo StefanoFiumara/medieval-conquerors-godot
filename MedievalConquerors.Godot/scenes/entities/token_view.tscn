@@ -19,3 +19,4 @@ region_rect = Rect2(480, 280, 120, 140)
 visible = false
 
 [node name="glow_enemy" parent="." instance=ExtResource("6_6mhrd")]
+visible = false

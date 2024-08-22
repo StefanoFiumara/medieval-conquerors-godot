@@ -66,6 +66,6 @@ public abstract class GameSystemTestFixture
         tileData[townCenter1Pos] = new TileData(townCenter1Pos, TileTerrain.TownCenter, ResourceType.None, 0);
         tileData[townCenter2Pos] = new TileData(townCenter2Pos, TileTerrain.TownCenter, ResourceType.None, 0);
         
-        return new HexMap(tileData);
+        return new HexMap(tileData, new());
     }
 }

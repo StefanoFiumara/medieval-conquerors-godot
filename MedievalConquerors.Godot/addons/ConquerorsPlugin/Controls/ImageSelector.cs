@@ -8,7 +8,10 @@ namespace MedievalConquerors.ConquerorsPlugin.Controls;
 [Tool]
 public partial class ImageSelector : HBoxContainer
 {
-	public const string RootPath = "res://Assets/CardImages";
+	public const string PortraitsPath = "res://assets/portraits";
+	
+	// TODO: Set up token selector, or configure this component to work with different root paths
+	public const string TokensPath = "res://assets/tile_tokens";
 
 	[Export] private OptionButton _imageOptions;
 	[Export] private Button _refreshButton;
@@ -20,7 +23,7 @@ public partial class ImageSelector : HBoxContainer
 		get
 		{
 			var selected = _imageOptions?.GetItemText(_imageOptions?.GetSelectedId() ?? 0) ?? "None";
-			return selected != "None" ? $"{RootPath}/{selected}" : string.Empty;
+			return selected != "None" ? $"{PortraitsPath}/{selected}" : string.Empty;
 		}
 		set
 		{
@@ -67,7 +70,7 @@ public partial class ImageSelector : HBoxContainer
 
 		foreach (var image in GetImageList())
 		{
-			var tex = GD.Load<Texture2D>($"res://Assets/CardImages/{image.iconPath}");
+			var tex = GD.Load<Texture2D>($"{PortraitsPath}/{image.iconPath}");
 			_imageOptions.AddIconItem(tex, image.imagePath);
 			_imagePaths.Add(image.imagePath);
 		}
@@ -77,7 +80,7 @@ public partial class ImageSelector : HBoxContainer
 
 	private IEnumerable<(string imagePath, string iconPath)> GetImageList()
 	{
-		return DirAccess.Open(RootPath).GetFiles()
+		return DirAccess.Open(PortraitsPath).GetFiles()
 			.GroupBy(p => p.Replace("_icon", string.Empty).Replace(".import", string.Empty))
 			.ToDictionary(g => g.Key, g => g.ToList())
 			.Where(p => p.Value.Count == 4)

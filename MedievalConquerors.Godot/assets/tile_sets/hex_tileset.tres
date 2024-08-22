@@ -1,13 +1,13 @@
 [gd_resource type="TileSet" load_steps=8 format=3 uid="uid://g2hjogkk4awb"]
 
-[ext_resource type="Texture2D" uid="uid://ctrpqu56cavdf" path="res://assets/tile_sets/hex_tile_spritesheet.png" id="1_omrbk"]
-[ext_resource type="PackedScene" uid="uid://ckaet07qewjtq" path="res://scenes/entities/tile_glow.tscn" id="2_pagfh"]
-[ext_resource type="PackedScene" uid="uid://cj1p8gfhgt3q8" path="res://scenes/entities/tile_glow_blue.tscn" id="3_ntyas"]
-[ext_resource type="PackedScene" uid="uid://m38hf45snpq8" path="res://scenes/entities/tile_glow_red.tscn" id="4_4nck1"]
-[ext_resource type="PackedScene" uid="uid://86vkrku6umuc" path="res://scenes/entities/tile_glow_yellow.tscn" id="5_1yses"]
+[ext_resource type="Texture2D" uid="uid://ctrpqu56cavdf" path="res://assets/tile_sets/hex_tile_spritesheet.png" id="1_8vvm1"]
+[ext_resource type="PackedScene" uid="uid://ckaet07qewjtq" path="res://scenes/entities/tile_glow.tscn" id="2_3jsqd"]
+[ext_resource type="PackedScene" uid="uid://cj1p8gfhgt3q8" path="res://scenes/entities/tile_glow_blue.tscn" id="3_6fa35"]
+[ext_resource type="PackedScene" uid="uid://m38hf45snpq8" path="res://scenes/entities/tile_glow_red.tscn" id="4_t5ivl"]
+[ext_resource type="PackedScene" uid="uid://86vkrku6umuc" path="res://scenes/entities/tile_glow_yellow.tscn" id="5_npel5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m5tl1"]
-texture = ExtResource("1_omrbk")
+texture = ExtResource("1_8vvm1")
 texture_region_size = Vector2i(120, 140)
 0:0/0 = 0
 0:0/0/custom_data_0 = 2
@@ -50,10 +50,10 @@ texture_region_size = Vector2i(120, 140)
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ox0f7"]
 resource_name = "tile_glows"
-scenes/1/scene = ExtResource("2_pagfh")
-scenes/2/scene = ExtResource("3_ntyas")
-scenes/3/scene = ExtResource("4_4nck1")
-scenes/4/scene = ExtResource("5_1yses")
+scenes/1/scene = ExtResource("2_3jsqd")
+scenes/2/scene = ExtResource("3_6fa35")
+scenes/3/scene = ExtResource("4_t5ivl")
+scenes/4/scene = ExtResource("5_npel5")
 
 [resource]
 tile_shape = 3

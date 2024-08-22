@@ -34,7 +34,8 @@ public class TurnSystem : GameComponent, IAwake
             .WithDescription(
                 "The center of your empire, gathers food from surrounding farms. If this building is destroyed, you lose the game.")
             .WithCardType(CardType.Building)
-            .WithImagePath("res://Assets/CardImages/town_center.png")
+            .WithImagePath("res://assets/portraits/town_center.png")
+            .WithTokenImagePath("res://assets/tile_tokens/town_center.png")
             .WithTags(Tags.Economic | Tags.TownCenter)
             .WithGarrisonCapacity(capacity: 6)
             .WithResourceCollector(ResourceType.Food, 1, 15)
@@ -47,7 +48,8 @@ public class TurnSystem : GameComponent, IAwake
                 .WithDescription(
                     "The center of your empire, gathers food from surrounding farms. If this building is destroyed, you lose the game.")
                 .WithCardType(CardType.Building)
-                .WithImagePath("res://Assets/CardImages/town_center.png")
+                .WithImagePath("res://assets/portraits/town_center.png")
+                .WithTokenImagePath("res://assets/tile_tokens/town_center.png")
                 .WithTags(Tags.Economic | Tags.TownCenter)
                 .WithGarrisonCapacity(capacity: 6)
                 .WithResourceCollector(ResourceType.Food, 1, 15)
