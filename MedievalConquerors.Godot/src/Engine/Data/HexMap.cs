@@ -18,8 +18,12 @@ public class HexMap : GameComponent
 	private readonly Dictionary<Vector2I, TileData> _tiles;
 	private readonly Dictionary<TileTerrain, Vector2I> _terrainToAtlasCoordMap;
 
-	public event Action<TileData> OnTileChanged; 
-
+	/// <summary>
+	/// Invoked when a tile is changed via SetTile, so that views can respond and update the corresponding TileMapLayer
+	/// </summary>
+	public event TileChangedHandler OnTileChanged;
+	public delegate void TileChangedHandler(TileData oldTile, TileData newTile);
+	
 	private static readonly Vector2I[] EvenHexDirections = 
 	{
 		new( 1,  0),
@@ -57,8 +61,9 @@ public class HexMap : GameComponent
 	{
 		if (_tiles.ContainsKey(pos))
 		{
+			var oldTileData = _tiles[pos];
 			_tiles[pos] = new TileData(pos, terrain, resource, resourceYield);
-			OnTileChanged?.Invoke(_tiles[pos]);
+			OnTileChanged?.Invoke(oldTileData, _tiles[pos]);
 		}
 	}
 
@@ -155,7 +160,7 @@ public class HexMap : GameComponent
 		return path;
 	}
 
-	private int Distance(Vector2I start, Vector2I end)
+	private static int Distance(Vector2I start, Vector2I end)
 	{
 		if (start.X == end.X)
 		{

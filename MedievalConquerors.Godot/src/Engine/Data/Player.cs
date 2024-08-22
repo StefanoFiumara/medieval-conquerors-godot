@@ -34,18 +34,18 @@ public class Player
         
         InfluenceRange = 3;
 
+        // TODO: parameterize starting storage limit via game settings
         Resources = new ResourceBank(storageLimit: 9999)
         {
-            // TODO: Parameterize Starting Resources
+            // TODO: Parameterize Starting Resources via game settings
             [ResourceType.Food]  = 99,
             [ResourceType.Wood]  = 99,
             [ResourceType.Gold]  = 99,
             [ResourceType.Stone] = 99
         };
-        // TODO: parameterize starting storage limit
-
+        
         // TEMP: Add some temporary cards
-        Deck.AddRange(Enumerable.Range(0, 4)
+        Deck.AddRange(Enumerable.Range(0, 3)
             .Select(i => CardBuilder.Build(this)
                 .WithTitle("Villager")
                 .WithDescription("Collects resources when assigned to gathering posts")
@@ -56,18 +56,19 @@ public class Player
                 .WithResourceCost(food: 2)
                 .WithSpawnPoint(Tags.Economic)
                 .Create()));
-        //
-        // CardBuilder.Build(this)
-        //         .WithTitle($"Knight {i}")
-        //         .WithDescription($"Mighty Mounted Royal Warrior {i}")
-        //         .WithImagePath("res://assets/portraits/knight.png")
-        //         .WithCardType(CardType.Unit)
-        //         .WithTags(Tags.Military | Tags.Mounted | Tags.Melee)
-        //         .WithResourceCost(food: 4, gold: 2)
-        //         .WithMovement(distance: 2)
-        //         // TODO: Test with other buildings once available
-        //         .WithSpawnPoint(Tags.TownCenter)
-        //         .Create();
+
+        Deck.Add(CardBuilder.Build(this)
+            .WithTitle($"Knight")
+            .WithDescription($"Mighty Mounted Royal Warrior")
+            .WithImagePath("res://assets/portraits/knight.png")
+            .WithTokenImagePath("res://assets/tile_tokens/missing_icon.png")
+            .WithCardType(CardType.Unit)
+            .WithTags(Tags.Military | Tags.Mounted | Tags.Melee)
+            .WithResourceCost(food: 4, gold: 2)
+            .WithMovement(distance: 2)
+            // TODO: Test with other buildings once available
+            .WithSpawnPoint(Tags.TownCenter)
+            .Create());
         
         Deck.Add(CardBuilder.Build(this)
             .WithTitle("Mining Camp")

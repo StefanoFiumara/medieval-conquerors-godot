@@ -86,7 +86,7 @@ public partial class MapView : Node2D, IGameComponent
 		GameMap.OnTileChanged -= OnTileMapChanged;
 	}
 
-	private void OnTileMapChanged(TileData newTile)
+	private void OnTileMapChanged(TileData oldTile, TileData newTile)
 	{
 		var newAtlasCoord = GameMap.GetAtlasCoord(newTile.Terrain);
 		
