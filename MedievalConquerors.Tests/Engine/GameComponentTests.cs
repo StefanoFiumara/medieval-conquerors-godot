@@ -13,7 +13,7 @@ public class GameComponentTests
 
         _underTest.AddComponent(component);
         
-        Assert.Equal(1, _underTest.Components().Count);
+        Assert.Equal(1, _underTest.Components.Count);
     }
 
     [Fact]

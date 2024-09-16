@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 
 namespace MedievalConquerors.Extensions;
 
-// TODO: Move this to the test project when we're no longer using it in Player.cs 
+// TODO: Move this to the test project when we start reading from the card library in game code
 public class CardBuilder
 {
     public static CardBuilder Build(Player owner)
@@ -117,4 +118,64 @@ public class CardBuilder
     }
 
     public Card Create() => new Card(_data, _owner);
+}
+
+public static class DeckBuilder
+{
+    public static List<Card> CreateTestDeck(Player owner)
+    {
+        var cards = new List<Card>();
+        cards.AddRange(Enumerable.Range(0, 3)
+            .Select(i => CardBuilder.Build(owner)
+                .WithTitle("Villager")
+                .WithDescription("Collects resources when assigned to gathering posts")
+                .WithImagePath("res://assets/portraits/villager.png")
+                .WithTokenImagePath("res://assets/tile_tokens/villager.png")
+                .WithCardType(CardType.Unit)
+                .WithTags(Tags.Economic)
+                .WithResourceCost(food: 2)
+                .WithSpawnPoint(Tags.Economic)
+                .Create()));
+
+        cards.Add(CardBuilder.Build(owner)
+            .WithTitle($"Knight")
+            .WithDescription($"Mighty Mounted Royal Warrior")
+            .WithImagePath("res://assets/portraits/knight.png")
+            .WithTokenImagePath("res://assets/tile_tokens/knight.png")
+            .WithCardType(CardType.Unit)
+            .WithTags(Tags.Military | Tags.Mounted | Tags.Melee)
+            .WithResourceCost(food: 4, gold: 2)
+            .WithMovement(distance: 2)
+            // TODO: Test with other buildings once available
+            .WithSpawnPoint(Tags.TownCenter)
+            .Create());
+        
+        cards.Add(CardBuilder.Build(owner)
+            .WithTitle("Mining Camp")
+            .WithDescription("Assigned villagers collect adjacent resources")
+            .WithImagePath("res://assets/portraits/mining_camp.png")
+            .WithTokenImagePath("res://assets/tile_tokens/mining_camp.png")
+            .WithCardType(CardType.Building)
+            .WithTags(Tags.Economic)
+            .WithResourceCost(wood: 2)
+            .WithResourceCollector(ResourceType.Mining, gatherRate: 1f, storageLimitIncrease: 5)
+            .WithGarrisonCapacity(capacity: 3)
+            .WithSpawnPoint(Tags.TownCenter)
+            .Create());
+        
+        cards.Add(CardBuilder.Build(owner)
+            .WithTitle("Mill")
+            .WithDescription("Assigned villagers collect food from adjacent berries or farms.")
+            .WithImagePath("res://assets/portraits/mill.png")
+            .WithTokenImagePath("res://assets/tile_tokens/mill.png")
+            .WithCardType(CardType.Building)
+            .WithTags(Tags.Economic)
+            .WithResourceCost(wood: 2)
+            .WithResourceCollector(ResourceType.Food, gatherRate: 1f, storageLimitIncrease: 5)
+            .WithGarrisonCapacity(capacity: 3)
+            .WithSpawnPoint(Tags.TownCenter)
+            .Create());
+
+        return cards;
+    }
 }

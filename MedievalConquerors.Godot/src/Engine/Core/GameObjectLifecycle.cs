@@ -16,31 +16,3 @@ public interface IDestroy
 {
 	void Destroy();
 }
-
-public static class LifecycleExtensions
-{
-	public static void Awake(this IGame game)
-	{
-		foreach (var system in game.Components().OfType<IAwake>())
-		{
-			system.Awake();
-		}
-	}
-	
-	public static void Update(this IGame game)
-	{
-		// TODO: Cache components so we don't have to query every frame
-		foreach (var system in game.Components().OfType<IUpdate>())
-		{
-			system.Update();
-		}
-	}
-	
-	public static void Destroy(this IGame game)
-	{
-		foreach (var system in game.Components().OfType<IDestroy>())
-		{
-			system.Destroy();
-		}
-	}	
-}

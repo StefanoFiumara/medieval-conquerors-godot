@@ -44,57 +44,7 @@ public class Player
             [ResourceType.Stone] = 10
         };
         
-        // TEMP: Add some temporary cards
-        Deck.AddRange(Enumerable.Range(0, 3)
-            .Select(i => CardBuilder.Build(this)
-                .WithTitle("Villager")
-                .WithDescription("Collects resources when assigned to gathering posts")
-                .WithImagePath("res://assets/portraits/villager.png")
-                .WithTokenImagePath("res://assets/tile_tokens/villager.png")
-                .WithCardType(CardType.Unit)
-                .WithTags(Tags.Economic)
-                .WithResourceCost(food: 2)
-                .WithSpawnPoint(Tags.Economic)
-                .Create()));
-
-        Deck.Add(CardBuilder.Build(this)
-            .WithTitle($"Knight")
-            .WithDescription($"Mighty Mounted Royal Warrior")
-            .WithImagePath("res://assets/portraits/knight.png")
-            .WithTokenImagePath("res://assets/tile_tokens/knight.png")
-            .WithCardType(CardType.Unit)
-            .WithTags(Tags.Military | Tags.Mounted | Tags.Melee)
-            .WithResourceCost(food: 4, gold: 2)
-            .WithMovement(distance: 2)
-            // TODO: Test with other buildings once available
-            .WithSpawnPoint(Tags.TownCenter)
-            .Create());
-        
-        Deck.Add(CardBuilder.Build(this)
-            .WithTitle("Mining Camp")
-            .WithDescription("Assigned villagers collect adjacent resources")
-            .WithImagePath("res://assets/portraits/mining_camp.png")
-            .WithTokenImagePath("res://assets/tile_tokens/mining_camp.png")
-            .WithCardType(CardType.Building)
-            .WithTags(Tags.Economic)
-            .WithResourceCost(wood: 2)
-            .WithResourceCollector(ResourceType.Mining, gatherRate: 1f, storageLimitIncrease: 5)
-            .WithGarrisonCapacity(capacity: 3)
-            .WithSpawnPoint(Tags.TownCenter)
-            .Create());
-        
-        Deck.Add(CardBuilder.Build(this)
-            .WithTitle("Mill")
-            .WithDescription("Assigned villagers collect food from adjacent berries or farms.")
-            .WithImagePath("res://assets/portraits/mill.png")
-            .WithTokenImagePath("res://assets/tile_tokens/mill.png")
-            .WithCardType(CardType.Building)
-            .WithTags(Tags.Economic)
-            .WithResourceCost(wood: 2)
-            .WithResourceCollector(ResourceType.Food, gatherRate: 1f, storageLimitIncrease: 5)
-            .WithGarrisonCapacity(capacity: 3)
-            .WithSpawnPoint(Tags.TownCenter)
-            .Create());
+        Deck.AddRange(DeckBuilder.CreateTestDeck(this));
     }
     
     public List<Card> this[Zone z] => _zoneMap.ContainsKey(z) ? _zoneMap[z] : null;
