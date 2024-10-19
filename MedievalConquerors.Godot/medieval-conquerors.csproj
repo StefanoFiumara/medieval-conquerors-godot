@@ -17,4 +17,7 @@
     <EmbeddedResource Remove="Views\**" />
     <EmbeddedResource Remove="GameData\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\Editor\" />
+  </ItemGroup>
 </Project>

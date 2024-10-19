@@ -35,7 +35,7 @@ public class Player
         InfluenceRange = 3;
 
         // TODO: parameterize starting storage limit via game settings
-        Resources = new ResourceBank(storageLimit: 9999)
+        Resources = new ResourceBank(storageLimit: 40)
         {
             // TODO: Parameterize Starting Resources via game settings
             [ResourceType.Food]  = 10,

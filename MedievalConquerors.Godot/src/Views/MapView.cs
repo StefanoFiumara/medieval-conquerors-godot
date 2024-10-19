@@ -132,6 +132,7 @@ public partial class MapView : Node2D, IGameComponent
 	{
 		var mousePosition = _viewport.GetMousePosition();
 		
+		// Zoom
 		if (!Scale.IsEqualApprox(_zoomTarget))
 		{
 			var prev = ToLocal(mousePosition);
@@ -143,7 +144,7 @@ public partial class MapView : Node2D, IGameComponent
 			Position += diff * previousScale;
 		}
 		
-		// Drag & zoom map
+		// Drag
 		if (_isDragging) 
 			Position = mousePosition + _dragOffset;
 		

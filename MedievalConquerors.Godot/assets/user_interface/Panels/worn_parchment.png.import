@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dxd7w4hhbsfh0"
-path="res://.godot/imported/worn_parchment.png-d381f7ddf744a94240980234a8e153ca.ctex"
+path="res://.godot/imported/worn_parchment.png-fa58e8690726341bf6cf609e5cc9e881.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/user_interface/Panels/worn_parchment.png"
-dest_files=["res://.godot/imported/worn_parchment.png-d381f7ddf744a94240980234a8e153ca.ctex"]
+source_file="res://assets/user_interface/panels/worn_parchment.png"
+dest_files=["res://.godot/imported/worn_parchment.png-fa58e8690726341bf6cf609e5cc9e881.ctex"]
 
 [params]
 

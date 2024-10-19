@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b3xkcymn6w5pv"
-path="res://.godot/imported/parchment_roll.png-14d53dd58d30f432bda9a7e5a7fd5608.ctex"
+path="res://.godot/imported/parchment_roll.png-6a328bde768d3d7a002a50fa4c0eda93.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/user_interface/Panels/parchment_roll.png"
-dest_files=["res://.godot/imported/parchment_roll.png-14d53dd58d30f432bda9a7e5a7fd5608.ctex"]
+source_file="res://assets/user_interface/panels/parchment_roll.png"
+dest_files=["res://.godot/imported/parchment_roll.png-6a328bde768d3d7a002a50fa4c0eda93.ctex"]
 
 [params]
 

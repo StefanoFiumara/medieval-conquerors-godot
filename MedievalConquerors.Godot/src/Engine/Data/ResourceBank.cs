@@ -13,7 +13,8 @@ public class ResourceBank
 
     public int StorageLimit { get; private set; }
 
-    private int TotalResources => Food + Wood + Gold + Stone;
+    public int TotalResources => Food + Wood + Gold + Stone;
+    public int RemainingStorage => StorageLimit - TotalResources;
 
     public ResourceBank(int storageLimit)
     {
