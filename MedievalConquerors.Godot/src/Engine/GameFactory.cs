@@ -37,8 +37,8 @@ public static class GameFactory
         // game.AddComponent<AgeSystem>();
         game.AddComponent<GarrisonSystem>();
         
-        // // TODO: Only add AISystem when in Single Player Mode, otherwise, add "NetworkSystem" for multPlayer
-        // game.AddComponent<AISystem>();
+        // TODO: Only add AISystem when in Single Player Mode, otherwise, add "NetworkSystem" for multPlayer
+        game.AddComponent<AISystem>();
         
         game.AddComponent<TargetSystem>();
         

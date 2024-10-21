@@ -46,11 +46,11 @@ public static class ResourceIcons
         { ResourceType.Gold,  Gold },
         { ResourceType.Stone, Stone },
     };
+
+    private const string RootDir = "res://assets/user_interface/icons";
     
-    private const string RootDir = "res://Assets/UI/Icons";
-    
-    public const string Food = $"[img]{RootDir}/food.png[/img]";
-    public const string Wood = $"[img]{RootDir}/wood.png[/img]";
-    public const string Gold = $"[img]{RootDir}/gold.png[/img]";
-    public const string Stone = $"[img]{RootDir}/stone.png[/img]";
+    public const string Food = $"[img=80x80]{RootDir}/food.png[/img]";
+    public const string Wood = $"[img=80x80]{RootDir}/wood.png[/img]";
+    public const string Gold = $"[img=80x80]{RootDir}/gold.png[/img]";
+    public const string Stone = $"[img=80x80]{RootDir}/stone.png[/img]";
 }

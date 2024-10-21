@@ -39,6 +39,7 @@ public class ResourceSystem : GameComponent, IAwake
             
             if (card.CardData.CardType != CardType.Building) continue;
             if (collectorAttribute == null || garrisonAttribute == null) continue;
+            if (garrisonAttribute.Units.Count == 0) continue;
             
             var tilesToCollect =
                 _map.GetNeighbors(card.MapPosition)

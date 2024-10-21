@@ -2,7 +2,7 @@ using Godot;
 
 namespace MedievalConquerors.UI;
 
-public partial class PopupLabel : Node2D
+public partial class PopupLabel : CenterContainer
 {
 	[Export] public RichTextLabel Label { get; set; }
 
