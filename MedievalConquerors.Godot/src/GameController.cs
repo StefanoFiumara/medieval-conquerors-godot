@@ -22,9 +22,6 @@ public partial class GameController : Node
 	private Game _game;
 	private ILogger _log;
 	private HexMap _map;
-	private EventAggregator _events;
-	private ActionSystem _actionSystem;
-	private Match _match;
 
 	public Game Game => _game;
 
@@ -33,10 +30,6 @@ public partial class GameController : Node
 		_log = new GodotLogger(_logLevel);
 		_map = GameMapFactory.CreateHexMap(_mapView[MapLayerType.Terrain]);
 		_game = GameFactory.Create(_log, _map, _settings);
-		
-		_match = _game.GetComponent<Match>();
-		_actionSystem = _game.GetComponent<ActionSystem>();
-		_events = _game.GetComponent<EventAggregator>();
 	}
 
 	public override void _Ready()

@@ -1,5 +1,4 @@
 using Godot;
-using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
@@ -8,6 +7,8 @@ namespace MedievalConquerors.UI;
 
 public partial class PlayerUiPanel : MarginContainer
 {
+	public const string NextTurnClicked = "PlayerUiPanel.NextTurnButton.Clicked";
+	
 	[Export] private GameController _gameController;
 
 	private Button _endTurnButton;
@@ -18,7 +19,8 @@ public partial class PlayerUiPanel : MarginContainer
 	private Label _stoneLabel;
 	private Label _ageLabel;
 	private Label _deckLabel;
-	
+
+	private EventAggregator _events;
 	private Match _match;
 	
 	public override void _Ready()
@@ -31,18 +33,20 @@ public partial class PlayerUiPanel : MarginContainer
 		_stoneLabel = GetNode<Label>("%stone_label");
 		_ageLabel = GetNode<Label>("%age_label");
 		_deckLabel = GetNode<Label>("%deck_label");
-		
+
+		_events = _gameController.Game.GetComponent<EventAggregator>();
 		_match = _gameController.Game.GetComponent<Match>();
 		
-		_endTurnButton.ButtonUp += OnClickNextTurn;
+		_endTurnButton.ButtonUp += () => _events.Publish(NextTurnClicked);
+		_events.Subscribe(ActionSystem.BeginSequenceEvent, OnBeginSequence);
+		_events.Subscribe(ActionSystem.CompleteEvent, OnActionsComplete);
 	}
-
-	private void OnClickNextTurn()
+	private void OnBeginSequence() => _endTurnButton.Disabled = true;
+	
+	private void OnActionsComplete()
 	{
-		if (_match.CurrentPlayerId == _match.LocalPlayer.Id)
-		{
-			_gameController.Game.Perform(new ChangeTurnAction(_match.EnemyPlayer.Id));
-		}
+		if(_match.CurrentPlayerId == _match.LocalPlayer.Id)
+			_endTurnButton.Disabled = false;
 	}
 
 	public override void _Process(double delta)
@@ -58,6 +62,7 @@ public partial class PlayerUiPanel : MarginContainer
 
 	public override void _ExitTree()
 	{
-		_endTurnButton.Pressed -= OnClickNextTurn;
+		_events.Unsubscribe(ActionSystem.BeginSequenceEvent, OnBeginSequence);
+		_events.Unsubscribe(ActionSystem.CompleteEvent, OnActionsComplete);
 	}
 }

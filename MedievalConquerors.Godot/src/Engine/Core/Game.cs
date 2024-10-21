@@ -15,7 +15,7 @@ public class Game : IGame
 {
 	private readonly Dictionary<string, IGameComponent> _components = new();
 	public ICollection<IGameComponent> Components => _components.Values;
-	private List<IUpdate> _updateable = new();
+	private readonly List<IUpdate> _updateable = new();
 	
 	public T AddComponent<T> (string key = null) where T : IGameComponent, new() => AddComponent(new T(), key);
 	

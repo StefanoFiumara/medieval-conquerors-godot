@@ -3,6 +3,7 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Extensions;
+using MedievalConquerors.UI;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
@@ -20,19 +21,28 @@ public class TurnSystem : GameComponent, IAwake
             
         _events.Subscribe<ChangeTurnAction>(GameEvent.Perform<ChangeTurnAction>(), OnPerformChangeTurn);
         _events.Subscribe<BeginGameAction>(GameEvent.Perform<BeginGameAction>(), OnPerformBeginGame);
+        _events.Subscribe(PlayerUiPanel.NextTurnClicked, OnClickNextTurn);
     }
+    
+    private void OnClickNextTurn()
+    {
+        if (!Game.IsIdle()) return;
 
+        if (_match.CurrentPlayerId == _match.LocalPlayer.Id)
+        {
+            Game.Perform(new ChangeTurnAction(_match.EnemyPlayer.Id));
+        }
+    }
+    
     private void OnPerformBeginGame(BeginGameAction action)
     {
         Game.AddReaction(new ShuffleDeckAction(Match.LocalPlayerId));
         Game.AddReaction(new ShuffleDeckAction(Match.EnemyPlayerId));
         
         // TODO: Formalize town center card data location
-
         var townCenter1 = CardBuilder.Build(_match.LocalPlayer)
             .WithTitle("Town Center")
-            .WithDescription(
-                "The center of your empire, gathers food from surrounding farms. If this building is destroyed, you lose the game.")
+            .WithDescription("The center of your empire, gathers food from surrounding farms. If this building is destroyed, you lose the game.")
             .WithCardType(CardType.Building)
             .WithImagePath("res://assets/portraits/town_center.png")
             .WithTokenImagePath("res://assets/tile_tokens/town_center.png")
@@ -43,18 +53,17 @@ public class TurnSystem : GameComponent, IAwake
             .Create();
             // With HealthPoints
         
-            var townCenter2 = CardBuilder.Build(_match.EnemyPlayer)
-                .WithTitle("Town Center")
-                .WithDescription(
-                    "The center of your empire, gathers food from surrounding farms. If this building is destroyed, you lose the game.")
-                .WithCardType(CardType.Building)
-                .WithImagePath("res://assets/portraits/town_center.png")
-                .WithTokenImagePath("res://assets/tile_tokens/town_center.png")
-                .WithTags(Tags.Economic | Tags.TownCenter)
-                .WithGarrisonCapacity(capacity: 6)
-                .WithResourceCollector(ResourceType.Food, 1, 15)
-                .WithSpawnPoint(Tags.TownCenter)
-                .Create();
+        var townCenter2 = CardBuilder.Build(_match.EnemyPlayer)
+            .WithTitle("Town Center")
+            .WithDescription("The center of your empire, gathers food from surrounding farms. If this building is destroyed, you lose the game.")
+            .WithCardType(CardType.Building)
+            .WithImagePath("res://assets/portraits/town_center.png")
+            .WithTokenImagePath("res://assets/tile_tokens/town_center.png")
+            .WithTags(Tags.Economic | Tags.TownCenter)
+            .WithGarrisonCapacity(capacity: 6)
+            .WithResourceCollector(ResourceType.Food, 1, 15)
+            .WithSpawnPoint(Tags.TownCenter)
+            .Create();
             
         Game.AddReaction(new PlayCardAction(townCenter1, _match.LocalPlayer.TownCenter.Position));
         Game.AddReaction(new PlayCardAction(townCenter2, _match.EnemyPlayer.TownCenter.Position));

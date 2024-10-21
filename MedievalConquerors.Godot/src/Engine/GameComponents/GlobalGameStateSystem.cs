@@ -32,3 +32,8 @@ public class GlobalGameStateSystem : GameComponent, IAwake
         _stateMachine.ChangeState<SequenceState>();
     }
 }
+
+public static class GlobalGameStateExtensions
+{
+    public static bool IsIdle(this IGame game) => game.GetComponent<GlobalGameStateSystem>().CurrentState is IdleState;
+}
