@@ -121,7 +121,7 @@ public partial class MapView : Node2D, IGameComponent
 				return true;
 			case MouseButton.WheelDown:
 				_zoomTarget *= 0.95f;
-				if (_zoomTarget < Vector2.One * 0.5f) _zoomTarget = Vector2.One * 0.5f;
+				if (_zoomTarget < Vector2.One * 0.6f) _zoomTarget = Vector2.One * 0.6f;
 				return true;
 			default:
 				return false;
@@ -133,11 +133,11 @@ public partial class MapView : Node2D, IGameComponent
 		var mousePosition = _viewport.GetMousePosition();
 		
 		// Zoom
-		if (!Scale.IsEqualApprox(_zoomTarget))
+		if (Mathf.Abs(Scale.X - _zoomTarget.X) >= 0.001f)
 		{
 			var prev = ToLocal(mousePosition);
 			var previousScale = Scale;
-			Scale = Scale.Lerp(_zoomTarget, 0.2f);
+			Scale = Scale.Lerp(_zoomTarget, (float) elapsed * 15);
 			var cur = ToLocal(mousePosition);
 			var diff = cur - prev;
 			
