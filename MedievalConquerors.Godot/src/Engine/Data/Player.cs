@@ -14,6 +14,8 @@ public class Player
     
     public ResourceBank Resources { get; }
     
+    public AgeType Age { get; private set; }
+    
     public List<Card> Deck    { get; } = new();
     public List<Card> Hand    { get; } = new();
     public List<Card> Discard { get; } = new();
@@ -24,6 +26,9 @@ public class Player
     public Player(int id)
     {
         Id = id;
+        Age = AgeType.DarkAge;
+        InfluenceRange = 3;
+        
         _zoneMap = new Dictionary<Zone, List<Card>>
         {
             { Zone.Deck, Deck },
@@ -32,16 +37,14 @@ public class Player
             { Zone.Map, Map },
         };
         
-        InfluenceRange = 3;
-
         // TODO: parameterize starting storage limit via game settings
-        Resources = new ResourceBank(storageLimit: 40)
+        Resources = new ResourceBank(storageLimit: 30)
         {
             // TODO: Parameterize Starting Resources via game settings
             [ResourceType.Food]  = 10,
             [ResourceType.Wood]  = 10,
-            [ResourceType.Gold]  = 10,
-            [ResourceType.Stone] = 10
+            [ResourceType.Gold]  = 5,
+            [ResourceType.Stone] = 0
         };
         
         Deck.AddRange(DeckBuilder.CreateTestDeck(this));

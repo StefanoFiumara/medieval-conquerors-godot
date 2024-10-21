@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8d053ianc1ck"
-path="res://.godot/imported/lumbercamp_icon.png-ca5861aa9eec325f79e74b56a8f0a911.ctex"
+uid="uid://cus8a0bckc5rh"
+path="res://.godot/imported/deck.png-98b5687099a422eb8a985c1078c72a72.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/portraits/lumbercamp_icon.png"
-dest_files=["res://.godot/imported/lumbercamp_icon.png-ca5861aa9eec325f79e74b56a8f0a911.ctex"]
+source_file="res://assets/user_interface/icons/deck.png"
+dest_files=["res://.godot/imported/deck.png-98b5687099a422eb8a985c1078c72a72.ctex"]
 
 [params]
 

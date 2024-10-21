@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://src/Editor/Controls/ImageSelector.cs" id="1_2gbvt"]
 [ext_resource type="Texture2D" uid="uid://t8kfbb2udl4b" path="res://assets/portraits/knight_icon.png" id="2_55wk2"]
-[ext_resource type="Texture2D" uid="uid://b8d053ianc1ck" path="res://assets/portraits/lumbercamp_icon.png" id="3_bmkd0"]
+[ext_resource type="Texture2D" uid="uid://b8d053ianc1ck" path="res://assets/portraits/lumber_camp_icon.png" id="3_bmkd0"]
 
 [node name="image_selector" type="HBoxContainer" node_paths=PackedStringArray("_imageOptions", "_refreshButton")]
 anchors_preset = 14

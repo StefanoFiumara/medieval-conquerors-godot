@@ -94,7 +94,7 @@ public partial class MapView : Node2D, IGameComponent
 			this[MapLayerType.Terrain].SetCell(newTile.Position, 0, newAtlasCoord);
 	}
 
-	public override void _Input(InputEvent input)
+	public override void _UnhandledInput(InputEvent input)
 	{
 		if (input.IsEcho()) return;
 		if (input is not InputEventMouseButton buttonEvent) return;

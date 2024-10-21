@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dpol2wnv6wd"]
+[gd_scene load_steps=8 format=3 uid="uid://dpol2wnv6wd"]
 
 [ext_resource type="Script" path="res://src/UI/PlayerUiPanel.cs" id="1_miglb"]
 [ext_resource type="Texture2D" uid="uid://bc7laqr6ic6cr" path="res://assets/user_interface/icons/storage.png" id="2_bjdf6"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://tnov0cxrwas5" path="res://assets/user_interface/icons/wood.png" id="3_p4hc3"]
 [ext_resource type="Texture2D" uid="uid://b3m6uu5s21qyg" path="res://assets/user_interface/icons/gold.png" id="4_28c5y"]
 [ext_resource type="Texture2D" uid="uid://dwgqpljq1uely" path="res://assets/user_interface/icons/stone.png" id="5_mv2ly"]
+[ext_resource type="Texture2D" uid="uid://cus8a0bckc5rh" path="res://assets/user_interface/icons/deck.png" id="7_fypch"]
 
 [node name="ui_panel" type="MarginContainer"]
 anchors_preset = 15
@@ -19,37 +20,37 @@ theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 script = ExtResource("1_miglb")
 
-[node name="hbox_container" type="HBoxContainer" parent="."]
+[node name="resources_container" type="CenterContainer" parent="."]
 layout_mode = 2
+size_flags_horizontal = 8
 size_flags_vertical = 0
-alignment = 2
 
-[node name="vbox+container" type="VBoxContainer" parent="hbox_container"]
+[node name="vbox_container" type="VBoxContainer" parent="resources_container"]
 layout_mode = 2
 
-[node name="storage_panel" type="PanelContainer" parent="hbox_container/vbox+container"]
+[node name="storage_panel" type="PanelContainer" parent="resources_container/vbox_container"]
 layout_mode = 2
 
-[node name="margin" type="MarginContainer" parent="hbox_container/vbox+container/storage_panel"]
+[node name="margin" type="MarginContainer" parent="resources_container/vbox_container/storage_panel"]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="resources_grid" type="GridContainer" parent="hbox_container/vbox+container/storage_panel/margin"]
+[node name="storage_grid" type="GridContainer" parent="resources_container/vbox_container/storage_panel/margin"]
 layout_mode = 2
 theme_override_constants/h_separation = 15
 theme_override_constants/v_separation = 5
 columns = 2
 
-[node name="storage_icon" type="TextureRect" parent="hbox_container/vbox+container/storage_panel/margin/resources_grid"]
+[node name="storage_icon" type="TextureRect" parent="resources_container/vbox_container/storage_panel/margin/storage_grid"]
 layout_mode = 2
 texture = ExtResource("2_bjdf6")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="storage_label" type="Label" parent="hbox_container/vbox+container/storage_panel/margin/resources_grid"]
+[node name="storage_label" type="Label" parent="resources_container/vbox_container/storage_panel/margin/storage_grid"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -58,29 +59,29 @@ theme_override_font_sizes/font_size = 25
 text = "15/40"
 horizontal_alignment = 2
 
-[node name="resource_panel" type="PanelContainer" parent="hbox_container/vbox+container"]
+[node name="resource_panel" type="PanelContainer" parent="resources_container/vbox_container"]
 layout_mode = 2
 
-[node name="margin" type="MarginContainer" parent="hbox_container/vbox+container/resource_panel"]
+[node name="margin" type="MarginContainer" parent="resources_container/vbox_container/resource_panel"]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="resources_grid" type="GridContainer" parent="hbox_container/vbox+container/resource_panel/margin"]
+[node name="resources_grid" type="GridContainer" parent="resources_container/vbox_container/resource_panel/margin"]
 layout_mode = 2
 theme_override_constants/h_separation = 15
 theme_override_constants/v_separation = 5
 columns = 2
 
-[node name="food_icon" type="TextureRect" parent="hbox_container/vbox+container/resource_panel/margin/resources_grid"]
+[node name="food_icon" type="TextureRect" parent="resources_container/vbox_container/resource_panel/margin/resources_grid"]
 layout_mode = 2
 texture = ExtResource("2_qh2x1")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="food_label" type="Label" parent="hbox_container/vbox+container/resource_panel/margin/resources_grid"]
+[node name="food_label" type="Label" parent="resources_container/vbox_container/resource_panel/margin/resources_grid"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.968627, 0.415686, 0.403922, 1)
@@ -89,13 +90,13 @@ theme_override_font_sizes/font_size = 35
 text = "99"
 horizontal_alignment = 2
 
-[node name="wood_icon" type="TextureRect" parent="hbox_container/vbox+container/resource_panel/margin/resources_grid"]
+[node name="wood_icon" type="TextureRect" parent="resources_container/vbox_container/resource_panel/margin/resources_grid"]
 layout_mode = 2
 texture = ExtResource("3_p4hc3")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="wood_label" type="Label" parent="hbox_container/vbox+container/resource_panel/margin/resources_grid"]
+[node name="wood_label" type="Label" parent="resources_container/vbox_container/resource_panel/margin/resources_grid"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.670588, 0.482353, 0.392157, 1)
@@ -104,13 +105,13 @@ theme_override_font_sizes/font_size = 35
 text = "99"
 horizontal_alignment = 2
 
-[node name="gold_icon" type="TextureRect" parent="hbox_container/vbox+container/resource_panel/margin/resources_grid"]
+[node name="gold_icon" type="TextureRect" parent="resources_container/vbox_container/resource_panel/margin/resources_grid"]
 layout_mode = 2
 texture = ExtResource("4_28c5y")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="gold_label" type="Label" parent="hbox_container/vbox+container/resource_panel/margin/resources_grid"]
+[node name="gold_label" type="Label" parent="resources_container/vbox_container/resource_panel/margin/resources_grid"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.988235, 0.866667, 0, 1)
@@ -119,13 +120,13 @@ theme_override_font_sizes/font_size = 35
 text = "99"
 horizontal_alignment = 2
 
-[node name="stone_icon" type="TextureRect" parent="hbox_container/vbox+container/resource_panel/margin/resources_grid"]
+[node name="stone_icon" type="TextureRect" parent="resources_container/vbox_container/resource_panel/margin/resources_grid"]
 layout_mode = 2
 texture = ExtResource("5_mv2ly")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="stone_label" type="Label" parent="hbox_container/vbox+container/resource_panel/margin/resources_grid"]
+[node name="stone_label" type="Label" parent="resources_container/vbox_container/resource_panel/margin/resources_grid"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.780392, 0.819608, 0.858824, 1)
@@ -133,3 +134,75 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 35
 text = "99"
 horizontal_alignment = 2
+
+[node name="age_container" type="CenterContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="vbox_container" type="VBoxContainer" parent="age_container"]
+layout_mode = 2
+
+[node name="storage_panel" type="PanelContainer" parent="age_container/vbox_container"]
+layout_mode = 2
+
+[node name="margin" type="MarginContainer" parent="age_container/vbox_container/storage_panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="age_label" type="Label" parent="age_container/vbox_container/storage_panel/margin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "I - Dark Age"
+
+[node name="deck_container" type="CenterContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="deck_panel" type="PanelContainer" parent="deck_container"]
+layout_mode = 2
+
+[node name="margin" type="MarginContainer" parent="deck_container/deck_panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="deck_grid" type="GridContainer" parent="deck_container/deck_panel/margin"]
+layout_mode = 2
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 5
+columns = 2
+
+[node name="deck_icon" type="TextureRect" parent="deck_container/deck_panel/margin/deck_grid"]
+layout_mode = 2
+texture = ExtResource("7_fypch")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="deck_label" type="Label" parent="deck_container/deck_panel/margin/deck_grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 45
+text = "30"
+horizontal_alignment = 2
+
+[node name="end_turn_container" type="CenterContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="end_turn_button" type="Button" parent="end_turn_container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 120)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 35
+text = "End Turn"

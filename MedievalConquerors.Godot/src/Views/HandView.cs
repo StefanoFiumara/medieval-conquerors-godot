@@ -97,9 +97,9 @@ public partial class HandView : Node2D, IGameComponent
 		}
 	}
 
-	public override void _Input(InputEvent inputEvent)
+	public override void _UnhandledInput(InputEvent input)
 	{
-		if (inputEvent is InputEventMouseButton mouseEvent && mouseEvent.IsReleased())
+		if (input is InputEventMouseButton mouseEvent && mouseEvent.IsReleased())
 		{
 			if (mouseEvent.ButtonIndex == MouseButton.Right)
 			{

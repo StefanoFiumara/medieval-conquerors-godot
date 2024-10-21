@@ -50,6 +50,15 @@ public enum ResourceType
     Mining = Gold | Stone
 }
 
+public enum AgeType
+{
+    None = 0,
+    DarkAge = 1,
+    FeudalAge = 2,
+    CastleAge = 3,
+    ImperialAge = 4
+}
+
 public enum Zone
 {
     None = 0,
@@ -57,4 +66,20 @@ public enum Zone
     Hand = 2,
     Map = 3,
     Discard = 4
+}
+
+public static class EnumExtensions
+{
+    public static string PrettyPrint(this AgeType age)
+    {
+        return age switch
+        {
+            AgeType.None => string.Empty,
+            AgeType.DarkAge => "I - Dark Age",
+            AgeType.FeudalAge => "II - Feudal Age",
+            AgeType.CastleAge => "III - Castle Age",
+            AgeType.ImperialAge => "IV - Imperial Age",
+            _ => throw new ArgumentOutOfRangeException(nameof(age))
+        };
+    }
 }

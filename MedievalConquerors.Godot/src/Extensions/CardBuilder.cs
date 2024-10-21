@@ -125,7 +125,7 @@ public static class DeckBuilder
     public static List<Card> CreateTestDeck(Player owner)
     {
         var cards = new List<Card>();
-        cards.AddRange(Enumerable.Range(0, 3)
+        cards.AddRange(Enumerable.Range(0, 2)
             .Select(i => CardBuilder.Build(owner)
                 .WithTitle("Villager")
                 .WithDescription("Collects resources when assigned to gathering posts")
@@ -151,14 +151,27 @@ public static class DeckBuilder
             .Create());
         
         cards.Add(CardBuilder.Build(owner)
-            .WithTitle("Mining Camp")
+            .WithTitle($"Swordsman")
+            .WithDescription($"Standard foot soldier equipped with a sword")
+            .WithImagePath("res://assets/portraits/missing_icon.png")
+            .WithTokenImagePath("res://assets/tile_tokens/swordsman.png")
+            .WithCardType(CardType.Unit)
+            .WithTags(Tags.Military | Tags.Infantry | Tags.Melee)
+            .WithResourceCost(food: 4, gold: 2)
+            .WithMovement(distance: 1)
+            // TODO: Test with other buildings once available
+            .WithSpawnPoint(Tags.TownCenter)
+            .Create());
+        
+        cards.Add(CardBuilder.Build(owner)
+            .WithTitle("Lumber Camp")
             .WithDescription("Assigned villagers collect adjacent resources")
-            .WithImagePath("res://assets/portraits/mining_camp.png")
-            .WithTokenImagePath("res://assets/tile_tokens/mining_camp.png")
+            .WithImagePath("res://assets/portraits/lumber_camp.png")
+            .WithTokenImagePath("res://assets/tile_tokens/lumber_camp.png")
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
             .WithResourceCost(wood: 2)
-            .WithResourceCollector(ResourceType.Mining, gatherRate: 1f, storageLimitIncrease: 5)
+            .WithResourceCollector(ResourceType.Wood, gatherRate: 1f, storageLimitIncrease: 5)
             .WithGarrisonCapacity(capacity: 3)
             .WithSpawnPoint(Tags.TownCenter)
             .Create());

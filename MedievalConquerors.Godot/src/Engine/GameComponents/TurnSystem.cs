@@ -38,7 +38,7 @@ public class TurnSystem : GameComponent, IAwake
             .WithTokenImagePath("res://assets/tile_tokens/town_center.png")
             .WithTags(Tags.Economic | Tags.TownCenter)
             .WithGarrisonCapacity(capacity: 6)
-            .WithResourceCollector(ResourceType.Food, 1, 15)
+            .WithResourceCollector(ResourceType.Food, 1, 5)
             .WithSpawnPoint(Tags.TownCenter)
             .Create();
             // With HealthPoints
