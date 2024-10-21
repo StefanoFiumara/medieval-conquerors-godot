@@ -5,14 +5,11 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Extensions;
-using MedievalConquerors.Views;
 
 namespace MedievalConquerors.UI;
 
 public partial class TurnBanner : Control
 {
-	private const int BackgroundHeight = 140;
-	private const int BannerFontSize = 110;
 	[Export] private GameController _gameController;
 	
 	private ColorRect _background;
@@ -21,8 +18,6 @@ public partial class TurnBanner : Control
 	private Game _game;
 	private EventAggregator _events;
 
-	private Viewport _viewport;
-	
 	public override void _Ready()
 	{
 		_game = _gameController.Game;
@@ -34,19 +29,6 @@ public partial class TurnBanner : Control
 		
 		_events = _game.GetComponent<EventAggregator>();
 		_events.Subscribe<ChangeTurnAction>(GameEvent.Prepare<ChangeTurnAction>(), OnPrepareChangeTurnAction);
-	}
-
-	private void CalculateViewPosition()
-	{
-		var visibleRect = _viewport.GetVisibleRect();
-		var proportion = visibleRect.Size / ViewConstants.ReferenceResolution;
-
-		_background.Size = new Vector2(visibleRect.Size.X, BackgroundHeight * proportion.Y);
-		_background.Position = new Vector2(0, visibleRect.Size.Y * 0.5f - (BackgroundHeight * 0.5f));
-		
-		_turnLabel.AddThemeFontSizeOverride("normal_font_size", (int)(BannerFontSize * proportion.Y));
-		_turnLabel.Size = _background.Size;
-		_turnLabel.Position = _background.Position;
 	}
 
 	private void OnPrepareChangeTurnAction(ChangeTurnAction action)
