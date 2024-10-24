@@ -27,7 +27,7 @@ public class PlayCardState : BaseInputState
     }
     public override void Enter()
     {
-        _handView.SelectCardTween(_selectedCard);
+        _handView.SelectCardAnimation(_selectedCard);
         
         _validTiles = _targetSystem.GetTargetCandidates(_selectedCard.Card);
         _mapView.HighlightTiles(_validTiles, MapLayerType.SelectionHint);

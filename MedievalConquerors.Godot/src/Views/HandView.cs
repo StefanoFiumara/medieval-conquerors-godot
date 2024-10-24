@@ -190,7 +190,7 @@ public partial class HandView : Node2D, IGameComponent
 		
 		if (playAction.SourcePlayer.Id == Match.LocalPlayerId)
 		{
-			var playCardTween = PlayCardTween(playAction);
+			var playCardTween = PlayCardAnimation(playAction);
 			while (playCardTween.IsRunning())
 				yield return null;
 			
@@ -206,7 +206,7 @@ public partial class HandView : Node2D, IGameComponent
 			yield return null;
 	}
 
-	private Tween PlayCardTween(PlayCardAction action)
+	private Tween PlayCardAnimation(PlayCardAction action)
 	{
 		const double tweenDuration = 0.4;
 
@@ -234,7 +234,7 @@ public partial class HandView : Node2D, IGameComponent
 		return tween;
 	}
 
-	public Tween SelectCardTween(CardView card)
+	public Tween SelectCardAnimation(CardView card)
 	{
 		const float previewScale = 0.6f;
 		const double tweenDuration = 0.3;
