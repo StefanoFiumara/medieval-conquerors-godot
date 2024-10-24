@@ -133,7 +133,7 @@ public class HexMap : GameComponent
 			if (current == end)
 				break;
 			
-			foreach (var neighbor in GetNeighbors(current).Where(n => n.IsWalkable))
+			foreach (var neighbor in GetNeighbors(current).Where(n => n.IsWalkable || n.Position == end))
 			{
 				var position = neighbor.Position;
 				var newCost = costSoFar[current] + 1;
