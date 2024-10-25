@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
@@ -82,7 +82,7 @@ public class AISystem : GameComponent, IAwake
         if (resource == null) return 0;
         
         // score of the tile depends on how many resources of the type the card collects are adjacent to this tile. 
-        var adjacentResourceCount = _map.GetNeighbors(tilePos).Count(t => t.ResourceType.HasFlag(resource.Value));
+        var adjacentResourceCount = _map.GetNeighbors(tilePos).Where(t => t.ResourceType != ResourceType.None).Count(t => resource.Value.HasFlag(t.ResourceType));
         return adjacentResourceCount;
     }
 
