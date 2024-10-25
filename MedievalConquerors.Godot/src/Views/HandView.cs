@@ -138,6 +138,7 @@ public partial class HandView : Node2D, IGameComponent
 	public void ResetSelection()
 	{
 		_selectedIndex = -1;
+		_hoveredIndex = -1;
 		TweenToHandPositions();
 	}
 	
