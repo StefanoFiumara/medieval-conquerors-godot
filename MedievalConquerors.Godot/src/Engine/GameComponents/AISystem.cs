@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
@@ -108,6 +108,10 @@ public class AISystem : GameComponent, IAwake
     private int CalculateMilitaryUnitScore(Card card, Vector2I tilePos)
     {
         // TODO: Come up with criteria for where to best place military units
+        
+        // Proximity to own buildings
+        // Distance to enemy units
+        // Distance to enemy town center
         return 0;
     }
 }
