@@ -7,6 +7,7 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
+using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
 using MedievalConquerors.UI;
 using TileData = MedievalConquerors.Engine.Data.TileData;
@@ -60,6 +61,8 @@ public partial class MapView : Node2D, IGameComponent
 
 	private List<TokenView> _tokens;
 
+	private IGameSettings _settings;
+
 	public override void _Ready()
 	{
 		Game = GetParent<GameController>().Game;
@@ -70,6 +73,7 @@ public partial class MapView : Node2D, IGameComponent
 		_events = Game.GetComponent<EventAggregator>();
 		_viewport = GetViewport();
 		_tokens = new List<TokenView>();
+		_settings = Game.GetComponent<IGameSettings>();
 		
 		// TODO: Set scale/position based on reference resolution
 		// so that the map fits on the screen at different screen sizes on startup
@@ -158,6 +162,10 @@ public partial class MapView : Node2D, IGameComponent
 			if (mapCoord != HexMap.None)
 			{
 				HighlightTile(mapCoord, MapLayerType.MouseHover);
+				
+				if(_settings.DebugMode)
+					CreateTileDebugPopup(mapCoord);
+				
 				_hovered = mapCoord;
 			}
 		}
@@ -263,6 +271,11 @@ public partial class MapView : Node2D, IGameComponent
 		}
 	}
 
+	private void CreateTileDebugPopup(Vector2I pos)
+	{
+		var position = this[MapLayerType.Terrain].MapToLocal(pos);
+		this.CreatePopup(position, $"{pos}", duration: 5f, textScale: 0.5f);
+	}
 
 	public Vector2 GetTileGlobalPosition(Vector2I coords)
 	{

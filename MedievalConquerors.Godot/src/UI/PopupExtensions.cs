@@ -12,7 +12,8 @@ public static class PopupExtensions
 		this Node2D parent,
 		Vector2 position,
 		string text,
-		double duration = 0.45)
+		double duration = 0.45,
+		float textScale = 1f)
 	{
 		var tween = parent.CreateTween().SetParallel().SetTrans(Tween.TransitionType.Sine);
 
@@ -20,6 +21,7 @@ public static class PopupExtensions
 		parent.AddChild(popup);
 		popup.Label.AppendText(text);
 		popup.Position = position;
+		popup.Scale = Vector2.One * textScale;
 		tween.TweenProperty(popup, "position", position + Vector2I.Up * 40, duration);
 		tween.TweenProperty(popup, "modulate:a", 0f, duration);
 		tween.Chain().TweenCallback(Callable.From(() =>
