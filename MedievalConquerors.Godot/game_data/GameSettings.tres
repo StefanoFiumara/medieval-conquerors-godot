@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_o32wb")
-StartingHandCount = 5
+StartingHandCount = 6
 DebugMode = true

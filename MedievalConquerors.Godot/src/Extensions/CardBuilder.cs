@@ -177,6 +177,19 @@ public static class DeckBuilder
             .Create());
         
         cards.Add(CardBuilder.Build(owner)
+            .WithTitle("Mining Camp")
+            .WithDescription("Assigned villagers collect adjacent resources")
+            .WithImagePath("res://assets/portraits/mining_camp.png")
+            .WithTokenImagePath("res://assets/tile_tokens/mining_camp.png")
+            .WithCardType(CardType.Building)
+            .WithTags(Tags.Economic)
+            .WithResourceCost(wood: 2)
+            .WithResourceCollector(ResourceType.Mining, gatherRate: 1f, storageLimitIncrease: 5)
+            .WithGarrisonCapacity(capacity: 3)
+            .WithSpawnPoint(Tags.TownCenter)
+            .Create());
+        
+        cards.Add(CardBuilder.Build(owner)
             .WithTitle("Mill")
             .WithDescription("Assigned villagers collect food from adjacent berries or farms.")
             .WithImagePath("res://assets/portraits/mill.png")
