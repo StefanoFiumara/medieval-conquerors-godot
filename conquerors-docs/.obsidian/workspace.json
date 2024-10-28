@@ -16,7 +16,9 @@
                 "file": "game-design-doc.md",
                 "mode": "source",
                 "source": false
-              }
+              },
+              "icon": "lucide-file",
+              "title": "game-design-doc"
             }
           },
           {
@@ -28,7 +30,9 @@
                 "file": "mechanics-ideas.md",
                 "mode": "source",
                 "source": false
-              }
+              },
+              "icon": "lucide-file",
+              "title": "mechanics-ideas"
             }
           },
           {
@@ -40,7 +44,9 @@
                 "file": "card-designs/economic-cards.md",
                 "mode": "source",
                 "source": false
-              }
+              },
+              "icon": "lucide-file",
+              "title": "economic-cards"
             }
           },
           {
@@ -52,7 +58,9 @@
                 "file": "card-designs/economic-cards.md",
                 "mode": "source",
                 "source": false
-              }
+              },
+              "icon": "lucide-file",
+              "title": "economic-cards"
             }
           },
           {
@@ -61,10 +69,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "planned-cards-list.md",
+                "file": "card-designs/economic-cards.md",
                 "mode": "source",
                 "source": false
-              }
+              },
+              "icon": "lucide-file",
+              "title": "economic-cards"
             }
           }
         ],
@@ -88,7 +98,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
             }
           },
           {
@@ -103,7 +115,9 @@
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-search",
+              "title": "Search"
             }
           },
           {
@@ -111,7 +125,9 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {}
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
             }
           }
         ]
@@ -134,7 +150,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "planned-cards-list.md",
+                "file": "card-designs/economic-cards.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -142,7 +158,9 @@
                 "searchQuery": "",
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for economic-cards"
             }
           },
           {
@@ -151,10 +169,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "planned-cards-list.md",
+                "file": "card-designs/economic-cards.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from economic-cards"
             }
           },
           {
@@ -165,7 +185,9 @@
               "state": {
                 "sortOrder": "frequency",
                 "useHierarchy": true
-              }
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
             }
           },
           {
@@ -174,8 +196,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "planned-cards-list.md"
-              }
+                "file": "card-designs/economic-cards.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of economic-cards"
             }
           }
         ]
@@ -197,12 +221,12 @@
   },
   "active": "52f29cbe22a24cb6",
   "lastOpenFiles": [
-    "mechanics-ideas.md",
     "game-design-doc.md",
-    "card-designs/economic-cards.md",
-    "card-designs",
+    "mechanics-ideas.md",
     "planned-cards-list.md",
     "to-do.md",
+    "card-designs/economic-cards.md",
+    "card-designs",
     "Welcome.md"
   ]
 }

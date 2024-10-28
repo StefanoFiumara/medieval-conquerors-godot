@@ -17,7 +17,7 @@
     - _others?_
 
 - Military (basic)
-    - [ ] Men-at-arms
+    - [x] Men-at-arms
     - [ ] Spearman
     - [ ] Horseman
     - [ ] Archer

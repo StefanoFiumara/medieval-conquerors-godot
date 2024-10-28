@@ -99,7 +99,7 @@ public class AISystem : GameComponent, IAwake
         var unitsGarrisoned = building.GetAttribute<GarrisonCapacityAttribute>()?.Units.Count ?? 0;
 
         // TODO: Test this logic with mining resources
-        var adjacentResourceCount = _map.GetNeighbors(tilePos).Count(t => t.ResourceType.HasFlag(resourceCollected.Value));
+        var adjacentResourceCount = _map.GetNeighbors(tilePos).Where(t => t.ResourceType != ResourceType.None).Count(t => resourceCollected.Value.HasFlag(t.ResourceType));
         if (adjacentResourceCount == 0) return -10;
 
         return adjacentResourceCount - unitsGarrisoned;
