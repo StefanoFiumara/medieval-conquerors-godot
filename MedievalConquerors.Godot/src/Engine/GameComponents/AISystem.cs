@@ -54,10 +54,15 @@ public class AISystem : GameComponent, IAwake
         
         if (playableCard == null) return null;
         
-        var targetTile = _targetSystem.GetTargetCandidates(playableCard).MaxBy(t => CalculateTileValue(playableCard, t));
-        return new PlayCardAction(playableCard, targetTile);
-        
+        var target = _targetSystem.GetTargetCandidates(playableCard)
+            .Select(t => (Tile: t, Value: CalculateTileValue(playableCard, t)))
+            .MaxBy(t => t.Value);
+
+        if (target.Value > 0)
+            return new PlayCardAction(playableCard, target.Tile);
+
         // TODO: Implement move and combat actions
+        return null;
     }
 
     private int CalculateTileValue(Card card, Vector2I tilePos)
@@ -100,7 +105,7 @@ public class AISystem : GameComponent, IAwake
 
         // TODO: Test this logic with mining resources
         var adjacentResourceCount = _map.GetNeighbors(tilePos).Where(t => t.ResourceType != ResourceType.None).Count(t => resourceCollected.Value.HasFlag(t.ResourceType));
-        if (adjacentResourceCount == 0) return -10;
+        if (adjacentResourceCount == 0) return 0;
 
         return adjacentResourceCount - unitsGarrisoned;
     }
