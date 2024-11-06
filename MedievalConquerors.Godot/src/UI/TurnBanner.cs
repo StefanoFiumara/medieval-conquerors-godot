@@ -20,6 +20,7 @@ public partial class TurnBanner : Control
 
 	public override void _Ready()
 	{
+		// TODO: Fix banner sizing on all resolutions
 		_game = _gameController.Game;
 		_background = GetNode<ColorRect>("%background");
 		_turnLabel = GetNode<RichTextLabel>("%turn_text");

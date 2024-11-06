@@ -45,21 +45,22 @@ public class AISystem : GameComponent, IAwake
 
     private GameAction DecideAction()
     {
-        var playableCard = _match.CurrentPlayer.Hand
+        var playableCards = _match.CurrentPlayer.Hand
             .Where(c => _cardSystem.IsPlayable(c))
             .OrderByDescending(c => c.CardData.CardType == CardType.Building)
             .ThenByDescending(c => c.CardData.CardType == CardType.Unit && c.CardData.Tags.HasFlag(Tags.Economic))
-            .ThenByDescending(c => c.CardData.CardType == CardType.Unit && c.CardData.Tags.HasFlag(Tags.Military))
-            .FirstOrDefault();
+            .ThenByDescending(c => c.CardData.CardType == CardType.Unit && c.CardData.Tags.HasFlag(Tags.Military));
         
-        if (playableCard == null) return null;
-        
-        var target = _targetSystem.GetTargetCandidates(playableCard)
-            .Select(t => (Tile: t, Value: CalculateTileValue(playableCard, t)))
-            .MaxBy(t => t.Value);
+        // if (playableCard == null) return null;
+        foreach (var card in playableCards)
+        {
+            var target = _targetSystem.GetTargetCandidates(card)
+                .Select(t => (Tile: t, Value: CalculateTileValue(card, t)))
+                .MaxBy(t => t.Value);
 
-        if (target.Value > 0)
-            return new PlayCardAction(playableCard, target.Tile);
+            if (target.Value > 0)
+                return new PlayCardAction(card, target.Tile);
+        }
 
         // TODO: Implement move and combat actions
         return null;
@@ -112,11 +113,22 @@ public class AISystem : GameComponent, IAwake
     
     private int CalculateMilitaryUnitScore(Card card, Vector2I tilePos)
     {
-        // TODO: Come up with criteria for where to best place military units
+        int value = 0;
         
-        // Proximity to own buildings
-        // Distance to enemy units
-        // Distance to enemy town center
-        return 0;
+        // TODO: How to rate smaller numbers higher while also deciding to NOT play a unit under some circumstances?
+        var proximityToOwnBuildings = _map.GetNeighbors(tilePos)
+            .Count(t => t.Building != null && t.Building.Owner == _match.CurrentPlayer);
+        value += proximityToOwnBuildings;
+        
+        var proximityToEnemyUnits = _map.GetNeighbors(tilePos)
+            .Count(t => t.Unit != null && t.Unit.Owner != _match.CurrentPlayer);
+        value += proximityToEnemyUnits;
+        
+        var proximityToEnemyBuildings = _map.SearchTiles(t => t.Building != null && t.Building.Owner != _match.CurrentPlayer)
+            .Select(t => _map.CalculatePath(tilePos, t.Position).Count)
+            .Min();
+        
+        value += 10 - proximityToEnemyBuildings;
+        return value;
     }
 }
