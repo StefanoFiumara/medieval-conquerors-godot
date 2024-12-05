@@ -29,7 +29,7 @@ public class GlobalGameStateSystem : GameComponent, IAwake
 
     private void OnBeginSequence()
     {
-        _stateMachine.ChangeState<SequenceState>();
+        _stateMachine.ChangeState<BusyState>();
     }
 }
 

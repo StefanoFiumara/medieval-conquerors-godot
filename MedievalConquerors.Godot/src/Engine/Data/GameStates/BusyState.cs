@@ -2,7 +2,7 @@
 
 namespace MedievalConquerors.Engine.Data.GameStates;
 
-public class SequenceState : IState
+public class BusyState : IState
 {
     public void Enter() { }
     public void Exit() { }

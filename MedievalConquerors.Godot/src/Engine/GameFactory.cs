@@ -13,6 +13,9 @@ public static class GameFactory
     {
         var game = new Game();
         
+        // TODO: Can there be a CardLibrary component that gets passed in as a dependency?
+        // We can then pass in different components based on environment (deployed game vs unit tests)
+        
         game.AddComponent(logger);
         game.AddComponent(map);
         game.AddComponent(settings);
@@ -37,7 +40,7 @@ public static class GameFactory
         // game.AddComponent<AgeSystem>();
         game.AddComponent<GarrisonSystem>();
         
-        // TODO: Only add AISystem when in Single Player Mode, otherwise, add "NetworkSystem" for multPlayer
+        // TODO: Only add AISystem when in Single Player Mode, otherwise, add "NetworkSystem" for multiplayer
         game.AddComponent<AISystem>();
         
         game.AddComponent<TargetSystem>();

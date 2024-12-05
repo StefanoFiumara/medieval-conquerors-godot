@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using MedievalConquerors.Engine.Core;
+using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.Engine.Data;
+namespace MedievalConquerors.Engine.GameComponents;
 
 public class Match : GameComponent
 {
