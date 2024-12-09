@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
@@ -12,12 +13,14 @@ public class PlayerSystem : GameComponent, IAwake
     private IEventAggregator _events;
     private Match _match;
     private HexMap _map;
+    private CardRepository _cardDb;
 
     public void Awake()
     {
         _events = Game.GetComponent<EventAggregator>();
         _match = Game.GetComponent<Match>();
         _map = Game.GetComponent<HexMap>();
+        _cardDb = Game.GetComponent<CardRepository>();
         
         _events.Subscribe<BeginGameAction>(GameEvent.Prepare<BeginGameAction>(), OnPrepareBeginGame);
         _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
@@ -34,12 +37,20 @@ public class PlayerSystem : GameComponent, IAwake
         _map.SetTile(_match.LocalPlayer.TownCenter.Position, TileTerrain.Grass);
         _map.SetTile(_match.EnemyPlayer.TownCenter.Position, TileTerrain.Grass);
         
-        // TODO: this should updated dynamically as Player's Influence Range changes, perhaps in MapView when responding to some actions.
-        // var tilesInfluencedLocal = _map.GetReachable(match.LocalPlayer.TownCenter.Position, match.LocalPlayer.InfluenceRange);
-        // _mapView.HighlightTiles(tilesInfluencedLocal, HighlightLayer.BlueTeam);
-        //
-        // var tilesInfluencedEnemy = _map.GetReachable(match.EnemyPlayer.TownCenter.Position, match.EnemyPlayer.InfluenceRange);
-        // _mapView.HighlightTiles(tilesInfluencedEnemy, HighlightLayer.RedTeam);
+        // TODO: Load preset decks when debug mode is enabled, so that unit tests can use custom test decks for the player
+        // TEMP: mocked deck info data using IDs from our DB, to test deck loading from disk
+        var deckInfo = new List<(int id, int amount)>
+        {
+            (11, 2), // 2 Villagers
+            (2, 2), // 2 Knights
+            (6, 1), // Lumber Camp
+            (10, 1), // Mining Camp
+            (13, 1), // Mill
+        };
+        var loadedPlayerDeck = _cardDb.LoadDeck(_match.LocalPlayer, deckInfo);
+        var loadedEnemyDeck = _cardDb.LoadDeck(_match.EnemyPlayer, deckInfo);
+        _match.LocalPlayer.Deck.AddRange(loadedPlayerDeck);
+        _match.EnemyPlayer.Deck.AddRange(loadedEnemyDeck);
     }
 
     private void OnPerformDiscardCards(DiscardCardsAction action)

@@ -46,8 +46,6 @@ public class Player
             [ResourceType.Gold]  = 5,
             [ResourceType.Stone] = 0
         };
-        
-        Deck.AddRange(DeckBuilder.CreateTestDeck(this));
     }
     
     public List<Card> this[Zone z] => _zoneMap.ContainsKey(z) ? _zoneMap[z] : null;

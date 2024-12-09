@@ -27,6 +27,7 @@ public class Card
     }
 }
 
+// TODO: Make this immutable?
 public class CardData
 {
     public int Id { get; set; }

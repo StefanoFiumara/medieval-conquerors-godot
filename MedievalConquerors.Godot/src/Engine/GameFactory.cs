@@ -21,6 +21,7 @@ public static class GameFactory
         game.AddComponent(settings);
         
         game.AddComponent<Match>();
+        game.AddComponent<CardRepository>();
         
         game.AddComponent<EventAggregator>();
         game.AddComponent<ActionSystem>();

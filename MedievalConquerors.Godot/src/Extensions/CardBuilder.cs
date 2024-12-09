@@ -122,6 +122,7 @@ public class CardBuilder
 
 public static class DeckBuilder
 {
+    // TODO: No longer needed, here for reference so we can use this during unit testing
     public static List<Card> CreateTestDeck(Player owner)
     {
         var cards = new List<Card>();
@@ -136,7 +137,7 @@ public static class DeckBuilder
                 .WithResourceCost(food: 2)
                 .WithSpawnPoint(Tags.Economic)
                 .Create()));
-
+    
         cards.Add(CardBuilder.Build(owner)
             .WithTitle($"Knight")
             .WithDescription($"Mighty Mounted Royal Warrior")
@@ -146,7 +147,6 @@ public static class DeckBuilder
             .WithTags(Tags.Military | Tags.Mounted | Tags.Melee)
             .WithResourceCost(food: 4, gold: 2)
             .WithMovement(distance: 2)
-            // TODO: Test with other buildings once available
             .WithSpawnPoint(Tags.TownCenter)
             .Create());
         
@@ -159,7 +159,6 @@ public static class DeckBuilder
             .WithTags(Tags.Military | Tags.Infantry | Tags.Melee)
             .WithResourceCost(food: 4, gold: 2)
             .WithMovement(distance: 1)
-            // TODO: Test with other buildings once available
             .WithSpawnPoint(Tags.TownCenter)
             .Create());
         
@@ -201,7 +200,7 @@ public static class DeckBuilder
             .WithGarrisonCapacity(capacity: 3)
             .WithSpawnPoint(Tags.TownCenter)
             .Create());
-
+    
         return cards;
     }
 }

@@ -8,37 +8,47 @@ namespace MedievalConquerors.Engine.GameComponents;
 
 public class CardRepository : GameComponent, IAwake
 {
+    public const int TownCenterId = 12;
+
     private ILogger _logger;
     
     public void Awake()
     {
-        // TODO: Do we want to load the card library into an in-memory collection here?
         _logger = Game.GetComponent<ILogger>();
     }
 
-    // TODO: Formalize deckInfo tuple into separate object
-    public List<Card> LoadPlayerDeck(Player owner, List<(int cardId, int amount)> deckInfo)
+    public Card LoadCard(int id, Player owner)
     {
-        // TODO: Validate that this works with the exported game and that it can read the .db file
-        // If it doesn't work, we may need to adjust CardDatabase to create a copy of the db file inside the res:// folder to somewhere else on the file system
         using var db = new CardDatabase();
+        return LoadCard(db, id, owner);
+    }
+    
+    private Card LoadCard(CardDatabase db, int id, Player owner)
+    {
+        var data = db.Query.Where(c => c.Id == id).SingleOrDefault();
+        if (data == null)
+        {
+            _logger.Warn($"Could not find card with ID {id}");
+            return null;
+        }
 
+        return new Card(data, owner);
+    }
+    // TODO: Formalize deckInfo tuple into separate object
+    public List<Card> LoadDeck(Player owner, List<(int cardId, int amount)> deckInfo)
+    {
         var result = new List<Card>();
-
+        
+        using var db = new CardDatabase();
         foreach (var (id, amount) in deckInfo)
         {
             for (int i = 0; i < amount; i++)
             {
-                // TODO: More efficient way to query for all required IDs.
+                // TODO: optimize query so we can get all info in one trip to the disk.
                 // IDEA: Load all card data from disk and hold it in memory, then grab copies from that cache to build individual cards.
-                var data = db.Query.Where(c => c.Id == id).SingleOrDefault();
-                if (data == null)
-                {
-                    _logger.Warn($"Could not find card with ID {id} while loading player decks.");
-                    break;
-                }
-                    
-                result.Add(new Card(data, owner));
+                var card = LoadCard(db, id, owner);
+                if(card != null)
+                    result.Add(card);
             }
         }
 
