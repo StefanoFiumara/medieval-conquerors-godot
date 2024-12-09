@@ -16,7 +16,7 @@ public partial class ImageSelector : HBoxContainer
 	[Export] private Button _refreshButton;
 
 	private List<string> _imagePaths;
-	
+
 	public string SelectedImagePath
 	{
 		get
@@ -37,6 +37,17 @@ public partial class ImageSelector : HBoxContainer
 			{
 				_imageOptions?.Select(0);
 			}
+		}
+	}
+	
+	// TODO: give editor ability to select token manually instead of basing it off of the portrait name
+	// This is kinda  nice for now though.
+	public string SelectedTokenPath
+	{
+		get
+		{
+			var selected = _imageOptions?.GetItemText(_imageOptions?.GetSelectedId() ?? 0) ?? "None";
+			return selected != "None" ? $"{TokensPath}/{selected}" : string.Empty;
 		}
 	}
 

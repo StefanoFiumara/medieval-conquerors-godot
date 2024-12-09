@@ -184,6 +184,7 @@ public partial class CardDataEditor : ScrollContainer
 		LoadedData.CardType = _cardTypeOptions.SelectedOption;
 		LoadedData.Tags = _tagOptions.SelectedTags;
 		LoadedData.ImagePath = _imageSelector.SelectedImagePath;
+		LoadedData.TokenImagePath = _imageSelector.SelectedTokenPath;
 		//NOTE: Attributes are automatically updated
 	}
 
