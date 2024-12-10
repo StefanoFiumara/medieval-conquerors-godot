@@ -24,6 +24,7 @@ public static class CollectionExtensions
     {
         // NOTE: Fisher Yates shuffle -> https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
         // TODO: Make rng globally available so that we can control the seed.
+        // IDEA: Add a `RandomnessSystem` to control current seed and act as proxy for an RNG instance
         var rng = new Random();
 
         for (var i = list.Count - 1; i > 0; --i)
