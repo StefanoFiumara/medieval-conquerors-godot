@@ -13,15 +13,14 @@ public static class GameFactory
     {
         var game = new Game();
         
-        // TODO: Can there be a CardLibrary component that gets passed in as a dependency?
-        // We can then pass in different components based on environment (deployed game vs unit tests)
-        
         game.AddComponent(logger);
         game.AddComponent(map);
         game.AddComponent(settings);
         
         game.AddComponent<Match>();
-        game.AddComponent<CardRepository>();
+        
+        // TODO: Pass in a different component for unit testing, so we don't depend on the database.
+        game.AddComponent<CardLibrary>();
         
         game.AddComponent<EventAggregator>();
         game.AddComponent<ActionSystem>();
@@ -47,11 +46,8 @@ public static class GameFactory
         game.AddComponent<TargetSystem>();
         
         // game.AddComponent<DiscardSystem>();
-        
         // game.AddComponent<CombatSystem>();
-        
         // game.AddComponent<UniquenessSystem>();
-        
         // game.AddComponent<AbilitySystem>();
         
         return game;

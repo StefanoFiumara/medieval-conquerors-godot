@@ -13,7 +13,7 @@ namespace MedievalConquerors.Editor;
 
 public partial class CardDataEditor : ScrollContainer
 {
-	[Export] private CardLibrary _library;
+	[Export] private CardDatabaseView _databaseView;
 	[Export] private RichTextLabel _panelTitle;
 	
 	[Export] private Button _newButton;
@@ -71,7 +71,7 @@ public partial class CardDataEditor : ScrollContainer
 		
 		LoadedData = null;
 		_stateMachine = new StateMachine(new NoDataState(this));
-		_library.SearchResultClicked += card => LoadedData = card;
+		_databaseView.SearchResultClicked += card => LoadedData = card;
 	}
 
 	public override void _EnterTree()

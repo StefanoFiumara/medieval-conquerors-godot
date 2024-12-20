@@ -8,7 +8,7 @@ using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Editor;
 
-public partial class CardLibrary : ScrollContainer
+public partial class CardDatabaseView : ScrollContainer
 {
 	[Export] private Button _clearButton;
 	[Export] private LineEdit _searchInput;

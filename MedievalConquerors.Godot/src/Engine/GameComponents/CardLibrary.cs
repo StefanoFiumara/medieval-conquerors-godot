@@ -6,7 +6,7 @@ using MedievalConquerors.Engine.Logging;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
-public class CardRepository : GameComponent, IAwake
+public class CardLibrary : GameComponent, IAwake
 {
     public const int TownCenterId = 12;
 

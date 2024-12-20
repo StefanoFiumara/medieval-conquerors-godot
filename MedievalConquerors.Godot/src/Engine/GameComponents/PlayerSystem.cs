@@ -13,14 +13,14 @@ public class PlayerSystem : GameComponent, IAwake
     private IEventAggregator _events;
     private Match _match;
     private HexMap _map;
-    private CardRepository _cardDb;
+    private CardLibrary _cardDb;
 
     public void Awake()
     {
         _events = Game.GetComponent<EventAggregator>();
         _match = Game.GetComponent<Match>();
         _map = Game.GetComponent<HexMap>();
-        _cardDb = Game.GetComponent<CardRepository>();
+        _cardDb = Game.GetComponent<CardLibrary>();
         
         _events.Subscribe<BeginGameAction>(GameEvent.Prepare<BeginGameAction>(), OnPrepareBeginGame);
         _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);

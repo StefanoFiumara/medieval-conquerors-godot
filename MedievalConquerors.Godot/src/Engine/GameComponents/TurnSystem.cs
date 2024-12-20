@@ -10,14 +10,14 @@ public class TurnSystem : GameComponent, IAwake
     private Match _match;
     private IEventAggregator _events;
     private IGameSettings _settings;
-    private CardRepository _db;
+    private CardLibrary _library;
 
     public void Awake()
     {
         _match = Game.GetComponent<Match>();
         _events = Game.GetComponent<EventAggregator>();
         _settings = Game.GetComponent<IGameSettings>();
-        _db = Game.GetComponent<CardRepository>();
+        _library = Game.GetComponent<CardLibrary>();
             
         _events.Subscribe<ChangeTurnAction>(GameEvent.Perform<ChangeTurnAction>(), OnPerformChangeTurn);
         _events.Subscribe<BeginGameAction>(GameEvent.Perform<BeginGameAction>(), OnPerformBeginGame);
@@ -41,8 +41,8 @@ public class TurnSystem : GameComponent, IAwake
         Game.AddReaction(new ShuffleDeckAction(Match.EnemyPlayerId));
         
         // Spawn Town Centers
-        var townCenter1 = _db.LoadCard(CardRepository.TownCenterId, _match.LocalPlayer);
-        var townCenter2 = _db.LoadCard(CardRepository.TownCenterId, _match.EnemyPlayer);
+        var townCenter1 = _library.LoadCard(CardLibrary.TownCenterId, _match.LocalPlayer);
+        var townCenter2 = _library.LoadCard(CardLibrary.TownCenterId, _match.EnemyPlayer);
         Game.AddReaction(new PlayCardAction(townCenter1, _match.LocalPlayer.TownCenter.Position));
         Game.AddReaction(new PlayCardAction(townCenter2, _match.EnemyPlayer.TownCenter.Position));
         
