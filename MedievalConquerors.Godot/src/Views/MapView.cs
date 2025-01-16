@@ -9,6 +9,7 @@ using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
+using MedievalConquerors.Engine.Logging;
 using MedievalConquerors.UI;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
@@ -47,8 +48,8 @@ public partial class MapView : Node2D, IGameComponent
 		_ => throw new ArgumentOutOfRangeException(nameof(layer), layer, "Invalid map layer type")
 	};
 	
-	// TODO: Make this private
-	public HexMap GameMap { get; private set; }
+	private HexMap _map;
+	private ILogger _logger;
 	
 	private Viewport _viewport;
 	private Vector2I _hovered = HexMap.None;
@@ -67,8 +68,10 @@ public partial class MapView : Node2D, IGameComponent
 	{
 		Game = GetParent<GameController>().Game;
 		Game.AddComponent(this);
+
+		_logger = Game.GetComponent<ILogger>();
 		
-		GameMap = Game.GetComponent<HexMap>();
+		_map = Game.GetComponent<HexMap>();
 		
 		_events = Game.GetComponent<EventAggregator>();
 		_viewport = GetViewport();
@@ -79,7 +82,7 @@ public partial class MapView : Node2D, IGameComponent
 		// so that the map fits on the screen at different screen sizes on startup
 		_zoomTarget = Scale;
 		
-		GameMap.OnTileChanged += OnTileMapChanged;
+		_map.OnTileChanged += OnTileMapChanged;
 		_events.Subscribe<MoveUnitAction>(GameEvent.Prepare<MoveUnitAction>(), OnPrepareMoveUnit);
 		_events.Subscribe<GarrisonAction>(GameEvent.Prepare<GarrisonAction>(), OnPrepareGarrison);
 		_events.Subscribe<CollectResourcesAction>(GameEvent.Prepare<CollectResourcesAction>(), OnPrepareCollectResources);
@@ -87,12 +90,12 @@ public partial class MapView : Node2D, IGameComponent
 
 	public override void _ExitTree()
 	{
-		GameMap.OnTileChanged -= OnTileMapChanged;
+		_map.OnTileChanged -= OnTileMapChanged;
 	}
 
 	private void OnTileMapChanged(TileData oldTile, TileData newTile)
 	{
-		var newAtlasCoord = GameMap.GetAtlasCoord(newTile.Terrain);
+		var newAtlasCoord = _map.GetAtlasCoord(newTile.Terrain);
 		
 		if(newAtlasCoord != HexMap.None)
 			this[MapLayerType.Terrain].SetCell(newTile.Position, 0, newAtlasCoord);
@@ -114,7 +117,7 @@ public partial class MapView : Node2D, IGameComponent
 		switch (buttonEvent.ButtonIndex)
 		{
 			case MouseButton.Left when buttonEvent.IsReleased():
-				_events.Publish(InputSystem.ClickedEvent, GameMap.GetTile(GetTileCoord(buttonEvent.Position)), buttonEvent);
+				_events.Publish(InputSystem.ClickedEvent, _map.GetTile(GetTileCoord(buttonEvent.Position)), buttonEvent);
 				return true;
 			case MouseButton.Middle:
 				SetDragging(buttonEvent.Pressed);
@@ -206,7 +209,7 @@ public partial class MapView : Node2D, IGameComponent
 		const double stepDuration = 0.3;
 		
 		var moveAction = (MoveUnitAction) action;
-		var path = GameMap.CalculatePath(moveAction.CardToMove.MapPosition, moveAction.TargetTile);
+		var path = _map.CalculatePath(moveAction.CardToMove.MapPosition, moveAction.TargetTile);
 
 		var token = _tokens.Single(t => t.Card == moveAction.CardToMove);
 
@@ -286,7 +289,7 @@ public partial class MapView : Node2D, IGameComponent
 	{
 		var mapCoord = this[MapLayerType.Terrain].LocalToMap(ToLocal(mousePos));
 		
-		if (GameMap.GetTile(mapCoord) != null)
+		if (_map.GetTile(mapCoord) != null)
 			return mapCoord;
 		
 		return HexMap.None;
@@ -309,6 +312,9 @@ public partial class MapView : Node2D, IGameComponent
 
 	public void HighlightTile(Vector2I coord, MapLayerType layer)
 	{
+		if(layer == MapLayerType.Terrain)
+			_logger.Warn("Attempting to highlight on the terrain layer!");
+		
 		// NOTE: The layer ID also matches up with the scene collection ID for the glow color for that layer
 		if (coord != HexMap.None) 
 			this[layer].SetCell(coord, HighlightTileSetId, Vector2I.Zero, (int)layer);
@@ -316,6 +322,9 @@ public partial class MapView : Node2D, IGameComponent
 
 	public bool IsHighlighted(Vector2I coord, MapLayerType layer)
 	{
+		if(layer == MapLayerType.Terrain)
+			_logger.Warn("Attempting to check highlight on the terrain layer!");
+		
 		if (coord != HexMap.None)
 		{
 			// NOTE: Since we are looking at highlight layers, it is ok to simple check if a cell is being used.
@@ -329,6 +338,9 @@ public partial class MapView : Node2D, IGameComponent
 	
 	public void RemoveHighlight(Vector2I coord, MapLayerType layer)
 	{
+		if(layer == MapLayerType.Terrain)
+			_logger.Warn("Attempting to highlight on the terrain layer!");
+
 		if (coord != HexMap.None) 
 			this[layer].SetCell(coord);
 	}

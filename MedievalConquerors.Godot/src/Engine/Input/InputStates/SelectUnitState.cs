@@ -16,6 +16,7 @@ namespace MedievalConquerors.Engine.Input.InputStates;
 public class SelectUnitState : BaseInputState
 {
     private readonly MapView _mapView;
+    private readonly HexMap _map;
     
     private Card _selectedUnit;
     private List<Vector2I> _validTiles;
@@ -24,7 +25,9 @@ public class SelectUnitState : BaseInputState
     {
         _selectedUnit = selectedUnit;
         _validTiles = new();
+
         _mapView = game.GetComponent<MapView>();
+        _map = game.GetComponent<HexMap>();
     }
 
     public override void Enter()
@@ -33,8 +36,9 @@ public class SelectUnitState : BaseInputState
 
         if (movement != null)
         {
-            // TODO: Do we want to defer this logic to TargetSystem so we can get rid of the public GameMap reference in MapView? 
-            _validTiles = _mapView.GameMap.GetReachable(_selectedUnit.MapPosition, movement.RemainingDistance).ToList();
+            // TODO: Do we want to defer this logic to TargetSystem so we can get rid of the public GameMap reference in MapView?
+            
+            _validTiles = _map.GetReachable(_selectedUnit.MapPosition, movement.RemainingDistance).ToList();
         }
         
         // TODO: Should we have a separate layer/color for selected tiles vs Tile selection hints?
