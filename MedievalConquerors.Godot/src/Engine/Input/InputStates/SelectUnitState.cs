@@ -33,13 +33,8 @@ public class SelectUnitState : BaseInputState
     public override void Enter()
     {
         var movement = _selectedUnit.GetAttribute<MovementAttribute>();
-
-        if (movement != null)
-        {
-            // TODO: Do we want to defer this logic to TargetSystem so we can get rid of the public GameMap reference in MapView?
-            
+        if (movement != null) 
             _validTiles = _map.GetReachable(_selectedUnit.MapPosition, movement.RemainingDistance).ToList();
-        }
         
         // TODO: Should we have a separate layer/color for selected tiles vs Tile selection hints?
         _mapView.HighlightTile(_selectedUnit.MapPosition, MapLayerType.SelectionHint);
