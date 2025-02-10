@@ -34,3 +34,8 @@ import/blender/enabled=false
 theme/default_font_antialiasing=2
 theme/default_font_generate_mipmaps=true
 theme/lcd_subpixel_layout=3
+
+[rendering]
+
+anti_aliasing/quality/msaa_2d=2
+anti_aliasing/quality/use_taa=true

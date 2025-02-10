@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://r8nd3ueedopk"]
 
-[ext_resource type="Script" path="res://src/Editor/CardLibrary.cs" id="1_fkgwc"]
+[ext_resource type="Script" path="res://src/Editor/CardDatabaseView.cs" id="1_fkgwc"]
 [ext_resource type="Script" path="res://src/Editor/Controls/TagOptions.cs" id="1_kstia"]
 [ext_resource type="Script" path="res://src/Editor/Controls/CardTypeOptions.cs" id="2_wwgh3"]
 
