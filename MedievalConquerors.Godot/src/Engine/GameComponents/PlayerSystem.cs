@@ -50,7 +50,7 @@ public class PlayerSystem : GameComponent, IAwake
         _match.EnemyPlayer.Resources[ResourceType.Gold] = _settings.StartingGoldCount;
         _match.EnemyPlayer.Resources[ResourceType.Stone] = _settings.StartingStoneCount;
         
-        if(!_settings.DebugMode || _match.LocalPlayer.Deck.Count == 0 || _match.EnemyPlayer.Deck.Count == 0)
+        if(!_settings.DebugMode)
         {
             // Load player decks
             var deckInfo = new List<(int id, int amount)>
