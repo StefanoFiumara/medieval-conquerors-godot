@@ -5,7 +5,6 @@ namespace MedievalConquerors.Engine.Data.Attributes;
 public class MovementAttribute : ICardAttribute
 {
     private int _distance;
-
     public int Distance
     {
         get => _distance;

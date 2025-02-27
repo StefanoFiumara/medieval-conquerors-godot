@@ -7,8 +7,5 @@ public class SpawnPointAttribute : ICardAttribute
     
     public void OnTurnStart() { }
 
-    public ICardAttribute Clone()
-    {
-        return AttributeMapper.Clone(this);
-    }
+    public ICardAttribute Clone() => AttributeMapper.Clone(this);
 }
