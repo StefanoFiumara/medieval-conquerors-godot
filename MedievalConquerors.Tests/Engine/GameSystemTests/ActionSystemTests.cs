@@ -1,8 +1,7 @@
 ﻿using MedievalConquerors.Engine.Actions;
-using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
-using Xunit.Abstractions;
+
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
@@ -10,7 +9,7 @@ public class ActionSystemTests : GameSystemTestFixture
 {
     private readonly ActionSystem _underTest;
 
-    public ActionSystemTests(ITestOutputHelper output) : base(output)
+    public ActionSystemTests(ITestOutputHelper output, CardLibraryFixture libraryFixture) : base(output, libraryFixture)
     {
         _underTest = Game.GetComponent<ActionSystem>();
     }

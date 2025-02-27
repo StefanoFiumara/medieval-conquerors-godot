@@ -1,10 +1,9 @@
-﻿using FluentAssertions;
-using Godot;
+﻿using Godot;
 using MedievalConquerors.Engine.Actions;
-using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
-using Xunit.Abstractions;
+using Shouldly;
+
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
@@ -12,7 +11,7 @@ public class PlayerSystemTests : GameSystemTestFixture
 {
     private readonly Player _player;
     
-    public PlayerSystemTests(ITestOutputHelper output) : base(output)
+    public PlayerSystemTests(ITestOutputHelper output, CardLibraryFixture libraryFixture) : base(output, libraryFixture)
     {
         _player = Game.GetComponent<Match>().LocalPlayer;
         
@@ -25,7 +24,7 @@ public class PlayerSystemTests : GameSystemTestFixture
     [Fact]
     public void GameFactory_Creates_PlayerSystem()
     {
-        Game.GetComponent<PlayerSystem>().Should().NotBeNull();
+        Game.GetComponent<PlayerSystem>().ShouldNotBeNull();
     }
     
     [Fact]
@@ -40,17 +39,17 @@ public class PlayerSystemTests : GameSystemTestFixture
         Game.Perform(playAction);
         Game.Update();
 
-        _player.Map.Should().HaveCount(1);
-        _player.Hand.Should().HaveCount(5);
-        _player.Map.Should().HaveCount(1);
+        _player.Map.Count.ShouldBe(1);
+        _player.Hand.Count.ShouldBe(5);
+        _player.Map.Count.ShouldBe(1);
         
-        cardToPlay.Zone.Should().Be(Zone.Map);
-        cardToPlay.MapPosition.Should().Be(positionToPlay);
+        cardToPlay.Zone.ShouldBe(Zone.Map);
+        cardToPlay.MapPosition.ShouldBe(positionToPlay);
         
         var tile = Map.GetTile(positionToPlay);
         
-        tile.Unit.Should().NotBeNull();
-        tile.Unit.Should().Be(cardToPlay);
+        tile.Unit.ShouldNotBeNull();
+        tile.Unit.ShouldBe(cardToPlay);
     }
     
     [Fact]
@@ -70,12 +69,12 @@ public class PlayerSystemTests : GameSystemTestFixture
         Game.Perform(discardAction);
         Game.Update();
         
-        _player.Map.Should().BeEmpty();
-        _player.Discard.Should().HaveCount(1);
-        _player.Discard.Should().AllSatisfy(c => c.Zone.Should().Be(Zone.Discard));
+        _player.Map.ShouldBeEmpty();
+        _player.Discard.Count.ShouldBe(1);
+        _player.Discard.ShouldAllBe(c => c.Zone == Zone.Discard);
 
-        Map.GetTile(positionToPlay).Unit.Should().BeNull();
-        toDiscard.Single().MapPosition.Should().Be(HexMap.None);
+        Map.GetTile(positionToPlay).Unit.ShouldBeNull();
+        toDiscard.Single().MapPosition.ShouldBe(HexMap.None);
     }
     
     [Fact]
@@ -88,8 +87,8 @@ public class PlayerSystemTests : GameSystemTestFixture
         Game.Perform(discardAction);
         Game.Update();
         
-        _player.Hand.Should().HaveCount(4);
-        _player.Discard.Should().HaveCount(2);
-        _player.Discard.Should().AllSatisfy(c => c.Zone.Should().Be(Zone.Discard));
+        _player.Hand.Count.ShouldBe(4);
+        _player.Discard.Count.ShouldBe(2);
+        _player.Discard.ShouldAllBe(c => c.Zone == Zone.Discard);
     }
 }

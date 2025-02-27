@@ -2,7 +2,6 @@ using System.Runtime.CompilerServices;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Logging;
 using MedievalConquerors.Extensions;
-using Xunit.Abstractions;
 
 namespace MedievalConquerors.Tests;
 

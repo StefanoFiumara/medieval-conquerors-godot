@@ -1,5 +1,4 @@
 ﻿using AutoFixture;
-using FluentAssertions;
 using Godot;
 using MedievalConquerors.Engine;
 using MedievalConquerors.Engine.Core;
@@ -8,7 +7,8 @@ using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Logging;
 using NSubstitute;
-using Xunit.Abstractions;
+using Shouldly;
+
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Tests.Engine;
@@ -23,15 +23,15 @@ public abstract class GameSystemTestFixture
     protected readonly IEventAggregator Events;
     protected readonly Match Match;
 
-    protected GameSystemTestFixture(ITestOutputHelper output)
+    protected GameSystemTestFixture(ITestOutputHelper output, CardLibraryFixture libraryFixture)
     {
         var logger = new TestLogger(output, LogLevel.Info);
         Fixture = new Fixture();
 
         Settings.StartingHandCount.Returns(5);
-        Settings.DebugMode.Returns(false);
+        Settings.DebugMode.Returns(true);
         
-        Game = GameFactory.Create(logger, Map, Settings);
+        Game = GameFactory.Create(logger, Map, Settings, libraryFixture.Library);
         Events = Game.GetComponent<EventAggregator>();
         
         Match = Game.GetComponent<Match>();
@@ -45,7 +45,7 @@ public abstract class GameSystemTestFixture
     public void Game_Destroy_Unsubscribes_All_Events()
     {
         Game.Destroy();
-        Events.Subscriptions.Should().BeEmpty();
+        Events.Subscriptions.ShouldBeEmpty();
     }
 
     private static HexMap CreateMockGameMap()

@@ -1,12 +1,11 @@
-﻿using FluentAssertions;
-using Godot;
+﻿using Godot;
 using MedievalConquerors.Engine.Actions;
-using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Extensions;
-using Xunit.Abstractions;
+using Shouldly;
+
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
@@ -14,7 +13,7 @@ public class ResourceSystemTests : GameSystemTestFixture
 {
     private readonly Player _player;
 
-    public ResourceSystemTests(ITestOutputHelper output) : base(output)
+    public ResourceSystemTests(ITestOutputHelper output, CardLibraryFixture libraryFixture) : base(output, libraryFixture)
     {
         _player = Game.GetComponent<Match>().LocalPlayer;
         
@@ -39,7 +38,7 @@ public class ResourceSystemTests : GameSystemTestFixture
 
         var result = action.Validate(Game);
 
-        result.IsValid.Should().BeTrue();
+        result.IsValid.ShouldBeTrue();
     }
     
     [Fact]
@@ -54,7 +53,7 @@ public class ResourceSystemTests : GameSystemTestFixture
 
         var result = action.Validate(Game);
 
-        result.IsValid.Should().BeFalse();
-        result.ValidationErrors.Should().Contain(str => str == "Not enough resource to play card.");
+        result.IsValid.ShouldBeFalse();
+        result.ValidationErrors.ShouldContain(str => str == "Not enough resource to play card.");
     }
 }

@@ -9,7 +9,7 @@ namespace MedievalConquerors.Engine;
 
 public static class GameFactory
 {
-    public static Game Create(ILogger logger, HexMap map, IGameSettings settings)
+    public static Game Create(ILogger logger, HexMap map, IGameSettings settings, CardLibrary library = null)
     {
         var game = new Game();
         
@@ -19,8 +19,10 @@ public static class GameFactory
         
         game.AddComponent<Match>();
         
-        // TODO: Pass in a different component for unit testing, so we don't depend on the database.
-        game.AddComponent<CardLibrary>();
+        if(library != null)
+            game.AddComponent(library);
+        else
+            game.AddComponent<CardLibrary>();
         
         game.AddComponent<EventAggregator>();
         game.AddComponent<ActionSystem>();

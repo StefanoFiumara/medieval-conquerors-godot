@@ -1,9 +1,7 @@
-﻿using FluentAssertions;
-using MedievalConquerors.Engine.Actions;
-using MedievalConquerors.Engine.Core;
+﻿using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
-using Xunit.Abstractions;
+using Shouldly;
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
@@ -11,7 +9,7 @@ public class HandSystemTests : GameSystemTestFixture
 {
     private readonly Player _player;
     
-    public HandSystemTests(ITestOutputHelper output) : base(output)
+    public HandSystemTests(ITestOutputHelper output, CardLibraryFixture libraryFixture) : base(output, libraryFixture)
     {
         _player = Game.GetComponent<Match>().LocalPlayer;
         
@@ -24,7 +22,7 @@ public class HandSystemTests : GameSystemTestFixture
     [Fact]
     public void GameFactory_Creates_HandSystem()
     {
-        Game.GetComponent<HandSystem>().Should().NotBeNull();
+        Game.GetComponent<HandSystem>().ShouldNotBeNull();
     }
 
     [Theory]
@@ -43,10 +41,10 @@ public class HandSystemTests : GameSystemTestFixture
         Game.Perform(action);
         Game.Update();
 
-        action.DrawnCards.Should().BeEquivalentTo(_player.Hand.Except(initialHand));
+        action.DrawnCards.ShouldBeEquivalentTo(_player.Hand.Except(initialHand));
         
-        _player.Hand.Should().HaveCount(amountToDraw + initialHand.Count);
-        _player.Deck.Should().HaveCount(initialDeckCount - amountToDraw);
-        _player.Hand.Should().AllSatisfy(c => c.Zone.Should().Be(Zone.Hand));
+        _player.Hand.Count.ShouldBe(amountToDraw + initialHand.Count);
+        _player.Deck.Count.ShouldBe(initialDeckCount - amountToDraw);
+        _player.Hand.ShouldAllBe(c => c.Zone == Zone.Hand);
     }
 }

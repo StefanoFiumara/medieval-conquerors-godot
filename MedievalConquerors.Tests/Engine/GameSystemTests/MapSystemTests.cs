@@ -1,12 +1,11 @@
-using FluentAssertions;
 using Godot;
 using MedievalConquerors.Engine.Actions;
-using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Extensions;
-using Xunit.Abstractions;
+using Shouldly;
+
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
@@ -15,7 +14,7 @@ public class MapSystemTests : GameSystemTestFixture
     private readonly Player _player;
     private readonly Match _match;
 
-    public MapSystemTests(ITestOutputHelper output) : base(output)
+    public MapSystemTests(ITestOutputHelper output, CardLibraryFixture libraryFixture) : base(output, libraryFixture)
     {
         _player = Game.GetComponent<Match>().LocalPlayer;
         _match = Game.GetComponent<Match>();
@@ -29,7 +28,7 @@ public class MapSystemTests : GameSystemTestFixture
     [Fact]
     public void GameFactory_Creates_MapSystem()
     {
-        Game.GetComponent<MapSystem>().Should().NotBeNull();
+        Game.GetComponent<MapSystem>().ShouldNotBeNull();
     }
 
     [Fact]
@@ -52,11 +51,11 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Perform(moveAction);
         Game.Update();
 
-        card.MapPosition.Should().Be(newPosition);
-        Map.GetTile(newPosition).Unit.Should().Be(card);
-        Map.GetTile(firstPosition).Unit.Should().BeNull();
+        card.MapPosition.ShouldBe(newPosition);
+        Map.GetTile(newPosition).Unit.ShouldBe(card);
+        Map.GetTile(firstPosition).Unit.ShouldBeNull();
         
-        card.GetAttribute<MovementAttribute>().RemainingDistance.Should().Be(0);
+        card.GetAttribute<MovementAttribute>().RemainingDistance.ShouldBe(0);
     }
 
     [Fact]
@@ -78,9 +77,9 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Perform(moveAction);
         Game.Update();
 
-        card.MapPosition.Should().Be(firstPosition);
-        Map.GetTile(newPosition).Unit.Should().BeNull();
-        Map.GetTile(firstPosition).Unit.Should().Be(card);
+        card.MapPosition.ShouldBe(firstPosition);
+        Map.GetTile(newPosition).Unit.ShouldBeNull();
+        Map.GetTile(firstPosition).Unit.ShouldBe(card);
     }
     
     [Fact]
@@ -103,9 +102,9 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Perform(moveAction);
         Game.Update();
 
-        card.MapPosition.Should().Be(firstPosition);
-        Map.GetTile(firstPosition).Unit.Should().Be(card);
-        Map.GetTile(newPosition).Unit.Should().BeNull();
+        card.MapPosition.ShouldBe(firstPosition);
+        Map.GetTile(firstPosition).Unit.ShouldBe(card);
+        Map.GetTile(newPosition).Unit.ShouldBeNull();
     }
     
     [Fact]
@@ -123,8 +122,8 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Perform(moveAction);
         Game.Update();
 
-        card.MapPosition.Should().Be(HexMap.None);
-        Map.GetTile(newPosition).Unit.Should().BeNull();
+        card.MapPosition.ShouldBe(HexMap.None);
+        Map.GetTile(newPosition).Unit.ShouldBeNull();
     }
     
     [Fact]
@@ -147,7 +146,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Perform(moveAction);
         Game.Update();
 
-        card.GetAttribute<MovementAttribute>().RemainingDistance.Should().Be(0);
+        card.GetAttribute<MovementAttribute>().RemainingDistance.ShouldBe(0);
         
         // Change turn to opposite player
         var turnAction = new ChangeTurnAction(_match.OppositePlayer.Id);
@@ -159,7 +158,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Perform(turnAction);
         Game.Update();
         
-        card.GetAttribute<MovementAttribute>().RemainingDistance.Should().Be(card.GetAttribute<MovementAttribute>().Distance);
+        card.GetAttribute<MovementAttribute>().RemainingDistance.ShouldBe(card.GetAttribute<MovementAttribute>().Distance);
     }
     
     [Fact]
@@ -179,7 +178,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Perform(discardAction);
         Game.Update();
      
-        Map.GetTile(positionToPlay).Unit.Should().BeNull();
-        toDiscard.Single().MapPosition.Should().Be(HexMap.None);
+        Map.GetTile(positionToPlay).Unit.ShouldBeNull();
+        toDiscard.Single().MapPosition.ShouldBe(HexMap.None);
     }
 }

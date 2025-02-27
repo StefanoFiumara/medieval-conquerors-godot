@@ -1,11 +1,10 @@
-﻿using FluentAssertions;
-using MedievalConquerors.Engine.Actions;
-using MedievalConquerors.Engine.Core;
+﻿using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Extensions;
-using Xunit.Abstractions;
+using Shouldly;
+
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
@@ -14,7 +13,7 @@ public class CardSystemTests : GameSystemTestFixture
     private readonly Player _player;
     private CardSystem _underTest;
 
-    public CardSystemTests(ITestOutputHelper output) : base(output)
+    public CardSystemTests(ITestOutputHelper output, CardLibraryFixture libraryFixture) : base(output, libraryFixture)
     {
         _player = Game.GetComponent<Match>().LocalPlayer;
         _underTest = Game.GetComponent<CardSystem>();
@@ -28,7 +27,7 @@ public class CardSystemTests : GameSystemTestFixture
     [Fact]
     public void GameFactory_Creates_CardSystem()
     {
-        Game.GetComponent<CardSystem>().Should().NotBeNull();
+        Game.GetComponent<CardSystem>().ShouldNotBeNull();
     }
 
     [Fact]
@@ -45,8 +44,7 @@ public class CardSystemTests : GameSystemTestFixture
         _underTest.Refresh();
         
         _underTest = Game.GetComponent<CardSystem>();
-        _underTest.IsPlayable(card)
-            .Should().BeTrue();
+        _underTest.IsPlayable(card).ShouldBeTrue();
     }
 
     [Fact]
@@ -58,6 +56,6 @@ public class CardSystemTests : GameSystemTestFixture
         
         _underTest.Refresh();
 
-        _underTest.IsPlayable(card).Should().BeFalse();
+        _underTest.IsPlayable(card).ShouldBeFalse();
     }
 }

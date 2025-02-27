@@ -1,9 +1,7 @@
-﻿using FluentAssertions;
-using MedievalConquerors.Engine.Actions;
-using MedievalConquerors.Engine.Core;
-using MedievalConquerors.Engine.Data;
+﻿using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.GameComponents;
-using Xunit.Abstractions;
+using Shouldly;
+
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
@@ -11,7 +9,7 @@ public class TurnSystemTests : GameSystemTestFixture
 {
     private readonly TurnSystem _underTest;
 
-    public TurnSystemTests(ITestOutputHelper output) : base(output)
+    public TurnSystemTests(ITestOutputHelper output, CardLibraryFixture libraryFixture) : base(output, libraryFixture)
     {
         _underTest = Game.GetComponent<TurnSystem>();
     }
@@ -39,8 +37,8 @@ public class TurnSystemTests : GameSystemTestFixture
         Game.Update();
 
         var match = Game.GetComponent<Match>();
-        match.CurrentPlayerId.Should().Be(nextPlayerId);
-        match.CurrentPlayer.Id.Should().Be(nextPlayerId);
+        match.CurrentPlayerId.ShouldBe(nextPlayerId);
+        match.CurrentPlayer.Id.ShouldBe(nextPlayerId);
     }
 
     [Theory]
@@ -54,10 +52,10 @@ public class TurnSystemTests : GameSystemTestFixture
         Game.Update();
         
         var match = Game.GetComponent<Match>();
-        match.CurrentPlayerId.Should().Be(startingPlayerId);
-        match.CurrentPlayer.Id.Should().Be(startingPlayerId);
+        match.CurrentPlayerId.ShouldBe(startingPlayerId);
+        match.CurrentPlayer.Id.ShouldBe(startingPlayerId);
 
-        match.CurrentPlayer.Hand.Should().HaveCount(6); // 5 starting cards, + turn draw.
-        match.OppositePlayer.Hand.Should().HaveCount(5); // 5 starting cards
+        match.CurrentPlayer.Hand.Count.ShouldBe(6); // 5 starting cards, + turn draw.
+        match.OppositePlayer.Hand.Count.ShouldBe(5); // 5 starting cards
     }
 }
