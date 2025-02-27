@@ -1,5 +1,4 @@
 ﻿using System;
-using Godot;
 using MedievalConquerors.Engine.Data.Attributes;
 
 namespace MedievalConquerors.Engine.Data;

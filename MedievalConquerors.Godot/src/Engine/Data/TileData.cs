@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Godot;
+﻿using Godot;
 using MedievalConquerors.Engine.Input;
 
 namespace MedievalConquerors.Engine.Data;

@@ -1,5 +1,4 @@
 ﻿using Godot;
-using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.StateManagement;
 
 namespace MedievalConquerors.Engine.Input.InputStates;

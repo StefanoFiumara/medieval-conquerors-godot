@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 
