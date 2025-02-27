@@ -188,7 +188,6 @@ public static class ActionSystemExtensions
 	public static void Perform(this IGame game, GameAction action)
 	{
 		// TODO: Send root actions to remote players via RPC calls.
-		//       This should be all we need for networking after linking up the Player Resources to the appropriate nodes.
 		var actionSystem = game.GetComponent<ActionSystem>();
 		actionSystem.Perform(action);
 	}
