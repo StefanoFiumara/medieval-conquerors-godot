@@ -11,15 +11,14 @@ public class Player
     
     public TileData TownCenter { get; set; }
     public int InfluenceRange { get; set; }
-    
-    public ResourceBank Resources { get; }
-    
+
     public AgeType Age { get; private set; }
+    public ResourceBank Resources { get; } = new();
     
-    public List<Card> Deck    { get; } = new();
-    public List<Card> Hand    { get; } = new();
-    public List<Card> Discard { get; } = new();
-    public List<Card> Map     { get; } = new();
+    public List<Card> Deck    { get; } = [];
+    public List<Card> Hand    { get; } = [];
+    public List<Card> Discard { get; } = [];
+    public List<Card> Map     { get; } = [];
 
     private readonly Dictionary<Zone, List<Card>> _zoneMap;
 
@@ -35,16 +34,6 @@ public class Player
             { Zone.Hand, Hand },
             { Zone.Discard, Discard },
             { Zone.Map, Map },
-        };
-        
-        // TODO: parameterize starting storage limit via game settings
-        Resources = new ResourceBank(storageLimit: 30)
-        {
-            // TODO: Parameterize Starting Resources via game settings
-            [ResourceType.Food]  = 10,
-            [ResourceType.Wood]  = 10,
-            [ResourceType.Gold]  = 5,
-            [ResourceType.Stone] = 0
         };
     }
     

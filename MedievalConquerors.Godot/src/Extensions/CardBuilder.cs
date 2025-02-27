@@ -59,13 +59,12 @@ public class CardBuilder
         return this;
     }
 
-    public CardBuilder WithResourceCollector(ResourceType resource, float gatherRate, int storageLimitIncrease)
+    public CardBuilder WithResourceCollector(ResourceType resource, float gatherRate)
     {
         _data.Attributes.Add(new ResourceCollectorAttribute
         {
             Resource = resource,
             GatherRate = gatherRate,
-            StorageLimitIncrease = storageLimitIncrease
         });
 
         return this;
@@ -117,7 +116,7 @@ public class CardBuilder
         return this;
     }
 
-    public Card Create() => new Card(_data, _owner);
+    public Card Create() => new(_data, _owner);
 }
 
 public static class DeckBuilder
@@ -170,7 +169,7 @@ public static class DeckBuilder
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
             .WithResourceCost(wood: 2)
-            .WithResourceCollector(ResourceType.Wood, gatherRate: 1f, storageLimitIncrease: 5)
+            .WithResourceCollector(ResourceType.Wood, gatherRate: 1f)
             .WithGarrisonCapacity(capacity: 3)
             .WithSpawnPoint(Tags.TownCenter)
             .Create());
@@ -183,7 +182,7 @@ public static class DeckBuilder
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
             .WithResourceCost(wood: 2)
-            .WithResourceCollector(ResourceType.Mining, gatherRate: 1f, storageLimitIncrease: 5)
+            .WithResourceCollector(ResourceType.Mining, gatherRate: 1f)
             .WithGarrisonCapacity(capacity: 3)
             .WithSpawnPoint(Tags.TownCenter)
             .Create());
@@ -196,7 +195,7 @@ public static class DeckBuilder
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
             .WithResourceCost(wood: 2)
-            .WithResourceCollector(ResourceType.Food, gatherRate: 1f, storageLimitIncrease: 5)
+            .WithResourceCollector(ResourceType.Food, gatherRate: 1f)
             .WithGarrisonCapacity(capacity: 3)
             .WithSpawnPoint(Tags.TownCenter)
             .Create());

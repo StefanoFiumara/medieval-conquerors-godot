@@ -39,7 +39,18 @@ public class PlayerSystem : GameComponent, IAwake
         _map.SetTile(_match.LocalPlayer.TownCenter.Position, TileTerrain.Grass);
         _map.SetTile(_match.EnemyPlayer.TownCenter.Position, TileTerrain.Grass);
         
-        if(!_settings.DebugMode)
+        // Set starting resources
+        _match.LocalPlayer.Resources[ResourceType.Food] = _settings.StartingFoodCount;
+        _match.LocalPlayer.Resources[ResourceType.Wood] = _settings.StartingWoodCount;
+        _match.LocalPlayer.Resources[ResourceType.Gold] = _settings.StartingGoldCount;
+        _match.LocalPlayer.Resources[ResourceType.Stone] = _settings.StartingStoneCount;
+        
+        _match.EnemyPlayer.Resources[ResourceType.Food] = _settings.StartingFoodCount;
+        _match.EnemyPlayer.Resources[ResourceType.Wood] = _settings.StartingWoodCount;
+        _match.EnemyPlayer.Resources[ResourceType.Gold] = _settings.StartingGoldCount;
+        _match.EnemyPlayer.Resources[ResourceType.Stone] = _settings.StartingStoneCount;
+        
+        if(!_settings.DebugMode || _match.LocalPlayer.Deck.Count == 0 || _match.EnemyPlayer.Deck.Count == 0)
         {
             // Load player decks
             var deckInfo = new List<(int id, int amount)>
@@ -51,6 +62,7 @@ public class PlayerSystem : GameComponent, IAwake
                 (10, 1), // Mining Camp
                 (13, 1), // Mill
             };
+            
             var loadedPlayerDeck = _cardDb.LoadDeck(_match.LocalPlayer, deckInfo);
             var loadedEnemyDeck = _cardDb.LoadDeck(_match.EnemyPlayer, deckInfo);
             _match.LocalPlayer.Deck.AddRange(loadedPlayerDeck);

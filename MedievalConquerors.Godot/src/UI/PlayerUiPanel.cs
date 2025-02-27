@@ -26,7 +26,6 @@ public partial class PlayerUiPanel : MarginContainer
 	public override void _Ready()
 	{
 		_endTurnButton = GetNode<Button>("%end_turn_button");
-		_storageLabel = GetNode<Label>("%storage_label");
 		_foodLabel = GetNode<Label>("%food_label");
 		_woodLabel = GetNode<Label>("%wood_label");
 		_goldLabel = GetNode<Label>("%gold_label");
@@ -51,7 +50,6 @@ public partial class PlayerUiPanel : MarginContainer
 
 	public override void _Process(double delta)
 	{
-		_storageLabel.Text = $"{_match.LocalPlayer.Resources.TotalResources}/{_match.LocalPlayer.Resources.StorageLimit}";
 		_foodLabel.Text = _match.LocalPlayer.Resources.Food.ToString();
 		_woodLabel.Text = _match.LocalPlayer.Resources.Wood.ToString();
 		_goldLabel.Text = _match.LocalPlayer.Resources.Gold.ToString();

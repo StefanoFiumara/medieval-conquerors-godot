@@ -11,15 +11,7 @@ public class ResourceBank
     public int Gold { get; private set; }
     public int Stone { get; private set; }
 
-    public int StorageLimit { get; private set; }
-
     public int TotalResources => Food + Wood + Gold + Stone;
-    public int RemainingStorage => StorageLimit - TotalResources;
-
-    public ResourceBank(int storageLimit)
-    {
-        StorageLimit = storageLimit;
-    }
     
     public bool CanAfford(ResourceCostAttribute resourceCost)
     {
@@ -40,29 +32,6 @@ public class ResourceBank
         Stone -= resourceCost.Stone;
     }
 
-    public void IncreaseLimit(int amount)
-    {
-        StorageLimit += amount;
-    }
-
-    public void DecreaseLimit(int amount)
-    {
-        if (TotalResources != 0)
-        {
-            // TODO: double check this logic when testing storage limits
-            int resourcesToRemove = TotalResources - StorageLimit + amount;
-            float ratio = resourcesToRemove / (float)TotalResources;
-        
-            // TODO: should this floor instead of ceil? 
-            Food -= Mathf.CeilToInt(Food * ratio);
-            Wood -= Mathf.CeilToInt(Wood * ratio);
-            Gold -= Mathf.CeilToInt(Gold * ratio);
-            Stone -= Mathf.CeilToInt(Stone * ratio);
-        }
-        
-        StorageLimit -= amount;
-    }
-
     public int this[ResourceType resourceType]
     {
         get
@@ -78,22 +47,19 @@ public class ResourceBank
         }
         set
         {
-            int availableSpace = StorageLimit - (TotalResources - this[resourceType]);
-            int newAmount = (value > availableSpace) ? availableSpace : value;
-
             switch (resourceType)
             {
                 case ResourceType.Food:
-                    Food = newAmount;
+                    Food = value;
                     break;
                 case ResourceType.Wood:
-                    Wood = newAmount;
+                    Wood = value;
                     break;
                 case ResourceType.Gold:
-                    Gold = newAmount;
+                    Gold = value;
                     break;
                 case ResourceType.Stone:
-                    Stone = newAmount;
+                    Stone = value;
                     break;
                 default:
                     throw new ArgumentException("Invalid resource type");

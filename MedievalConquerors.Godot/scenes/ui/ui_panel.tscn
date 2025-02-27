@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://dpol2wnv6wd"]
+[gd_scene load_steps=7 format=3 uid="uid://dpol2wnv6wd"]
 
 [ext_resource type="Script" path="res://src/UI/PlayerUiPanel.cs" id="1_miglb"]
-[ext_resource type="Texture2D" uid="uid://bc7laqr6ic6cr" path="res://assets/user_interface/icons/storage.png" id="2_bjdf6"]
 [ext_resource type="Texture2D" uid="uid://d1q4nyma6hauw" path="res://assets/user_interface/icons/food.png" id="2_qh2x1"]
 [ext_resource type="Texture2D" uid="uid://tnov0cxrwas5" path="res://assets/user_interface/icons/wood.png" id="3_p4hc3"]
 [ext_resource type="Texture2D" uid="uid://b3m6uu5s21qyg" path="res://assets/user_interface/icons/gold.png" id="4_28c5y"]
@@ -27,37 +26,6 @@ size_flags_vertical = 0
 
 [node name="vbox_container" type="VBoxContainer" parent="resources_container"]
 layout_mode = 2
-
-[node name="storage_panel" type="PanelContainer" parent="resources_container/vbox_container"]
-layout_mode = 2
-
-[node name="margin" type="MarginContainer" parent="resources_container/vbox_container/storage_panel"]
-layout_mode = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
-
-[node name="storage_grid" type="GridContainer" parent="resources_container/vbox_container/storage_panel/margin"]
-layout_mode = 2
-theme_override_constants/h_separation = 15
-theme_override_constants/v_separation = 5
-columns = 2
-
-[node name="storage_icon" type="TextureRect" parent="resources_container/vbox_container/storage_panel/margin/storage_grid"]
-layout_mode = 2
-texture = ExtResource("2_bjdf6")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="storage_label" type="Label" parent="resources_container/vbox_container/storage_panel/margin/storage_grid"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 25
-text = "15/40"
-horizontal_alignment = 2
 
 [node name="resource_panel" type="PanelContainer" parent="resources_container/vbox_container"]
 layout_mode = 2

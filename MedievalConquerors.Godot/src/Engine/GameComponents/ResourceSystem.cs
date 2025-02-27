@@ -75,9 +75,5 @@ public class ResourceSystem : GameComponent, IAwake
         var resourceCost = action.CardToPlay.GetAttribute<ResourceCostAttribute>();
         if (resourceCost != null)
             action.SourcePlayer.Resources.Subtract(resourceCost);
-
-        var resourceCollector = action.CardToPlay.GetAttribute<ResourceCollectorAttribute>();
-        if (resourceCollector != null) 
-            action.SourcePlayer.Resources.IncreaseLimit(resourceCollector.StorageLimitIncrease);
     }
 }

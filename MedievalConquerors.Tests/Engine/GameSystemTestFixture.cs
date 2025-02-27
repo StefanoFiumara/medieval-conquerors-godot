@@ -31,6 +31,11 @@ public abstract class GameSystemTestFixture
         Settings.StartingHandCount.Returns(5);
         Settings.DebugMode.Returns(true);
         
+        Settings.StartingFoodCount.Returns(5);
+        Settings.StartingWoodCount.Returns(5);
+        Settings.StartingGoldCount.Returns(2);
+        Settings.StartingStoneCount.Returns(0);
+        
         Game = GameFactory.Create(logger, Map, Settings, libraryFixture.Library);
         Events = Game.GetComponent<EventAggregator>();
         
