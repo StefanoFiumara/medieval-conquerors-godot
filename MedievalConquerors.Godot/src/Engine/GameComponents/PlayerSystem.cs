@@ -14,6 +14,7 @@ public class PlayerSystem : GameComponent, IAwake
     private Match _match;
     private HexMap _map;
     private CardLibrary _cardDb;
+    private IGameSettings _settings;
 
     public void Awake()
     {
@@ -21,6 +22,7 @@ public class PlayerSystem : GameComponent, IAwake
         _match = Game.GetComponent<Match>();
         _map = Game.GetComponent<HexMap>();
         _cardDb = Game.GetComponent<CardLibrary>();
+        _settings = Game.GetComponent<IGameSettings>();
         
         _events.Subscribe<BeginGameAction>(GameEvent.Prepare<BeginGameAction>(), OnPrepareBeginGame);
         _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
@@ -37,20 +39,23 @@ public class PlayerSystem : GameComponent, IAwake
         _map.SetTile(_match.LocalPlayer.TownCenter.Position, TileTerrain.Grass);
         _map.SetTile(_match.EnemyPlayer.TownCenter.Position, TileTerrain.Grass);
         
-        // TODO: Load preset decks when debug mode is enabled, so that unit tests can use custom test decks for the player
-        // TEMP: mocked deck info data using IDs from our DB, to test deck loading from disk
-        var deckInfo = new List<(int id, int amount)>
+        if(!_settings.DebugMode)
         {
-            (11, 2), // 2 Villagers
-            (2, 2), // 2 Knights
-            (6, 1), // Lumber Camp
-            (10, 1), // Mining Camp
-            (13, 1), // Mill
-        };
-        var loadedPlayerDeck = _cardDb.LoadDeck(_match.LocalPlayer, deckInfo);
-        var loadedEnemyDeck = _cardDb.LoadDeck(_match.EnemyPlayer, deckInfo);
-        _match.LocalPlayer.Deck.AddRange(loadedPlayerDeck);
-        _match.EnemyPlayer.Deck.AddRange(loadedEnemyDeck);
+            // Load player decks
+            var deckInfo = new List<(int id, int amount)>
+            {
+                // TEMP: mocked deck info data using IDs from our DB, to test deck loading from disk
+                (11, 2), // 2 Villagers
+                (2, 2), // 2 Knights
+                (6, 1), // Lumber Camp
+                (10, 1), // Mining Camp
+                (13, 1), // Mill
+            };
+            var loadedPlayerDeck = _cardDb.LoadDeck(_match.LocalPlayer, deckInfo);
+            var loadedEnemyDeck = _cardDb.LoadDeck(_match.EnemyPlayer, deckInfo);
+            _match.LocalPlayer.Deck.AddRange(loadedPlayerDeck);
+            _match.EnemyPlayer.Deck.AddRange(loadedEnemyDeck);
+        }
     }
 
     private void OnPerformDiscardCards(DiscardCardsAction action)
@@ -65,7 +70,11 @@ public class PlayerSystem : GameComponent, IAwake
 
     private void OnPerformShuffleDeck(ShuffleDeckAction action)
     {
-        var player = _match.Players[action.TargetPlayerId];
-        player.Deck.Shuffle();
+        // NOTE: Do not shuffle decks in debug mode, so that we can guarantee card order during testing.
+        if (!_settings.DebugMode)
+        {
+            var player = _match.Players[action.TargetPlayerId];
+            player.Deck.Shuffle();           
+        }
     }
 }
