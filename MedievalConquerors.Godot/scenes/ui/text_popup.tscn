@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://clw487na7ypbg"]
 
-[ext_resource type="Script" path="res://src/UI/PopupLabel.cs" id="1_o0r17"]
+[ext_resource type="Script" uid="uid://cl0f6a58i2qn5" path="res://src/UI/PopupLabel.cs" id="1_o0r17"]
 
 [node name="text_popup" type="CenterContainer" node_paths=PackedStringArray("Label")]
 use_top_left = true

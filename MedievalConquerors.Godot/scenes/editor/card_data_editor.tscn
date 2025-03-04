@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://b7rdfip0s4fyf"]
 
-[ext_resource type="Script" path="res://src/Editor/CardDataEditor.cs" id="1_sh3r2"]
-[ext_resource type="Script" path="res://src/Editor/Controls/CardTypeOptions.cs" id="2_87lta"]
+[ext_resource type="Script" uid="uid://vj4kp50aw2ya" path="res://src/Editor/CardDataEditor.cs" id="1_sh3r2"]
+[ext_resource type="Script" uid="uid://0xeajluhirkr" path="res://src/Editor/Controls/CardTypeOptions.cs" id="2_87lta"]
 [ext_resource type="PackedScene" uid="uid://bh6f2471u0ypf" path="res://scenes/editor/image_selector.tscn" id="2_ildny"]
-[ext_resource type="Script" path="res://src/Editor/Controls/TagOptions.cs" id="3_yh4g2"]
-[ext_resource type="Script" path="res://src/Editor/Controls/AttributeOptions.cs" id="4_pbjlj"]
+[ext_resource type="Script" uid="uid://dbl7fs61kt85q" path="res://src/Editor/Controls/TagOptions.cs" id="3_yh4g2"]
+[ext_resource type="Script" uid="uid://bma7j88rjty3d" path="res://src/Editor/Controls/AttributeOptions.cs" id="4_pbjlj"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2uco"]
 
@@ -150,6 +150,7 @@ disabled = true
 selected = 0
 item_count = 4
 popup/item_0/text = "None"
+popup/item_0/id = 0
 popup/item_1/text = "Building"
 popup/item_1/id = 1
 popup/item_2/text = "Unit"
@@ -189,6 +190,7 @@ disabled = true
 selected = 0
 item_count = 7
 popup/item_0/text = "None"
+popup/item_0/id = 0
 popup/item_1/text = "GarrisonCapacityAttribute"
 popup/item_1/id = 1
 popup/item_2/text = "HitPointsAttribute"

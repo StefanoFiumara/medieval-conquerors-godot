@@ -12,13 +12,13 @@ config_version=5
 
 config/name="medieval-conquerors"
 run/main_scene="res://scenes/Game.tscn"
-config/features=PackedStringArray("4.3", "C#", "Forward Plus")
+config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/stretch/aspect="expand"
+window/size/resizable=false
 window/vsync/vsync_mode=0
 
 [dotnet]

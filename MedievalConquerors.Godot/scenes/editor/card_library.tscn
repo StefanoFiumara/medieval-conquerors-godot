@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://r8nd3ueedopk"]
 
-[ext_resource type="Script" path="res://src/Editor/CardDatabaseView.cs" id="1_fkgwc"]
-[ext_resource type="Script" path="res://src/Editor/Controls/TagOptions.cs" id="1_kstia"]
-[ext_resource type="Script" path="res://src/Editor/Controls/CardTypeOptions.cs" id="2_wwgh3"]
+[ext_resource type="Script" uid="uid://cvjouoabxxh10" path="res://src/Editor/CardDatabaseView.cs" id="1_fkgwc"]
+[ext_resource type="Script" uid="uid://dbl7fs61kt85q" path="res://src/Editor/Controls/TagOptions.cs" id="1_kstia"]
+[ext_resource type="Script" uid="uid://0xeajluhirkr" path="res://src/Editor/Controls/CardTypeOptions.cs" id="2_wwgh3"]
 
 [node name="card_library" type="ScrollContainer" node_paths=PackedStringArray("_clearButton", "_searchInput", "_tagFilter", "_typeFilter", "_resultsContainer")]
 custom_minimum_size = Vector2(300, 0)
@@ -93,6 +93,7 @@ layout_mode = 2
 selected = 0
 item_count = 4
 popup/item_0/text = "None"
+popup/item_0/id = 0
 popup/item_1/text = "Building"
 popup/item_1/id = 1
 popup/item_2/text = "Unit"

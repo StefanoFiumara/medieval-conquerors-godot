@@ -20,7 +20,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ne3wb"]
 _data = {
-"glow": SubResource("Animation_iilee")
+&"glow": SubResource("Animation_iilee")
 }
 
 [node name="tile_glow" type="Sprite2D"]

@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bti603u6u2oh"]
 
-[ext_resource type="Script" path="res://src/Editor/Attributes/AttributePropertyEditor.cs" id="1_fant5"]
-[ext_resource type="Script" path="res://src/Editor/Controls/TagOptions.cs" id="2_4r3qp"]
-[ext_resource type="Script" path="res://src/Editor/Controls/ResourceOptions.cs" id="3_xvb18"]
+[ext_resource type="Script" uid="uid://d1fqgw5g2qjpw" path="res://src/Editor/Attributes/AttributePropertyEditor.cs" id="1_fant5"]
+[ext_resource type="Script" uid="uid://dbl7fs61kt85q" path="res://src/Editor/Controls/TagOptions.cs" id="2_4r3qp"]
+[ext_resource type="Script" uid="uid://jcshs4t7y5lp" path="res://src/Editor/Controls/ResourceOptions.cs" id="3_xvb18"]
 
 [node name="attribute_property_editor" type="HBoxContainer" node_paths=PackedStringArray("_titleLabel", "_intEditor", "_strEditor", "_tagsEditor", "_resourceEditor")]
 theme_override_constants/separation = 15
