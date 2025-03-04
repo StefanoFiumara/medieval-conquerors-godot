@@ -9,7 +9,7 @@ namespace MedievalConquerors.Engine.GameComponents;
 // TODO: Unit tests for this system
 public class GarrisonSystem : GameComponent, IAwake
 {
-    private IEventAggregator _events;
+    private EventAggregator _events;
 
     public void Awake()
     {

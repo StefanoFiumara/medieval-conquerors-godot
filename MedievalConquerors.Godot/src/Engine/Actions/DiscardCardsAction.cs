@@ -3,14 +3,8 @@ using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Engine.Actions;
 
-public class DiscardCardsAction : GameAction
+public class DiscardCardsAction(List<Card> toDiscard, Player target) : GameAction
 {
-    public Player Target { get; }
-    public List<Card> CardsToDiscard { get; set; }
-
-    public DiscardCardsAction(List<Card> toDiscard, Player target)
-    {
-        CardsToDiscard = toDiscard;
-        Target = target;
-    }
+    public Player Target { get; } = target;
+    public List<Card> CardsToDiscard { get; set; } = toDiscard;
 }

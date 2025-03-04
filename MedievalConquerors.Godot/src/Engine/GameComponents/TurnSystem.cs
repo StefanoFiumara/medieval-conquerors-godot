@@ -8,7 +8,7 @@ namespace MedievalConquerors.Engine.GameComponents;
 public class TurnSystem : GameComponent, IAwake
 {
     private Match _match;
-    private IEventAggregator _events;
+    private EventAggregator _events;
     private IGameSettings _settings;
     private CardLibrary _library;
 

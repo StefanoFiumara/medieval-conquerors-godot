@@ -4,14 +4,9 @@ using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Engine.Actions;
 
-public class CollectResourcesAction : GameAction
+public class CollectResourcesAction(int targetPlayerId) : GameAction
 {
-    public int TargetPlayerId { get; }
+    public int TargetPlayerId { get; } = targetPlayerId;
 
     public Dictionary<Vector2I, (ResourceType resource, int amount)> ResourcesCollected { get; } = new();
-
-    public CollectResourcesAction(int targetPlayerId)
-    {
-        TargetPlayerId = targetPlayerId;
-    }
 }

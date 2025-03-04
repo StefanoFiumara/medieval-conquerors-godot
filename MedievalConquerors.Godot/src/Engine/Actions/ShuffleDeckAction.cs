@@ -1,13 +1,8 @@
 ﻿namespace MedievalConquerors.Engine.Actions;
 
-public class ShuffleDeckAction : GameAction
+public class ShuffleDeckAction(int targetPlayerId) : GameAction
 {
-    public int TargetPlayerId { get; }
-
-    public ShuffleDeckAction(int targetPlayerId)
-    {
-        TargetPlayerId = targetPlayerId;
-    }
+    public int TargetPlayerId { get; } = targetPlayerId;
 
     public override string ToString()
     {

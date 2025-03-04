@@ -4,19 +4,12 @@ using MedievalConquerors.Engine.StateManagement;
 
 namespace MedievalConquerors.Engine.Data.GameStates;
 
-public class IdleState : IState
+public class IdleState(IGame game) : IState
 {
-    private readonly Match _match;
-    private readonly CardSystem _cardSystem;
-    private readonly AISystem _aiSystem;
+    private readonly Match _match = game.GetComponent<Match>();
+    private readonly CardSystem _cardSystem = game.GetComponent<CardSystem>();
+    private readonly AISystem _aiSystem = game.GetComponent<AISystem>();
 
-    public IdleState(IGame game)
-    {
-        _match = game.GetComponent<Match>();
-        _cardSystem = game.GetComponent<CardSystem>();
-        _aiSystem = game.GetComponent<AISystem>();
-    }
-    
     public void Enter()
     {
         _cardSystem.Refresh();
@@ -24,7 +17,6 @@ public class IdleState : IState
         {
             _aiSystem.UseAction();
         }
-        
     }
     public void Exit() { }
 }

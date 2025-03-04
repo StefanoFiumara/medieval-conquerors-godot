@@ -5,13 +5,13 @@ namespace MedievalConquerors.Engine.Data;
 public class Player
 {
     public int Id { get; }
-    
+
     public TileData TownCenter { get; set; }
     public int InfluenceRange { get; set; }
 
     public AgeType Age { get; private set; }
     public ResourceBank Resources { get; } = new();
-    
+
     public List<Card> Deck    { get; } = [];
     public List<Card> Hand    { get; } = [];
     public List<Card> Discard { get; } = [];
@@ -24,7 +24,7 @@ public class Player
         Id = id;
         Age = AgeType.DarkAge;
         InfluenceRange = 3;
-        
+
         _zoneMap = new Dictionary<Zone, List<Card>>
         {
             { Zone.Deck, Deck },
@@ -33,14 +33,14 @@ public class Player
             { Zone.Map, Map },
         };
     }
-    
-    public List<Card> this[Zone z] => _zoneMap.ContainsKey(z) ? _zoneMap[z] : null;
+
+    public List<Card> this[Zone z] => _zoneMap.GetValueOrDefault(z);
 
     public void MoveCard(Card target, Zone toZone)
     {
         var fromZone = this[target.Zone];
         var targetZone = this[toZone];
-        
+
         fromZone?.Remove(target);
         targetZone?.Add(target);
 
@@ -50,8 +50,6 @@ public class Player
     public void MoveCards(List<Card> targets, Zone toZone)
     {
         foreach (var card in targets)
-        {
             MoveCard(card, toZone);
-        }
     }
 }

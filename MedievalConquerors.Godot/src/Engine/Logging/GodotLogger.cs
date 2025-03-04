@@ -6,28 +6,22 @@ using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Engine.Logging;
 
-public class GodotLogger : GameComponent, ILogger
+public class GodotLogger(LogLevel minimumLogLevel) : GameComponent, ILogger
 {
-    public LogLevel MinimumLogLevel { get; }
+    public LogLevel MinimumLogLevel { get; } = minimumLogLevel;
 
-    public GodotLogger(LogLevel minimumLogLevel)
-    {
-        MinimumLogLevel = minimumLogLevel;
-    }
-	
     private void Log(LogLevel logLevel, string message, string callerFilePath)
     {
         if (!logLevel.IsAbove(MinimumLogLevel)) return;
 
-        var prefix = "";
+        var prefix = $"{logLevel.ToString().ToUpper()}: ";
 
         if (!string.IsNullOrEmpty(callerFilePath))
         {
             var callerName = Path.GetFileNameWithoutExtension(callerFilePath);
-            prefix = $"{callerName}\t======>   ";
+            prefix += $"{callerName}\t --> ";
         }
-        
-        
+
         switch (logLevel)
         {
             case LogLevel.Debug:

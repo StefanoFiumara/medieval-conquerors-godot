@@ -17,7 +17,7 @@ public class GameAction
     public int Priority { get; set; }
     public int OrderOfPlay { get; set; }
 
-    
+
     // TODO: Possible to set SourcePlayer from ctor? What about when using IAbilityLoader?
     // TODO: Should we just store the source player ID so it can be grabbed from the match instead?
     //       This may be useful for networking later.
@@ -33,7 +33,7 @@ public class GameAction
 
     public GameAction()
     {
-        Id = Guid.NewGuid(); // Global.GenerateId(GetType());
+        Id = Guid.NewGuid();
         PreparePhase = new ActionPhase(this, OnPrepare);
         PerformPhase = new ActionPhase(this, OnPerform);
         CancelPhase = new ActionPhase(this, OnCancel);
@@ -55,7 +55,7 @@ public class GameAction
 
         return validator;
     }
-    
+
     private void OnPrepare(IGame gameState)
     {
         var events = gameState.GetComponent<EventAggregator>();
@@ -76,6 +76,6 @@ public class GameAction
         var eventName = GameEvent.Cancel(GetType());
         events.Publish(eventName, this);
     }
-    
+
     public override string ToString() => GetType().Name;
 }

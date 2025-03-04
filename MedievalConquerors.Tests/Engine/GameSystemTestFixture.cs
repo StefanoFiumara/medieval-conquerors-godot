@@ -16,33 +16,28 @@ namespace MedievalConquerors.Tests.Engine;
 public abstract class GameSystemTestFixture
 {
     protected readonly Fixture Fixture;
-    protected readonly IGameSettings Settings = Substitute.For<IGameSettings>();
+    private readonly IGameSettings _settings = Substitute.For<IGameSettings>();
     protected readonly HexMap Map = CreateMockGameMap();
 
     protected readonly IGame Game;
-    protected readonly IEventAggregator Events;
-    protected readonly Match Match;
+    protected readonly EventAggregator Events;
 
     protected GameSystemTestFixture(ITestOutputHelper output, CardLibraryFixture libraryFixture)
     {
         var logger = new TestLogger(output, LogLevel.Info);
         Fixture = new Fixture();
 
-        Settings.StartingHandCount.Returns(5);
-        Settings.DebugMode.Returns(true);
-        
-        Settings.StartingFoodCount.Returns(5);
-        Settings.StartingWoodCount.Returns(5);
-        Settings.StartingGoldCount.Returns(2);
-        Settings.StartingStoneCount.Returns(0);
-        
-        Game = GameFactory.Create(logger, Map, Settings, libraryFixture.Library);
+        _settings.StartingHandCount.Returns(5);
+        _settings.DebugMode.Returns(true);
+
+        _settings.StartingFoodCount.Returns(5);
+        _settings.StartingWoodCount.Returns(5);
+        _settings.StartingGoldCount.Returns(2);
+        _settings.StartingStoneCount.Returns(0);
+
+        Game = GameFactory.Create(logger, Map, _settings, libraryFixture.Library);
         Events = Game.GetComponent<EventAggregator>();
-        
-        Match = Game.GetComponent<Match>();
-        Match.LocalPlayer.Resources[ResourceType.Food] = 4;
-        Match.LocalPlayer.Resources[ResourceType.Gold] = 2;
-        
+
         // TODO: Since debug mode is enabled, we need to populate the player decks manually for each unit test
         // Should we do that in each system test separately, before calling awake?
         // This way each system can test a very specific set of cards.
@@ -59,7 +54,7 @@ public abstract class GameSystemTestFixture
     private static HexMap CreateMockGameMap()
     {
         var tileData = new Dictionary<Vector2I, TileData>();
-        
+
         for (int y = 0; y < 10; y++)
         {
             for (int x = 0; x < 10; x++)
@@ -73,7 +68,7 @@ public abstract class GameSystemTestFixture
         var townCenter2Pos = new Vector2I(6, 6);
         tileData[townCenter1Pos] = new TileData(townCenter1Pos, TileTerrain.StartingTownCenterBlue, ResourceType.None, 0);
         tileData[townCenter2Pos] = new TileData(townCenter2Pos, TileTerrain.StartingTownCenterRed, ResourceType.None, 0);
-        
+
         return new HexMap(tileData, new());
     }
 }

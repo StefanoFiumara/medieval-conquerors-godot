@@ -69,12 +69,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "card-designs/economic-cards.md",
+                "file": "game-design-doc.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "economic-cards"
+              "title": "game-design-doc"
             }
           }
         ],
@@ -97,7 +97,8 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
+                "sortOrder": "alphabetical",
+                "autoReveal": false
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -134,7 +135,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 231.50328826904297
   },
   "right": {
     "id": "5593f95e015f2aae",
@@ -221,11 +222,11 @@
   },
   "active": "52f29cbe22a24cb6",
   "lastOpenFiles": [
+    "card-designs/economic-cards.md",
     "game-design-doc.md",
     "mechanics-ideas.md",
     "planned-cards-list.md",
     "to-do.md",
-    "card-designs/economic-cards.md",
     "card-designs",
     "Welcome.md"
   ]

@@ -8,14 +8,14 @@ namespace MedievalConquerors.Engine.GameComponents;
 
 public class HandSystem : GameComponent, IAwake
 {
-	private IEventAggregator _events;
+	private EventAggregator _events;
 	private Match _match;
 
 	public void Awake()
     {
 	    _events = Game.GetComponent<EventAggregator>();
 	    _match = Game.GetComponent<Match>();
-	    
+
 	    _events.Subscribe<DrawCardsAction>(GameEvent.Perform<DrawCardsAction>(), OnPerformDrawCards);
     }
 
@@ -28,7 +28,6 @@ public class HandSystem : GameComponent, IAwake
 		{
 			player.MoveCard(card, Zone.Hand);
 			action.DrawnCards.Add(card);
-			card.Zone = Zone.Hand;
 		}
 	}
 }

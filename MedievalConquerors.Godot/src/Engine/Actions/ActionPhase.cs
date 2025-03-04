@@ -4,18 +4,12 @@ using MedievalConquerors.Engine.Core;
 
 namespace MedievalConquerors.Engine.Actions
 {
-    public class ActionPhase
+    public class ActionPhase(GameAction owner, Action<IGame> handler)
     {
-        public GameAction Owner { get; }
-        public Action<IGame> Handler { get; }
+        public GameAction Owner { get; } = owner;
+        public Action<IGame> Handler { get; } = handler;
 
         public Func<IGame, GameAction, IEnumerator> Viewer { get; set; }
-
-        public ActionPhase(GameAction owner, Action<IGame> handler)
-        {
-            Owner = owner;
-            Handler = handler;
-        }
 
         public IEnumerator Flow(IGame gameState)
         {

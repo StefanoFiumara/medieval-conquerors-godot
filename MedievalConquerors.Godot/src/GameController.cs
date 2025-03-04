@@ -13,7 +13,7 @@ public partial class GameController : Node
 {
 	[Export] private LogLevel _logLevel;
 	[Export] private GameSettings _settings;
-	
+
 	// IDEA: We can load different maps through this resource
 	[Export] private MapView _mapView;
 
@@ -23,7 +23,7 @@ public partial class GameController : Node
 	public Game Game { get; private set; }
 
 	public override void _EnterTree()
-	{ 
+	{
 		_log = new GodotLogger(_logLevel);
 		_map = GameMapFactory.CreateHexMap(_mapView[MapLayerType.Terrain]);
 		Game = GameFactory.Create(_log, _map, _settings);
@@ -35,13 +35,6 @@ public partial class GameController : Node
 		Game.Perform(new BeginGameAction(Match.LocalPlayerId));
 	}
 
-	public override void _Process(double elapsed)
-	{
-		Game.Update();
-	}
-
-	public override void _ExitTree()
-	{
-		Game.Destroy();
-	}
+	public override void _Process(double elapsed) => Game.Update();
+	public override void _ExitTree() => Game.Destroy();
 }

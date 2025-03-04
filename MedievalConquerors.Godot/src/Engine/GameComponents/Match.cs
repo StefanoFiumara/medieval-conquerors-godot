@@ -22,7 +22,7 @@ public class Match : GameComponent
 
     public Match()
     {
-        Players = new ReadOnlyCollection<Player>(new[] { LocalPlayer, EnemyPlayer });
+        Players = new ReadOnlyCollection<Player>([LocalPlayer, EnemyPlayer]);
     }
 }
 

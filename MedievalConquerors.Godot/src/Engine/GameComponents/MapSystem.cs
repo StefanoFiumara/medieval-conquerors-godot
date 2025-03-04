@@ -9,7 +9,7 @@ namespace MedievalConquerors.Engine.GameComponents;
 
 public class MapSystem : GameComponent, IAwake
 {
-    private IEventAggregator _events;
+    private EventAggregator _events;
     private HexMap _map;
     private Match _match;
 

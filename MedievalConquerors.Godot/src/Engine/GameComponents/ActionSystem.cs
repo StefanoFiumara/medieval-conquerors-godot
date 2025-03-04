@@ -9,25 +9,23 @@ namespace MedievalConquerors.Engine.GameComponents;
 
 public class ActionSystem : GameComponent, IAwake, IUpdate
 {
-	public const string BeginSequenceEvent = "ActionSystem.beginSequenceNotification";
-	public const string EndSequenceEvent = "ActionSystem.endSequenceNotification";
-	public const string DeathReaperEvent = "ActionSystem.deathReaperNotification";
-	public const string CompleteEvent = "ActionSystem.completeNotification";
+	public const string BeginActionEvent = "ActionSystem.beginActionEvent";
+	public const string EndActionEvent = "ActionSystem.endActionEvent";
+	public const string CompleteActionEvent = "ActionSystem.completeActionEvent";
 
 	public bool IsActive => _rootSequence != null;
-		
+
 	private GameAction _rootAction;
 	private IEnumerator _rootSequence;
 	private List<GameAction> _openReactions;
 	// private VictorySystem _victorySystem;
-	private IEventAggregator _events;
+	private EventAggregator _events;
 	private ILogger _logger;
 
 	public void Awake()
 	{
 		_events = Game.GetComponent<EventAggregator>();
 		_logger = Game.GetComponent<ILogger>();
-
 		// _victorySystem = Game.GetComponent<VictorySystem>();
 	}
 
@@ -53,7 +51,7 @@ public class ActionSystem : GameComponent, IAwake, IUpdate
 			_rootAction = null;
 			_rootSequence = null;
 			_openReactions = null;
-			_events.Publish(CompleteEvent);
+			_events.Publish(CompleteActionEvent);
 		}
 	}
 
@@ -70,7 +68,7 @@ public class ActionSystem : GameComponent, IAwake, IUpdate
 
 	private IEnumerator Sequence(GameAction action)
 	{
-		_events.Publish(BeginSequenceEvent, action);
+		_events.Publish(BeginActionEvent, action);
 
 		var validationResult = action.Validate(Game);
 		if (validationResult.IsValid == false)
@@ -91,55 +89,33 @@ public class ActionSystem : GameComponent, IAwake, IUpdate
 
 		var phase = MainPhase(action.PreparePhase);
 		while (phase.MoveNext())
-		{
 			yield return null;
-		}
 
 		phase = MainPhase(action.PerformPhase);
 		while (phase.MoveNext())
-		{
 			yield return null;
-		}
 
 		phase = MainPhase(action.CancelPhase);
 		while (phase.MoveNext())
-		{
 			yield return null;
-		}
 
-		if (_rootAction == action)
-		{
-			// TODO: Is this needed?
-			phase = EventPhase(DeathReaperEvent, action, true);
-			while (phase.MoveNext())
-			{
-				yield return null;
-			}
-		}
-
-		_events.Publish(EndSequenceEvent, action);
+		_events.Publish(EndActionEvent, action);
 	}
 
 	private IEnumerator MainPhase (ActionPhase phase)
 	{
 		if (phase.Owner.IsCanceled ^ phase == phase.Owner.CancelPhase)
-		{
 			yield break;
-		}
 
-		var reactions = _openReactions = new List<GameAction>();
+		_openReactions = [];
 
 		var flow = phase.Flow (Game);
 		while (flow.MoveNext())
-		{
 			yield return null;
-		}
 
-		flow = ReactPhase (reactions);
+		flow = ReactPhase (_openReactions);
 		while (flow.MoveNext())
-		{
 			yield return null;
-		}
 	}
 
 	private IEnumerator ReactPhase(List<GameAction> reactions)
@@ -151,43 +127,20 @@ public class ActionSystem : GameComponent, IAwake, IUpdate
 
 			var subFlow = Sequence(reaction);
 			while (subFlow.MoveNext())
-			{
 				yield return null;
-			}
 		}
 	}
 
-	private IEnumerator EventPhase(string notification, GameAction action, bool repeats = false)
-	{
-		List<GameAction> reactions;
-		do
-		{
-			reactions = _openReactions = new List<GameAction>();
-			_events.Publish(notification, action);
-			var phase = ReactPhase(reactions);
-			while (phase.MoveNext())
-			{
-				yield return null;
-			}
-		} while (repeats && reactions.Count > 0);
-	}
-
-	private int SortActions(GameAction x, GameAction y)
-	{
-		if (x.Priority != y.Priority)
-		{
-			return y.Priority.CompareTo(x.Priority);
-		}
-
-		return x.OrderOfPlay.CompareTo(y.OrderOfPlay);
-	}
+	private static int SortActions(GameAction x, GameAction y) =>
+		x.Priority != y.Priority
+			? y.Priority.CompareTo(x.Priority)
+			: x.OrderOfPlay.CompareTo(y.OrderOfPlay);
 }
 
 public static class ActionSystemExtensions
 {
 	public static void Perform(this IGame game, GameAction action)
 	{
-		// TODO: Send root actions to remote players via RPC calls.
 		var actionSystem = game.GetComponent<ActionSystem>();
 		actionSystem.Perform(action);
 	}

@@ -1,11 +1,6 @@
 ﻿namespace MedievalConquerors.Engine.Actions;
 
-public class BeginGameAction : GameAction
+public class BeginGameAction(int startingPlayerId) : GameAction
 {
-    public int StartingPlayerId { get; }
-    
-    public BeginGameAction(int startingPlayerId)
-    {
-        StartingPlayerId = startingPlayerId;
-    }
+    public int StartingPlayerId { get; } = startingPlayerId;
 }

@@ -43,10 +43,10 @@ public enum Tags
 public enum ResourceType
 {
     None = 0,
-    Food = 1 << 0,  // 1
-    Wood = 1 << 1,  // 2
-    Gold = 1 << 2,  // 4
-    Stone = 1 << 3, // 8
+    Food = 1 << 0,
+    Wood = 1 << 1,
+    Gold = 1 << 2,
+    Stone = 1 << 3,
     Mining = Gold | Stone
 }
 

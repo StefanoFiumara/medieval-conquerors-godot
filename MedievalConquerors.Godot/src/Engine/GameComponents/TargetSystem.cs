@@ -30,19 +30,19 @@ public class TargetSystem : GameComponent, IAwake
         if (!validTiles.Contains(tile.Position))
             validator.Invalidate("Invalid target tile for card.");
     }
-    
+
     public List<Vector2I> GetTargetCandidates(Card card)
     {
         var player = card.Owner;
         var spawnPointAttribute = card.GetAttribute<SpawnPointAttribute>();
         var buildings = player.Map.Where(c => c.CardData.CardType == CardType.Building);
-        
+
         if(spawnPointAttribute == null)
-            return new List<Vector2I>();
+            return [];
 
         if (spawnPointAttribute.SpawnTags == Tags.TownCenter)
             return _map.GetReachable(player.TownCenter.Position, player.InfluenceRange).ToList();
-  
+
         var targetCandidates = new List<Vector2I>();
         foreach (var building in buildings)
         {

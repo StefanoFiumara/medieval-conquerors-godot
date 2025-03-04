@@ -14,4 +14,9 @@ public class PlayCardAction : GameAction
         CardToPlay = cardToPlay;
         TargetTile = targetTile;
     }
+
+    public override string ToString()
+    {
+        return $"PlayCardAction: Player {SourcePlayer.Id} plays {CardToPlay.CardData.Title} at {TargetTile}";
+    }
 }

@@ -37,8 +37,8 @@ public partial class PlayerUiPanel : MarginContainer
 		_match = _gameController.Game.GetComponent<Match>();
 		
 		_endTurnButton.ButtonUp += () => _events.Publish(NextTurnClicked);
-		_events.Subscribe(ActionSystem.BeginSequenceEvent, OnBeginSequence);
-		_events.Subscribe(ActionSystem.CompleteEvent, OnActionsComplete);
+		_events.Subscribe(ActionSystem.BeginActionEvent, OnBeginSequence);
+		_events.Subscribe(ActionSystem.CompleteActionEvent, OnActionsComplete);
 	}
 	private void OnBeginSequence() => _endTurnButton.Disabled = true;
 	
@@ -60,7 +60,7 @@ public partial class PlayerUiPanel : MarginContainer
 
 	public override void _ExitTree()
 	{
-		_events.Unsubscribe(ActionSystem.BeginSequenceEvent, OnBeginSequence);
-		_events.Unsubscribe(ActionSystem.CompleteEvent, OnActionsComplete);
+		_events.Unsubscribe(ActionSystem.BeginActionEvent, OnBeginSequence);
+		_events.Unsubscribe(ActionSystem.CompleteActionEvent, OnActionsComplete);
 	}
 }

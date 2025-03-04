@@ -3,21 +3,14 @@ using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Engine.Actions;
 
-public class DrawCardsAction : GameAction
+public class DrawCardsAction(int targetPlayerId, int amount) : GameAction
 {
-    public int TargetPlayerId { get; }
-    public int Amount { get; }
-    public List<Card> DrawnCards { get; set; }
-
-    public DrawCardsAction(int targetPlayerId, int amount)
-    {
-        TargetPlayerId = targetPlayerId;
-        Amount = amount;
-        DrawnCards = new List<Card>();
-    }
+    public int TargetPlayerId { get; } = targetPlayerId;
+    public int Amount { get; } = amount;
+    public List<Card> DrawnCards { get; set; } = new();
 
     public override string ToString()
     {
-        return $"DrawCardsAction:\tPlayer {TargetPlayerId} Draws {Amount}";
+        return $"DrawCardsAction:\tPlayer {TargetPlayerId} Draws {Amount} card(s)";
     }
 }

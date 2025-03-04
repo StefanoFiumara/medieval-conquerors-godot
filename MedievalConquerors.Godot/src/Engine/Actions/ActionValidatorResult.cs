@@ -6,7 +6,7 @@ public class ActionValidatorResult
 {
     public bool IsValid => ValidationErrors.Count == 0;
 
-    public List<string> ValidationErrors { get; } = new();
+    public List<string> ValidationErrors { get; } = [];
 
     public void Invalidate(string reason)
     {

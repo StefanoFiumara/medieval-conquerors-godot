@@ -19,13 +19,13 @@ public class ActionSystemTests : GameSystemTestFixture
     {
         Assert.NotNull(_underTest);
     }
-    
+
     [Fact]
     public void ActionSystem_OnPerform_System_Becomes_Active()
     {
         var action = new GameAction();
         Game.Perform(action);
-        
+
         Assert.True(_underTest.IsActive);
     }
 
@@ -35,32 +35,32 @@ public class ActionSystemTests : GameSystemTestFixture
         bool eventRaised = false;
         void BeginSequenceHandler() => eventRaised = true;
 
-        Events.Subscribe(ActionSystem.BeginSequenceEvent, BeginSequenceHandler);
-        
+        Events.Subscribe(ActionSystem.BeginActionEvent, BeginSequenceHandler);
+
         var action = new GameAction();
         Game.Perform(action);
         Game.Update();
-        
+
         Assert.True(eventRaised);
     }
-    
+
     [Fact]
     public void ActionSystem_OnUpdate_Validates_GameAction()
     {
         bool eventRaised = false;
 
         Events.Subscribe(GameEvent.Validate<GameAction>(), SetEventRaised);
-        
+
         var action = new GameAction();
         Game.Perform(action);
         Game.Update();
-        
+
         Assert.True(eventRaised);
         return;
 
         void SetEventRaised() => eventRaised = true;
     }
-    
+
     [Fact]
     public void ActionSystem_OnUpdate_Invalid_GameAction_Is_Canceled()
     {
@@ -68,48 +68,48 @@ public class ActionSystemTests : GameSystemTestFixture
 
         Events.Subscribe<GameAction, ActionValidatorResult>(GameEvent.Validate<GameAction>(), InvalidateAction);
         Events.Subscribe(GameEvent.Cancel<GameAction>(), SetEventRaised);
-        
+
         var action = new GameAction();
         Game.Perform(action);
         Game.Update();
-        
+
         Assert.True(eventRaised);
         return;
 
-        void InvalidateAction(GameAction _, ActionValidatorResult validator) 
+        void InvalidateAction(GameAction _, ActionValidatorResult validator)
             => validator.Invalidate("Invalid Action");
 
         void SetEventRaised() => eventRaised = true;
     }
-    
+
     [Fact]
     public void ActionSystem_OnUpdate_Prepares_Action()
     {
         bool eventRaised = false;
-        
+
         Events.Subscribe(GameEvent.Prepare<GameAction>(), SetEventRaised);
-        
+
         var action = new GameAction();
         Game.Perform(action);
         Game.Update();
-        
+
         Assert.True(eventRaised);
         return;
 
         void SetEventRaised() => eventRaised = true;
     }
-    
+
     [Fact]
     public void ActionSystem_OnUpdate_Performs_Action()
     {
         bool eventRaised = false;
-        
+
         Events.Subscribe(GameEvent.Perform<GameAction>(), SetEventRaised);
-        
+
         var action = new GameAction();
         Game.Perform(action);
         Game.Update();
-        
+
         Assert.True(eventRaised);
         return;
 
@@ -119,26 +119,26 @@ public class ActionSystemTests : GameSystemTestFixture
 
     public static IEnumerable<object[]> ExpectedEvents => new List<object[]>
     {
-        new object[]{ ActionSystem.BeginSequenceEvent },
+        new object[]{ ActionSystem.BeginActionEvent },
         new object[]{ GameEvent.Validate<GameAction>() },
         new object[]{ GameEvent.Prepare<GameAction>() },
         new object[]{ GameEvent.Perform<GameAction>() },
-        new object[]{ ActionSystem.EndSequenceEvent },
-        new object[]{ ActionSystem.CompleteEvent },
+        new object[]{ ActionSystem.EndActionEvent },
+        new object[]{ ActionSystem.CompleteActionEvent },
     };
-    
+
     [Theory]
     [MemberData(nameof(ExpectedEvents))]
     public void ActionSystem_OnUpdate_Raises_Event(string eventKey)
     {
         bool eventRaised = false;
-        
+
         Events.Subscribe(eventKey, SetEventRaised);
-        
+
         var action = new GameAction();
         Game.Perform(action);
         Game.Update();
-        
+
         Assert.True(eventRaised);
         return;
 
@@ -150,7 +150,7 @@ public class ActionSystemTests : GameSystemTestFixture
     {
         bool eventRaised = false;
         var senderId = Guid.Empty;
-        
+
         void PerformEvent(GameAction sender)
         {
             senderId = sender.Id;
@@ -158,18 +158,18 @@ public class ActionSystemTests : GameSystemTestFixture
         }
 
         Events.Subscribe<GameAction>(GameEvent.Perform<GameAction>(), PerformEvent);
-        
+
         var action1 = new GameAction();
         var action2 = new GameAction();
-        
+
         Game.Perform(action1);
         Game.Perform(action2);
-        
+
         Game.Update();
-        
+
         Assert.True(eventRaised);
         Assert.NotEqual(Guid.Empty, senderId);
-        
+
         Assert.Equal(action1.Id, senderId);
         Assert.NotEqual(action2.Id, senderId);
     }

@@ -12,7 +12,7 @@ public class InputSystem : GameComponent, IAwake, IDestroy
     public const string ClickedEvent = "InputSystem.ClickedEvent";
     
     private StateMachine _stateMachine;
-    private IEventAggregator _events;
+    private EventAggregator _events;
     private ActionSystem _actionSystem;
     
     public void Awake()

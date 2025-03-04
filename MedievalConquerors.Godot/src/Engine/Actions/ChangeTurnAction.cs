@@ -1,13 +1,8 @@
 ﻿namespace MedievalConquerors.Engine.Actions;
 
-public class ChangeTurnAction : GameAction
+public class ChangeTurnAction(int nextPlayerId) : GameAction
 {
-    public int NextPlayerId { get; set; }
-
-    public ChangeTurnAction(int nextPlayerId)
-    {
-        NextPlayerId = nextPlayerId;
-    }
+    public int NextPlayerId { get; set; } = nextPlayerId;
 
     public override string ToString()
     {

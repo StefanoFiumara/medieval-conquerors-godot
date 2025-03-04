@@ -5,32 +5,11 @@ using MedievalConquerors.Engine.Logging;
 
 namespace MedievalConquerors.Engine.Events;
 
-public interface IEventAggregator : IGameComponent
-{
-    IReadOnlyDictionary<string, IList<Delegate>> Subscriptions { get; }
-    
-    void Subscribe(string eventName, Action handler);
-    void Subscribe<TSender>(string eventName, Action<TSender> handler)
-        where TSender : class;
-    void Subscribe<TSender, TArgs>(string eventName, Action<TSender, TArgs> handler)
-        where TSender : class
-        where TArgs : class;
-    
-    void Unsubscribe(string eventName, Delegate handler);
-    
-    void Publish(string eventName);
-    void Publish<TSender>(string eventName, TSender sender)
-        where TSender : class;
-    void Publish<TSender, TArgs>(string eventName, TSender sender, TArgs args)
-        where TSender : class
-        where TArgs : class;
-}
-
-public class EventAggregator : GameComponent, IEventAggregator, IAwake, IDestroy
+public class EventAggregator : GameComponent, IAwake, IDestroy
 {
     private readonly Dictionary<string, IList<Delegate>> _subscriptions = new();
     private ILogger _logger = new NullLogger();
-    
+
     public IReadOnlyDictionary<string, IList<Delegate>> Subscriptions => new Dictionary<string, IList<Delegate>>(_subscriptions);
 
     public void Awake()
@@ -43,9 +22,9 @@ public class EventAggregator : GameComponent, IEventAggregator, IAwake, IDestroy
         _subscriptions.Clear();
     }
 
-    public void Subscribe(string eventName, Action handler) 
+    public void Subscribe(string eventName, Action handler)
         => SubscribeInternal(eventName, handler);
-    
+
     public void Subscribe<TSender>(string eventName, Action<TSender> handler)
         where TSender : class
         => SubscribeInternal(eventName, handler);
@@ -58,17 +37,14 @@ public class EventAggregator : GameComponent, IEventAggregator, IAwake, IDestroy
     private void SubscribeInternal(string eventName, Delegate handler)
     {
         _logger.Debug($"Subscribed <{eventName}> :: <{handler.Method.DeclaringType?.Name}.{handler.Method.Name}>");
-        if (_subscriptions.ContainsKey(eventName) == false)
-        {
-            _subscriptions[eventName] = new List<Delegate> { handler };
-        }
+
+        if (_subscriptions.TryGetValue(eventName, out var subscription))
+            subscription.Add(handler);
         else
-        {
-            _subscriptions[eventName].Add(handler);
-        }
+            _subscriptions[eventName] = new List<Delegate> { handler };
     }
-    
-    public void Publish(string eventName) 
+
+    public void Publish(string eventName)
         => PublishInternal<object, object>(eventName, sender: null, args: null);
 
     public void Publish<TSender>(string eventName, TSender sender)
@@ -97,11 +73,11 @@ public class EventAggregator : GameComponent, IEventAggregator, IAwake, IDestroy
                 0 => action.DynamicInvoke(),
                 1 => action.DynamicInvoke(sender),
                 2 => action.DynamicInvoke(sender, args),
-                _ => default
+                _ => null
             };
         }
     }
-    
+
     public void Unsubscribe(string eventName, Delegate handler)
     {
         if (!_subscriptions.ContainsKey(eventName)) return;

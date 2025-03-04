@@ -5,8 +5,6 @@ namespace MedievalConquerors.Engine.Logging;
 
 public interface ILogger : IGameComponent
 {
-    LogLevel MinimumLogLevel { get; }
-
     void Debug(string message, [CallerFilePath] string caller = "");
     void Info(string message, [CallerFilePath] string caller = "");
     void Warn(string message, [CallerFilePath] string caller = "");
@@ -15,8 +13,6 @@ public interface ILogger : IGameComponent
 
 public class NullLogger : GameComponent, ILogger
 {
-    public LogLevel MinimumLogLevel => LogLevel.None;
-
     public void Debug(string message, string caller = null) { }
     public void Info(string message, string caller = null) { }
     public void Warn(string message, string caller = null) { }

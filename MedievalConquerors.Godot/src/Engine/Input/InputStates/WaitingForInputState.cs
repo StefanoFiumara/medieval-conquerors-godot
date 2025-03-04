@@ -5,15 +5,8 @@ using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Engine.Input.InputStates;
 
-public class WaitingForInputState : BaseInputState
+public class WaitingForInputState(IGame game) : BaseInputState(game)
 {
-    
-
-    public WaitingForInputState(IGame game) : base(game)
-    {
-        
-    }
-    
     public override void Enter() { }
     public override void Exit() { }
 
@@ -29,7 +22,7 @@ public class WaitingForInputState : BaseInputState
             // TODO: Validate that the selected unit belongs to the current player
             return new SelectUnitState(Game, ((TileData) clickedObject).Unit);
         }
-        
+
         return this;
     }
 }

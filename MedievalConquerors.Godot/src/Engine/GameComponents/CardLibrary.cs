@@ -12,14 +12,14 @@ public class CardLibrary : GameComponent, IAwake
 	public const int TownCenterId = 12;
 
 	private ILogger _logger;
-	private IReadOnlyDictionary<int, CardData> _cardData;
+	private ImmutableDictionary<int, CardData> _cardData;
 
 	public CardLibrary() { }
 	public CardLibrary(List<CardData> cardData)
 	{
 		_cardData = cardData.ToImmutableDictionary(c => c.Id);
 	}
-	
+
 	public void Awake()
 	{
 		_logger = Game.GetComponent<ILogger>();
@@ -38,11 +38,11 @@ public class CardLibrary : GameComponent, IAwake
 			// It should not be a problem because the card attributes already get cloned, and the other values should not change.
 			return new Card(data, owner);
 		}
-		
+
 		_logger.Warn($"Could not find card with ID {id}");
 		return null;
 	}
-	
+
 	// TODO: Formalize deckInfo tuple into separate object
 	public List<Card> LoadDeck(Player owner, List<(int cardId, int amount)> deckInfo)
 	{

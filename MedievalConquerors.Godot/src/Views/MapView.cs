@@ -29,7 +29,7 @@ public partial class MapView : Node2D, IGameComponent
 	private const int HighlightTileSetId = 1;
 
 	public IGame Game { get; set; }
-	
+
 	[Export] private PackedScene _tokenScene;
 
 	[Export] private TileMapLayer TerrainLayer { get; set; }
@@ -47,17 +47,17 @@ public partial class MapView : Node2D, IGameComponent
 		MapLayerType.SelectionHint => SelectionHintLayer,
 		_ => throw new ArgumentOutOfRangeException(nameof(layer), layer, "Invalid map layer type")
 	};
-	
+
 	private HexMap _map;
 	private ILogger _logger;
-	
+
 	private Viewport _viewport;
 	private Vector2I _hovered = HexMap.None;
-	
+
 	private bool _isDragging;
 	private Vector2 _dragOffset;
 	private Vector2 _zoomTarget;
-	
+
 	private EventAggregator _events;
 
 	private List<TokenView> _tokens;
@@ -70,18 +70,18 @@ public partial class MapView : Node2D, IGameComponent
 		Game.AddComponent(this);
 
 		_logger = Game.GetComponent<ILogger>();
-		
+
 		_map = Game.GetComponent<HexMap>();
-		
+
 		_events = Game.GetComponent<EventAggregator>();
 		_viewport = GetViewport();
 		_tokens = new List<TokenView>();
 		_settings = Game.GetComponent<IGameSettings>();
-		
+
 		// TODO: Set scale/position based on reference resolution
 		// so that the map fits on the screen at different screen sizes on startup
 		_zoomTarget = Scale;
-		
+
 		_map.OnTileChanged += OnTileMapChanged;
 		_events.Subscribe<MoveUnitAction>(GameEvent.Prepare<MoveUnitAction>(), OnPrepareMoveUnit);
 		_events.Subscribe<GarrisonAction>(GameEvent.Prepare<GarrisonAction>(), OnPrepareGarrison);
@@ -96,7 +96,7 @@ public partial class MapView : Node2D, IGameComponent
 	private void OnTileMapChanged(TileData oldTile, TileData newTile)
 	{
 		var newAtlasCoord = _map.GetAtlasCoord(newTile.Terrain);
-		
+
 		if(newAtlasCoord != HexMap.None)
 			this[MapLayerType.Terrain].SetCell(newTile.Position, 0, newAtlasCoord);
 	}
@@ -107,9 +107,7 @@ public partial class MapView : Node2D, IGameComponent
 		if (input is not InputEventMouseButton buttonEvent) return;
 
 		if (HandleMouseInput(buttonEvent))
-		{
 			_viewport.SetInputAsHandled();
-		}
 	}
 
 	private bool HandleMouseInput(InputEventMouseButton buttonEvent)
@@ -138,7 +136,7 @@ public partial class MapView : Node2D, IGameComponent
 	public override void _Process(double elapsed)
 	{
 		var mousePosition = _viewport.GetMousePosition();
-		
+
 		// Zoom
 		if (Mathf.Abs(Scale.X - _zoomTarget.X) >= 0.001f)
 		{
@@ -147,14 +145,14 @@ public partial class MapView : Node2D, IGameComponent
 			Scale = Scale.Lerp(_zoomTarget, (float) elapsed * 15);
 			var cur = ToLocal(mousePosition);
 			var diff = cur - prev;
-			
+
 			Position += diff * previousScale;
 		}
-		
+
 		// Drag
-		if (_isDragging) 
+		if (_isDragging)
 			Position = mousePosition + _dragOffset;
-		
+
 		// Tile Highlight on hover
 		var mapCoord = GetTileCoord(mousePosition);
 		if (mapCoord != _hovered)
@@ -165,10 +163,10 @@ public partial class MapView : Node2D, IGameComponent
 			if (mapCoord != HexMap.None)
 			{
 				HighlightTile(mapCoord, MapLayerType.MouseHover);
-				
+
 				if(_settings.DebugMode)
 					CreateTileDebugPopup(mapCoord);
-				
+
 				_hovered = mapCoord;
 			}
 		}
@@ -179,9 +177,9 @@ public partial class MapView : Node2D, IGameComponent
 		var tokenView = _tokenScene.Instantiate<TokenView>();
 		tokenView.Modulate = Colors.Transparent;
 		tokenView.Initialize(Game, card);
-		
+
 		_tokens.Add(tokenView);
-		
+
 		this[MapLayerType.Terrain].AddChild(tokenView);
 		return tokenView;
 	}
@@ -192,7 +190,7 @@ public partial class MapView : Node2D, IGameComponent
 
 		var tokenView = CreateTokenView(action.CardToPlay);
 		tokenView.Position = this[MapLayerType.Terrain].MapToLocal(action.TargetTile);
-		
+
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In);
 		tween.TweenProperty(tokenView, "modulate", Colors.White, tweenDuration);
 
@@ -207,7 +205,7 @@ public partial class MapView : Node2D, IGameComponent
 	private IEnumerator MoveTokenAnimation(IGame game, GameAction action)
 	{
 		const double stepDuration = 0.3;
-		
+
 		var moveAction = (MoveUnitAction) action;
 		var path = _map.CalculatePath(moveAction.CardToMove.MapPosition, moveAction.TargetTile);
 
@@ -233,7 +231,7 @@ public partial class MapView : Node2D, IGameComponent
 	private IEnumerator GarrisonAnimation(IGame game, GameAction action)
 	{
 		const double tweenDuration = 0.4;
-		
+
 		var garrisonAction = (GarrisonAction)action;
 		var unitToken = _tokens.Single(t => t.Card == garrisonAction.Unit);
 		var buildingToken = _tokens.Single(t => t.Card == garrisonAction.Building);
@@ -243,10 +241,10 @@ public partial class MapView : Node2D, IGameComponent
 
 		yield return true;
 		buildingToken.UpdateGarrisonInfo();
-		
+
 		while (tween.IsRunning())
 			yield return null;
-		
+
 		_tokens.Remove(unitToken);
 		unitToken.QueueFree();
 	}
@@ -262,7 +260,7 @@ public partial class MapView : Node2D, IGameComponent
 		var collectAction = (CollectResourcesAction)action;
 
 		yield return true;
-		
+
 		foreach (var collected in collectAction.ResourcesCollected)
 		{
 			var position = this[MapLayerType.Terrain].MapToLocal(collected.Key);
@@ -288,10 +286,10 @@ public partial class MapView : Node2D, IGameComponent
 	private Vector2I GetTileCoord(Vector2 mousePos)
 	{
 		var mapCoord = this[MapLayerType.Terrain].LocalToMap(ToLocal(mousePos));
-		
+
 		if (_map.GetTile(mapCoord) != null)
 			return mapCoord;
-		
+
 		return HexMap.None;
 	}
 
@@ -306,7 +304,7 @@ public partial class MapView : Node2D, IGameComponent
 	{
 		var cells = this[layer].GetUsedCells();
 
-		foreach (var cell in cells) 
+		foreach (var cell in cells)
 			RemoveHighlight(cell, layer);
 	}
 
@@ -314,9 +312,9 @@ public partial class MapView : Node2D, IGameComponent
 	{
 		if(layer == MapLayerType.Terrain)
 			_logger.Warn("Attempting to highlight on the terrain layer!");
-		
+
 		// NOTE: The layer ID also matches up with the scene collection ID for the glow color for that layer
-		if (coord != HexMap.None) 
+		if (coord != HexMap.None)
 			this[layer].SetCell(coord, HighlightTileSetId, Vector2I.Zero, (int)layer);
 	}
 
@@ -324,7 +322,7 @@ public partial class MapView : Node2D, IGameComponent
 	{
 		if(layer == MapLayerType.Terrain)
 			_logger.Warn("Attempting to check highlight on the terrain layer!");
-		
+
 		if (coord != HexMap.None)
 		{
 			// NOTE: Since we are looking at highlight layers, it is ok to simple check if a cell is being used.
@@ -335,25 +333,25 @@ public partial class MapView : Node2D, IGameComponent
 
 		return false;
 	}
-	
+
 	public void RemoveHighlight(Vector2I coord, MapLayerType layer)
 	{
 		if(layer == MapLayerType.Terrain)
 			_logger.Warn("Attempting to highlight on the terrain layer!");
 
-		if (coord != HexMap.None) 
+		if (coord != HexMap.None)
 			this[layer].SetCell(coord);
 	}
-	
+
 	public void HighlightTiles(IEnumerable<Vector2I> coords, MapLayerType layer)
 	{
-		foreach (var coord in coords) 
+		foreach (var coord in coords)
 			HighlightTile(coord, layer);
 	}
-	
+
 	public void RemoveHighlights(IEnumerable<Vector2I> coords, MapLayerType layer)
 	{
-		foreach (var coord in coords) 
+		foreach (var coord in coords)
 			RemoveHighlight(coord, layer);
 	}
 }
