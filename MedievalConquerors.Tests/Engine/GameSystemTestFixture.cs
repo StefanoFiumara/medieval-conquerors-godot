@@ -27,7 +27,6 @@ public abstract class GameSystemTestFixture
         var logger = new TestLogger(output, LogLevel.Info);
         Fixture = new Fixture();
 
-        _settings.StartingHandCount.Returns(5);
         _settings.DebugMode.Returns(true);
 
         _settings.StartingFoodCount.Returns(5);
@@ -37,11 +36,6 @@ public abstract class GameSystemTestFixture
 
         Game = GameFactory.Create(logger, Map, _settings, libraryFixture.Library);
         Events = Game.GetComponent<EventAggregator>();
-
-        // TODO: Since debug mode is enabled, we need to populate the player decks manually for each unit test
-        // Should we do that in each system test separately, before calling awake?
-        // This way each system can test a very specific set of cards.
-        Game.Awake();
     }
 
     [Fact]

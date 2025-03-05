@@ -1,6 +1,7 @@
 using System.Collections;
 using Godot;
 using MedievalConquerors.Engine.Actions;
+using MedievalConquerors.Engine.Actions.TurnActions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
@@ -11,10 +12,10 @@ namespace MedievalConquerors.UI;
 public partial class TurnBanner : Control
 {
 	[Export] private GameController _gameController;
-	
+
 	private ColorRect _background;
 	private RichTextLabel _turnLabel;
-	
+
 	private Game _game;
 	private EventAggregator _events;
 
@@ -24,15 +25,15 @@ public partial class TurnBanner : Control
 		_game = _gameController.Game;
 		_background = GetNode<ColorRect>("%background");
 		_turnLabel = GetNode<RichTextLabel>("%turn_text");
-		
+
 		_background.Scale = new Vector2(0, 1);
 		_turnLabel.Modulate = new Color(_turnLabel.Modulate, 0f);
-		
+
 		_events = _game.GetComponent<EventAggregator>();
-		_events.Subscribe<ChangeTurnAction>(GameEvent.Prepare<ChangeTurnAction>(), OnPrepareChangeTurnAction);
+		_events.Subscribe<BeginTurnAction>(GameEvent.Prepare<BeginTurnAction>(), OnPrepareBeginTurnAction);
 	}
 
-	private void OnPrepareChangeTurnAction(ChangeTurnAction action)
+	private void OnPrepareBeginTurnAction(BeginTurnAction action)
 	{
 		action.PerformPhase.Viewer = TweenTurnBanner;
 	}
@@ -41,14 +42,14 @@ public partial class TurnBanner : Control
 	{
 		const float tweenDuration = 0.5f;
 		const float middleDelay = 0.3f;
-		
-		var turnAction = (ChangeTurnAction)action;
-		var labelText = turnAction.NextPlayerId == Match.LocalPlayerId ? "Your Turn" : "Enemy Turn";
+
+		var turnAction = (BeginTurnAction)action;
+		var labelText = turnAction.PlayerId == Match.LocalPlayerId ? "Your Turn" : "Enemy Turn";
 
 		_turnLabel.Text = labelText.Center();
-		
+
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
-		
+
 		tween.TweenProperty(_background, "scale", Vector2.One, tweenDuration);
 		tween.TweenProperty(_turnLabel, "modulate:a", 1f, tweenDuration);
 		tween.Chain().TweenCallback(Callable.From(() => _background.PivotOffset = _background.Size));

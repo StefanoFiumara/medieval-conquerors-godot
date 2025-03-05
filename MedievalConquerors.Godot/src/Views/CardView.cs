@@ -93,10 +93,6 @@ public partial class CardView : Node2D, IClickable
 			_goldCost.Visible = cost.Gold > 0;
 			_stoneCost.Visible = cost.Stone > 0;
 		}
-		else
-		{
-			// TODO: Hide Resource Panel? Is this ever the case?
-		}
 	}
 
 	public void Highlight()

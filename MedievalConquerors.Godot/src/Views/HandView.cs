@@ -55,6 +55,7 @@ public partial class HandView : Node2D, IGameComponent
 		_events = Game.GetComponent<EventAggregator>();
 		_events.Subscribe<PlayCardAction>(GameEvent.Prepare<PlayCardAction>(), OnPreparePlayCard);
 		_events.Subscribe<DrawCardsAction>(GameEvent.Prepare<DrawCardsAction>(), OnPrepareDrawCards);
+		_events.Subscribe<DiscardCardsAction>(GameEvent.Prepare<DiscardCardsAction>(), OnPrepareDiscardCards);
 
 		_settings = Game.GetComponent<IGameSettings>();
 	}
@@ -174,6 +175,42 @@ public partial class HandView : Node2D, IGameComponent
 
 		CalculatePreviewBoundaries();
 		QueueRedraw();
+	}
+
+	private void OnPrepareDiscardCards(DiscardCardsAction action)
+	{
+		action.PerformPhase.Viewer = DiscardCardsAnimation;
+	}
+
+	private IEnumerator DiscardCardsAnimation(IGame game, GameAction action)
+	{
+		const double tweenDuration = 0.25;
+		var discardAction = (DiscardCardsAction) action;
+
+		yield return true;
+
+		discardAction.CardsToDiscard.Reverse();
+		foreach (var card in discardAction.CardsToDiscard)
+		{
+			var cardView = _cards.SingleOrDefault(c => c.Card == card);
+			if (cardView == null) continue;
+
+			cardView.RemoveHighlight();
+
+			var tween = CreateTween()
+				.SetTrans(Tween.TransitionType.Sine)
+				.SetParallel();
+
+			var targetPosition = (Vector2.Right * 1200) + (Vector2.Down * 400);
+			tween.TweenProperty(cardView, "position", targetPosition, tweenDuration);
+			tween.TweenProperty(cardView, "rotation", Mathf.Pi / 2, tweenDuration);
+			tween.TweenProperty(cardView, "scale", Vector2.One * 1.3f, tweenDuration);
+
+			while (tween.IsRunning()) yield return null;
+			_cards.Remove(cardView);
+			cardView.QueueFree();
+		}
+
 	}
 
 	private void OnPreparePlayCard(PlayCardAction action)
@@ -311,7 +348,7 @@ public partial class HandView : Node2D, IGameComponent
 
 	private List<Tween> TweenToHandPositions()
 	{
-		const double tweenDuration = 0.3;
+		const double tweenDuration = 0.25;
 		var tweens = new List<Tween>();
 
 		for (var i = 0; i < _cards.Count; i++)

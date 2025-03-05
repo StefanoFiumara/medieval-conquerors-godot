@@ -11,6 +11,7 @@ public class ActionSystemTests : GameSystemTestFixture
 
     public ActionSystemTests(ITestOutputHelper output, CardLibraryFixture libraryFixture) : base(output, libraryFixture)
     {
+        Game.Awake();
         _underTest = Game.GetComponent<ActionSystem>();
     }
 

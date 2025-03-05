@@ -72,7 +72,11 @@ public class PlayerSystem : GameComponent, IAwake
 
     private void OnPerformDiscardCards(DiscardCardsAction action)
     {
-        action.Target.MoveCards(action.CardsToDiscard, Zone.Discard);
+        foreach (var card in action.CardsToDiscard)
+        {
+            var player = card.Owner;
+            player.MoveCard(card, Zone.Discard);
+        }
     }
 
     private void OnPerformPlayCard(PlayCardAction action)
