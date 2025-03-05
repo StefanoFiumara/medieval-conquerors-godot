@@ -6,6 +6,6 @@ public class EndTurnAction(int playerId) : GameAction
 
     public override string ToString()
     {
-        return $"EndTurnAction:\tPlayer {PlayerId} Ends Their Turn";
+        return $"EndTurnAction: Player {PlayerId} Ends Their Turn";
     }
 }

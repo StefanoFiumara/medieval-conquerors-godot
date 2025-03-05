@@ -226,7 +226,7 @@ public partial class HandView : Node2D, IGameComponent
 
 		var tokenTween = _mapView.PlaceTokenAnimation(playAction);
 
-		if (playAction.SourcePlayer.Id == Match.LocalPlayerId)
+		if (playAction.CardToPlay.Owner.Id == Match.LocalPlayerId)
 		{
 			var playCardTween = PlayCardAnimation(playAction);
 			while (playCardTween.IsRunning())

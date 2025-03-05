@@ -70,7 +70,7 @@ public class SelectUnitState(IGame game, Card selectedUnit) : BaseInputState(gam
 
         if (_validTiles.Contains(selectedTile.Position))
         {
-            var action = new MoveUnitAction(_selectedUnit.Owner, _selectedUnit, selectedTile.Position);
+            var action = new MoveUnitAction(_selectedUnit, selectedTile.Position);
             Game.Perform(action);
 
             return new WaitingForInputState(Game);

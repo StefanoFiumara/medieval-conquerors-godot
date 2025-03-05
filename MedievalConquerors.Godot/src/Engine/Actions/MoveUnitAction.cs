@@ -3,15 +3,8 @@ using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Engine.Actions;
 
-public class MoveUnitAction : GameAction
+public class MoveUnitAction(Card cardToMove, Vector2I targetTile) : GameAction
 {
-    public Card CardToMove { get; }
-    public Vector2I TargetTile { get; }
-
-    public MoveUnitAction(Player sourcePlayer, Card cardToMove, Vector2I targetTile)
-    {
-        SourcePlayer = sourcePlayer;
-        CardToMove = cardToMove;
-        TargetTile = targetTile;
-    }
+    public Card CardToMove { get; } = cardToMove;
+    public Vector2I TargetTile { get; } = targetTile;
 }

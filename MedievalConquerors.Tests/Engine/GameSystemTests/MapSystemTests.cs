@@ -48,7 +48,7 @@ public class MapSystemTests : GameSystemTestFixture
 
         // Then move it
         var newPosition = new Vector2I(5, 4);
-        var moveAction = new MoveUnitAction(_player, card, newPosition);
+        var moveAction = new MoveUnitAction(card, newPosition);
         Game.Perform(moveAction);
         Game.Update();
 
@@ -74,7 +74,7 @@ public class MapSystemTests : GameSystemTestFixture
         // Then attempt to Move it.
 
         var newPosition = new Vector2I(5, 4);
-        var moveAction = new MoveUnitAction(_player, card, newPosition);
+        var moveAction = new MoveUnitAction(card, newPosition);
         Game.Perform(moveAction);
         Game.Update();
 
@@ -99,7 +99,7 @@ public class MapSystemTests : GameSystemTestFixture
 
         // Then move it
         var newPosition = new Vector2I(5, 3); // 2 tiles away
-        var moveAction = new MoveUnitAction(_player, card, newPosition);
+        var moveAction = new MoveUnitAction(card, newPosition);
         Game.Perform(moveAction);
         Game.Update();
 
@@ -119,7 +119,7 @@ public class MapSystemTests : GameSystemTestFixture
 
         // Then attempt to move it
         var newPosition = new Vector2I(5, 3);
-        var moveAction = new MoveUnitAction(_player, card, newPosition);
+        var moveAction = new MoveUnitAction(card, newPosition);
         Game.Perform(moveAction);
         Game.Update();
 
@@ -143,7 +143,7 @@ public class MapSystemTests : GameSystemTestFixture
 
         // Then move it
         var newPosition = new Vector2I(5, 3); // 2 tiles away
-        var moveAction = new MoveUnitAction(_player, card, newPosition);
+        var moveAction = new MoveUnitAction(card, newPosition);
         Game.Perform(moveAction);
         Game.Update();
 

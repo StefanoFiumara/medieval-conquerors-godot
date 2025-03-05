@@ -24,12 +24,7 @@ public class GameAction
     /// <summary>
     /// The player that initiated this GameAction
     /// </summary>
-    public Player SourcePlayer { get; set; }
-
-    /// <summary>
-    /// The card that initiated this GameAction
-    /// </summary>
-    public Card SourceCard { get; set; }
+    // public Player SourcePlayer { get; set; }
 
     public GameAction()
     {

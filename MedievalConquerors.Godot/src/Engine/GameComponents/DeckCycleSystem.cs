@@ -25,7 +25,6 @@ public class DeckCycleSystem : GameComponent, IAwake
     {
         var player = _match.Players[action.TargetPlayerId];
         player.MoveCards(player.Discard.ToList(), Zone.Deck);
-        Game.AddReaction(new ShuffleDeckAction(action.TargetPlayerId));
     }
 
     private void OnPrepareDrawCards(DrawCardsAction action)
@@ -33,12 +32,16 @@ public class DeckCycleSystem : GameComponent, IAwake
         var player = _match.Players[action.TargetPlayerId];
         if (player.Deck.Count < action.Amount)
         {
+            // If the deck doesn't have enough cards for the draw action
+            // cancel the action draw the remainder of the deck
+            // then, cycle the deck (shuffle the discard pine into the deck), and draw the remaining cards.
             action.Cancel();
-
-            var remaining = action.Amount - player.Deck.Count;
             Game.AddReaction(new DrawCardsAction(action.TargetPlayerId, player.Deck.Count));
             Game.AddReaction(new CycleDeckAction(player.Id));
-            Game.AddReaction(new DrawCardsAction(action.TargetPlayerId, Math.Min(remaining, player.Discard.Count)));
+            Game.AddReaction(new ShuffleDeckAction(action.TargetPlayerId));
+            var remaining = Math.Min(action.Amount - player.Deck.Count, player.Discard.Count);
+            if(remaining > 0)
+                Game.AddReaction(new DrawCardsAction(action.TargetPlayerId, remaining));
         }
     }
 }

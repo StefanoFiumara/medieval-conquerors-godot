@@ -21,26 +21,26 @@ public class ResourceSystem : GameComponent, IAwake
         _match = Game.GetComponent<Match>();
         _map = Game.GetComponent<HexMap>();
         _events = Game.GetComponent<EventAggregator>();
-		
+
         _events.Subscribe<PlayCardAction, ActionValidatorResult>(GameEvent.Validate<PlayCardAction>(), OnValidatePlayCard);
         _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
-        
+
         _events.Subscribe<CollectResourcesAction>(GameEvent.Perform<CollectResourcesAction>(), OnPerformCollectResources);
     }
 
     private void OnPerformCollectResources(CollectResourcesAction action)
     {
         var player = _match.Players[action.TargetPlayerId];
-            
+
         foreach (var card in player.Map)
         {
             var collectorAttribute = card.GetAttribute<ResourceCollectorAttribute>();
             var garrisonAttribute = card.GetAttribute<GarrisonCapacityAttribute>();
-            
+
             if (card.CardData.CardType != CardType.Building) continue;
             if (collectorAttribute == null || garrisonAttribute == null) continue;
             if (garrisonAttribute.Units.Count == 0) continue;
-            
+
             var tilesToCollect =
                 _map.GetNeighbors(card.MapPosition)
                     .Where(t => collectorAttribute.Resource.HasFlag(t.ResourceType))
@@ -52,7 +52,7 @@ public class ResourceSystem : GameComponent, IAwake
                 var amountCollected = Mathf.CeilToInt(tile.ResourceYield * collectorAttribute.GatherRate);
                 player.Resources[tile.ResourceType] += amountCollected;
                 action.ResourcesCollected.Add(tile.Position, (tile.ResourceType, amountCollected));
-                
+
                 collected++;
                 if (collected >= garrisonAttribute.Units.Count)
                     break;
@@ -65,8 +65,9 @@ public class ResourceSystem : GameComponent, IAwake
         var resourceCost = action.CardToPlay.GetAttribute<ResourceCostAttribute>();
         if (resourceCost == null)
             return;
-		
-        if(!action.SourcePlayer.Resources.CanAfford(resourceCost))
+
+        var player = action.CardToPlay.Owner;
+        if(!player.Resources.CanAfford(resourceCost))
             validator.Invalidate("Not enough resource to play card.");
     }
 
@@ -74,6 +75,10 @@ public class ResourceSystem : GameComponent, IAwake
     {
         var resourceCost = action.CardToPlay.GetAttribute<ResourceCostAttribute>();
         if (resourceCost != null)
-            action.SourcePlayer.Resources.Subtract(resourceCost);
+        {
+            var player = action.CardToPlay.Owner;
+            player.Resources.Subtract(resourceCost);
+        }
+
     }
 }

@@ -11,6 +11,6 @@ public class DrawCardsAction(int targetPlayerId, int amount) : GameAction
 
     public override string ToString()
     {
-        return $"DrawCardsAction:\tPlayer {TargetPlayerId} Draws {Amount} card(s)";
+        return $"DrawCardsAction: Player {TargetPlayerId} Draws {Amount} card(s)";
     }
 }

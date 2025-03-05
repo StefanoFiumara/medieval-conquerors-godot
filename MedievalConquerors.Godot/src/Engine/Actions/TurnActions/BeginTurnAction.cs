@@ -6,6 +6,6 @@ public class BeginTurnAction(int playerId) : GameAction
 
     public override string ToString()
     {
-        return $"BeginTurnAction:\tPlayer {PlayerId} Begins Their Turn";
+        return $"BeginTurnAction: Player {PlayerId} Begins Their Turn";
     }
 }

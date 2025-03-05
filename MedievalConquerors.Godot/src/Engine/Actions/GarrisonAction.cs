@@ -2,15 +2,8 @@
 
 namespace MedievalConquerors.Engine.Actions;
 
-public class GarrisonAction : GameAction
+public class GarrisonAction(Card unit, Card building) : GameAction
 {
-    public Card Unit { get; }
-    public Card Building { get; }
-
-    public GarrisonAction(Card unit, Card building)
-    {
-        SourcePlayer = unit.Owner;
-        Unit = unit;
-        Building = building;
-    }
+    public Card Unit { get; } = unit;
+    public Card Building { get; } = building;
 }

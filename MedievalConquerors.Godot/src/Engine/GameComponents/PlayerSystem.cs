@@ -81,7 +81,8 @@ public class PlayerSystem : GameComponent, IAwake
 
     private void OnPerformPlayCard(PlayCardAction action)
     {
-        action.SourcePlayer.MoveCard(action.CardToPlay, Zone.Map);
+        var player = action.CardToPlay.Owner;
+        player.MoveCard(action.CardToPlay, Zone.Map);
     }
 
     private void OnPerformShuffleDeck(ShuffleDeckAction action)

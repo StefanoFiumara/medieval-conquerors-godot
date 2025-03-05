@@ -50,7 +50,7 @@ public class TurnSystem : GameComponent, IAwake
         Game.AddReaction(new PlayCardAction(townCenter2, _match.EnemyPlayer.TownCenter.Position));
 
         // Change the turn to the starting player
-        Game.AddReaction(new ChangeTurnAction(action.StartingPlayerId));
+        Game.AddReaction(new BeginTurnAction(action.StartingPlayerId));
     }
 
     private void OnPerformChangeTurn(ChangeTurnAction action)
@@ -60,12 +60,13 @@ public class TurnSystem : GameComponent, IAwake
 
         Game.AddReaction(new EndTurnAction(_match.CurrentPlayerId));
         Game.AddReaction(new BeginTurnAction(action.NextPlayerId));
-        Game.AddReaction(new DrawCardsAction(action.NextPlayerId, _match.Players[action.NextPlayerId].TurnStartDrawCount));
-        Game.AddReaction(new CollectResourcesAction(action.NextPlayerId));
     }
 
     private void OnPerformBeginTurn(BeginTurnAction action)
     {
         _match.CurrentPlayerId = action.PlayerId;
+
+        Game.AddReaction(new DrawCardsAction(action.PlayerId, _match.Players[action.PlayerId].TurnStartDrawCount));
+        Game.AddReaction(new CollectResourcesAction(action.PlayerId));
     }
 }
