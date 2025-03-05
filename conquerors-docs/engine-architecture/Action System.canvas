@@ -1,0 +1,29 @@
+{
+	"nodes":[
+		{"id":"858fc3a96fd944a7","type":"group","x":-300,"y":-660,"width":290,"height":500,"label":"Event Aggregator"},
+		{"id":"ef270e4d0265697a","type":"text","text":"### Performing an Action\nPerforming a game action consists sending a handful of signals in a specific sequence, and reacting to the results of each step.\n\n- `BeginAction`\n\t- Signals a new action is being performed\n- `ValidateAction`\n\t- Signals to validate the action\n\t\t- If any other system invalidates the action, it is canceled\n- `PrepareAction`\n\t- Signals to prepare the action\n\t\t- Typically used to wire up animations for when the action is performed\n- `PerformAction`\n\t- Signals to perform the action\n\t\t- Typically, other gameplay systems respond here to alter the game state, they can also queue up other game actions as a response.\n- `EndAction`\n\t- Signals that an action is ending\n- `CompleteAction`\n\t- Signals that an action (and all its reactions) have been processed.","x":-1780,"y":-580,"width":580,"height":680},
+		{"id":"35b4c50f0aae6ccc","type":"text","text":"### Game Action\nData container for an action to be performed on the game state","x":-1160,"y":-400,"width":300,"height":149,"color":"2"},
+		{"id":"1d50caa5171ce9cd","type":"text","text":"# Action System\nResponsible for communicating game actions to other gameplay systems\n- `Perform(action)`\n\t- Queues up an action to process\n- `AddReaction(action)`\n\t- Reacts to an in-progress Game Action","x":-800,"y":-560,"width":398,"height":285,"color":"4"},
+		{"id":"15b37523afba5802","type":"text","text":"## Gameplay Systems\nEach system can independently respond to signals sent by the action system.\n\nThey can alter the game state directly or react with further game actions to be processed by other systems","x":-680,"y":-153,"width":365,"height":253,"color":"4"},
+		{"id":"a53b6e058d37f151","type":"text","text":"# Game State\nHolds all data related to the current game state. The game state should be accessible from any/all gameplay systems.","x":-1160,"y":-120,"width":340,"height":180,"color":"#4354d0"},
+		{"id":"ce11482972452752","type":"text","text":"## View Systems\nA set of systems responsible for handling animations.\n\nNo gameplay mechanics are implemented here, so if disabled, the engine should be able to run in a \"headless\" mode.","x":-771,"y":200,"width":340,"height":260,"color":"6"},
+		{"id":"ef56f46b922023d3","type":"text","text":"# Action System","x":-1780,"y":-650,"width":580,"height":70},
+		{"id":"b74f3492cc1cbd4c","type":"text","text":"### User Action\n_e.g._ Card is played from the hand","x":-1140,"y":-650,"width":260,"height":120,"color":"5"},
+		{"id":"91a24fd55bb53965","type":"text","text":"`BeginAction`","x":-280,"y":-640,"width":250,"height":60,"color":"1"},
+		{"id":"8b6fffe5e700ebbc","type":"text","text":"`PrepareAction`","x":-280,"y":-480,"width":250,"height":60,"color":"1"},
+		{"id":"207767e9c5263db5","type":"text","text":"`PerformAction`","x":-280,"y":-400,"width":250,"height":60,"color":"1"},
+		{"id":"9f8f5eae30f44425","type":"text","text":"`EndAction`","x":-280,"y":-320,"width":250,"height":60,"color":"1"},
+		{"id":"470b9dd8dd3ad5d3","type":"text","text":"`CompleteAction`","x":-280,"y":-240,"width":250,"height":60,"color":"1"},
+		{"id":"6ea6effa4e50bc1a","type":"text","text":"`ValidateAction`","x":-280,"y":-560,"width":250,"height":60,"color":"1"}
+	],
+	"edges":[
+		{"id":"5f485fa134ccb8fe","fromNode":"35b4c50f0aae6ccc","fromSide":"right","toNode":"1d50caa5171ce9cd","toSide":"left","color":"2"},
+		{"id":"f545394bb2ea66c9","fromNode":"1d50caa5171ce9cd","fromSide":"right","toNode":"858fc3a96fd944a7","toSide":"left","color":"1"},
+		{"id":"5cc09dd43a9cd284","fromNode":"15b37523afba5802","fromSide":"top","toNode":"1d50caa5171ce9cd","toSide":"bottom","color":"4"},
+		{"id":"56cd57f59fa0b320","fromNode":"858fc3a96fd944a7","fromSide":"bottom","toNode":"15b37523afba5802","toSide":"right","color":"1"},
+		{"id":"44e761f4bf051e6c","fromNode":"15b37523afba5802","fromSide":"left","toNode":"a53b6e058d37f151","toSide":"right","color":"#4657dd"},
+		{"id":"5f774de6083ad65e","fromNode":"b74f3492cc1cbd4c","fromSide":"bottom","toNode":"35b4c50f0aae6ccc","toSide":"top","color":"5"},
+		{"id":"9a082f14a4bd86d9","fromNode":"858fc3a96fd944a7","fromSide":"bottom","toNode":"ce11482972452752","toSide":"right","color":"1"},
+		{"id":"614fb1072b5db76d","fromNode":"ce11482972452752","fromSide":"top","toNode":"a53b6e058d37f151","toSide":"bottom","color":"6"}
+	]
+}

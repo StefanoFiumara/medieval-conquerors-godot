@@ -3,11 +3,6 @@
 - Resources are gathered from villagers placed at specific gathering posts
 - After this step, players must wait until their next turn to gather more resources
 
-## Resource Bank
-- Players can only store a certain amount of resources
-- storage space is expanded when gathering posts are built (lumber camp, mill, etc.)
-- If a gathering post is destroyed, any resources exceeding the maximum available in the bank are lost
-
 ## Action Cards
 - Action cards can be played on units to perform a specific action
 - e.g. `Torch` action - unit does additional damage against buildings this turn
@@ -26,5 +21,10 @@
 ## Technologies
 - Technologies are not applied across all units/buildings on the board, instead they are applied to specific buildings or units to boost that particular unit
 	- e.g. double-bit axe upgrades the lumber camp its played on to have increased gather rate
+- Some technologies can add more cards into the deck, to be used in future turns
+	- "Military Training" unlocks barracks
+	- "Archery" unlocks range
+	- "animal husbandry" unlocks stable
+	- "Agriculture" unlocks farms
 - Unique civilization technologies that give special boosts
-- Some way to re-use techs if we go this route?
+- 
