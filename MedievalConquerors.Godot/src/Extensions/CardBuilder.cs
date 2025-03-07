@@ -27,7 +27,7 @@ public class CardBuilder
         _data.Title = title;
         return this;
     }
-    
+
     public CardBuilder WithDescription(string description)
     {
         _data.Description = description;
@@ -39,13 +39,13 @@ public class CardBuilder
         _data.ImagePath = imagePath;
         return this;
     }
-    
+
     public CardBuilder WithTokenImagePath(string imagePath)
     {
         _data.TokenImagePath = imagePath;
         return this;
     }
-    
+
     public CardBuilder WithCardType(CardType cardType)
     {
         _data.CardType = cardType;
@@ -111,20 +111,20 @@ public class CardBuilder
         {
             Limit = capacity
         });
-        
+
         return this;
     }
 
     public Card Create() => new(_data, _owner);
+    public List<Card> CreateMany(int count) => Enumerable.Range(0, count).Select(_ => new Card(_data, _owner)).ToList();
 }
 
 public static class DeckBuilder
 {
-    // TODO: No longer needed, here for reference so we can use this during unit testing
     public static List<Card> CreateTestDeck(Player owner)
     {
         var cards = new List<Card>();
-        cards.AddRange(Enumerable.Range(0, 2)
+        cards.AddRange(Enumerable.Range(0, 15)
             .Select(i => CardBuilder.Build(owner)
                 .WithTitle("Villager")
                 .WithDescription("Collects resources when assigned to gathering posts")
@@ -135,7 +135,7 @@ public static class DeckBuilder
                 .WithResourceCost(food: 2)
                 .WithSpawnPoint(Tags.Economic)
                 .Create()));
-    
+
         cards.Add(CardBuilder.Build(owner)
             .WithTitle($"Knight")
             .WithDescription($"Mighty Mounted Royal Warrior")
@@ -147,7 +147,7 @@ public static class DeckBuilder
             .WithMovement(distance: 2)
             .WithSpawnPoint(Tags.TownCenter)
             .Create());
-        
+
         cards.Add(CardBuilder.Build(owner)
             .WithTitle($"Swordsman")
             .WithDescription($"Standard foot soldier equipped with a sword")
@@ -159,7 +159,7 @@ public static class DeckBuilder
             .WithMovement(distance: 1)
             .WithSpawnPoint(Tags.TownCenter)
             .Create());
-        
+
         cards.Add(CardBuilder.Build(owner)
             .WithTitle("Lumber Camp")
             .WithDescription("Assigned villagers collect adjacent resources")
@@ -172,7 +172,7 @@ public static class DeckBuilder
             .WithGarrisonCapacity(capacity: 3)
             .WithSpawnPoint(Tags.TownCenter)
             .Create());
-        
+
         cards.Add(CardBuilder.Build(owner)
             .WithTitle("Mining Camp")
             .WithDescription("Assigned villagers collect adjacent resources")
@@ -185,7 +185,7 @@ public static class DeckBuilder
             .WithGarrisonCapacity(capacity: 3)
             .WithSpawnPoint(Tags.TownCenter)
             .Create());
-        
+
         cards.Add(CardBuilder.Build(owner)
             .WithTitle("Mill")
             .WithDescription("Assigned villagers collect food from adjacent berries or farms.")
@@ -198,7 +198,7 @@ public static class DeckBuilder
             .WithGarrisonCapacity(capacity: 3)
             .WithSpawnPoint(Tags.TownCenter)
             .Create());
-    
+
         return cards;
     }
 }

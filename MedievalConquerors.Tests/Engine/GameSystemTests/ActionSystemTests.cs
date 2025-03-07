@@ -1,25 +1,23 @@
 ﻿using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
+using Shouldly;
 
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
 public class ActionSystemTests : GameSystemTestFixture
 {
-    private readonly ActionSystem _underTest;
+    private readonly ActionSystem _actionSystem;
 
     public ActionSystemTests(ITestOutputHelper output, CardLibraryFixture libraryFixture) : base(output, libraryFixture)
     {
         Game.Awake();
-        _underTest = Game.GetComponent<ActionSystem>();
+        _actionSystem = Game.GetComponent<ActionSystem>();
     }
 
     [Fact]
-    public void GameFactory_Creates_ActionSystem()
-    {
-        Assert.NotNull(_underTest);
-    }
+    public void GameFactory_Creates_ActionSystem() => _actionSystem.ShouldNotBeNull();
 
     [Fact]
     public void ActionSystem_OnPerform_System_Becomes_Active()
@@ -27,7 +25,7 @@ public class ActionSystemTests : GameSystemTestFixture
         var action = new GameAction();
         Game.Perform(action);
 
-        Assert.True(_underTest.IsActive);
+        Assert.True(_actionSystem.IsActive);
     }
 
     [Fact]

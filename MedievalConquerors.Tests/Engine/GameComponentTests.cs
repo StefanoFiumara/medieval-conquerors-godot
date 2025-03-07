@@ -4,16 +4,16 @@ namespace MedievalConquerors.Tests.Engine;
 
 public class GameComponentTests
 {
-    private readonly Game _underTest = new();
+    private readonly Game _game = new();
 
     [Fact]
     public void GameEntity_Can_Add_Components()
     {
         var component = new GameComponent();
 
-        _underTest.AddComponent(component);
+        _game.AddComponent(component);
 
-        Assert.Single(_underTest.Components);
+        Assert.Single(_game.Components);
     }
 
     [Fact]
@@ -21,9 +21,9 @@ public class GameComponentTests
     {
         var component = new GameComponent();
 
-        _underTest.AddComponent(component);
+        _game.AddComponent(component);
 
-        var actual = _underTest.GetComponent<GameComponent>();
+        var actual = _game.GetComponent<GameComponent>();
 
         Assert.Equal(component, actual);
     }
@@ -31,9 +31,9 @@ public class GameComponentTests
     [Fact]
     public void GameEntity_AddComponent_Creates_New_Component()
     {
-        _underTest.AddComponent<GameComponent>();
+        _game.AddComponent<GameComponent>();
 
-        var component = _underTest.GetComponent<GameComponent>();
+        var component = _game.GetComponent<GameComponent>();
 
         Assert.NotNull(component);
         Assert.IsType<GameComponent>(component, exactMatch: false);
@@ -42,12 +42,12 @@ public class GameComponentTests
     [Fact]
     public void GameEntity_AddComponent_References_Parent()
     {
-        _underTest.AddComponent<GameComponent>();
+        _game.AddComponent<GameComponent>();
 
-        var component = _underTest.GetComponent<GameComponent>();
+        var component = _game.GetComponent<GameComponent>();
 
         Assert.NotNull(component);
         Assert.NotNull(component.Game);
-        Assert.Equal(_underTest, component.Game);
+        Assert.Equal(_game, component.Game);
     }
 }

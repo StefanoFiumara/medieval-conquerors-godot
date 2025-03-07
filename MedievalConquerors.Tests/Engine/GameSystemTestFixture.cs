@@ -41,6 +41,8 @@ public abstract class GameSystemTestFixture
     [Fact]
     public void Game_Destroy_Unsubscribes_All_Events()
     {
+        Game.Awake();
+        Events.Subscriptions.ShouldNotBeEmpty();
         Game.Destroy();
         Events.Subscriptions.ShouldBeEmpty();
     }

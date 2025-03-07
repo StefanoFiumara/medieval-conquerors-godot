@@ -2,6 +2,7 @@
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
+using MedievalConquerors.Extensions;
 using Shouldly;
 
 
@@ -15,17 +16,24 @@ public class PlayerSystemTests : GameSystemTestFixture
     {
         _player = Game.GetComponent<Match>().LocalPlayer;
 
+        var cards = CardBuilder
+            .Build(_player)
+            .WithCardType(CardType.Unit)
+            .WithMovement(1)
+            .WithSpawnPoint(Tags.TownCenter, 3)
+            .CreateMany(2);
+
+        _player.Deck.AddRange(cards);
+
         // Start the game with the given player
+        Game.Awake();
         var action = new BeginGameAction(_player.Id);
         Game.Perform(action);
         Game.Update();
     }
 
     [Fact]
-    public void GameFactory_Creates_PlayerSystem()
-    {
-        Game.GetComponent<PlayerSystem>().ShouldNotBeNull();
-    }
+    public void GameFactory_Creates_PlayerSystem() => Game.GetComponent<PlayerSystem>().ShouldNotBeNull();
 
     [Fact]
     public void PlayerSystem_Performs_PlayCardAction_And_Moves_To_MapZone()
@@ -39,9 +47,8 @@ public class PlayerSystemTests : GameSystemTestFixture
         Game.Perform(playAction);
         Game.Update();
 
-        _player.Map.Count.ShouldBe(1);
-        _player.Hand.Count.ShouldBe(5);
-        _player.Map.Count.ShouldBe(1);
+        _player.Map.Count.ShouldBe(2);
+        _player.Hand.Count.ShouldBe(1);
 
         cardToPlay.Zone.ShouldBe(Zone.Map);
         cardToPlay.MapPosition.ShouldBe(positionToPlay);
@@ -56,25 +63,23 @@ public class PlayerSystemTests : GameSystemTestFixture
     public void PlayerSystem_Performs_DiscardCardsAction_And_Moves_To_DiscardZone()
     {
         // Play a card
-        var cardToPlay = _player.Hand.First();
+        var card = _player.Hand.First();
         var positionToPlay = new Vector2I(5, 5);
-        var playAction = new PlayCardAction(cardToPlay, positionToPlay);
+        var playAction = new PlayCardAction(card, positionToPlay);
         Game.Perform(playAction);
         Game.Update();
 
-        // Then discard it
-        var toDiscard = _player.Map.Take(1).ToList();
-        var discardAction = new DiscardCardsAction(toDiscard);
+        var discardAction = new DiscardCardsAction([card]);
 
         Game.Perform(discardAction);
         Game.Update();
 
-        _player.Map.ShouldBeEmpty();
+        _player.Map.ShouldHaveSingleItem(); // the town center
         _player.Discard.Count.ShouldBe(1);
         _player.Discard.ShouldAllBe(c => c.Zone == Zone.Discard);
 
         Map.GetTile(positionToPlay).Unit.ShouldBeNull();
-        toDiscard.Single().MapPosition.ShouldBe(HexMap.None);
+        card.MapPosition.ShouldBe(HexMap.None);
     }
 
     [Fact]
@@ -87,7 +92,7 @@ public class PlayerSystemTests : GameSystemTestFixture
         Game.Perform(discardAction);
         Game.Update();
 
-        _player.Hand.Count.ShouldBe(4);
+        _player.Hand.Count.ShouldBe(0);
         _player.Discard.Count.ShouldBe(2);
         _player.Discard.ShouldAllBe(c => c.Zone == Zone.Discard);
     }
