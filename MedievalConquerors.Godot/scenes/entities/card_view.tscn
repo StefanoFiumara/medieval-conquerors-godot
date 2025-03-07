@@ -2,46 +2,49 @@
 
 [ext_resource type="Script" uid="uid://iwsn12lqk8tu" path="res://src/Views/CardView.cs" id="1_r8q4a"]
 [ext_resource type="Texture2D" uid="uid://sbqj2jrisdkc" path="res://assets/user_interface/panels/panel_glow.png" id="2_fo11h"]
-[ext_resource type="Texture2D" uid="uid://b535fcqw7h0gu" path="res://assets/user_interface/panels/panel_basic.png" id="3_7tlsa"]
+[ext_resource type="Texture2D" uid="uid://b6d11gxsv7ik5" path="res://assets/cards/frame_template.png" id="3_qyos6"]
 [ext_resource type="Texture2D" uid="uid://d1q4nyma6hauw" path="res://assets/user_interface/icons/food.png" id="4_egy70"]
-[ext_resource type="Texture2D" uid="uid://b3xkcymn6w5pv" path="res://assets/user_interface/panels/parchment_roll.png" id="4_r3t5c"]
+[ext_resource type="FontFile" uid="uid://deedrus7sv00b" path="res://assets/fonts/RELIGATH-Demo.otf" id="4_wi131"]
 [ext_resource type="Texture2D" uid="uid://tnov0cxrwas5" path="res://assets/user_interface/icons/wood.png" id="5_v28jb"]
 [ext_resource type="Texture2D" uid="uid://b3m6uu5s21qyg" path="res://assets/user_interface/icons/gold.png" id="6_oanwv"]
 [ext_resource type="Texture2D" uid="uid://dwgqpljq1uely" path="res://assets/user_interface/icons/stone.png" id="7_rv8hy"]
 [ext_resource type="Texture2D" uid="uid://78l1ndmuqstx" path="res://assets/placeholder.png" id="7_wr2mb"]
-[ext_resource type="Texture2D" uid="uid://dxd7w4hhbsfh0" path="res://assets/user_interface/panels/worn_parchment.png" id="10_7tqex"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_hu4f0"]
+font = ExtResource("4_wi131")
+font_size = 19
+font_color = Color(0.521569, 0.262745, 0.172549, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.882353)
 
 [sub_resource type="Theme" id="Theme_pldyj"]
 
 [node name="card_view" type="Node2D" node_paths=PackedStringArray("_title", "_description", "_image", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon")]
 texture_filter = 1
 script = ExtResource("1_r8q4a")
-_title = NodePath("scale_container/title_banner/center_container/vbox_container/title_text")
-_description = NodePath("scale_container/description_panel/margin/desc_container/description_text")
-_image = NodePath("scale_container/card_portrait")
-_glow = NodePath("scale_container/glow")
-_foodCost = NodePath("scale_container/title_banner/center_container/vbox_container/cost_panel/food_cost")
-_woodCost = NodePath("scale_container/title_banner/center_container/vbox_container/cost_panel/wood_cost")
-_goldCost = NodePath("scale_container/title_banner/center_container/vbox_container/cost_panel/gold_cost")
-_stoneCost = NodePath("scale_container/title_banner/center_container/vbox_container/cost_panel/stone_cost")
-_foodIcon = NodePath("scale_container/title_banner/center_container/vbox_container/cost_panel/food_icon")
-_woodIcon = NodePath("scale_container/title_banner/center_container/vbox_container/cost_panel/wood_icon")
-_goldIcon = NodePath("scale_container/title_banner/center_container/vbox_container/cost_panel/gold_icon")
-_stoneIcon = NodePath("scale_container/title_banner/center_container/vbox_container/cost_panel/stone_icon")
+_title = NodePath("title_text")
+_description = NodePath("description_text")
+_image = NodePath("card_portrait")
+_glow = NodePath("glow")
+_foodCost = NodePath("cost_grid/food_cost")
+_woodCost = NodePath("cost_grid/wood_cost")
+_goldCost = NodePath("cost_grid/gold_cost")
+_stoneCost = NodePath("cost_grid/stone_cost")
+_foodIcon = NodePath("cost_grid/food_icon")
+_woodIcon = NodePath("cost_grid/wood_icon")
+_goldIcon = NodePath("cost_grid/gold_icon")
+_stoneIcon = NodePath("cost_grid/stone_icon")
 
-[node name="scale_container" type="Node2D" parent="."]
-scale = Vector2(0.5, 0.5)
-
-[node name="glow" type="NinePatchRect" parent="scale_container"]
+[node name="glow" type="NinePatchRect" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -275.0
-offset_top = -372.0
-offset_right = 272.0
-offset_bottom = 373.0
+offset_left = -133.0
+offset_top = -177.0
+offset_right = 133.0
+offset_bottom = 178.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_fo11h")
@@ -51,58 +54,56 @@ patch_margin_top = 23
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="background" type="NinePatchRect" parent="scale_container"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -350.0
-offset_right = 250.0
-offset_bottom = 350.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("3_7tlsa")
-region_rect = Rect2(25, 24, 403, 103)
-patch_margin_left = 17
-patch_margin_top = 19
-patch_margin_right = 21
-patch_margin_bottom = 21
+[node name="frame" type="Sprite2D" parent="."]
+texture = ExtResource("3_qyos6")
 
-[node name="title_banner" type="Sprite2D" parent="scale_container"]
-position = Vector2(0, -250)
-texture = ExtResource("4_r3t5c")
-
-[node name="center_container" type="CenterContainer" parent="scale_container/title_banner"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -213.0
-offset_top = -81.5
-offset_right = -213.0
-offset_bottom = -81.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="vbox_container" type="VBoxContainer" parent="scale_container/title_banner/center_container"]
-layout_mode = 2
-
-[node name="title_text" type="Label" parent="scale_container/title_banner/center_container/vbox_container"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.521569, 0.262745, 0.172549, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 35
-text = "Lorem Ipsum"
+[node name="title_text" type="Label" parent="."]
+offset_left = -81.0
+offset_top = -136.0
+offset_right = 75.56
+offset_bottom = -99.0
+text = "title text"
+label_settings = SubResource("LabelSettings_hu4f0")
 horizontal_alignment = 1
 vertical_alignment = 1
+clip_text = true
+text_overrun_behavior = 3
 metadata/_edit_use_anchors_ = true
 
-[node name="cost_panel" type="GridContainer" parent="scale_container/title_banner/center_container/vbox_container"]
-layout_mode = 2
-columns = 8
+[node name="description_text" type="RichTextLabel" parent="."]
+clip_contents = false
+offset_left = -79.0
+offset_top = 59.0
+offset_right = 88.0
+offset_bottom = 127.0
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.221665, 0.0909974, 0.0350278, 1)
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+scroll_active = false
+autowrap_mode = 2
+tab_size = 2
+shortcut_keys_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
 
-[node name="food_icon" type="TextureRect" parent="scale_container/title_banner/center_container/vbox_container/cost_panel"]
+[node name="card_portrait" type="Sprite2D" parent="."]
+position = Vector2(-30, -21)
+scale = Vector2(0.439812, 0.439812)
+texture = ExtResource("7_wr2mb")
+
+[node name="cost_grid" type="GridContainer" parent="."]
+offset_left = 44.0
+offset_top = -72.0
+offset_right = 115.0
+offset_bottom = 100.0
+scale = Vector2(0.635, 0.635)
+columns = 2
+
+[node name="food_icon" type="TextureRect" parent="cost_grid"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
@@ -110,119 +111,73 @@ texture = ExtResource("4_egy70")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="food_cost" type="Label" parent="scale_container/title_banner/center_container/vbox_container/cost_panel"]
+[node name="food_cost" type="Label" parent="cost_grid"]
 texture_filter = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = SubResource("Theme_pldyj")
 theme_override_colors/font_color = Color(0.968627, 0.415686, 0.403922, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 26
-text = "99
-"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 24
+text = "99"
 vertical_alignment = 1
 
-[node name="wood_icon" type="TextureRect" parent="scale_container/title_banner/center_container/vbox_container/cost_panel"]
+[node name="wood_icon" type="TextureRect" parent="cost_grid"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
 texture = ExtResource("5_v28jb")
-expand_mode = 2
+expand_mode = 3
 stretch_mode = 4
 
-[node name="wood_cost" type="Label" parent="scale_container/title_banner/center_container/vbox_container/cost_panel"]
+[node name="wood_cost" type="Label" parent="cost_grid"]
 texture_filter = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = SubResource("Theme_pldyj")
 theme_override_colors/font_color = Color(0.670588, 0.482353, 0.392157, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 26
-text = "99
-"
+theme_override_font_sizes/font_size = 24
+text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="gold_icon" type="TextureRect" parent="scale_container/title_banner/center_container/vbox_container/cost_panel"]
+[node name="gold_icon" type="TextureRect" parent="cost_grid"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
 texture = ExtResource("6_oanwv")
-expand_mode = 2
+expand_mode = 3
 stretch_mode = 4
 
-[node name="gold_cost" type="Label" parent="scale_container/title_banner/center_container/vbox_container/cost_panel"]
+[node name="gold_cost" type="Label" parent="cost_grid"]
 texture_filter = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = SubResource("Theme_pldyj")
 theme_override_colors/font_color = Color(0.988235, 0.866667, 0, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 26
-text = "99
-"
+theme_override_font_sizes/font_size = 24
+text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="stone_icon" type="TextureRect" parent="scale_container/title_banner/center_container/vbox_container/cost_panel"]
+[node name="stone_icon" type="TextureRect" parent="cost_grid"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
 texture = ExtResource("7_rv8hy")
-expand_mode = 2
+expand_mode = 3
 stretch_mode = 4
 
-[node name="stone_cost" type="Label" parent="scale_container/title_banner/center_container/vbox_container/cost_panel"]
+[node name="stone_cost" type="Label" parent="cost_grid"]
 texture_filter = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = SubResource("Theme_pldyj")
 theme_override_colors/font_color = Color(0.780392, 0.819608, 0.858824, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 26
-text = "99
-"
+theme_override_font_sizes/font_size = 24
+text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="card_portrait" type="Sprite2D" parent="scale_container"]
-position = Vector2(0, -65)
-texture = ExtResource("7_wr2mb")
-
-[node name="description_panel" type="Sprite2D" parent="scale_container"]
-position = Vector2(0, 200)
-texture = ExtResource("10_7tqex")
-metadata/_edit_use_anchors_ = true
-
-[node name="margin" type="MarginContainer" parent="scale_container/description_panel"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -232.5
-offset_top = -136.5
-offset_right = -232.5
-offset_bottom = -136.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 35
-theme_override_constants/margin_top = 40
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 40
-
-[node name="desc_container" type="VBoxContainer" parent="scale_container/description_panel/margin"]
-layout_mode = 2
-
-[node name="description_text" type="RichTextLabel" parent="scale_container/description_panel/margin/desc_container"]
-clip_contents = false
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/default_color = Color(0.239216, 0.109804, 0.0823529, 1)
-theme_override_font_sizes/normal_font_size = 21
-bbcode_enabled = true
-text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-scroll_active = false
-tab_size = 2
-shortcut_keys_enabled = false
-deselect_on_focus_loss_enabled = false
-drag_and_drop_selection_enabled = false

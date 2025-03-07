@@ -147,7 +147,7 @@ public partial class HandView : Node2D, IGameComponent
 	{
 		var visibleRect = _viewport.GetVisibleRect();
 		Scale = visibleRect.CalculateScaleFactor();
-		Position = new Vector2(visibleRect.Size.X * 0.5f, visibleRect.Size.Y - (175f * Scale.Y));
+		Position = new Vector2(visibleRect.Size.X * 0.5f, visibleRect.Size.Y - (165f * Scale.Y));
 	}
 
 	private void OnPrepareDrawCards(DrawCardsAction action)
@@ -203,7 +203,7 @@ public partial class HandView : Node2D, IGameComponent
 
 			var targetPosition = (Vector2.Right * 1200) + (Vector2.Down * 400);
 			tween.TweenProperty(cardView, "position", targetPosition, tweenDuration);
-			tween.TweenProperty(cardView, "rotation", Mathf.Pi / 2, tweenDuration);
+			tween.TweenProperty(cardView, "rotation", Mathf.Pi / 4, tweenDuration);
 			tween.TweenProperty(cardView, "scale", Vector2.One * 1.3f, tweenDuration);
 
 			while (tween.IsRunning()) yield return null;
@@ -322,9 +322,9 @@ public partial class HandView : Node2D, IGameComponent
 			.SetParallel();
 
 		var (handPos, _) = CalculateHandPosition(card);
-		tween.TweenProperty(card, "position", handPos + Vector2.Up * (60f + handPos.Y), tweenDuration);
+		tween.TweenProperty(card, "position", handPos + Vector2.Up * (30 + handPos.Y), tweenDuration);
 		tween.TweenProperty(card, "rotation", 0, tweenDuration);
-		tween.TweenProperty(card, "scale", Vector2.One * 1.3f, tweenDuration);
+		// tween.TweenProperty(card, "scale", Vector2.One * 1.1f, tweenDuration);
 
 		_tweenTracker.TrackTween(tween, card);
 		return tween;
