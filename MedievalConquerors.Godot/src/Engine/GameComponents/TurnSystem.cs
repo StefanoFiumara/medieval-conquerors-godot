@@ -23,6 +23,7 @@ public class TurnSystem : GameComponent, IAwake
 
         _events.Subscribe<ChangeTurnAction>(GameEvent.Perform<ChangeTurnAction>(), OnPerformChangeTurn);
         _events.Subscribe<BeginTurnAction>(GameEvent.Perform<BeginTurnAction>(), OnPerformBeginTurn);
+        _events.Subscribe<EndTurnAction>(GameEvent.Perform<EndTurnAction>(), OnPerformEndTurn);
         _events.Subscribe<BeginGameAction>(GameEvent.Perform<BeginGameAction>(), OnPerformBeginGame);
         _events.Subscribe(PlayerUiPanel.NextTurnClicked, OnClickNextTurn);
     }
@@ -55,11 +56,14 @@ public class TurnSystem : GameComponent, IAwake
 
     private void OnPerformChangeTurn(ChangeTurnAction action)
     {
-        if(_match.CurrentPlayer.Hand.Count > 0)
-            Game.AddReaction(new DiscardCardsAction(_match.CurrentPlayer.Hand.ToList()));
-
         Game.AddReaction(new EndTurnAction(_match.CurrentPlayerId));
         Game.AddReaction(new BeginTurnAction(action.NextPlayerId));
+    }
+
+    private void OnPerformEndTurn(EndTurnAction action)
+    {
+        if(_match.CurrentPlayer.Hand.Count > 0)
+            Game.AddReaction(new DiscardCardsAction(_match.Players[action.PlayerId].Hand.ToList()));
     }
 
     private void OnPerformBeginTurn(BeginTurnAction action)

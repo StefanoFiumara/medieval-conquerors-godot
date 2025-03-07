@@ -10,6 +10,7 @@ namespace MedievalConquerors.Engine.GameComponents;
 public class CardLibrary : GameComponent, IAwake
 {
 	public const int TownCenterId = 12;
+	public const int VillagerId = 11;
 
 	private ILogger _logger;
 	private ImmutableDictionary<int, CardData> _cardData;

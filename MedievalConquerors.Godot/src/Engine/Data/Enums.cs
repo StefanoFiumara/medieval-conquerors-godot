@@ -65,7 +65,8 @@ public enum Zone
     Deck = 1,
     Hand = 2,
     Map = 3,
-    Discard = 4
+    Discard = 4,
+    Banished = 5
 }
 
 public static class EnumExtensions

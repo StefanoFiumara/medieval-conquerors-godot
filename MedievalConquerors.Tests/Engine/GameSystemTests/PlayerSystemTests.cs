@@ -39,7 +39,7 @@ public class PlayerSystemTests : GameSystemTestFixture
     public void PlayerSystem_Performs_PlayCardAction_And_Moves_To_MapZone()
     {
         // Play a card
-        var cardToPlay = _player.Hand.First();
+        var cardToPlay = _player.Hand.Last();
 
         var positionToPlay = new Vector2I(5, 5);
         var playAction = new PlayCardAction(cardToPlay, positionToPlay);
@@ -48,7 +48,7 @@ public class PlayerSystemTests : GameSystemTestFixture
         Game.Update();
 
         _player.Map.Count.ShouldBe(2);
-        _player.Hand.Count.ShouldBe(1);
+        _player.Hand.Count.ShouldBe(2);
 
         cardToPlay.Zone.ShouldBe(Zone.Map);
         cardToPlay.MapPosition.ShouldBe(positionToPlay);
@@ -63,7 +63,7 @@ public class PlayerSystemTests : GameSystemTestFixture
     public void PlayerSystem_Performs_DiscardCardsAction_And_Moves_To_DiscardZone()
     {
         // Play a card
-        var card = _player.Hand.First();
+        var card = _player.Hand.Last();
         var positionToPlay = new Vector2I(5, 5);
         var playAction = new PlayCardAction(card, positionToPlay);
         Game.Perform(playAction);
@@ -85,8 +85,8 @@ public class PlayerSystemTests : GameSystemTestFixture
     [Fact]
     public void PlayerSystem_Performs_DiscardCardsAction_And_Moves_Multiple_Cards_To_DiscardZone()
     {
-        // Discard 2 random cards
-        var toDiscard = _player.Hand.Take(2).ToList();
+        // Discard the player's hand
+        var toDiscard = _player.Hand.ToList();
         var discardAction = new DiscardCardsAction(toDiscard);
 
         Game.Perform(discardAction);

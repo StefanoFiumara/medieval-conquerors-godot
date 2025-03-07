@@ -40,10 +40,9 @@ public class ResourceSystemTests : GameSystemTestFixture
     {
         _costlyCard.Zone.ShouldBe(Zone.Hand);
         _player.Hand.ShouldContain(_costlyCard);
-        var card = _player.Hand.First();
 
         var positionToPlay = new Vector2I(5, 5);
-        var action = new PlayCardAction(card, positionToPlay);
+        var action = new PlayCardAction(_costlyCard, positionToPlay);
 
         var result = action.Validate(Game);
 
@@ -56,11 +55,10 @@ public class ResourceSystemTests : GameSystemTestFixture
         _costlyCard.Zone.ShouldBe(Zone.Hand);
         _player.Hand.ShouldContain(_costlyCard);
 
-        var card = _player.Hand.First();
-        card.GetAttribute<ResourceCostAttribute>().Food = 999;
+        _costlyCard.GetAttribute<ResourceCostAttribute>().Food = 999;
 
         var positionToPlay = new Vector2I(5, 5);
-        var action = new PlayCardAction(card, positionToPlay);
+        var action = new PlayCardAction(_costlyCard, positionToPlay);
 
         var result = action.Validate(Game);
 

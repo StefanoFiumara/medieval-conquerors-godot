@@ -56,11 +56,12 @@ public class PlayerSystem : GameComponent, IAwake
             var deckInfo = new List<(int id, int amount)>
             {
                 // TEMP: mocked deck info data using IDs from our DB, to test deck loading from disk
-                (11, 2), // 2 Villagers
-                (2, 2), // 2 Knights
-                (6, 1), // Lumber Camp
-                (10, 1), // Mining Camp
-                (13, 1), // Mill
+                // (11, 5), // 2 Villagers
+                // (2, 2), // 2 Knights
+                // TODO: Implement and add a technology cards for each of these economic buildings
+                (6, 2), // Lumber Camp
+                (10, 2), // Mining Camp
+                (13, 2), // Mill
             };
 
             var loadedPlayerDeck = _cardDb.LoadDeck(_match.LocalPlayer, deckInfo);
@@ -75,7 +76,10 @@ public class PlayerSystem : GameComponent, IAwake
         foreach (var card in action.CardsToDiscard)
         {
             var player = card.Owner;
-            player.MoveCard(card, Zone.Discard);
+            if(card.CardData.Id == CardLibrary.VillagerId)
+                player.MoveCard(card, Zone.Banished);
+            else
+                player.MoveCard(card, Zone.Discard);
         }
     }
 

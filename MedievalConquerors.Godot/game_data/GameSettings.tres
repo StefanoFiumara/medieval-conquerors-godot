@@ -6,7 +6,7 @@
 script = ExtResource("1_o32wb")
 StartingHandCount = 6
 DebugMode = false
-StartingFoodCount = 5
-StartingWoodCount = 5
+StartingFoodCount = 8
+StartingWoodCount = 6
 StartingGoldCount = 2
 StartingStoneCount = 0

@@ -12,10 +12,11 @@ public class Player
     public AgeType Age { get; private set; }
     public ResourceBank Resources { get; } = new();
 
-    public List<Card> Deck    { get; } = [];
-    public List<Card> Hand    { get; } = [];
-    public List<Card> Discard { get; } = [];
-    public List<Card> Map     { get; } = [];
+    public List<Card> Deck     { get; } = [];
+    public List<Card> Hand     { get; } = [];
+    public List<Card> Map      { get; } = [];
+    public List<Card> Discard  { get; } = [];
+    public List<Card> Banished { get; } = [];
 
     public int TurnStartDrawCount => 3 + (int)Age;
 
@@ -33,6 +34,7 @@ public class Player
             { Zone.Hand, Hand },
             { Zone.Discard, Discard },
             { Zone.Map, Map },
+            { Zone.Banished, Banished }
         };
     }
 

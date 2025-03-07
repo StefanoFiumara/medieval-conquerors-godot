@@ -1,4 +1,4 @@
-﻿using MedievalConquerors.Engine.Core;
+using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
@@ -39,6 +39,7 @@ public static class GameFactory
         game.AddComponent<GlobalGameStateSystem>();
         // game.AddComponent<VictorySystem>();
 
+        game.AddComponent<VillagerSystem>();
         game.AddComponent<ResourceSystem>();
         // game.AddComponent<AgeSystem>();
         game.AddComponent<GarrisonSystem>();
