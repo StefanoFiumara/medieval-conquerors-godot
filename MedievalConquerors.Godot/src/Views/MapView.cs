@@ -263,9 +263,8 @@ public partial class MapView : Node2D, IGameComponent
 
 		foreach (var collected in collectAction.ResourcesCollected)
 		{
-			var position = this[MapLayerType.Terrain].MapToLocal(collected.Key);
-			var (resource, amount) = collected.Value;
-			var tween = this.CreateResourcePopup(position, resource, amount, stepDuration);
+			var position = this[MapLayerType.Terrain].MapToLocal(collected.position);
+			var tween = this.CreateResourcePopup(position, collected.resource, collected.amount, stepDuration);
 
 			while (tween.IsRunning())
 				yield return null;

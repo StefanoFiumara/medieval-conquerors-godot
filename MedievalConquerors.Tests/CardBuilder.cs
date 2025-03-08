@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using MedievalConquerors.Engine.Data;
+﻿using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 
-namespace MedievalConquerors.Extensions;
+namespace MedievalConquerors.Tests;
 
-// TODO: Move this to the test project when we start reading from the card library in game code
 public class CardBuilder
 {
     public static CardBuilder Build(Player owner)
@@ -58,14 +55,9 @@ public class CardBuilder
         return this;
     }
 
-    public CardBuilder WithResourceCollector(ResourceType resource, float gatherRate)
+    public CardBuilder WithResourceCollector(ResourceType resource)
     {
-        _data.Attributes.Add(new ResourceCollectorAttribute
-        {
-            Resource = resource,
-            GatherRate = gatherRate,
-        });
-
+        _data.Attributes.Add(new ResourceCollectorAttribute { Resource = resource });
         return this;
     }
 
@@ -125,7 +117,7 @@ public static class DeckBuilder
     {
         var cards = new List<Card>();
         cards.AddRange(Enumerable.Range(0, 15)
-            .Select(i => CardBuilder.Build(owner)
+            .Select(_ => CardBuilder.Build(owner)
                 .WithTitle("Villager")
                 .WithDescription("Collects resources when assigned to gathering posts")
                 .WithImagePath("res://assets/portraits/villager.png")
@@ -168,7 +160,7 @@ public static class DeckBuilder
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
             .WithResourceCost(wood: 2)
-            .WithResourceCollector(ResourceType.Wood, gatherRate: 1f)
+            .WithResourceCollector(ResourceType.Wood)
             .WithGarrisonCapacity(capacity: 3)
             .WithSpawnPoint(Tags.TownCenter)
             .Create());
@@ -181,7 +173,7 @@ public static class DeckBuilder
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
             .WithResourceCost(wood: 2)
-            .WithResourceCollector(ResourceType.Mining, gatherRate: 1f)
+            .WithResourceCollector(ResourceType.Mining)
             .WithGarrisonCapacity(capacity: 3)
             .WithSpawnPoint(Tags.TownCenter)
             .Create());
@@ -194,7 +186,7 @@ public static class DeckBuilder
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
             .WithResourceCost(wood: 2)
-            .WithResourceCollector(ResourceType.Food, gatherRate: 1f)
+            .WithResourceCollector(ResourceType.Food)
             .WithGarrisonCapacity(capacity: 3)
             .WithSpawnPoint(Tags.TownCenter)
             .Create());

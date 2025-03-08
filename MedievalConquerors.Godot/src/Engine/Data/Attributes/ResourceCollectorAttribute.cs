@@ -3,9 +3,8 @@
 public class ResourceCollectorAttribute : ICardAttribute
 {
     public ResourceType Resource { get; set; }
-    public float GatherRate { get; set; }
-    
-    public void OnTurnStart() { } 
+
+    public void OnTurnStart() { }
 
     public ICardAttribute Clone() => AttributeMapper.Clone(this);
 }

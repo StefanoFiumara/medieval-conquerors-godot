@@ -8,5 +8,5 @@ public class CollectResourcesAction(int targetPlayerId) : GameAction
 {
     public int TargetPlayerId { get; } = targetPlayerId;
 
-    public Dictionary<Vector2I, (ResourceType resource, int amount)> ResourcesCollected { get; } = new();
+    public List<(Vector2I position, ResourceType resource, int amount)> ResourcesCollected { get; } = new();
 }
