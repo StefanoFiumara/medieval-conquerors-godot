@@ -82,13 +82,14 @@ public class HexMap(Dictionary<Vector2I, TileData> tileData, Dictionary<TileTerr
 			outerEdges.Add([]);
 			foreach (var edge in outerEdges[i-1])
 			{
-				foreach (var neighbor in GetNeighbors(edge).Where(n => n.IsWalkable))
+				foreach (var neighbor in GetNeighbors(edge))
 				{
 					var position = neighbor.Position;
 					if (visited.Add(position))
 					{
 						outerEdges[i].Add(position);
-						yield return position;
+						if(neighbor.IsWalkable)
+							yield return position;
 					}
 				}
 			}
