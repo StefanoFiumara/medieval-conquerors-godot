@@ -23,7 +23,8 @@ public enum CardType
     None,
     Building,
     Unit,
-    Technology
+    Technology,
+    Military
 }
 
 [Flags]

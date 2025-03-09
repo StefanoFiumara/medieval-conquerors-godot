@@ -25,9 +25,10 @@ outline_color = Color(0.223529, 0.0901961, 0.0352941, 1)
 
 [sub_resource type="Theme" id="Theme_pldyj"]
 
-[node name="card_view" type="Node2D" node_paths=PackedStringArray("_title", "_description", "_type", "_image", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon")]
+[node name="card_view" type="Node2D" node_paths=PackedStringArray("_background", "_title", "_description", "_type", "_image", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon")]
 texture_filter = 1
 script = ExtResource("1_r8q4a")
+_background = NodePath("background")
 _title = NodePath("title_text")
 _description = NodePath("description_text")
 _type = NodePath("type_text")
@@ -61,8 +62,9 @@ patch_margin_top = 23
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="frame" type="Sprite2D" parent="."]
+[node name="background" type="Sprite2D" parent="."]
 texture = ExtResource("3_6q0cx")
+hframes = 4
 
 [node name="title_text" type="Label" parent="."]
 offset_left = -82.0
@@ -78,10 +80,10 @@ text_overrun_behavior = 3
 metadata/_edit_use_anchors_ = true
 
 [node name="type_text" type="Label" parent="."]
-offset_left = -80.0
-offset_top = 55.0
-offset_right = 50.0
-offset_bottom = 73.0
+offset_left = -53.0
+offset_top = 43.0
+offset_right = 77.0
+offset_bottom = 61.0
 text = "Card Type"
 label_settings = SubResource("LabelSettings_6q0cx")
 vertical_alignment = 1
@@ -91,10 +93,10 @@ metadata/_edit_use_anchors_ = true
 
 [node name="description_text" type="RichTextLabel" parent="."]
 clip_contents = false
-offset_left = -80.0
-offset_top = 71.0
-offset_right = 82.0
-offset_bottom = 134.0
+offset_left = -52.0
+offset_top = 60.0
+offset_right = 72.0
+offset_bottom = 140.0
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.221665, 0.0909974, 0.0350278, 1)
 theme_override_constants/shadow_offset_y = 1
@@ -110,8 +112,8 @@ deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
 [node name="card_portrait" type="Sprite2D" parent="."]
-position = Vector2(0, -18)
-scale = Vector2(0.512297, 0.512297)
+position = Vector2(0, -30)
+scale = Vector2(0.484375, 0.484375)
 texture = ExtResource("7_wr2mb")
 
 [node name="cost_grid" type="HBoxContainer" parent="."]

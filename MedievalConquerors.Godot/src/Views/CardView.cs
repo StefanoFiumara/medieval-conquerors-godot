@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
@@ -10,17 +11,18 @@ namespace MedievalConquerors.Views;
 
 public partial class CardView : Node2D, IClickable
 {
+	[Export] private Sprite2D _background;
 	[Export] private Label _title;
 	[Export] private RichTextLabel _description;
 	[Export] private Label _type;
 	[Export] private Sprite2D _image;
 	[Export] private NinePatchRect _glow;
-	
+
 	[Export] private Label _foodCost;
 	[Export] private Label _woodCost;
 	[Export] private Label _goldCost;
 	[Export] private Label _stoneCost;
-	
+
 	[Export] private TextureRect _foodIcon;
 	[Export] private TextureRect _woodIcon;
 	[Export] private TextureRect _goldIcon;
@@ -29,7 +31,15 @@ public partial class CardView : Node2D, IClickable
 	private CardSystem _cardSystem;
 
 	private Tween _glowTween;
-	
+
+	private readonly Dictionary<CardType, int> _cardFrameMap = new()
+	{
+		{ CardType.Building, 0 },
+		{ CardType.Technology, 1 },
+		{ CardType.Unit, 2 },
+		{ CardType.Military, 3 },
+	};
+
 	private Color _targetHighlightColor;
 	private Color TargetHighlightColor
 	{
@@ -37,7 +47,7 @@ public partial class CardView : Node2D, IClickable
 		set
 		{
 			if (_targetHighlightColor == value) return;
-			
+
 			_targetHighlightColor = value;
 			if (value == Colors.Transparent)
 			{
@@ -55,23 +65,24 @@ public partial class CardView : Node2D, IClickable
 			}
 		}
 	}
-	
+
 	public Card Card { get; private set; }
 
 	public void Initialize(IGame game, Card card)
 	{
 		Card = card;
 		_cardSystem = game.GetComponent<CardSystem>();
-		
+
 		// TODO: Update title color based on card type?
 		_title.Text = Card.CardData.Title;
 		_type.Text = Card.CardData.CardType.ToString();
-		
+
 		// TODO: Append tags and card type to description
 		_description.Text = Card.CardData.Description;
 		RemoveHighlight();
-		
-		// NOTE: Assumes _cardData.Image is a 256x256 sprite.
+
+		_background.Frame = _cardFrameMap.GetValueOrDefault(Card.CardData.CardType, 0);
+
 		if (!string.IsNullOrEmpty(Card.CardData.ImagePath))
 		{
 			_image.Texture = GD.Load<Texture2D>(Card.CardData.ImagePath);
@@ -84,12 +95,12 @@ public partial class CardView : Node2D, IClickable
 			_woodCost.Text = $"{cost.Wood}";
 			_goldCost.Text = $"{cost.Gold}";
 			_stoneCost.Text = $"{cost.Stone}";
-			
+
 			_foodIcon.Visible = cost.Food > 0;
 			_woodIcon.Visible = cost.Wood > 0;
 			_goldIcon.Visible = cost.Gold > 0;
 			_stoneIcon.Visible = cost.Stone > 0;
-			
+
 			_foodCost.Visible = cost.Food > 0;
 			_woodCost.Visible = cost.Wood > 0;
 			_goldCost.Visible = cost.Gold > 0;
@@ -107,7 +118,7 @@ public partial class CardView : Node2D, IClickable
 	{
 		TargetHighlightColor = color;
 	}
-	
+
 	public void RemoveHighlight()
 	{
 		TargetHighlightColor = Colors.Transparent;
