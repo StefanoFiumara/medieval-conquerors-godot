@@ -59,9 +59,11 @@ public class PlayerSystem : GameComponent, IAwake
                 // (11, 5), // 2 Villagers
                 // (2, 2), // 2 Knights
                 // TODO: Implement and add a technology cards for each of these economic buildings
-                (6, 2), // Lumber Camp
-                (10, 2), // Mining Camp
-                (13, 2), // Mill
+                (15, 1), // Agriculture
+                // (14, 3), // Farms
+                (6, 1), // Lumber Camp
+                (10, 1), // Mining Camp
+                (13, 1), // Mill
             };
 
             var loadedPlayerDeck = _cardDb.LoadDeck(_match.LocalPlayer, deckInfo);

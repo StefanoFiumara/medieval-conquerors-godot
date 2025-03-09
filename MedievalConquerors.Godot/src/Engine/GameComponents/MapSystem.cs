@@ -19,23 +19,23 @@ public class MapSystem : GameComponent, IAwake
         _events = Game.GetComponent<EventAggregator>();
         _map = Game.GetComponent<HexMap>();
         _match = Game.GetComponent<Match>();
-        
+
         _events.Subscribe<MoveUnitAction>(GameEvent.Perform<MoveUnitAction>(), OnPerformMoveUnit);
         _events.Subscribe<MoveUnitAction, ActionValidatorResult>(GameEvent.Validate<MoveUnitAction>(), OnValidateMoveUnit);
-        
+
         _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
-        
+
         _events.Subscribe<DiscardCardsAction>(GameEvent.Perform<DiscardCardsAction>(), OnPerformDiscardCards);
-        _events.Subscribe<ChangeTurnAction>(GameEvent.Perform<ChangeTurnAction>(), OnPerformChangeTurn);
+        _events.Subscribe<BeginTurnAction>(GameEvent.Perform<BeginTurnAction>(), OnPerformBeginTurn);
     }
 
     private void OnPerformPlayCard(PlayCardAction action)
     {
         var tile = _map.GetTile(action.TargetTile);
-        
+
         if (action.CardToPlay.CardData.CardType == CardType.Building)
             tile.Building = action.CardToPlay;
-        
+
         else if (action.CardToPlay.CardData.CardType == CardType.Unit)
         {
             if (tile.Building != null)
@@ -49,12 +49,12 @@ public class MapSystem : GameComponent, IAwake
 
     private void OnPerformDiscardCards(DiscardCardsAction action)
     {
-        foreach (var card in action.CardsToDiscard) 
+        foreach (var card in action.CardsToDiscard)
         {
             if (card.MapPosition != HexMap.None)
             {
                 var tile = _map.GetTile(card.MapPosition);
-                
+
                 if (card == tile.Building)
                     tile.Building = null;
                 else
@@ -64,11 +64,11 @@ public class MapSystem : GameComponent, IAwake
             }
         }
     }
-    
+
     private void OnValidateMoveUnit(MoveUnitAction action, ActionValidatorResult validator)
     {
         var moveAttr = action.CardToMove.GetAttribute<MovementAttribute>();
-        
+
         if (action.CardToMove.Zone != Zone.Map)
         {
             validator.Invalidate("Card is not on the map.");
@@ -91,21 +91,22 @@ public class MapSystem : GameComponent, IAwake
     private void OnPerformMoveUnit(MoveUnitAction action)
     {
         var distanceTraveled = _map.CalculatePath(action.CardToMove.MapPosition, action.TargetTile).Count;
-        
+
         var oldTile = _map.GetTile(action.CardToMove.MapPosition);
         var newTile = _map.GetTile(action.TargetTile);
 
         oldTile.Unit = null;
         newTile.Unit = action.CardToMove;
-        
+
         action.CardToMove.MapPosition = action.TargetTile;
         var moveAttr = action.CardToMove.GetAttribute<MovementAttribute>();
         moveAttr.Move(distanceTraveled);
     }
-    
-    private void OnPerformChangeTurn(ChangeTurnAction action)
+
+    // TODO: does this belong in a separate system?
+    private void OnPerformBeginTurn(BeginTurnAction action)
     {
-        var player = _match.Players[action.NextPlayerId];
+        var player = _match.Players[action.PlayerId];
         foreach (var card in player.Map)
         {
             foreach (var attr in card.Attributes.Values)

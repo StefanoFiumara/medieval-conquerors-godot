@@ -12,6 +12,7 @@ public partial class CardView : Node2D, IClickable
 {
 	[Export] private Label _title;
 	[Export] private RichTextLabel _description;
+	[Export] private Label _type;
 	[Export] private Sprite2D _image;
 	[Export] private NinePatchRect _glow;
 	
@@ -64,6 +65,7 @@ public partial class CardView : Node2D, IClickable
 		
 		// TODO: Update title color based on card type?
 		_title.Text = Card.CardData.Title;
+		_type.Text = Card.CardData.CardType.ToString();
 		
 		// TODO: Append tags and card type to description
 		_description.Text = Card.CardData.Description;

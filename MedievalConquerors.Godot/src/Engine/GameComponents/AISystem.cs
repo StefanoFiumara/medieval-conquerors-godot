@@ -83,6 +83,9 @@ public class AISystem : GameComponent, IAwake
 
     private int CalculateEconomicBuildingScore(Card card, Vector2I tilePos)
     {
+        // TODO: Adjust scoring for other types of economic buildings, e.g. Farms do not have a resource collector attribute, so the AI never plays them.
+        //       We need to adjust this logic to also account for any economic buildings with a resource provider attribute.
+
         // the value of placing an economic building on this tile depends on whether the tile is adjacent to the resource it collects.
         var resource = card.GetAttribute<ResourceCollectorAttribute>()?.Resource;
         if (resource == null) return 0;
