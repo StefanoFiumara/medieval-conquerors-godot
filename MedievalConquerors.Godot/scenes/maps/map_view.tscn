@@ -21,7 +21,7 @@ collision_enabled = false
 navigation_enabled = false
 
 [node name="mouse_hover" type="TileMapLayer" parent="."]
-z_index = 100
+z_index = 1
 use_parent_material = true
 tile_set = ExtResource("3_m2l8k")
 
@@ -37,5 +37,6 @@ tile_set = ExtResource("3_m2l8k")
 
 [node name="tile_selection_hint" type="TileMapLayer" parent="."]
 modulate = Color(1, 1, 0.533333, 1)
+z_index = 1
 use_parent_material = true
 tile_set = ExtResource("3_m2l8k")
