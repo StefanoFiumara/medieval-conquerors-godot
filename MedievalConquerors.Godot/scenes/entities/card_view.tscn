@@ -1,34 +1,28 @@
-[gd_scene load_steps=13 format=3 uid="uid://b53wqwu1youqe"]
+[gd_scene load_steps=11 format=3 uid="uid://b53wqwu1youqe"]
 
 [ext_resource type="Script" uid="uid://iwsn12lqk8tu" path="res://src/Views/CardView.cs" id="1_r8q4a"]
 [ext_resource type="Texture2D" uid="uid://sbqj2jrisdkc" path="res://assets/user_interface/panels/panel_glow.png" id="2_fo11h"]
-[ext_resource type="Texture2D" uid="uid://dlxl53yjrv0x2" path="res://assets/cards/frame_template.png" id="3_6q0cx"]
-[ext_resource type="Texture2D" uid="uid://d1q4nyma6hauw" path="res://assets/user_interface/icons/food.png" id="4_egy70"]
-[ext_resource type="FontFile" uid="uid://deedrus7sv00b" path="res://assets/fonts/RELIGATH-Demo.otf" id="4_wi131"]
-[ext_resource type="Texture2D" uid="uid://tnov0cxrwas5" path="res://assets/user_interface/icons/wood.png" id="5_v28jb"]
-[ext_resource type="Texture2D" uid="uid://b3m6uu5s21qyg" path="res://assets/user_interface/icons/gold.png" id="6_oanwv"]
-[ext_resource type="Texture2D" uid="uid://dwgqpljq1uely" path="res://assets/user_interface/icons/stone.png" id="7_rv8hy"]
-[ext_resource type="Texture2D" uid="uid://78l1ndmuqstx" path="res://assets/placeholder.png" id="7_wr2mb"]
+[ext_resource type="Texture2D" uid="uid://dmxr1faglyqof" path="res://assets/cards/frame_bg.png" id="3_xchd5"]
+[ext_resource type="Texture2D" uid="uid://dqc1l4x1bhauk" path="res://assets/portraits/agriculture.png" id="4_qyos6"]
+[ext_resource type="Texture2D" uid="uid://0uy1cqn42is3" path="res://assets/cards/frame_border.png" id="5_wi131"]
+[ext_resource type="FontFile" uid="uid://bnndeil6c3twa" path="res://assets/fonts/QUILLPN.TTF" id="6_hu4f0"]
+[ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://assets/user_interface/icons/resource_icons.png" id="7_356ln"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_hu4f0"]
-font = ExtResource("4_wi131")
-font_size = 21
-font_color = Color(0.690082, 0.313051, 0.181661, 1)
-shadow_size = 2
+font = ExtResource("6_hu4f0")
 shadow_color = Color(0, 0, 0, 0.882353)
 
 [sub_resource type="LabelSettings" id="LabelSettings_6q0cx"]
 font_size = 13
-font_color = Color(0.223529, 0.0901961, 0.0352941, 1)
+font_color = Color(0, 0, 0, 1)
 outline_size = 1
-outline_color = Color(0.223529, 0.0901961, 0.0352941, 1)
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Theme" id="Theme_pldyj"]
 
-[node name="card_view" type="Node2D" node_paths=PackedStringArray("_background", "_title", "_description", "_type", "_image", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon")]
+[node name="card_view" type="Node2D" node_paths=PackedStringArray("_title", "_description", "_type", "_image", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon")]
 texture_filter = 1
 script = ExtResource("1_r8q4a")
-_background = NodePath("background")
 _title = NodePath("title_text")
 _description = NodePath("description_text")
 _type = NodePath("type_text")
@@ -50,9 +44,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -133.0
-offset_top = -177.0
-offset_right = 133.0
-offset_bottom = 178.0
+offset_top = -191.0
+offset_right = 130.0
+offset_bottom = 189.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_fo11h")
@@ -62,16 +56,24 @@ patch_margin_top = 23
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="background" type="Sprite2D" parent="."]
-texture = ExtResource("3_6q0cx")
-hframes = 4
+[node name="description_panel" type="Sprite2D" parent="."]
+position = Vector2(-4, 9.65)
+texture = ExtResource("3_xchd5")
+
+[node name="card_portrait" type="Sprite2D" parent="."]
+position = Vector2(0, -52.475)
+scale = Vector2(0.616, 0.616)
+texture = ExtResource("4_qyos6")
+
+[node name="frame" type="Sprite2D" parent="."]
+texture = ExtResource("5_wi131")
 
 [node name="title_text" type="Label" parent="."]
-offset_left = -82.0
-offset_top = -141.34
-offset_right = 74.56
-offset_bottom = -104.34
-text = "title text"
+offset_left = -78.0
+offset_top = -145.0
+offset_right = 78.56
+offset_bottom = -108.0
+text = "Card Title"
 label_settings = SubResource("LabelSettings_hu4f0")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -80,28 +82,27 @@ text_overrun_behavior = 3
 metadata/_edit_use_anchors_ = true
 
 [node name="type_text" type="Label" parent="."]
-offset_left = -53.0
-offset_top = 43.0
-offset_right = 77.0
-offset_bottom = 61.0
+offset_left = -71.0
+offset_top = 55.5
+offset_right = 59.0
+offset_bottom = 73.5
 text = "Card Type"
 label_settings = SubResource("LabelSettings_6q0cx")
 vertical_alignment = 1
 clip_text = true
 text_overrun_behavior = 3
-metadata/_edit_use_anchors_ = true
 
 [node name="description_text" type="RichTextLabel" parent="."]
 clip_contents = false
-offset_left = -52.0
-offset_top = 60.0
-offset_right = 72.0
-offset_bottom = 140.0
+offset_left = -71.0
+offset_top = 72.0
+offset_right = 73.0
+offset_bottom = 118.0
 size_flags_vertical = 3
-theme_override_colors/default_color = Color(0.221665, 0.0909974, 0.0350278, 1)
+theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_offset_x = 1
-theme_override_font_sizes/normal_font_size = 11
+theme_override_font_sizes/normal_font_size = 12
 bbcode_enabled = true
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 scroll_active = false
@@ -111,26 +112,24 @@ shortcut_keys_enabled = false
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
-[node name="card_portrait" type="Sprite2D" parent="."]
-position = Vector2(0, -30)
-scale = Vector2(0.484375, 0.484375)
-texture = ExtResource("7_wr2mb")
-
 [node name="cost_grid" type="HBoxContainer" parent="."]
-offset_left = -105.0
-offset_top = -116.0
-offset_right = 191.0
-offset_bottom = -76.0
-scale = Vector2(0.71, 0.71)
-alignment = 1
+offset_left = -70.265
+offset_top = 21.0
+offset_right = 197.735
+offset_bottom = 61.0
 
-[node name="food_icon" type="TextureRect" parent="cost_grid"]
+[node name="food_icon" type="MarginContainer" parent="cost_grid"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("4_egy70")
-expand_mode = 2
-stretch_mode = 4
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_bottom = 5
+
+[node name="sprite" type="Sprite2D" parent="cost_grid/food_icon"]
+position = Vector2(14, 21)
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("7_356ln")
+hframes = 4
 
 [node name="food_cost" type="Label" parent="cost_grid"]
 texture_filter = 2
@@ -138,19 +137,27 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = SubResource("Theme_pldyj")
 theme_override_colors/font_color = Color(0.968627, 0.415686, 0.403922, 1)
-theme_override_colors/font_outline_color = Color(0.228454, 0.0120617, 0.0120617, 1)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 2
+theme_override_font_sizes/font_size = 17
 text = "99"
 vertical_alignment = 1
 
-[node name="wood_icon" type="TextureRect" parent="cost_grid"]
+[node name="wood_icon" type="MarginContainer" parent="cost_grid"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("5_v28jb")
-expand_mode = 3
-stretch_mode = 4
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_bottom = 5
+
+[node name="sprite" type="Sprite2D" parent="cost_grid/wood_icon"]
+position = Vector2(14, 21)
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("7_356ln")
+hframes = 4
+frame = 1
 
 [node name="wood_cost" type="Label" parent="cost_grid"]
 texture_filter = 2
@@ -158,20 +165,28 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = SubResource("Theme_pldyj")
 theme_override_colors/font_color = Color(0.670588, 0.482353, 0.392157, 1)
-theme_override_colors/font_outline_color = Color(0.235242, 0.0956808, 0, 1)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 2
+theme_override_font_sizes/font_size = 17
 text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="gold_icon" type="TextureRect" parent="cost_grid"]
+[node name="gold_icon" type="MarginContainer" parent="cost_grid"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("6_oanwv")
-expand_mode = 3
-stretch_mode = 4
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_bottom = 5
+
+[node name="sprite" type="Sprite2D" parent="cost_grid/gold_icon"]
+position = Vector2(14, 21)
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("7_356ln")
+hframes = 4
+frame = 2
 
 [node name="gold_cost" type="Label" parent="cost_grid"]
 texture_filter = 2
@@ -179,20 +194,28 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = SubResource("Theme_pldyj")
 theme_override_colors/font_color = Color(0.988235, 0.866667, 0, 1)
-theme_override_colors/font_outline_color = Color(0.323495, 0.239111, 0, 1)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 2
+theme_override_font_sizes/font_size = 17
 text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="stone_icon" type="TextureRect" parent="cost_grid"]
+[node name="stone_icon" type="MarginContainer" parent="cost_grid"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("7_rv8hy")
-expand_mode = 3
-stretch_mode = 4
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_bottom = 5
+
+[node name="sprite" type="Sprite2D" parent="cost_grid/stone_icon"]
+position = Vector2(14, 21)
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("7_356ln")
+hframes = 4
+frame = 3
 
 [node name="stone_cost" type="Label" parent="cost_grid"]
 texture_filter = 2
@@ -200,9 +223,11 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = SubResource("Theme_pldyj")
 theme_override_colors/font_color = Color(0.780392, 0.819608, 0.858824, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 2
+theme_override_font_sizes/font_size = 17
 text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1
