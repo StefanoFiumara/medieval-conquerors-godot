@@ -11,7 +11,6 @@ namespace MedievalConquerors.Views;
 
 public partial class CardView : Node2D, IClickable
 {
-	[Export] private Sprite2D _background;
 	[Export] private Label _title;
 	[Export] private RichTextLabel _description;
 	[Export] private Label _type;
@@ -23,10 +22,10 @@ public partial class CardView : Node2D, IClickable
 	[Export] private Label _goldCost;
 	[Export] private Label _stoneCost;
 
-	[Export] private TextureRect _foodIcon;
-	[Export] private TextureRect _woodIcon;
-	[Export] private TextureRect _goldIcon;
-	[Export] private TextureRect _stoneIcon;
+	[Export] private MarginContainer _foodIcon;
+	[Export] private MarginContainer _woodIcon;
+	[Export] private MarginContainer _goldIcon;
+	[Export] private MarginContainer _stoneIcon;
 
 	private CardSystem _cardSystem;
 
@@ -81,7 +80,7 @@ public partial class CardView : Node2D, IClickable
 		_description.Text = Card.CardData.Description;
 		RemoveHighlight();
 
-		_background.Frame = _cardFrameMap.GetValueOrDefault(Card.CardData.CardType, 0);
+		// _background.Frame = _cardFrameMap.GetValueOrDefault(Card.CardData.CardType, 0);
 
 		if (!string.IsNullOrEmpty(Card.CardData.ImagePath))
 		{

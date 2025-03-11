@@ -358,7 +358,7 @@ public partial class HandView : Node2D, IGameComponent
 			if (i == _selectedIndex) continue;
 
 			var card = _cards[i];
-			card.ZIndex = i;
+			card.ZIndex = i + 10;
 
 			var tween = CreateTween()
 				.SetTrans(Tween.TransitionType.Sine)
@@ -387,7 +387,7 @@ public partial class HandView : Node2D, IGameComponent
 		var yOffset = -_heightCurve.Sample(ratio) * (HandHeight * (_cards.Count / 10f));
 		var position = new Vector2(xOffset, yOffset);
 
-		var rotation = -_rotationCurve.Sample(ratio) * (0.25f * (_cards.Count / 10f));
+		var rotation = 0f; //-_rotationCurve.Sample(ratio) * (0.25f * (_cards.Count / 10f));
 
 		return (position, rotation);
 	}

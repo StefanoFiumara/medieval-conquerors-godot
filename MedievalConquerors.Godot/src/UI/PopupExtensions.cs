@@ -23,7 +23,7 @@ public static class PopupExtensions
 		popup.Position = position;
 		popup.Scale = Vector2.One * textScale;
 		tween.TweenProperty(popup, "position", position + Vector2I.Up * 40, duration);
-		tween.TweenProperty(popup, "modulate:a", 0f, duration);
+		tween.TweenProperty(popup, "modulate:a", 0f, duration).SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
 		tween.Chain().TweenCallback(Callable.From(() => popup.QueueFree()));
 
 		return tween;
