@@ -30,27 +30,9 @@ public static class ResourceColors
         { ResourceType.Gold,  Gold },
         { ResourceType.Stone, Stone },
     };
-    
+
     public const string Food = "#f76a67";
     public const string Wood = "#ab7b64";
     public const string Gold = "#fcdd00";
     public const string Stone = "#c7d1db";
-}
-
-public static class ResourceIcons
-{
-    public static readonly Dictionary<ResourceType, string> Map = new()
-    {
-        { ResourceType.Food,  Food },
-        { ResourceType.Wood,  Wood },
-        { ResourceType.Gold,  Gold },
-        { ResourceType.Stone, Stone },
-    };
-
-    private const string RootDir = "res://assets/user_interface/icons";
-    
-    public const string Food = $"[img=80x80]{RootDir}/food.png[/img]";
-    public const string Wood = $"[img=80x80]{RootDir}/wood.png[/img]";
-    public const string Gold = $"[img=80x80]{RootDir}/gold.png[/img]";
-    public const string Stone = $"[img=80x80]{RootDir}/stone.png[/img]";
 }

@@ -12,6 +12,6 @@ layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/normal_font_size = 55
 bbcode_enabled = true
-text = "[color=#f76a67]+4[/color][img=80x80]res://assets/user_interface/icons/food.png[/img]"
+text = "[color=#f76a67]+4[/color]"
 fit_content = true
 autowrap_mode = 0
