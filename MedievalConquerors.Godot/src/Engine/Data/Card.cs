@@ -42,7 +42,5 @@ public class CardData
 
 public interface ICardAttribute
 {
-    // TODO: Split OnTurnStart to a separate interface so it doesn't have to be defined for attributes that don't need it
-    void OnTurnStart();
     ICardAttribute Clone();
 }

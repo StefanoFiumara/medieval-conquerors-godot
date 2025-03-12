@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Fano.ASCIITableUtil" Version="1.1.1" />
     <PackageReference Include="LiteDB" Version="5.0.19" />
-    <PackageReference Include="Riok.Mapperly" Version="3.3.0-next.5" />
+    <PackageReference Include="Riok.Mapperly" Version="4.2.0-next.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Views\**" />

@@ -30,6 +30,7 @@ public static class GameFactory
         game.AddComponent<HandSystem>();
         game.AddComponent<PlayerSystem>();
         game.AddComponent<MapSystem>();
+        game.AddComponent<MovementSystem>();
 
         game.AddComponent<TurnSystem>();
         game.AddComponent<InputSystem>();
