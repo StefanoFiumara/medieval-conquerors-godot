@@ -16,7 +16,7 @@ public class GameAction
     public int Priority { get; set; }
     public int OrderOfPlay { get; set; }
 
-    public GameAction()
+    protected GameAction()
     {
         Id = Guid.NewGuid();
         PreparePhase = new ActionPhase(this, OnPrepare);

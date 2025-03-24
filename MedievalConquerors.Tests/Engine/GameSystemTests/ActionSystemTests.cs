@@ -6,6 +6,8 @@ using Shouldly;
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;
 
+internal class TestGameAction : GameAction { }
+
 public class ActionSystemTests : GameSystemTestFixture
 {
     private readonly ActionSystem _actionSystem;
@@ -22,7 +24,7 @@ public class ActionSystemTests : GameSystemTestFixture
     [Fact]
     public void ActionSystem_OnPerform_System_Becomes_Active()
     {
-        var action = new GameAction();
+        var action = new TestGameAction();
         Game.Perform(action);
 
         Assert.True(_actionSystem.IsActive);
@@ -36,7 +38,7 @@ public class ActionSystemTests : GameSystemTestFixture
 
         Events.Subscribe(ActionSystem.BeginActionEvent, BeginSequenceHandler);
 
-        var action = new GameAction();
+        var action = new TestGameAction();
         Game.Perform(action);
         Game.Update();
 
@@ -48,9 +50,9 @@ public class ActionSystemTests : GameSystemTestFixture
     {
         bool eventRaised = false;
 
-        Events.Subscribe(GameEvent.Validate<GameAction>(), SetEventRaised);
+        Events.Subscribe(GameEvent.Validate<TestGameAction>(), SetEventRaised);
 
-        var action = new GameAction();
+        var action = new TestGameAction();
         Game.Perform(action);
         Game.Update();
 
@@ -65,10 +67,10 @@ public class ActionSystemTests : GameSystemTestFixture
     {
         bool eventRaised = false;
 
-        Events.Subscribe<GameAction, ActionValidatorResult>(GameEvent.Validate<GameAction>(), InvalidateAction);
-        Events.Subscribe(GameEvent.Cancel<GameAction>(), SetEventRaised);
+        Events.Subscribe<TestGameAction, ActionValidatorResult>(GameEvent.Validate<TestGameAction>(), InvalidateAction);
+        Events.Subscribe(GameEvent.Cancel<TestGameAction>(), SetEventRaised);
 
-        var action = new GameAction();
+        var action = new TestGameAction();
         Game.Perform(action);
         Game.Update();
 
@@ -86,9 +88,9 @@ public class ActionSystemTests : GameSystemTestFixture
     {
         bool eventRaised = false;
 
-        Events.Subscribe(GameEvent.Prepare<GameAction>(), SetEventRaised);
+        Events.Subscribe(GameEvent.Prepare<TestGameAction>(), SetEventRaised);
 
-        var action = new GameAction();
+        var action = new TestGameAction();
         Game.Perform(action);
         Game.Update();
 
@@ -103,9 +105,9 @@ public class ActionSystemTests : GameSystemTestFixture
     {
         bool eventRaised = false;
 
-        Events.Subscribe(GameEvent.Perform<GameAction>(), SetEventRaised);
+        Events.Subscribe(GameEvent.Perform<TestGameAction>(), SetEventRaised);
 
-        var action = new GameAction();
+        var action = new TestGameAction();
         Game.Perform(action);
         Game.Update();
 
@@ -119,9 +121,9 @@ public class ActionSystemTests : GameSystemTestFixture
     public static IEnumerable<object[]> ExpectedEvents => new List<object[]>
     {
         new object[]{ ActionSystem.BeginActionEvent },
-        new object[]{ GameEvent.Validate<GameAction>() },
-        new object[]{ GameEvent.Prepare<GameAction>() },
-        new object[]{ GameEvent.Perform<GameAction>() },
+        new object[]{ GameEvent.Validate<TestGameAction>() },
+        new object[]{ GameEvent.Prepare<TestGameAction>() },
+        new object[]{ GameEvent.Perform<TestGameAction>() },
         new object[]{ ActionSystem.EndActionEvent },
         new object[]{ ActionSystem.CompleteActionEvent },
     };
@@ -134,7 +136,7 @@ public class ActionSystemTests : GameSystemTestFixture
 
         Events.Subscribe(eventKey, SetEventRaised);
 
-        var action = new GameAction();
+        var action = new TestGameAction();
         Game.Perform(action);
         Game.Update();
 
@@ -150,16 +152,16 @@ public class ActionSystemTests : GameSystemTestFixture
         bool eventRaised = false;
         var senderId = Guid.Empty;
 
-        void PerformEvent(GameAction sender)
+        void PerformEvent(TestGameAction sender)
         {
             senderId = sender.Id;
             eventRaised = true;
         }
 
-        Events.Subscribe<GameAction>(GameEvent.Perform<GameAction>(), PerformEvent);
+        Events.Subscribe<TestGameAction>(GameEvent.Perform<TestGameAction>(), PerformEvent);
 
-        var action1 = new GameAction();
-        var action2 = new GameAction();
+        var action1 = new TestGameAction();
+        var action2 = new TestGameAction();
 
         Game.Perform(action1);
         Game.Perform(action2);
