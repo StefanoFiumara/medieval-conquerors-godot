@@ -55,11 +55,9 @@ public class PlayerSystem : GameComponent, IAwake
             var deckInfo = new List<(int id, int amount)>
             {
                 // TEMP: mocked deck info data using IDs from our DB, to test deck loading from disk
-                // (11, 5), // 2 Villagers
-                (2, 2), // 2 Knights
-                // TODO: Implement and add a technology cards for each of these economic buildings
+                // (2, 2), // 2 Knights
                 (15, 1), // Agriculture
-                (14, 6), // Farms
+                // TODO: Implement and add a technology cards for each of these economic buildings
                 (6, 1), // Lumber Camp
                 (10, 1), // Mining Camp
                 (13, 1), // Mill
@@ -77,6 +75,7 @@ public class PlayerSystem : GameComponent, IAwake
         foreach (var card in action.CardsToDiscard)
         {
             var player = card.Owner;
+            // TODO: split into a separate reaction with a BanishCardsAction instead of putting this logic here
             if(card.CardData.Id == CardLibrary.VillagerId)
                 player.MoveCard(card, Zone.Banished);
             else

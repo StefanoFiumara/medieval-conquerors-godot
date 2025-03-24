@@ -70,13 +70,6 @@ public enum Zone
     Banished = 5
 }
 
-public enum AbilityTrigger
-{
-    None,
-    // TODO: check if this is actually needed, or if different systems can trigger ability without having to categorize them with a trigger type
-    OnCardPlayed
-}
-
 public static class EnumExtensions
 {
     public static string PrettyPrint(this AgeType age)

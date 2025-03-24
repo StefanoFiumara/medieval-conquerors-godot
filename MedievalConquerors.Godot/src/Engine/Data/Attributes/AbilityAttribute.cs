@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MedievalConquerors.Engine.Data.Attributes;
 
@@ -13,7 +12,9 @@ public class ActionDefinition
 public class AbilityAttribute : ICardAttribute
 {
     public List<ActionDefinition> Actions { get; set; }
-    public AbilityTrigger Trigger { get; set; }
-
+    // TODO: Target selector?
     public ICardAttribute Clone() => AttributeMapper.Clone(this);
 }
+
+public class OnCardPlayedAbility : AbilityAttribute { }
+public class OnCardActivatedAbility : AbilityAttribute { }
