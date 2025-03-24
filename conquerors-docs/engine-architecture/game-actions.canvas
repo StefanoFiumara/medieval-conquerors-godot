@@ -1,0 +1,24 @@
+{
+	"nodes":[
+		{"id":"607cc8f7b0011437","x":-794,"y":-690,"width":235,"height":50,"color":"5","type":"text","text":"Card played from hand"},
+		{"id":"acd59ea79489e109","type":"text","text":"Tile activated on map","x":-800,"y":-380,"width":235,"height":50,"color":"5"},
+		{"id":"e0b06ba8a70899a5","type":"text","text":"Based on `TargetTile`","x":-620,"y":-260,"width":250,"height":60,"color":"5"},
+		{"id":"d4db2424bb2af63a","type":"text","text":"**AttackAction**","x":-280,"y":-230,"width":270,"height":51,"color":"2"},
+		{"id":"b2961cbe39bd0d06","type":"text","text":"**MoveUnitAction**","x":-280,"y":-300,"width":270,"height":50,"color":"2"},
+		{"id":"0694ecbc44b82697","type":"text","text":"**SpawnUnitAction**","x":-180,"y":-639,"width":270,"height":50,"color":"2"},
+		{"id":"1f069a4d8604676f","type":"text","text":"**BuildStructureAction**","x":-180,"y":-569,"width":270,"height":51,"color":"2"},
+		{"id":"13c223dada3081bd","type":"text","text":"**ResearchTechnologyAction**","x":-180,"y":-498,"width":270,"height":50,"color":"2"},
+		{"id":"ddde31a78dcf4827","x":-530,"y":-568,"width":250,"height":50,"color":"5","type":"text","text":"`CardType` played?"},
+		{"id":"362b925327b113aa","type":"text","text":"**PlayCardAction**","x":-766,"y":-568,"width":180,"height":51,"color":"2"}
+	],
+	"edges":[
+		{"id":"2a0700d3948e6741","fromNode":"ddde31a78dcf4827","fromSide":"right","toNode":"13c223dada3081bd","toSide":"left"},
+		{"id":"47edb52dcd77707c","fromNode":"ddde31a78dcf4827","fromSide":"right","toNode":"0694ecbc44b82697","toSide":"left"},
+		{"id":"3fe62b3fb78f8528","fromNode":"ddde31a78dcf4827","fromSide":"right","toNode":"1f069a4d8604676f","toSide":"left"},
+		{"id":"790a9bc2ef6c53af","fromNode":"607cc8f7b0011437","fromSide":"bottom","toNode":"362b925327b113aa","toSide":"top"},
+		{"id":"d46e1234a15eb835","fromNode":"362b925327b113aa","fromSide":"right","toNode":"ddde31a78dcf4827","toSide":"left"},
+		{"id":"6849adc6af48aaf6","fromNode":"e0b06ba8a70899a5","fromSide":"right","toNode":"d4db2424bb2af63a","toSide":"left"},
+		{"id":"267212717a5e61fb","fromNode":"e0b06ba8a70899a5","fromSide":"right","toNode":"b2961cbe39bd0d06","toSide":"left"},
+		{"id":"e6703e8cb0fa91df","fromNode":"acd59ea79489e109","fromSide":"bottom","toNode":"e0b06ba8a70899a5","toSide":"left"}
+	]
+}

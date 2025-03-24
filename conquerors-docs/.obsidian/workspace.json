@@ -67,14 +67,17 @@
             "id": "52f29cbe22a24cb6",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "mechanics-ideas.md",
-                "mode": "source",
-                "source": false
+                "file": "engine-architecture/game-actions.canvas",
+                "viewState": {
+                  "x": -469.6851979780702,
+                  "y": -460.3014236720223,
+                  "zoom": -0.3333333375161155
+                }
               },
-              "icon": "lucide-file",
-              "title": "mechanics-ideas"
+              "icon": "lucide-layout-dashboard",
+              "title": "game-actions"
             }
           }
         ],
@@ -135,7 +138,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 231.50328826904297
+    "width": 231.50328826904297,
+    "collapsed": true
   },
   "right": {
     "id": "5593f95e015f2aae",
@@ -222,6 +226,9 @@
   },
   "active": "52f29cbe22a24cb6",
   "lastOpenFiles": [
+    "engine-architecture/action-system.canvas",
+    "engine-architecture/game-actions.canvas",
+    "mechanics-ideas.md",
     "game-design-doc.md",
     "engine-architecture/Action System.canvas",
     "to-do.md",
@@ -229,7 +236,6 @@
     "engine-architecture",
     "Untitled.md",
     "planned-cards-list.md",
-    "mechanics-ideas.md",
     "card-designs/economic-cards.md",
     "card-designs",
     "Welcome.md"
