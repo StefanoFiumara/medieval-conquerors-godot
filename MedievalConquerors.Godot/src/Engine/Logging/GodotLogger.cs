@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Runtime.CompilerServices;
 using Godot;
 using MedievalConquerors.Engine.Core;
@@ -8,9 +9,9 @@ namespace MedievalConquerors.Engine.Logging;
 
 public class GodotLogger(LogLevel minimumLogLevel) : GameComponent, ILogger
 {
-    public LogLevel MinimumLogLevel { get; } = minimumLogLevel;
+    private LogLevel MinimumLogLevel { get; } = minimumLogLevel;
 
-    private void Log(LogLevel logLevel, string message, string callerFilePath)
+    private void Log(LogLevel logLevel, string message, Exception ex, string callerFilePath)
     {
         if (!logLevel.IsAbove(MinimumLogLevel)) return;
 
@@ -35,6 +36,7 @@ public class GodotLogger(LogLevel minimumLogLevel) : GameComponent, ILogger
                 break;
             case LogLevel.Error:
                 GD.PrintRich($"{prefix}{message}".Red());
+                if(ex != null) GD.PrintRich($"{ex}".Magenta());
                 break;
             case LogLevel.None:
             default:
@@ -42,8 +44,8 @@ public class GodotLogger(LogLevel minimumLogLevel) : GameComponent, ILogger
         }
     }
 
-    public void Debug(string message, [CallerFilePath] string caller = "") => Log(LogLevel.Debug, message, caller);
-    public void Info(string message, [CallerFilePath] string caller = "") => Log(LogLevel.Info, message, caller);
-    public void Warn(string message, [CallerFilePath] string caller = "") => Log(LogLevel.Warn, message, caller);
-    public void Error(string message, [CallerFilePath] string caller = "") => Log(LogLevel.Error, message, caller);
+    public void Debug(string message, [CallerFilePath] string caller = "") => Log(LogLevel.Debug, message, null, caller);
+    public void Info(string message, [CallerFilePath] string caller = "") => Log(LogLevel.Info, message, null, caller);
+    public void Warn(string message, [CallerFilePath] string caller = "") => Log(LogLevel.Warn, message, null, caller);
+    public void Error(string message, Exception ex = null, [CallerFilePath] string caller = "") => Log(LogLevel.Error, message, ex, caller);
 }

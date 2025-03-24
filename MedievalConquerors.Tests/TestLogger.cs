@@ -5,26 +5,20 @@ using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Tests;
 
-public class TestLogger : GameComponent, ILogger
+public class TestLogger(ITestOutputHelper output, LogLevel minimumLogLevel = LogLevel.Debug) : GameComponent, ILogger
 {
-    private readonly ITestOutputHelper _output;
-    public LogLevel MinimumLogLevel { get; }
+    public LogLevel MinimumLogLevel { get; } = minimumLogLevel;
 
-    public TestLogger(ITestOutputHelper output, LogLevel minimumLogLevel = LogLevel.Debug)
-    {
-        _output = output;
-        MinimumLogLevel = minimumLogLevel;
-    }
     public void Debug(string message, [CallerFilePath] string caller = "") => Log(LogLevel.Debug, message, caller);
     public void Info(string message, [CallerFilePath] string caller = "") => Log(LogLevel.Info, message, caller);
     public void Warn(string message, [CallerFilePath] string caller = "") => Log(LogLevel.Warn, message, caller);
-    public void Error(string message, [CallerFilePath] string caller = "") => Log(LogLevel.Error, message, caller);
+    public void Error(string message, Exception? ex = null, [CallerFilePath] string caller = "") => Log(LogLevel.Error, message, caller);
 
     private void Log(LogLevel logLevel, string message, string callerFilePath)
     {
         if (logLevel.IsAbove(MinimumLogLevel))
         {
-            _output.WriteLine($"{Prefix(callerFilePath)}{message}");
+            output.WriteLine($"{Prefix(callerFilePath)}{message}");
         }
     }
 
