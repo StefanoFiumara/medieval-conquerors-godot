@@ -25,7 +25,6 @@ public class PlayerSystem : GameComponent, IAwake
         _settings = Game.GetComponent<IGameSettings>();
 
         _events.Subscribe<BeginGameAction>(GameEvent.Prepare<BeginGameAction>(), OnPrepareBeginGame);
-        _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
         _events.Subscribe<DiscardCardsAction>(GameEvent.Perform<DiscardCardsAction>(), OnPerformDiscardCards);
         _events.Subscribe<ShuffleDeckAction>(GameEvent.Perform<ShuffleDeckAction>(), OnPerformShuffleDeck);
     }
@@ -83,12 +82,6 @@ public class PlayerSystem : GameComponent, IAwake
             else
                 player.MoveCard(card, Zone.Discard);
         }
-    }
-
-    private void OnPerformPlayCard(PlayCardAction action)
-    {
-        var player = action.CardToPlay.Owner;
-        player.MoveCard(action.CardToPlay, Zone.Map);
     }
 
     private void OnPerformShuffleDeck(ShuffleDeckAction action)

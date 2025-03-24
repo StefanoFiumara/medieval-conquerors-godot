@@ -256,7 +256,6 @@ public partial class HandView : Node2D, IGameComponent
 		}
 
 		var cardView = _cards.Single(c => c.Card == action.CardToPlay);
-
 		var targetPosition = _mapView.GetTileGlobalPosition(action.TargetTile);
 
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();

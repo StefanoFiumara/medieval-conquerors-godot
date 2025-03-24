@@ -10,7 +10,6 @@ public class MapSystem : GameComponent, IAwake
     private EventAggregator _events;
     private HexMap _map;
 
-
     public void Awake()
     {
         _events = Game.GetComponent<EventAggregator>();
@@ -66,15 +65,19 @@ public class MapSystem : GameComponent, IAwake
     private void OnPerformSpawnUnit(SpawnUnitAction action)
     {
         var tile = _map.GetTile(action.TargetTile);
+        var player = action.UnitToSpawn.Owner;
 
         tile.Unit = action.UnitToSpawn;
         action.UnitToSpawn.MapPosition = tile.Position;
+        player.MoveCard(action.UnitToSpawn, Zone.Map);
     }
     private void OnPerformBuildStructure(BuildStructureAction action)
     {
         var tile = _map.GetTile(action.TargetTile);
+        var player = action.StructureToBuild.Owner;
 
         tile.Building = action.StructureToBuild;
         action.StructureToBuild.MapPosition = tile.Position;
+        player.MoveCard(action.StructureToBuild, Zone.Map);
     }
 }
