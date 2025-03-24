@@ -24,6 +24,7 @@ public class TargetSystem : GameComponent, IAwake
 
     private void OnValidatePlayCard(PlayCardAction action, ActionValidatorResult validator)
     {
+        // TODO: Is this valid for technology cards, or is this validation only relevant for units/buildings?
         var tile = _map.GetTile(action.TargetTile);
         var validTiles = GetTargetCandidates(action.CardToPlay);
 
