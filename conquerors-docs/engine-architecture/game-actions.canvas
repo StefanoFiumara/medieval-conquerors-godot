@@ -1,15 +1,17 @@
 {
 	"nodes":[
-		{"id":"607cc8f7b0011437","x":-794,"y":-690,"width":235,"height":50,"color":"5","type":"text","text":"Card played from hand"},
+		{"id":"607cc8f7b0011437","type":"text","text":"Card played from hand","x":-794,"y":-690,"width":235,"height":50,"color":"4"},
 		{"id":"0694ecbc44b82697","type":"text","text":"**SpawnUnitAction**","x":-180,"y":-639,"width":270,"height":50,"color":"2"},
 		{"id":"1f069a4d8604676f","type":"text","text":"**BuildStructureAction**","x":-180,"y":-569,"width":270,"height":51,"color":"2"},
 		{"id":"13c223dada3081bd","type":"text","text":"**ResearchTechnologyAction**","x":-180,"y":-498,"width":270,"height":50,"color":"2"},
-		{"id":"ddde31a78dcf4827","x":-530,"y":-568,"width":250,"height":50,"color":"5","type":"text","text":"`CardType` played?"},
+		{"id":"ddde31a78dcf4827","type":"text","text":"`CardType` played?","x":-530,"y":-568,"width":250,"height":50,"color":"5"},
 		{"id":"362b925327b113aa","type":"text","text":"**PlayCardAction**","x":-766,"y":-568,"width":180,"height":51,"color":"2"},
 		{"id":"e0b06ba8a70899a5","type":"text","text":"Enemy on `TargetTile`?","x":-520,"y":-260,"width":250,"height":60,"color":"5"},
-		{"id":"acd59ea79489e109","type":"text","text":"Tile activated on map","x":-794,"y":-380,"width":235,"height":50,"color":"5"},
+		{"id":"acd59ea79489e109","type":"text","text":"Tile activated on map","x":-794,"y":-380,"width":235,"height":50,"color":"4"},
 		{"id":"b2961cbe39bd0d06","type":"text","text":"**MoveUnitAction**","x":-180,"y":-285,"width":270,"height":50,"color":"2"},
-		{"id":"d4db2424bb2af63a","type":"text","text":"**AttackAction**","x":-180,"y":-225,"width":270,"height":51,"color":"2"}
+		{"id":"d4db2424bb2af63a","type":"text","text":"**AttackAction**","x":-180,"y":-225,"width":270,"height":51,"color":"2"},
+		{"id":"e265461526de5088","x":120,"y":-639,"width":250,"height":50,"color":"5","type":"text","text":"`Villager` in building?"},
+		{"id":"3afdb0913f73d503","type":"text","text":"**GarrisonAction**","x":400,"y":-639,"width":270,"height":50,"color":"2"}
 	],
 	"edges":[
 		{"id":"2a0700d3948e6741","fromNode":"ddde31a78dcf4827","fromSide":"right","toNode":"13c223dada3081bd","toSide":"left"},
@@ -19,6 +21,8 @@
 		{"id":"d46e1234a15eb835","fromNode":"362b925327b113aa","fromSide":"right","toNode":"ddde31a78dcf4827","toSide":"left"},
 		{"id":"6849adc6af48aaf6","fromNode":"e0b06ba8a70899a5","fromSide":"right","toNode":"d4db2424bb2af63a","toSide":"left"},
 		{"id":"267212717a5e61fb","fromNode":"e0b06ba8a70899a5","fromSide":"right","toNode":"b2961cbe39bd0d06","toSide":"left"},
-		{"id":"e6703e8cb0fa91df","fromNode":"acd59ea79489e109","fromSide":"bottom","toNode":"e0b06ba8a70899a5","toSide":"left"}
+		{"id":"e6703e8cb0fa91df","fromNode":"acd59ea79489e109","fromSide":"bottom","toNode":"e0b06ba8a70899a5","toSide":"left"},
+		{"id":"04fcff86784d8e98","fromNode":"0694ecbc44b82697","fromSide":"right","toNode":"e265461526de5088","toSide":"left"},
+		{"id":"3ccf2cd9184b5bd9","fromNode":"e265461526de5088","fromSide":"right","toNode":"3afdb0913f73d503","toSide":"left"}
 	]
 }
