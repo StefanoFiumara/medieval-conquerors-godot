@@ -7,7 +7,5 @@ public class ResourceCostAttribute : ICardAttribute
     public int Gold { get; set; }
     public int Stone { get; set; }
 
-    public void OnTurnStart() { }
-    
     public ICardAttribute Clone() => AttributeMapper.Clone(this);
 }

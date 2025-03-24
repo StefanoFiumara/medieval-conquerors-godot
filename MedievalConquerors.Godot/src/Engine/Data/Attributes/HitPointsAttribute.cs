@@ -8,8 +8,6 @@ public class HitPointsAttribute : ICardAttribute
     {
         Health -= amount;
     }
-    
-    public void OnTurnStart() { }
 
     public ICardAttribute Clone() => AttributeMapper.Clone(this);
 }

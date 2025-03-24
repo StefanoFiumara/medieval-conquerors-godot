@@ -49,6 +49,8 @@ public class ResourceSystemTests : GameSystemTestFixture
         result.IsValid.ShouldBeTrue();
     }
 
+    // TODO: Resource system substracts resources when card with resource cost is played.
+
     [Fact]
     public void ResourceSystem_Invalidates_Action_When_Player_Cannot_Afford_ResourceCost()
     {

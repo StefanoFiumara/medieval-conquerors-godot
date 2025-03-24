@@ -35,6 +35,8 @@ public class PlayerSystemTests : GameSystemTestFixture
     [Fact]
     public void GameFactory_Creates_PlayerSystem() => Game.GetComponent<PlayerSystem>().ShouldNotBeNull();
 
+    // TODO: On Begin game, player system assigns town centers and starting resources
+
     [Fact]
     public void PlayerSystem_Performs_PlayCardAction_And_Moves_To_MapZone()
     {

@@ -7,11 +7,11 @@ public class GarrisonCapacityAttribute : ICardAttribute
 {
     public int Limit { get; set; }
 
-    [BsonIgnore] 
+    [BsonIgnore]
     public List<Card> Units { get; private set; } = new();
-    
-    public bool CanGarrison(Card unit) => 
-        Units.Count < Limit 
+
+    public bool CanGarrison(Card unit) =>
+        Units.Count < Limit
         && unit.CardData.Tags.HasFlag(Tags.Economic)
         && unit.CardData.CardType == CardType.Unit;
 
@@ -19,8 +19,6 @@ public class GarrisonCapacityAttribute : ICardAttribute
     {
         Units.Add(unit);
     }
-    
-    public void OnTurnStart() { }
-    
+
     public ICardAttribute Clone() => AttributeMapper.Clone(this);
 }

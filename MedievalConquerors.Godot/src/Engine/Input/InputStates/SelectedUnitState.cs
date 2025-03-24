@@ -13,7 +13,7 @@ using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Engine.Input.InputStates;
 
-public class SelectUnitState(IGame game, Card selectedUnit) : BaseInputState(game)
+public class SelectedUnitState(IGame game, Card selectedUnit) : BaseInputState(game)
 {
     private readonly MapView _mapView = game.GetComponent<MapView>();
     private readonly HexMap _map = game.GetComponent<HexMap>();
@@ -38,7 +38,7 @@ public class SelectUnitState(IGame game, Card selectedUnit) : BaseInputState(gam
         _mapView.RemoveHighlights(_validTiles, MapLayerType.SelectionHint);
     }
 
-    private BaseInputState Reselect(Card unit)
+    private SelectedUnitState Reselect(Card unit)
     {
         Exit();
         _selectedUnit = unit;
@@ -51,13 +51,13 @@ public class SelectUnitState(IGame game, Card selectedUnit) : BaseInputState(gam
     {
         // TODO: Switch to using right click for move/attack commands, left click for re-selection
         if (mouseEvent.ButtonIndex == MouseButton.Right)
-            return new WaitingForInputState(Game);
+            return new IdleInputState(Game);
 
         if (clickedObject is not TileData selectedTile)
             return this;
 
         if (selectedTile.Position == _selectedUnit.MapPosition)
-            return new WaitingForInputState(Game);
+            return new IdleInputState(Game);
 
         if (IsOwnedUnit(clickedObject))
             return Reselect(selectedTile.Unit);
@@ -73,7 +73,7 @@ public class SelectUnitState(IGame game, Card selectedUnit) : BaseInputState(gam
             var action = new MoveUnitAction(_selectedUnit, selectedTile.Position);
             Game.Perform(action);
 
-            return new WaitingForInputState(Game);
+            return new IdleInputState(Game);
         }
 
         return this;

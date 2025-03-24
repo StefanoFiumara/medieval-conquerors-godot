@@ -1,6 +1,7 @@
 ﻿using Godot;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.GameComponents;
+using MedievalConquerors.Engine.StateManagement;
 using MedievalConquerors.Views;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
@@ -23,6 +24,9 @@ public abstract class BaseInputState(IGame game) : IClickableState
     protected bool IsOwnedUnit(IClickable obj) => obj is TileData t && t.Unit != null && t.Unit.Owner == _match.LocalPlayer;
 
     protected bool IsEnemyUnit(IClickable obj) => obj is TileData t && t.Unit != null && t.Unit.Owner == _match.EnemyPlayer;
+}
 
-
+public interface IClickableState : IState
+{
+    IClickableState OnReceivedInput(IClickable clickedObject, InputEventMouseButton mouseEvent);
 }

@@ -20,4 +20,6 @@ public static partial class AttributeMapper
     public static partial ResourceProviderAttribute Clone(this ResourceProviderAttribute source);
 
     public static partial SpawnPointAttribute Clone(this SpawnPointAttribute source);
+
+    public static partial AbilityAttribute Clone(this AbilityAttribute source);
 }

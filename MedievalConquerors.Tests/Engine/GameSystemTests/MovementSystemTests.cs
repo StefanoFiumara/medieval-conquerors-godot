@@ -129,7 +129,7 @@ public class MovementSystemTests : GameSystemTestFixture
     }
 
     [Fact]
-    public void MovementSystem_OnChangeTurn_ResetsAttributes()
+    public void MovementSystem_OnChangeTurn_ResetsRemainingDistance()
     {
         _moveableCard.Zone.ShouldBe(Zone.Hand);
         _player.Hand.ShouldContain(_moveableCard);

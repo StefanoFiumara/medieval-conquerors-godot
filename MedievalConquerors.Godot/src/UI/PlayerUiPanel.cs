@@ -8,11 +8,10 @@ namespace MedievalConquerors.UI;
 public partial class PlayerUiPanel : MarginContainer
 {
 	public const string NextTurnClicked = "PlayerUiPanel.NextTurnButton.Clicked";
-	
+
 	[Export] private GameController _gameController;
 
 	private Button _endTurnButton;
-	private Label _storageLabel;
 	private Label _foodLabel;
 	private Label _woodLabel;
 	private Label _goldLabel;
@@ -22,7 +21,7 @@ public partial class PlayerUiPanel : MarginContainer
 
 	private EventAggregator _events;
 	private Match _match;
-	
+
 	public override void _Ready()
 	{
 		_endTurnButton = GetNode<Button>("%end_turn_button");
@@ -35,13 +34,13 @@ public partial class PlayerUiPanel : MarginContainer
 
 		_events = _gameController.Game.GetComponent<EventAggregator>();
 		_match = _gameController.Game.GetComponent<Match>();
-		
+
 		_endTurnButton.ButtonUp += () => _events.Publish(NextTurnClicked);
 		_events.Subscribe(ActionSystem.BeginActionEvent, OnBeginSequence);
 		_events.Subscribe(ActionSystem.CompleteActionEvent, OnActionsComplete);
 	}
 	private void OnBeginSequence() => _endTurnButton.Disabled = true;
-	
+
 	private void OnActionsComplete()
 	{
 		if(_match.CurrentPlayerId == _match.LocalPlayer.Id)
@@ -50,6 +49,7 @@ public partial class PlayerUiPanel : MarginContainer
 
 	public override void _Process(double delta)
 	{
+		// TODO: Instead of setting this in _Process, subscribe to game actions that update these values and make updates there.
 		_foodLabel.Text = _match.LocalPlayer.Resources.Food.ToString();
 		_woodLabel.Text = _match.LocalPlayer.Resources.Wood.ToString();
 		_goldLabel.Text = _match.LocalPlayer.Resources.Gold.ToString();

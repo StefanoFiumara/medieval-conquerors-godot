@@ -9,34 +9,40 @@ public class MapSystem : GameComponent, IAwake
 {
     private EventAggregator _events;
     private HexMap _map;
-    private Match _match;
+
 
     public void Awake()
     {
         _events = Game.GetComponent<EventAggregator>();
         _map = Game.GetComponent<HexMap>();
-        _match = Game.GetComponent<Match>();
 
         _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
         _events.Subscribe<DiscardCardsAction>(GameEvent.Perform<DiscardCardsAction>(), OnPerformDiscardCards);
+        _events.Subscribe<PlayCardAction, ActionValidatorResult>(GameEvent.Validate<PlayCardAction>(), OnValidatePlayCard);
+        _events.Subscribe<BuildStructureAction>(GameEvent.Perform<BuildStructureAction>(), OnPerformBuildStructure);
+        _events.Subscribe<SpawnUnitAction>(GameEvent.Perform<SpawnUnitAction>(), OnPerformSpawnUnit);
+    }
+
+    private void OnValidatePlayCard(PlayCardAction action, ActionValidatorResult validator)
+    {
+        if(_map.GetTile(action.TargetTile) == null)
+            validator.Invalidate("Invalid target tile for card.");
     }
 
     private void OnPerformPlayCard(PlayCardAction action)
     {
-        var tile = _map.GetTile(action.TargetTile);
-
         if (action.CardToPlay.CardData.CardType == CardType.Building)
-            tile.Building = action.CardToPlay;
+            Game.AddReaction(new BuildStructureAction(action.CardToPlay, action.TargetTile));
 
         else if (action.CardToPlay.CardData.CardType == CardType.Unit)
         {
+            var tile = _map.GetTile(action.TargetTile);
+
             if (tile.Building != null)
                 Game.AddReaction(new GarrisonAction(action.CardToPlay, tile.Building));
             else
-                tile.Unit = action.CardToPlay;
+                Game.AddReaction(new SpawnUnitAction(action.CardToPlay, action.TargetTile));
         }
-
-        action.CardToPlay.MapPosition = action.TargetTile;
     }
 
     private void OnPerformDiscardCards(DiscardCardsAction action)
@@ -55,5 +61,20 @@ public class MapSystem : GameComponent, IAwake
                 card.MapPosition = HexMap.None;
             }
         }
+    }
+
+    private void OnPerformSpawnUnit(SpawnUnitAction action)
+    {
+        var tile = _map.GetTile(action.TargetTile);
+
+        tile.Unit = action.UnitToSpawn;
+        action.UnitToSpawn.MapPosition = tile.Position;
+    }
+    private void OnPerformBuildStructure(BuildStructureAction action)
+    {
+        var tile = _map.GetTile(action.TargetTile);
+
+        tile.Building = action.StructureToBuild;
+        action.StructureToBuild.MapPosition = tile.Position;
     }
 }

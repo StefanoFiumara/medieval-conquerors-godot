@@ -8,7 +8,7 @@ using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Engine.Input.InputStates;
 
-public class PlayCardState(IGame game, CardView selectedCard) : BaseInputState(game)
+public class SelectedCardState(IGame game, CardView selectedCard) : BaseInputState(game)
 {
     private List<Vector2I> _validTiles;
     private CardView _selectedCard = selectedCard;
@@ -43,7 +43,7 @@ public class PlayCardState(IGame game, CardView selectedCard) : BaseInputState(g
     public override IClickableState OnReceivedInput(IClickable clickedObject, InputEventMouseButton mouseEvent)
     {
         if (mouseEvent.ButtonIndex == MouseButton.Right)
-            return new WaitingForInputState(Game);
+            return new IdleInputState(Game);
 
         if (IsPlayableCard(clickedObject) && clickedObject != _selectedCard)
             return Reselect((CardView)clickedObject);
@@ -54,15 +54,15 @@ public class PlayCardState(IGame game, CardView selectedCard) : BaseInputState(g
         if (!_validTiles.Contains(t.Position))
         {
             if (IsOwnedUnit(t))
-                return new SelectUnitState(Game, t.Unit);
+                return new SelectedUnitState(Game, t.Unit);
             // TODO: If invalid tile has a building, move to building selection (not implemented yet)
 
-            return new WaitingForInputState(Game);
+            return new IdleInputState(Game);
         }
 
         var action = new PlayCardAction(_selectedCard.Card, t.Position);
         Game.Perform(action);
 
-        return new WaitingForInputState(Game);
+        return new IdleInputState(Game);
     }
 }

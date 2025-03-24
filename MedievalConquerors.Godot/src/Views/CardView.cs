@@ -31,14 +31,6 @@ public partial class CardView : Node2D, IClickable
 
 	private Tween _glowTween;
 
-	private readonly Dictionary<CardType, int> _cardFrameMap = new()
-	{
-		{ CardType.Building, 0 },
-		{ CardType.Technology, 1 },
-		{ CardType.Unit, 2 },
-		{ CardType.Military, 3 },
-	};
-
 	private Color _targetHighlightColor;
 	private Color TargetHighlightColor
 	{
