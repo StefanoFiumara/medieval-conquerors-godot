@@ -4,9 +4,8 @@ namespace MedievalConquerors.Engine.Data.Attributes;
 
 public class ActionDefinition
 {
-    // TODO: better types for this, json?
     public string ActionType { get; set; }
-    public string Parameters { get; set; }
+    public string Data { get; set; }
 }
 
 public class AbilityAttribute : ICardAttribute

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
@@ -24,37 +22,49 @@ public class AbilitySystem : GameComponent, IAwake
 
     private void OnPerformAbility(AbilityAction action)
     {
+        // TODO: Should this priority value be hard coded?
+        // TODO: Unit tests
         int actionPriority = 99;
         foreach (var actionDef in action.Ability.Actions)
         {
-            var type = Type.GetType(actionDef.ActionType);
-            if (type == null)
-            {
-                _logger.Error($"Ability System could not find action name: {actionDef.ActionType}");
-                return;
-            }
 
-            // TODO: get args from actionDef before creating instance.
-            //      So we can use the default constructor without having to define a parameterless one.
-            var ctor = type.GetConstructors().Single();
-            var parameters = ctor.GetParameters().OrderBy(p => p.Position);
-            var args = new List<object>();
-            foreach (var parameter in parameters)
+            var reaction = LoadAction(actionDef);
+            if (reaction != null)
             {
-                // TODO: use actionDef to populate args
+                reaction.Priority = actionPriority--;
+                Game.AddReaction(reaction);    
             }
-
-            if (Activator.CreateInstance(type, args) is not GameAction reaction)
-            {
-                _logger.Error($"Could not create instance of type {type.Name}");
-                return;
-            }
-
-            reaction.Priority = actionPriority--;
-            Game.AddReaction(reaction);
         }
     }
 
+    private GameAction LoadAction(ActionDefinition actionDef)
+    {
+        var type = Type.GetType(actionDef.ActionType);
+        if (type == null)
+        {
+            _logger.Error($"OnPerformAbility: could not find action name {actionDef.ActionType}");
+            return null;
+        }
+
+        if (Activator.CreateInstance(type) is not GameAction action)
+        {
+            _logger.Error($"OnPerformAbility: Could not create instance of type {type.Name}");
+            return null;
+        }
+
+        if (action is ILoadableAction loadable)
+        {
+            loadable.Load(Game, actionDef.Data);
+        }
+        else
+        {
+            _logger.Error($"OnPerformAbility: Loaded action {type.Name} does not implement ILoadableAction");
+            return null;
+        }
+
+        return action;
+    }
+    
     public void TriggerAbility(Card card, AbilityAttribute ability)
     {
         var action = new AbilityAction(ability);

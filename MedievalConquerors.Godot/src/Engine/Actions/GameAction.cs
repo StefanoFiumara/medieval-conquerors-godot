@@ -64,3 +64,8 @@ public class GameAction
 
     public override string ToString() => GetType().Name;
 }
+
+public interface ILoadableAction
+{
+    void Load(IGame game, string data);
+}
