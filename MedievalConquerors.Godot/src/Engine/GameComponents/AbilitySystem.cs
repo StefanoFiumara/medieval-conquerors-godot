@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
@@ -36,23 +37,21 @@ public class AbilitySystem : GameComponent, IAwake
             // TODO: get args from actionDef before creating instance.
             //      So we can use the default constructor without having to define a parameterless one.
             var ctor = type.GetConstructors().Single();
-            var args = ctor.GetParameters().OrderBy(p => p.Position);
-            foreach (var parameter in args)
+            var parameters = ctor.GetParameters().OrderBy(p => p.Position);
+            var args = new List<object>();
+            foreach (var parameter in parameters)
             {
-                // TODO: use parameter name and type to generate a list of arguments to send to the activator
-                //      based on actionDef.Parameters
-                // parameter.ParameterType
-                // parameter.Name
+                // TODO: use actionDef to populate args
             }
 
-            if (Activator.CreateInstance(type, args: []) is not GameAction instance)
+            if (Activator.CreateInstance(type, args) is not GameAction reaction)
             {
                 _logger.Error($"Could not create instance of type {type.Name}");
                 return;
             }
 
-            instance.Priority = actionPriority--;
-            Game.AddReaction(instance);
+            reaction.Priority = actionPriority--;
+            Game.AddReaction(reaction);
         }
     }
 
