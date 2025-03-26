@@ -1,4 +1,5 @@
-﻿using MedievalConquerors.Engine.Data;
+﻿using MedievalConquerors.Engine.Actions;
+using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 
 namespace MedievalConquerors.Tests;
@@ -93,6 +94,19 @@ public class CardBuilder
             SpawnRange = spawnRange,
             SpawnTags = spawnTags
         });
+
+        return this;
+    }
+
+    public CardBuilder WithAbility<TAbility, TAction>(string data = "")
+    where TAbility : AbilityAttribute, new()
+    where TAction : GameAction, ILoadableAction
+    {
+        var ability = new TAbility
+        {
+            Actions = [new ActionDefinition { ActionType = typeof(TAction).FullName, Data = data }]
+        };
+        _data.Attributes.Add(ability);
 
         return this;
     }

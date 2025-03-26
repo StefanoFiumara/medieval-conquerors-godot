@@ -32,7 +32,7 @@ public class AbilitySystem : GameComponent, IAwake
             if (reaction != null)
             {
                 reaction.Priority = actionPriority--;
-                Game.AddReaction(reaction);    
+                Game.AddReaction(reaction);
             }
         }
     }
@@ -64,8 +64,8 @@ public class AbilitySystem : GameComponent, IAwake
 
         return action;
     }
-    
-    public void TriggerAbility(Card card, AbilityAttribute ability)
+
+    public void TriggerAbility(AbilityAttribute ability)
     {
         var action = new AbilityAction(ability);
 

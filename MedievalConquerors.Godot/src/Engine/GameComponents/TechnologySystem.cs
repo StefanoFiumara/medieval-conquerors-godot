@@ -24,8 +24,6 @@ public class TechnologySystem : GameComponent, IAwake
         _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
         _events.Subscribe<ResearchTechnologyAction>(GameEvent.Prepare<ResearchTechnologyAction>(), OnPrepareResearchTechnology);
         _events.Subscribe<ResearchTechnologyAction>(GameEvent.Perform<ResearchTechnologyAction>(), OnPerformResearchTechnology);
-        // TODO: On perform research technology, we should simply send the card to the banished pile, since it shouldn't come back again.
-        //      We will have already reacted with the ability trigger in the prepare step.
     }
 
     private void OnValidatePlayCard(PlayCardAction action, ActionValidatorResult validator)
@@ -50,7 +48,7 @@ public class TechnologySystem : GameComponent, IAwake
     {
         var ability = action.Card.GetAttribute<OnCardPlayedAbility>();
         if (ability != null)
-            _abilitySystem.TriggerAbility(action.Card, ability);
+            _abilitySystem.TriggerAbility(ability);
     }
 
     private void OnPerformResearchTechnology(ResearchTechnologyAction action)
