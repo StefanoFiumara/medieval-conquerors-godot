@@ -14,11 +14,9 @@ namespace MedievalConquerors.Views;
 
 public partial class HandView : Node2D, IGameComponent
 {
-	private const float MaxHandWidth = 750f;
+	private const float MaxHandWidth = 850f;
 	private const float HandHeight = 95f;
 	private const int PreviewSectionHeight = 350;
-
-	private readonly List<CardView> _cards = new();
 
 	private int _previewXMin;
 	private int _previewXMax;
@@ -27,28 +25,28 @@ public partial class HandView : Node2D, IGameComponent
 	private int _hoveredIndex = -1;
 	private int _selectedIndex = -1;
 
-	private IGameSettings _settings;
-	private EventAggregator _events;
 	private Viewport _viewport;
 	private readonly TweenTracker<CardView> _tweenTracker = new();
 
 	private ActionSystem _actionSystem;
 
-	[Export] private PackedScene _cardScene;
+	private IGameSettings _settings;
+	private EventAggregator _events;
 
-	// TODO: Do we need a more dynamic way to get a mapView reference?
 	[Export] private MapView _mapView;
-
 	[Export] private Curve _spreadCurve;
 	[Export] private Curve _heightCurve;
 	[Export] private Curve _rotationCurve;
 
+	[Export] private PackedScene _cardScene;
+
 	public IGame Game { get; set; }
+
+	private readonly List<CardView> _cards = [];
 
 	public override void _Ready()
 	{
-		Game = GetParent<GameController>().Game;
-		Game.AddComponent(this);
+		GetParent<GameController>().Game.AddComponent(this);
 
 		_actionSystem = Game.GetComponent<ActionSystem>();
 
@@ -218,6 +216,7 @@ public partial class HandView : Node2D, IGameComponent
 		action.PerformPhase.Viewer = PlayCardAnimation;
 	}
 
+	// TODO: Does this need to be split up into SpawnUnit / BuildStructure / ResearchTechnology animations?
 	private IEnumerator PlayCardAnimation(IGame game, GameAction action)
 	{
 		var playAction = (PlayCardAction) action;
@@ -273,7 +272,7 @@ public partial class HandView : Node2D, IGameComponent
 
 	public Tween SelectCardAnimation(CardView card)
 	{
-		const float previewScale = 0.6f;
+		const float previewScale = 0.7f;
 		const double tweenDuration = 0.3;
 		// TODO: Formalize highlight colors in one file (Game settings?)
 		SetSelected(card);
@@ -281,10 +280,8 @@ public partial class HandView : Node2D, IGameComponent
 
 		var tween = card.CreateTween().SetParallel().SetTrans(Tween.TransitionType.Sine);
 
-		// TODO: figure out how to reliably position the card below the resource panel in all resolutions
-		// var proportion = _viewport.GetVisibleRect().CalculateScaleProportion();
 		// TODO: Store the card's width/height as constants in the CardView class
-		// TODO: Figure out if it's possible to derive these values from the scene itself
+		//		 Figure out if it's possible to derive these values from the card scene itself
 		tween.TweenProperty(card, "global_position", Vector2.Zero + Vector2.Right * 135 * previewScale + Vector2.Down * 185 * previewScale, tweenDuration);
 		tween.TweenProperty(card, "scale", Vector2.One * previewScale, tweenDuration);
 
@@ -323,7 +320,6 @@ public partial class HandView : Node2D, IGameComponent
 		var (handPos, _) = CalculateHandPosition(card);
 		tween.TweenProperty(card, "position", handPos + Vector2.Up * (30 + handPos.Y), tweenDuration);
 		tween.TweenProperty(card, "rotation", 0, tweenDuration);
-		// tween.TweenProperty(card, "scale", Vector2.One * 1.1f, tweenDuration);
 
 		_tweenTracker.TrackTween(tween, card);
 		return tween;

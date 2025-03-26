@@ -15,15 +15,6 @@ using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Views;
 
-public enum MapLayerType
-{
-	Terrain = 0,
-	MouseHover = 1,
-	BlueTeam = 2,
-	RedTeam = 3,
-	SelectionHint = 4
-}
-
 public partial class MapView : Node2D, IGameComponent
 {
 	private const int HighlightTileSetId = 1;
@@ -48,9 +39,6 @@ public partial class MapView : Node2D, IGameComponent
 		_ => throw new ArgumentOutOfRangeException(nameof(layer), layer, "Invalid map layer type")
 	};
 
-	private HexMap _map;
-	private ILogger _logger;
-
 	private Viewport _viewport;
 	private Vector2I _hovered = HexMap.None;
 
@@ -58,24 +46,22 @@ public partial class MapView : Node2D, IGameComponent
 	private Vector2 _dragOffset;
 	private Vector2 _zoomTarget;
 
+	private HexMap _map;
+	private ILogger _logger;
 	private EventAggregator _events;
-
-	private List<TokenView> _tokens;
-
 	private IGameSettings _settings;
+
+	private readonly List<TokenView> _tokens = [];
 
 	public override void _Ready()
 	{
-		Game = GetParent<GameController>().Game;
-		Game.AddComponent(this);
+		GetParent<GameController>().Game.AddComponent(this);
+
+		_viewport = GetViewport();
 
 		_logger = Game.GetComponent<ILogger>();
-
 		_map = Game.GetComponent<HexMap>();
-
 		_events = Game.GetComponent<EventAggregator>();
-		_viewport = GetViewport();
-		_tokens = new List<TokenView>();
 		_settings = Game.GetComponent<IGameSettings>();
 
 		// TODO: Set scale/position based on reference resolution
