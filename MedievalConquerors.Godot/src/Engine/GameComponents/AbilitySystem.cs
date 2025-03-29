@@ -1,7 +1,6 @@
 ﻿using System;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
-using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.Logging;
@@ -28,7 +27,7 @@ public class AbilitySystem : GameComponent, IAwake
         foreach (var actionDef in action.Ability.Actions)
         {
 
-            var reaction = LoadAction(actionDef);
+            var reaction = LoadAction(action.Ability, actionDef);
             if (reaction != null)
             {
                 reaction.Priority = actionPriority--;
@@ -37,7 +36,7 @@ public class AbilitySystem : GameComponent, IAwake
         }
     }
 
-    private GameAction LoadAction(ActionDefinition actionDef)
+    private GameAction LoadAction(AbilityAttribute ability, ActionDefinition actionDef)
     {
         var type = Type.GetType(actionDef.ActionType);
         if (type == null)
@@ -54,7 +53,7 @@ public class AbilitySystem : GameComponent, IAwake
 
         if (action is ILoadableAction loadable)
         {
-            loadable.Load(Game, actionDef.Data);
+            loadable.Load(Game, ability, actionDef);
         }
         else
         {

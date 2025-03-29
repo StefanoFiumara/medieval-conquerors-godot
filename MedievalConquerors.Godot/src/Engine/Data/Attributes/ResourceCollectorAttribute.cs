@@ -1,8 +1,8 @@
 ﻿namespace MedievalConquerors.Engine.Data.Attributes;
 
-public class ResourceCollectorAttribute : ICardAttribute
+public class ResourceCollectorAttribute : CardAttribute
 {
     public ResourceType Resource { get; set; }
 
-    public ICardAttribute Clone() => AttributeMapper.Clone(this);
+    public override ICardAttribute Clone() => AttributeMapper.Clone(this);
 }

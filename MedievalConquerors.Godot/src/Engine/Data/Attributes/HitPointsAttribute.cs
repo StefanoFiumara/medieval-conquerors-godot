@@ -1,6 +1,6 @@
 ﻿namespace MedievalConquerors.Engine.Data.Attributes;
 
-public class HitPointsAttribute : ICardAttribute
+public class HitPointsAttribute : CardAttribute
 {
     public int Health { get; set; }
 
@@ -9,5 +9,5 @@ public class HitPointsAttribute : ICardAttribute
         Health -= amount;
     }
 
-    public ICardAttribute Clone() => AttributeMapper.Clone(this);
+    public override ICardAttribute Clone() => AttributeMapper.Clone(this);
 }

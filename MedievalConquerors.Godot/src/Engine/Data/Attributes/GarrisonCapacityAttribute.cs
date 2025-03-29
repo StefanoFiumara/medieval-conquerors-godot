@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using LiteDB;
+using Riok.Mapperly.Abstractions;
 
 namespace MedievalConquerors.Engine.Data.Attributes;
 
-public class GarrisonCapacityAttribute : ICardAttribute
+public class GarrisonCapacityAttribute : CardAttribute
 {
     public int Limit { get; set; }
 
-    [BsonIgnore]
+    [BsonIgnore] [MapperIgnore]
     public List<Card> Units { get; private set; } = new();
 
     public bool CanGarrison(Card unit) =>
@@ -20,5 +21,5 @@ public class GarrisonCapacityAttribute : ICardAttribute
         Units.Add(unit);
     }
 
-    public ICardAttribute Clone() => AttributeMapper.Clone(this);
+    public override ICardAttribute Clone() => AttributeMapper.Clone(this);
 }

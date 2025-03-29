@@ -17,6 +17,8 @@ public class HandSystemTests : GameSystemTestFixture
         _player.Deck.AddRange(deck);
 
         Game.Awake();
+        Game.Perform(new BeginGameAction(_player.Id));
+        Game.Update();
     }
 
     [Fact]
@@ -30,14 +32,10 @@ public class HandSystemTests : GameSystemTestFixture
     [InlineData(5)]
     public void HandSystem_Performs_DrawCardsAction_And_Draws_Required_Amount(int amountToDraw)
     {
-        Game.Perform(new BeginGameAction(_player.Id));
-        Game.Update();
-
-        var action = new DrawCardsAction(_player.Id, amountToDraw);
-
         var initialDeckCount = _player.Deck.Count;
         var initialHand = _player.Hand.ToList();
 
+        var action = new DrawCardsAction(_player.Id, amountToDraw);
         Game.Perform(action);
         Game.Update();
 

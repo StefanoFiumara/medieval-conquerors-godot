@@ -28,7 +28,7 @@ public class TechnologySystem : GameComponent, IAwake
 
     private void OnValidatePlayCard(PlayCardAction action, ActionValidatorResult validator)
     {
-        if (action.CardToPlay.CardData.CardType == CardType.Technology && action.CardToPlay.GetAttribute<AbilityAttribute>() == null)
+        if (action.CardToPlay.CardData.CardType == CardType.Technology && action.CardToPlay.GetAttribute<OnCardPlayedAbility>() == null)
         {
             _logger.Warn("Attempted to validate Technology Card without ability.");
             validator.Invalidate("Technology Card does not have ability attribute.");

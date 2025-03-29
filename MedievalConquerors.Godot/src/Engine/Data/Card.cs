@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Godot;
+using LiteDB;
+using Riok.Mapperly.Abstractions;
 
 namespace MedievalConquerors.Engine.Data;
 
@@ -20,14 +22,16 @@ public class Card
         MapPosition = Zone == Zone.Map ? mapPosition : HexMap.None;
 
         Attributes = new();
+        // NOTE: Copy the card attributes from CardData into our state, so we can modify them without affecting the originals
         foreach (var dataAttribute in CardData.Attributes)
         {
-            Attributes.Add(dataAttribute.GetType(), dataAttribute.Clone());
+            var attributeCopy = dataAttribute.Clone();
+            attributeCopy.Owner = this;
+            Attributes.Add(dataAttribute.GetType(), attributeCopy);
         }
     }
 }
 
-// TODO: Make this immutable?
 public class CardData
 {
     public int Id { get; set; }
@@ -40,7 +44,17 @@ public class CardData
     public List<ICardAttribute> Attributes { get; set; } = new();
 }
 
+public abstract class CardAttribute : ICardAttribute
+{
+    [MapperIgnore]
+    [BsonIgnore]
+    public Card Owner { get; set; }
+
+    public abstract ICardAttribute Clone();
+}
+
 public interface ICardAttribute
 {
+    Card Owner { get; set; }
     ICardAttribute Clone();
 }

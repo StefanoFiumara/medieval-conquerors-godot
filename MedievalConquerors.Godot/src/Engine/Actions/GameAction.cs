@@ -1,5 +1,6 @@
 ﻿using System;
 using MedievalConquerors.Engine.Core;
+using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.Events;
 
 namespace MedievalConquerors.Engine.Actions;
@@ -67,5 +68,5 @@ public class GameAction
 
 public interface ILoadableAction
 {
-    void Load(IGame game, string data);
+    void Load(IGame game, AbilityAttribute ability, ActionDefinition data);
 }

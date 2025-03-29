@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Riok.Mapperly.Abstractions;
 
 namespace MedievalConquerors.Engine.Data.Attributes;
 
@@ -9,12 +10,16 @@ public class ActionDefinition
     public string ActionType { get; set; }
     public string Data { get; set; }
 
-    public Dictionary<string, string> ParsedData => LazyData.Value;
+    [MapperIgnore]
+    private Dictionary<string, string> ParsedData => LazyData.Value;
 
     public T GetData<T>(string key)
     {
         if (ParsedData.TryGetValue(key, out var value))
         {
+            if (typeof(T).IsEnum)
+                return (T) Enum.Parse(typeof(T), value);
+
             return (T) Convert.ChangeType(value, typeof(T));
         }
 
@@ -30,12 +35,18 @@ public class ActionDefinition
     }
 }
 
-public class AbilityAttribute : ICardAttribute
+public abstract class AbilityAttribute : CardAttribute
 {
     public List<ActionDefinition> Actions { get; set; }
     // TODO: Target selector?
-    public ICardAttribute Clone() => AttributeMapper.Clone(this);
 }
 
-public class OnCardPlayedAbility : AbilityAttribute { }
-public class OnCardActivatedAbility : AbilityAttribute { }
+public class OnCardPlayedAbility : AbilityAttribute
+{
+    public override ICardAttribute Clone() => AttributeMapper.Clone(this);
+}
+
+public class OnCardActivatedAbility : AbilityAttribute
+{
+    public override ICardAttribute Clone() => AttributeMapper.Clone(this);
+}

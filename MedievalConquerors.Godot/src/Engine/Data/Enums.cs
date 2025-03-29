@@ -79,6 +79,13 @@ public enum MapLayerType
     SelectionHint = 4
 }
 
+public enum PlayerTarget
+{
+    None,
+    Owner,
+    Enemy
+}
+
 public static class EnumExtensions
 {
     public static string PrettyPrint(this AgeType age)

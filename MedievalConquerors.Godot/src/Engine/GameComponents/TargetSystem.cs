@@ -35,29 +35,29 @@ public class TargetSystem : GameComponent, IAwake
     public List<Vector2I> GetTargetCandidates(Card card)
     {
         var player = card.Owner;
-        var spawnPointAttribute = card.GetAttribute<SpawnPointAttribute>();
-        var buildings = player.Map.Where(c => c.CardData.CardType == CardType.Building);
+        var spawnPoint = card.GetAttribute<SpawnPointAttribute>();
 
-        if(spawnPointAttribute == null)
+        if(spawnPoint == null)
             return [];
 
-        if (spawnPointAttribute.SpawnTags == Tags.TownCenter)
-            return _map.GetReachable(player.TownCenter.Position, player.InfluenceRange).ToList();
+        if (spawnPoint.SpawnTags == Tags.TownCenter)
+            return _map.GetReachable(player.TownCenter.Position, spawnPoint.SpawnRange == 0 ? player.InfluenceRange : spawnPoint.SpawnRange).ToList();
 
         var targetCandidates = new List<Vector2I>();
+        var buildings = player.Map.Where(c => c.CardData.CardType == CardType.Building);
         foreach (var building in buildings)
         {
-            if (building.CardData.Tags.HasFlag(spawnPointAttribute.SpawnTags))
+            if (building.CardData.Tags.HasFlag(spawnPoint.SpawnTags))
             {
                 // TODO: We may want to pull the garrison check into an extension method, as well as other attribute checks
                 //       This is so we can just call `building.CanGarrison(source)` directly instead of using `GetAttribute`
-                if (spawnPointAttribute.SpawnRange == 0 && building.GetAttribute<GarrisonCapacityAttribute>()?.CanGarrison(card) == true)
+                if (spawnPoint.SpawnRange == 0 && building.GetAttribute<GarrisonCapacityAttribute>()?.CanGarrison(card) == true)
                 {
                     targetCandidates.Add(building.MapPosition);
                 }
                 else
                 {
-                    var surroundingNeighbors = _map.GetReachable(building.MapPosition, spawnPointAttribute.SpawnRange);
+                    var surroundingNeighbors = _map.GetReachable(building.MapPosition, spawnPoint.SpawnRange);
                     targetCandidates.AddRange(surroundingNeighbors);
                 }
             }

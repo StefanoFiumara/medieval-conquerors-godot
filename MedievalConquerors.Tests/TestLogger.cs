@@ -30,7 +30,7 @@ public class TestLogger(ITestOutputHelper output, LogLevel minimumLogLevel = Log
         if (!string.IsNullOrEmpty(callerFilePath))
         {
             var callerName = Path.GetFileNameWithoutExtension(callerFilePath);
-            prefix = $"{callerName}\t======>\t";
+            prefix = $"{callerName}\t --> ";
         }
 
         return prefix;
