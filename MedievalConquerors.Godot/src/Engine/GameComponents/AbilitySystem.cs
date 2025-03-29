@@ -51,7 +51,7 @@ public class AbilitySystem : GameComponent, IAwake
             return null;
         }
 
-        if (action is ILoadableAction loadable)
+        if (action is IAbilityLoader loadable)
         {
             loadable.Load(Game, ability, actionDef);
         }

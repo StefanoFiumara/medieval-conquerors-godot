@@ -66,7 +66,7 @@ public class GameAction
     public override string ToString() => GetType().Name;
 }
 
-public interface ILoadableAction
+public interface IAbilityLoader
 {
     void Load(IGame game, AbilityAttribute ability, ActionDefinition data);
 }

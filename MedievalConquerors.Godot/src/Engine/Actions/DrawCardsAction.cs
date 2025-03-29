@@ -6,7 +6,7 @@ using MedievalConquerors.Engine.GameComponents;
 
 namespace MedievalConquerors.Engine.Actions;
 
-public class DrawCardsAction(int targetPlayerId, int amount) : GameAction, ILoadableAction
+public class DrawCardsAction(int targetPlayerId, int amount) : GameAction, IAbilityLoader
 {
     public int TargetPlayerId { get; private set; } = targetPlayerId;
     public int Amount { get; private set; } = amount;

@@ -100,7 +100,7 @@ public class CardBuilder
 
     public CardBuilder WithAbility<TAbility, TAction>(string data = "")
     where TAbility : AbilityAttribute, new()
-    where TAction : GameAction, ILoadableAction, new()
+    where TAction : GameAction, IAbilityLoader, new()
     {
         var ability = new TAbility
         {
