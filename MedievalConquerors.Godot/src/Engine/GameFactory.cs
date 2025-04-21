@@ -36,6 +36,7 @@ public static class GameFactory
 
         game.AddComponent<DeckCycleSystem>();
         game.AddComponent<CardSystem>();
+        game.AddComponent<CardCreationSystem>();
         game.AddComponent<GlobalGameStateSystem>();
         game.AddComponent<AbilitySystem>();
         // game.AddComponent<VictorySystem>();

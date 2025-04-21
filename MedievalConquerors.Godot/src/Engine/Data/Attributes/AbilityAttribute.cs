@@ -10,6 +10,8 @@ public class ActionDefinition
     public string ActionType { get; set; }
     public string Data { get; set; }
 
+    private Lazy<Dictionary<string, string>> LazyData => new(ParseData);
+
     [MapperIgnore]
     private Dictionary<string, string> ParsedData => LazyData.Value;
 
@@ -26,7 +28,12 @@ public class ActionDefinition
         // TODO: Should we throw an error here instead of returning a default value?
         return default;
     }
-    private Lazy<Dictionary<string, string>> LazyData => new(ParseData);
+
+    public void SetData<T>(string key, T value)
+    {
+        ParsedData[key] = value.ToString();
+    }
+
     private Dictionary<string, string> ParseData()
     {
         return Data.Split(',')

@@ -44,6 +44,11 @@ public class CardLibrary : GameComponent, IAwake
 		return null;
 	}
 
+	public bool IsValidCardId(int id)
+	{
+		return _cardData.ContainsKey(id);
+	}
+
 	// TODO: Formalize deckInfo tuple into separate object
 	public List<Card> LoadDeck(Player owner, List<(int cardId, int amount)> deckInfo)
 	{

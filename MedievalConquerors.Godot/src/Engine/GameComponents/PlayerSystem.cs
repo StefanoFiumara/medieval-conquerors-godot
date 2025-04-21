@@ -3,6 +3,7 @@ using System.Linq;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Engine.Data.Attributes;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Extensions;
 
@@ -56,15 +57,28 @@ public class PlayerSystem : GameComponent, IAwake
             {
                 // TEMP: mocked deck info data using IDs from our DB, to test deck loading from disk
                 // (2, 2), // 2 Knights
-                (15, 1), // Agriculture
+                // (15, 1), // Agriculture
                 // TODO: Implement and add a technology cards for each of these economic buildings
                 (6, 1), // Lumber Camp
-                (10, 1), // Mining Camp
-                (13, 1), // Mill
+                //(10, 1), // Mining Camp
+                //(13, 1), // Mill
             };
 
             var loadedPlayerDeck = _cardDb.LoadDeck(_match.LocalPlayer, deckInfo);
             var loadedEnemyDeck = _cardDb.LoadDeck(_match.EnemyPlayer, deckInfo);
+
+            // TEMP: create agriculture card for testing ability
+            var abilityCard = _cardDb.LoadCard(15, _match.LocalPlayer);
+            var ability = new OnCardPlayedAbility
+            {
+                Actions = [new ActionDefinition { ActionType = typeof(CreateCardAction).FullName, Data = "CardId=14,TargetPlayerId=Owner,TargetZone=Deck,Amount=3" }],
+                Owner = abilityCard
+            };
+            abilityCard.Attributes.Add(typeof(OnCardPlayedAbility), ability);
+
+
+            loadedPlayerDeck.Add(abilityCard);
+
             _match.LocalPlayer.Deck.AddRange(loadedPlayerDeck);
             _match.EnemyPlayer.Deck.AddRange(loadedEnemyDeck);
         }
