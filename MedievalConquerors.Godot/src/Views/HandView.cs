@@ -221,6 +221,7 @@ public partial class HandView : Node2D, IGameComponent
 		const double tweenDuration = 0.5;
 
 		var cardView = _cards.SingleOrDefault(c => c.Card == action.CardToPlay);
+		_cards.Remove(cardView);
 		if (cardView == null)
 		{
 			var nullTween = CreateTween();
@@ -233,6 +234,7 @@ public partial class HandView : Node2D, IGameComponent
 		if (action.CardToPlay.CardData.CardType == CardType.Technology)
 		{
 			tween.TweenProperty(cardView, "global_position", _viewport.GetVisibleRect().GetCenter(), tweenDuration);
+			tween.TweenProperty(cardView, "rotation", 0, tweenDuration);
 			tween.TweenProperty(cardView, "scale", Vector2.One, tweenDuration).SetEase(Tween.EaseType.Out);
 			tween.Chain().TweenInterval(0.4f);
 			tween.TweenProperty(cardView, "scale", Vector2.One * 1.5f, tweenDuration);
@@ -246,7 +248,6 @@ public partial class HandView : Node2D, IGameComponent
 		tween.TweenProperty(cardView, "modulate:a", 0f, tweenDuration);
 		tween.Chain().TweenCallback(Callable.From(() =>
 		{
-			_cards.Remove(cardView);
 			cardView.QueueFree();
 		}));
 
