@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7w7oi0ih5jku"]
+
+[ext_resource type="PackedScene" uid="uid://r8nd3ueedopk" path="res://entities/editor/library_editor/library_editor.tscn" id="1_8bdb7"]
+[ext_resource type="PackedScene" uid="uid://b7rdfip0s4fyf" path="res://entities/editor/card_data_editor/card_data_editor.tscn" id="2_n7pbq"]
+
+[node name="editor-container" type="HSplitContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offset = 960
+
+[node name="card_library" parent="." instance=ExtResource("1_8bdb7")]
+layout_mode = 2
+
+[node name="card_data_editor" parent="." node_paths=PackedStringArray("_databaseView") instance=ExtResource("2_n7pbq")]
+layout_mode = 2
+_databaseView = NodePath("../card_library")

@@ -1,5 +1,5 @@
 ﻿using MedievalConquerors.Engine.Actions;
-using MedievalConquerors.Engine.Actions.TurnActions;
+using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
 using Shouldly;
 

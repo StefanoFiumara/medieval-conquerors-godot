@@ -1,5 +1,4 @@
-﻿using System;
-using MedievalConquerors.Engine.Data;
+﻿using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Extensions;
 

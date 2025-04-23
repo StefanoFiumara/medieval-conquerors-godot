@@ -1,6 +1,7 @@
 ﻿using Godot;
 using MedievalConquerors.Engine.Core;
-using MedievalConquerors.Views;
+
+using CardView = MedievalConquerors.entities.cards.CardView;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Engine.Input.InputStates;

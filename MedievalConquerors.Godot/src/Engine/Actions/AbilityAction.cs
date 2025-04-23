@@ -1,4 +1,4 @@
-﻿using MedievalConquerors.Engine.Data.Attributes;
+﻿using MedievalConquerors.Engine.Attributes;
 
 namespace MedievalConquerors.Engine.Actions;
 

@@ -2,13 +2,14 @@
 using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Actions;
+using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Engine.Data.Attributes;
+
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Extensions;
-using MedievalConquerors.Views;
-using MapView = MedievalConquerors.Views.MapView;
+
+using MapView = MedievalConquerors.entities.maps.MapView;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Engine.Input.InputStates;

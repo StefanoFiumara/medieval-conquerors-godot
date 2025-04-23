@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="GameSettings" load_steps=2 format=3 uid="uid://ejs7dyka7per"]
 
-[ext_resource type="Script" uid="uid://cg5q35wlptmhs" path="res://src/Engine/GameComponents/GameSettings.cs" id="1_o32wb"]
+[ext_resource type="Script" uid="uid://cg5q35wlptmhs" path="res://src/Engine/Data/GameSettings.cs" id="1_o32wb"]
 
 [resource]
 script = ExtResource("1_o32wb")

@@ -1,6 +1,7 @@
 ﻿using System;
+using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
-using MedievalConquerors.Engine.Data.Attributes;
+
 using MedievalConquerors.Engine.Events;
 
 namespace MedievalConquerors.Engine.Actions;

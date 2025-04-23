@@ -4,7 +4,9 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
-using MedievalConquerors.Views;
+using MedievalConquerors.entities.cards;
+using MedievalConquerors.entities.hand;
+using MedievalConquerors.entities.maps;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Engine.Input.InputStates;

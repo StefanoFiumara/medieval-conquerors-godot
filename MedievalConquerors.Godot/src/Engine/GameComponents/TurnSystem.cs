@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using MedievalConquerors.Engine.Actions;
-using MedievalConquerors.Engine.Actions.TurnActions;
 using MedievalConquerors.Engine.Core;
+using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
-using MedievalConquerors.UI;
+
+using PlayerUiPanel = MedievalConquerors.entities.ui.player_gameplay_ui.PlayerUiPanel;
 
 namespace MedievalConquerors.Engine.GameComponents;
 

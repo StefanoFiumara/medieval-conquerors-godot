@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using MedievalConquerors.Editor.DataAccess;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Logging;
@@ -27,6 +26,8 @@ public class CardLibrary : GameComponent, IAwake
 		if (_cardData is null || _cardData.Count == 0)
 		{
 			using var db = new CardDatabase();
+			// TODO(High Priority): update database to use new paths for card portraits, token icons, and attribute type names
+			// TODO: Update card view and token view code to load from a specified path so that we do not need to include full paths in the database
 			_cardData = db.Query.ToList().ToImmutableDictionary(c => c.Id);
 		}
 	}

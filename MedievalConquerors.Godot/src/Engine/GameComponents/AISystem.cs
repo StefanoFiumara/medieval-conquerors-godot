@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Actions;
-using MedievalConquerors.Engine.Actions.TurnActions;
+using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Engine.Data.Attributes;
+
 using MedievalConquerors.Engine.Logging;
 using MedievalConquerors.Extensions;
 

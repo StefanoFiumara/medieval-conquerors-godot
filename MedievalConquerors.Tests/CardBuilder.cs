@@ -1,6 +1,7 @@
 ﻿using MedievalConquerors.Engine.Actions;
+using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Engine.Data.Attributes;
+
 
 namespace MedievalConquerors.Tests;
 

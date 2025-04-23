@@ -1,4 +1,4 @@
-﻿namespace MedievalConquerors.Engine.Actions.TurnActions;
+﻿namespace MedievalConquerors.Engine.Actions;
 
 public class BeginTurnAction(int playerId) : GameAction
 {

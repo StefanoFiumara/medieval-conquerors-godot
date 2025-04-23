@@ -5,7 +5,9 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Logging;
-using MedievalConquerors.Views;
+
+using GameSettings = MedievalConquerors.Engine.Data.GameSettings;
+using MapView = MedievalConquerors.entities.maps.MapView;
 
 namespace MedievalConquerors;
 

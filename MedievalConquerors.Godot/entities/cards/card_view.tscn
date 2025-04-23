@@ -1,0 +1,233 @@
+[gd_scene load_steps=11 format=3 uid="uid://b53wqwu1youqe"]
+
+[ext_resource type="Script" uid="uid://iwsn12lqk8tu" path="res://entities/cards/CardView.cs" id="1_r8q4a"]
+[ext_resource type="Texture2D" uid="uid://sbqj2jrisdkc" path="res://entities/cards/glow.png" id="2_fo11h"]
+[ext_resource type="Texture2D" uid="uid://dmxr1faglyqof" path="res://entities/cards/frame_bg.png" id="3_xchd5"]
+[ext_resource type="Texture2D" uid="uid://dqc1l4x1bhauk" path="res://entities/cards/portraits/agriculture.png" id="4_qyos6"]
+[ext_resource type="Texture2D" uid="uid://0uy1cqn42is3" path="res://entities/cards/frame_border.png" id="5_wi131"]
+[ext_resource type="FontFile" uid="uid://bnndeil6c3twa" path="res://fonts/QUILLPN.TTF" id="6_hu4f0"]
+[ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://entities/ui/player_gameplay_ui/resource_icons.png" id="7_356ln"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_hu4f0"]
+font = ExtResource("6_hu4f0")
+shadow_color = Color(0, 0, 0, 0.882353)
+
+[sub_resource type="LabelSettings" id="LabelSettings_6q0cx"]
+font_size = 13
+font_color = Color(0, 0, 0, 1)
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_pldyj"]
+
+[node name="card_view" type="Node2D" node_paths=PackedStringArray("_title", "_description", "_type", "_image", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon")]
+texture_filter = 1
+script = ExtResource("1_r8q4a")
+_title = NodePath("title_text")
+_description = NodePath("description_text")
+_type = NodePath("type_text")
+_image = NodePath("card_portrait")
+_glow = NodePath("glow")
+_foodCost = NodePath("cost_grid/food_cost")
+_woodCost = NodePath("cost_grid/wood_cost")
+_goldCost = NodePath("cost_grid/gold_cost")
+_stoneCost = NodePath("cost_grid/stone_cost")
+_foodIcon = NodePath("cost_grid/food_icon")
+_woodIcon = NodePath("cost_grid/wood_icon")
+_goldIcon = NodePath("cost_grid/gold_icon")
+_stoneIcon = NodePath("cost_grid/stone_icon")
+
+[node name="glow" type="NinePatchRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -133.0
+offset_top = -191.0
+offset_right = 130.0
+offset_bottom = 189.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_fo11h")
+region_rect = Rect2(-1, 0, 451, 151)
+patch_margin_left = 25
+patch_margin_top = 23
+patch_margin_right = 24
+patch_margin_bottom = 24
+
+[node name="description_panel" type="Sprite2D" parent="."]
+position = Vector2(-4, 9.65)
+texture = ExtResource("3_xchd5")
+
+[node name="card_portrait" type="Sprite2D" parent="."]
+position = Vector2(0, -52.475)
+scale = Vector2(0.616, 0.616)
+texture = ExtResource("4_qyos6")
+
+[node name="frame" type="Sprite2D" parent="."]
+texture = ExtResource("5_wi131")
+
+[node name="title_text" type="Label" parent="."]
+offset_left = -78.0
+offset_top = -145.0
+offset_right = 78.56
+offset_bottom = -108.0
+text = "Card Title"
+label_settings = SubResource("LabelSettings_hu4f0")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+text_overrun_behavior = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="type_text" type="Label" parent="."]
+offset_left = -71.0
+offset_top = 55.5
+offset_right = 59.0
+offset_bottom = 73.5
+text = "Card Type"
+label_settings = SubResource("LabelSettings_6q0cx")
+vertical_alignment = 1
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="description_text" type="RichTextLabel" parent="."]
+clip_contents = false
+offset_left = -71.0
+offset_top = 72.0
+offset_right = 73.0
+offset_bottom = 118.0
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+scroll_active = false
+autowrap_mode = 2
+tab_size = 2
+shortcut_keys_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="cost_grid" type="HBoxContainer" parent="."]
+offset_left = -70.265
+offset_top = 21.0
+offset_right = 197.735
+offset_bottom = 61.0
+
+[node name="food_icon" type="MarginContainer" parent="cost_grid"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_bottom = 5
+
+[node name="sprite" type="Sprite2D" parent="cost_grid/food_icon"]
+position = Vector2(14, 21)
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("7_356ln")
+hframes = 4
+
+[node name="food_cost" type="Label" parent="cost_grid"]
+texture_filter = 2
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = SubResource("Theme_pldyj")
+theme_override_colors/font_color = Color(0.968627, 0.415686, 0.403922, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 2
+theme_override_font_sizes/font_size = 17
+text = "99"
+vertical_alignment = 1
+
+[node name="wood_icon" type="MarginContainer" parent="cost_grid"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_bottom = 5
+
+[node name="sprite" type="Sprite2D" parent="cost_grid/wood_icon"]
+position = Vector2(14, 21)
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("7_356ln")
+hframes = 4
+frame = 1
+
+[node name="wood_cost" type="Label" parent="cost_grid"]
+texture_filter = 2
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = SubResource("Theme_pldyj")
+theme_override_colors/font_color = Color(0.670588, 0.482353, 0.392157, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 2
+theme_override_font_sizes/font_size = 17
+text = "99"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="gold_icon" type="MarginContainer" parent="cost_grid"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_bottom = 5
+
+[node name="sprite" type="Sprite2D" parent="cost_grid/gold_icon"]
+position = Vector2(14, 21)
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("7_356ln")
+hframes = 4
+frame = 2
+
+[node name="gold_cost" type="Label" parent="cost_grid"]
+texture_filter = 2
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = SubResource("Theme_pldyj")
+theme_override_colors/font_color = Color(0.988235, 0.866667, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 2
+theme_override_font_sizes/font_size = 17
+text = "99"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="stone_icon" type="MarginContainer" parent="cost_grid"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_bottom = 5
+
+[node name="sprite" type="Sprite2D" parent="cost_grid/stone_icon"]
+position = Vector2(14, 21)
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("7_356ln")
+hframes = 4
+frame = 3
+
+[node name="stone_cost" type="Label" parent="cost_grid"]
+texture_filter = 2
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = SubResource("Theme_pldyj")
+theme_override_colors/font_color = Color(0.780392, 0.819608, 0.858824, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 2
+theme_override_font_sizes/font_size = 17
+text = "99"
+horizontal_alignment = 1
+vertical_alignment = 1
