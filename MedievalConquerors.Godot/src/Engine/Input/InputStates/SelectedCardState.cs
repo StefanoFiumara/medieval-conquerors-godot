@@ -20,7 +20,7 @@ public class SelectedCardState(IGame game, CardView selectedCard) : BaseInputSta
 
     public override void Enter()
     {
-        _handView.SelectCardAnimation(_selectedCard);
+        _handView.SelectCardTween(_selectedCard);
 
         _validTiles = _targetSystem.GetTargetCandidates(_selectedCard.Card);
         _mapView.HighlightTiles(_validTiles, MapLayerType.SelectionHint);

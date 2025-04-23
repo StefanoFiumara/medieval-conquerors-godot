@@ -74,11 +74,11 @@ public partial class HandView : Node2D, IGameComponent
 		{
 			if (hovered != -1 && hovered != _selectedIndex)
 			{
-				TweenToPreviewPosition(hovered);
+				PreviewPositionTween(hovered);
 			}
 
 			_hoveredIndex = hovered;
-			TweenToHandPositions();
+			HandPositionsTween();
 
 			for (int i = 0; i < _cards.Count; i++)
 			{
@@ -136,7 +136,7 @@ public partial class HandView : Node2D, IGameComponent
 	{
 		_selectedIndex = -1;
 		_hoveredIndex = -1;
-		TweenToHandPositions();
+		HandPositionsTween();
 	}
 
 	private void CalculateViewPosition()
@@ -144,6 +144,24 @@ public partial class HandView : Node2D, IGameComponent
 		var visibleRect = _viewport.GetVisibleRect();
 		Scale = visibleRect.CalculateScaleFactor();
 		Position = new Vector2(visibleRect.Size.X * 0.5f, visibleRect.Size.Y - (165f * Scale.Y));
+	}
+
+	private int CalculateHoveredIndex(Vector2 mousePos)
+	{
+		for (int i = 0; i < _cards.Count; i++)
+		{
+			var sectionRect = new Rect2(
+				x: _previewXMin + i * _previewSectionSize,
+				y: -150,
+				width: _previewSectionSize,
+				height: PreviewSectionHeight
+			);
+
+			if (sectionRect.HasPoint(mousePos))
+				return i;
+		}
+
+		return -1;
 	}
 
 	private IEnumerator DrawCardsAnimation(IGame game, GameAction action)
@@ -157,7 +175,7 @@ public partial class HandView : Node2D, IGameComponent
 		foreach (var card in drawAction.DrawnCards)
 		{
 			CreateCardView(card);
-			var tweens = TweenToHandPositions();
+			var tweens = HandPositionsTween();
 			while (tweens.Any(t => t.IsRunning())) yield return null;
 		}
 
@@ -206,7 +224,7 @@ public partial class HandView : Node2D, IGameComponent
 			var playCardTween = PlayCardTween(playAction);
 			while (playCardTween.IsRunning()) yield return null;
 
-			var handTweens = TweenToHandPositions();
+			var handTweens = HandPositionsTween();
 			while (handTweens.Any(t => t.IsRunning())) yield return null;
 
 			CalculatePreviewBoundaries();
@@ -308,14 +326,14 @@ public partial class HandView : Node2D, IGameComponent
 		while (tweens.Any(t => t.IsRunning())) yield return null;
 		if (createAction.TargetZone == Zone.Hand)
 		{
-			var handTweens = TweenToHandPositions();
+			var handTweens = HandPositionsTween();
 			while (handTweens.Any(t => t.IsRunning())) yield return null;
 
 			CalculatePreviewBoundaries();
 		}
 	}
 
-	public Tween SelectCardAnimation(CardView card)
+	public Tween SelectCardTween(CardView card)
 	{
 		const float previewScale = 0.7f;
 		const double tweenDuration = 0.3;
@@ -333,25 +351,7 @@ public partial class HandView : Node2D, IGameComponent
 		return tween;
 	}
 
-	private int CalculateHoveredIndex(Vector2 mousePos)
-	{
-		for (int i = 0; i < _cards.Count; i++)
-		{
-			var sectionRect = new Rect2(
-				x: _previewXMin + i * _previewSectionSize,
-				y: -150,
-				width: _previewSectionSize,
-				height: PreviewSectionHeight
-			);
-
-			if (sectionRect.HasPoint(mousePos))
-				return i;
-		}
-
-		return -1;
-	}
-
-	private Tween TweenToPreviewPosition(int index)
+	private Tween PreviewPositionTween(int index)
 	{
 		const double tweenDuration = 0.2;
 
@@ -388,7 +388,7 @@ public partial class HandView : Node2D, IGameComponent
 		QueueRedraw();
 	}
 
-	private List<Tween> TweenToHandPositions()
+	private List<Tween> HandPositionsTween()
 	{
 		const double tweenDuration = 0.25;
 		var tweens = new List<Tween>();
