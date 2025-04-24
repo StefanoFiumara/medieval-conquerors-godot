@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Godot;
 using LiteDB;
@@ -8,53 +8,53 @@ namespace MedievalConquerors.Engine.Data;
 
 public class Card
 {
-    public CardData CardData { get; }
-    public Dictionary<Type, ICardAttribute> Attributes { get; }
-    public Player Owner { get; }
-    public Zone Zone { get; set; }
-    public Vector2I MapPosition { get; set; }
+	public CardData CardData { get; }
+	public Dictionary<Type, ICardAttribute> Attributes { get; }
+	public Player Owner { get; }
+	public Zone Zone { get; set; }
+	public Vector2I MapPosition { get; set; }
 
-    public Card(CardData cardData, Player owner, Zone zone = Zone.None, Vector2I mapPosition = default)
-    {
-        CardData = cardData;
-        Owner = owner;
-        Zone = zone;
-        MapPosition = Zone == Zone.Map ? mapPosition : HexMap.None;
+	public Card(CardData cardData, Player owner, Zone zone = Zone.None, Vector2I mapPosition = default)
+	{
+		CardData = cardData;
+		Owner = owner;
+		Zone = zone;
+		MapPosition = Zone == Zone.Map ? mapPosition : HexMap.None;
 
-        Attributes = new();
-        // NOTE: Copy the card attributes from CardData into our state, so we can modify them without affecting the originals
-        foreach (var dataAttribute in CardData.Attributes)
-        {
-            var attributeCopy = dataAttribute.Clone();
-            attributeCopy.Owner = this;
-            Attributes.Add(dataAttribute.GetType(), attributeCopy);
-        }
-    }
+		Attributes = new();
+		// NOTE: Copy the card attributes from CardData into our state, so we can modify them without affecting the originals
+		foreach (var dataAttribute in CardData.Attributes)
+		{
+			var attributeCopy = dataAttribute.Clone();
+			attributeCopy.Owner = this;
+			Attributes.Add(dataAttribute.GetType(), attributeCopy);
+		}
+	}
 }
 
 public class CardData
 {
-    public int Id { get; set; }
-    public string Title { get; set; }
-    public string Description { get; set; }
-    public string ImagePath { get; set; }
-    public string TokenImagePath { get; set; }
-    public CardType CardType { get; set; }
-    public Tags Tags { get; set; }
-    public List<ICardAttribute> Attributes { get; set; } = new();
+	public int Id { get; set; }
+	public string Title { get; set; }
+	public string Description { get; set; }
+	public string ImagePath { get; set; }
+	public string TokenImagePath { get; set; }
+	public CardType CardType { get; set; }
+	public Tags Tags { get; set; }
+	public List<ICardAttribute> Attributes { get; set; } = new();
 }
 
 public abstract class CardAttribute : ICardAttribute
 {
-    [MapperIgnore]
-    [BsonIgnore]
-    public Card Owner { get; set; }
+	[MapperIgnore]
+	[BsonIgnore]
+	public Card Owner { get; set; }
 
-    public abstract ICardAttribute Clone();
+	public abstract ICardAttribute Clone();
 }
 
 public interface ICardAttribute
 {
-    Card Owner { get; set; }
-    ICardAttribute Clone();
+	Card Owner { get; set; }
+	ICardAttribute Clone();
 }

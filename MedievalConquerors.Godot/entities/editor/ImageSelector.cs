@@ -7,10 +7,9 @@ namespace MedievalConquerors.entities.editor;
 
 public partial class ImageSelector : HBoxContainer
 {
-	public const string PortraitsPath = "res://assets/portraits";
-	
-	// TODO: Set up token selector, or configure this component to work with different root paths
-	public const string TokensPath = "res://assets/tile_tokens";
+	// TODO: Update this selector to return file UIDs instead of paths
+	public const string PortraitsPath = "res://entities/cards/portraits/";
+	public const string TokensPath = "res://entities/tokens/token_icons/";
 
 	[Export] private OptionButton _imageOptions;
 	[Export] private Button _refreshButton;
@@ -27,7 +26,7 @@ public partial class ImageSelector : HBoxContainer
 		set
 		{
 			if (string.IsNullOrEmpty(value)) return;
-			
+
 			var fileName = Path.GetFileName(value);
 			if (_imagePaths.Contains(fileName))
 			{
@@ -39,7 +38,7 @@ public partial class ImageSelector : HBoxContainer
 			}
 		}
 	}
-	
+
 	// TODO: give editor ability to select token manually instead of basing it off of the portrait name
 	// This is kinda  nice for now though.
 	public string SelectedTokenPath
@@ -84,7 +83,7 @@ public partial class ImageSelector : HBoxContainer
 			_imageOptions.AddIconItem(tex, image.imagePath);
 			_imagePaths.Add(image.imagePath);
 		}
-		
+
 		_imageOptions.Select(0);
 	}
 

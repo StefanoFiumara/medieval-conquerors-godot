@@ -1,7 +1,7 @@
 using MedievalConquerors.entities.editor.card_data_editor;
 using MedievalConquerors.Extensions;
 
-namespace MedievalConquerors.entities.editor.UIStates;
+namespace MedievalConquerors.entities.editor.editor_states;
 
 public class EditingExistingCardState(CardDataEditor editor) : EditorState(editor)
 {

@@ -4,8 +4,8 @@ using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.StateManagement;
 using MedievalConquerors.entities.editor.attribute_editor;
+using MedievalConquerors.entities.editor.editor_states;
 using MedievalConquerors.entities.editor.library_editor;
-using MedievalConquerors.entities.editor.UIStates;
 using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.entities.editor.card_data_editor;
@@ -53,7 +53,7 @@ public partial class CardDataEditor : ScrollContainer
 					CreateAttributeEditor(attr);
 
 				GD.Print($"Updating Editor to card data with ID: {value.Id}");
-				if (value.Id == default)
+				if (value.Id == 0)
 					_stateMachine.ChangeState(new CreatingNewCardState(this));
 				else
 					_stateMachine.ChangeState(new EditingExistingCardState(this));
@@ -66,7 +66,8 @@ public partial class CardDataEditor : ScrollContainer
 
 	public override void _Ready()
 	{
-		_attributeEditor = GD.Load<PackedScene>("res://scenes/editor/attribute_editor.tscn");
+		// TODO: Make this an export or reference via UID
+		_attributeEditor = GD.Load<PackedScene>("res://entities/editor/attribute_editor/attribute_editor.tscn");
 
 		LoadedData = null;
 		_stateMachine = new StateMachine(new NoDataState(this));

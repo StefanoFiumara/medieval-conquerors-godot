@@ -6,7 +6,7 @@ namespace MedievalConquerors.Extensions;
 
 public static class PopupExtensions
 {
-	private static readonly PackedScene PopupScene = GD.Load<PackedScene>("res://scenes/ui/text_popup.tscn");
+	private static readonly PackedScene PopupScene = GD.Load<PackedScene>("uid://clw487na7ypbg");
 
 	public static Tween CreatePopup(
 		this Node2D parent,

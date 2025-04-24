@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://b7sn0comtrj6j"]
 
-[ext_resource type="Script" uid="uid://dydfva8fgyoik" path="res://src/GameController.cs" id="1_vplxf"]
+[ext_resource type="Script" uid="uid://dydfva8fgyoik" path="res://screens/GameController.cs" id="1_vplxf"]
 [ext_resource type="Resource" uid="uid://ejs7dyka7per" path="res://game_data/GameSettings.tres" id="2_8slby"]
 [ext_resource type="PackedScene" uid="uid://cjb85igujgkwe" path="res://entities/maps/map_view.tscn" id="3_y6ti3"]
 [ext_resource type="PackedScene" uid="uid://2ijuki0tpf0d" path="res://entities/hand/hand_view.tscn" id="4_tgpsp"]

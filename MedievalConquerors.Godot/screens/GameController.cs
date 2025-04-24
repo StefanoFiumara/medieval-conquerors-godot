@@ -5,11 +5,10 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Logging;
-
 using GameSettings = MedievalConquerors.Engine.Data.GameSettings;
 using MapView = MedievalConquerors.entities.maps.MapView;
 
-namespace MedievalConquerors;
+namespace MedievalConquerors.screens;
 
 public partial class GameController : Node
 {

@@ -76,6 +76,7 @@ public partial class LibraryEditor : ScrollContainer
 		{
 			_searchResults.Add(card);
 
+			// TODO: Replace missing icon with UID
 			var iconPath = string.IsNullOrEmpty(card.ImagePath)
 				? $"{ImageSelector.PortraitsPath}/missing_icon.png"
 				: card.ImagePath.Replace(".png", "_icon.png"); // TODO: Can we get rid of the _icon duplicates and have the results control resize the images?

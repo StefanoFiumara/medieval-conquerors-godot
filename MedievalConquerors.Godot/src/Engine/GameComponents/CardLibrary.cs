@@ -28,6 +28,7 @@ public class CardLibrary : GameComponent, IAwake
 			using var db = new CardDatabase();
 			// TODO(High Priority): update database to use new paths for card portraits, token icons, and attribute type names
 			// TODO: Update card view and token view code to load from a specified path so that we do not need to include full paths in the database
+			// TODO: Should we store uids instead of paths?
 			_cardData = db.Query.ToList().ToImmutableDictionary(c => c.Id);
 		}
 	}

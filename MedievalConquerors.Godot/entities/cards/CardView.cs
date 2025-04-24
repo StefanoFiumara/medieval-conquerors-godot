@@ -104,13 +104,7 @@ public partial class CardView : Node2D, IClickable
 		TargetHighlightColor = color;
 	}
 
-	public void Highlight(Color color)
-	{
-		TargetHighlightColor = color;
-	}
+	public void Highlight(Color color) => TargetHighlightColor = color;
 
-	public void RemoveHighlight()
-	{
-		TargetHighlightColor = Colors.Transparent;
-	}
+	public void RemoveHighlight() => TargetHighlightColor = Colors.Transparent;
 }

@@ -10,7 +10,7 @@ namespace MedievalConquerors.entities.ui.turn_banner;
 
 public partial class TurnBanner : Control
 {
-	[Export] private GameController _gameController;
+	[Export] private screens.GameController _gameController;
 
 	private ColorRect _background;
 	private RichTextLabel _turnLabel;

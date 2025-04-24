@@ -9,7 +9,7 @@ public partial class PlayerUiPanel : MarginContainer
 {
 	public const string NextTurnClicked = "PlayerUiPanel.NextTurnButton.Clicked";
 
-	[Export] private GameController _gameController;
+	[Export] private screens.GameController _gameController;
 
 	private Button _endTurnButton;
 	private Label _foodLabel;

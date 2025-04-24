@@ -19,7 +19,8 @@ public partial class AttributeEditor : PanelContainer
 
 	public override void _Ready()
 	{
-		_propertyEditor = GD.Load<PackedScene>("res://scenes/editor/attribute_property_editor.tscn");
+		// TODO: Make this an export or reference via UID
+		_propertyEditor = GD.Load<PackedScene>("res://entities/editor/attribute_property_editor/attribute_property_editor.tscn");
 	}
 
 	public override void _EnterTree()
@@ -49,7 +50,7 @@ public partial class AttributeEditor : PanelContainer
 		}
 	}
 
-	protected void OnRemovePressed()
+	private void OnRemovePressed()
 	{
 		RemovePressed?.Invoke();
 	}

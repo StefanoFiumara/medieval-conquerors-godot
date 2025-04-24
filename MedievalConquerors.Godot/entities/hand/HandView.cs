@@ -45,7 +45,7 @@ public partial class HandView : Node2D, IGameComponent
 
 	public override void _Ready()
 	{
-		GetParent<GameController>().Game.AddComponent(this);
+		GetParent<screens.GameController>().Game.AddComponent(this);
 
 		_actionSystem = Game.GetComponent<ActionSystem>();
 		_events = Game.GetComponent<EventAggregator>();
