@@ -19,8 +19,7 @@ public partial class AttributeEditor : PanelContainer
 
 	public override void _Ready()
 	{
-		// TODO: Make this an export or reference via UID
-		_propertyEditor = GD.Load<PackedScene>("res://entities/editor/attribute_property_editor/attribute_property_editor.tscn");
+		_propertyEditor = GD.Load<PackedScene>("uid://bti603u6u2oh");
 	}
 
 	public override void _EnterTree()
@@ -39,6 +38,7 @@ public partial class AttributeEditor : PanelContainer
 
 		var props = attribute.GetType().GetProperties()
 			.Where(p => p.GetSetMethod() != null)
+			.Where(p => p.Name != nameof(ICardAttribute.Owner))
 			.ToList();
 
 		foreach (var prop in props)

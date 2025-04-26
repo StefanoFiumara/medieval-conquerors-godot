@@ -73,10 +73,8 @@ public partial class CardView : Node2D, IClickable
 
 		// _background.Frame = _cardFrameMap.GetValueOrDefault(Card.CardData.CardType, 0);
 
-		if (!string.IsNullOrEmpty(Card.CardData.ImagePath))
-		{
+		if (ResourceUid.TextToId(card.CardData.ImagePath) != ResourceUid.InvalidId)
 			_image.Texture = GD.Load<Texture2D>(Card.CardData.ImagePath);
-		}
 
 		var cost = Card.GetAttribute<ResourceCostAttribute>();
 		if (cost != null)

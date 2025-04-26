@@ -13,6 +13,8 @@ namespace MedievalConquerors.entities.editor.card_data_editor;
 public partial class CardDataEditor : ScrollContainer
 {
 	[Export] private LibraryEditor _libraryEditor;
+
+	// TODO: Remove internal exports, link children via node paths/uids
 	[Export] private RichTextLabel _panelTitle;
 
 	[Export] private Button _newButton;
@@ -47,7 +49,7 @@ public partial class CardDataEditor : ScrollContainer
 				_description.Text = _loadedData.Description;
 				_cardTypeOptions.SelectedOption = _loadedData.CardType;
 				_tagOptions.SelectedTags = _loadedData.Tags;
-				_imageSelector.SelectedImagePath = _loadedData.ImagePath;
+				_imageSelector.SelectedImageUid = _loadedData.ImagePath;
 
 				foreach (var attr in value.Attributes)
 					CreateAttributeEditor(attr);
@@ -66,8 +68,7 @@ public partial class CardDataEditor : ScrollContainer
 
 	public override void _Ready()
 	{
-		// TODO: Make this an export or reference via UID
-		_attributeEditor = GD.Load<PackedScene>("res://entities/editor/attribute_editor/attribute_editor.tscn");
+		_attributeEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
 
 		LoadedData = null;
 		_stateMachine = new StateMachine(new NoDataState(this));
@@ -183,8 +184,8 @@ public partial class CardDataEditor : ScrollContainer
 		LoadedData.Description = _description.Text.Trim();
 		LoadedData.CardType = _cardTypeOptions.SelectedOption;
 		LoadedData.Tags = _tagOptions.SelectedTags;
-		LoadedData.ImagePath = _imageSelector.SelectedImagePath;
-		LoadedData.TokenImagePath = _imageSelector.SelectedTokenPath;
+		LoadedData.ImagePath = _imageSelector.SelectedImageUid;
+		LoadedData.TokenImagePath = _imageSelector.SelectedTokenUid;
 		//NOTE: Attributes are automatically updated
 	}
 

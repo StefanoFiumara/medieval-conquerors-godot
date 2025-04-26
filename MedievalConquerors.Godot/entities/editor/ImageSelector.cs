@@ -7,30 +7,33 @@ namespace MedievalConquerors.entities.editor;
 
 public partial class ImageSelector : HBoxContainer
 {
-	// TODO: Update this selector to return file UIDs instead of paths
 	public const string PortraitsPath = "res://entities/cards/portraits/";
 	public const string TokensPath = "res://entities/tokens/token_icons/";
 
 	[Export] private OptionButton _imageOptions;
 	[Export] private Button _refreshButton;
 
-	private List<string> _imagePaths;
+	private List<string> _portraitPaths;
 
-	public string SelectedImagePath
+	public string SelectedImageUid
 	{
 		get
 		{
 			var selected = _imageOptions?.GetItemText(_imageOptions?.GetSelectedId() ?? 0) ?? "None";
-			return selected != "None" ? $"{PortraitsPath}/{selected}" : string.Empty;
+			return selected != "None"
+				? ResourceUid.IdToText(ResourceLoader.GetResourceUid($"{PortraitsPath}/{selected}"))
+				: string.Empty;
 		}
 		set
 		{
 			if (string.IsNullOrEmpty(value)) return;
 
-			var fileName = Path.GetFileName(value);
-			if (_imagePaths.Contains(fileName))
+			var id = ResourceUid.TextToId(value);
+			if (ResourceUid.HasId(id))
 			{
-				_imageOptions?.Select(_imagePaths.IndexOf(fileName) + 1);
+				var fileName = Path.GetFileName(ResourceUid.GetIdPath(id));
+				if (_portraitPaths.Contains(fileName))
+					_imageOptions?.Select(_portraitPaths.IndexOf(fileName) + 1);
 			}
 			else
 			{
@@ -41,12 +44,14 @@ public partial class ImageSelector : HBoxContainer
 
 	// TODO: give editor ability to select token manually instead of basing it off of the portrait name
 	// This is kinda  nice for now though.
-	public string SelectedTokenPath
+	public string SelectedTokenUid
 	{
 		get
 		{
 			var selected = _imageOptions?.GetItemText(_imageOptions?.GetSelectedId() ?? 0) ?? "None";
-			return selected != "None" ? $"{TokensPath}/{selected}" : string.Empty;
+			return selected != "None"
+				? ResourceUid.IdToText(ResourceLoader.GetResourceUid($"{TokensPath}/{selected}"))
+				: string.Empty;
 		}
 	}
 
@@ -63,36 +68,43 @@ public partial class ImageSelector : HBoxContainer
 
 	public override void _Ready()
 	{
-		_imagePaths = new();
+		_portraitPaths = new();
 		RefreshData();
 	}
-
-	public override void _EnterTree() => _refreshButton.Pressed += RefreshData;
-	public override void _ExitTree() => _refreshButton.Pressed -= RefreshData;
 
 	private void RefreshData()
 	{
 		_imageOptions.Clear();
-		_imagePaths.Clear();
+		_portraitPaths.Clear();
 
 		_imageOptions.AddItem("None");
 
 		foreach (var image in GetImageList())
 		{
-			var tex = GD.Load<Texture2D>($"{PortraitsPath}/{image.iconPath}");
+			var tex = GD.Load<Texture2D>($"{image.iconUid}");
 			_imageOptions.AddIconItem(tex, image.imagePath);
-			_imagePaths.Add(image.imagePath);
+
+			_portraitPaths.Add(image.imagePath);
 		}
 
 		_imageOptions.Select(0);
 	}
 
-	private IEnumerable<(string imagePath, string iconPath)> GetImageList()
+	private IEnumerable<(string iconUid, string imagePath)> GetImageList()
 	{
-		return DirAccess.Open(PortraitsPath).GetFiles()
+		var files =  DirAccess.Open(PortraitsPath).GetFiles()
 			.GroupBy(p => p.Replace("_icon", string.Empty).Replace(".import", string.Empty))
 			.ToDictionary(g => g.Key, g => g.ToList())
 			.Where(p => p.Value.Count == 4)
-			.Select(p => (imagePath: p.Key, iconPath: p.Key.Replace(".png", "_icon.png")));
+			.Select(p => (imagePath: p.Key, iconPath: p.Key.Replace(".png", "_icon.png")))
+			.ToList();
+
+			return files.Select(g => (
+				iconUid: ResourceUid.IdToText(ResourceLoader.GetResourceUid($"{PortraitsPath}/{g.iconPath}")),
+				g.imagePath
+			));
 	}
+
+	public override void _EnterTree() => _refreshButton.Pressed += RefreshData;
+	public override void _ExitTree() => _refreshButton.Pressed -= RefreshData;
 }

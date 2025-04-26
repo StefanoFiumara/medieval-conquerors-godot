@@ -10,24 +10,24 @@ namespace MedievalConquerors.entities.tokens;
 public partial class TokenView : Node2D, IClickable
 {
 	[Export] private Sprite2D _image;
-	
+
 	public Card Card { get; private set; }
 
 	public void Initialize(IGame game, Card card)
 	{
 		Card = card;
-		
-		if (!string.IsNullOrEmpty(Card.CardData.TokenImagePath)) 
+
+		if (ResourceUid.TextToId(card.CardData.TokenImagePath) != ResourceUid.InvalidId)
 			_image.Texture = GD.Load<Texture2D>(Card.CardData.TokenImagePath);
 
 		// NOTE: The Match Player ID matches up to the frame we want to display for this token:
 		//		0 == Local Player
 		//		1 == Enemy Player
 		_image.Frame = card.Owner.Id;
-		
+
 		// TODO: Set up glow tile based on alliance?
 		// TODO: Disable glow tile entirely and just focus on tooltip?
-		
+
 		// TODO: Put this info in a tooltip
 		UpdateGarrisonInfo();
 	}

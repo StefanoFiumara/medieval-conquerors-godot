@@ -51,7 +51,6 @@ public partial class LibraryEditor : ScrollContainer
 	private void UpdateResults()
 	{
 		using var database = new CardDatabase();
-
 		var query = database.Query;
 
 		if (_typeFilter.SelectedOption != CardType.None)
@@ -76,10 +75,9 @@ public partial class LibraryEditor : ScrollContainer
 		{
 			_searchResults.Add(card);
 
-			// TODO: Replace missing icon with UID
-			var iconPath = string.IsNullOrEmpty(card.ImagePath)
-				? $"{ImageSelector.PortraitsPath}/missing_icon.png"
-				: card.ImagePath.Replace(".png", "_icon.png"); // TODO: Can we get rid of the _icon duplicates and have the results control resize the images?
+			var iconPath = ResourceUid.TextToId(card.ImagePath) == ResourceUid.InvalidId
+				? "uid://dnofkwp8xw7ys" // Missing Icon
+				: card.ImagePath;
 
 			var icon = GD.Load<Texture2D>(iconPath);
 			_resultsContainer.AddItem(card.Title, icon);

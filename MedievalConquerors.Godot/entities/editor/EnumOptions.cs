@@ -12,7 +12,7 @@ public partial class EnumOptions<T> : OptionButton
     public T SelectedOption
     {
         get => (T)Enum.ToObject(typeof(T), GetSelectedId());
-        set => Select(Convert.ToInt32(value));
+        set => Select(_options.IndexOf(value));
     }
 
     public override void _Ready()

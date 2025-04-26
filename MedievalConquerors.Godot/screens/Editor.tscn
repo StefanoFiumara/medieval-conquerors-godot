@@ -1,19 +1,36 @@
-[gd_scene load_steps=3 format=3 uid="uid://c7w7oi0ih5jku"]
+[gd_scene load_steps=4 format=3 uid="uid://c7w7oi0ih5jku"]
 
 [ext_resource type="PackedScene" uid="uid://r8nd3ueedopk" path="res://entities/editor/library_editor/library_editor.tscn" id="1_8bdb7"]
+[ext_resource type="Script" uid="uid://qq3km7t2ic3d" path="res://entities/editor/DatabaseMigrator.cs" id="1_ubafa"]
 [ext_resource type="PackedScene" uid="uid://b7rdfip0s4fyf" path="res://entities/editor/card_data_editor/card_data_editor.tscn" id="2_n7pbq"]
 
-[node name="editor-container" type="HSplitContainer"]
+[node name="editor-container" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="migrate_margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="migrate_db_btn" type="Button" parent="migrate_margin"]
+layout_mode = 2
+text = "Migrate Database"
+script = ExtResource("1_ubafa")
+
+[node name="split_container" type="HSplitContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
 split_offset = 960
 
-[node name="card_library" parent="." instance=ExtResource("1_8bdb7")]
+[node name="card_library" parent="split_container" instance=ExtResource("1_8bdb7")]
 layout_mode = 2
 
-[node name="card_data_editor" parent="." node_paths=PackedStringArray("_databaseView") instance=ExtResource("2_n7pbq")]
+[node name="card_data_editor" parent="split_container" node_paths=PackedStringArray("_libraryEditor") instance=ExtResource("2_n7pbq")]
 layout_mode = 2
-_databaseView = NodePath("../card_library")
+_libraryEditor = NodePath("../card_library")
