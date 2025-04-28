@@ -18,7 +18,7 @@ public class CreateCardAction(int cardId, int targetPlayerId, Zone targetZone, i
 
     public override string ToString()
     {
-        return $"CreateCardAction: Player {TargetPlayerId} creates card {CardId} in {TargetZone}";
+        return $"CreateCardAction: Player {TargetPlayerId} creates {Amount} card(s) (ID: {CardId}) in {TargetZone}";
     }
 
     public void Load(IGame game, AbilityAttribute ability, ActionDefinition data)

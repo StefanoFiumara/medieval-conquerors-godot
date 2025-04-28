@@ -10,6 +10,7 @@ using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
 using MedievalConquerors.entities.cards;
 using MedievalConquerors.entities.maps;
+using MedievalConquerors.screens;
 using MedievalConquerors.Utils;
 
 namespace MedievalConquerors.entities.hand;
@@ -19,6 +20,9 @@ public partial class HandView : Node2D, IGameComponent
 	private const float MaxHandWidth = 850f;
 	private const float HandHeight = 95f;
 	private const int PreviewSectionHeight = 350;
+
+	private static readonly Vector2 DeckPosition = new(-1200, 400);
+	private static readonly Vector2 DiscardPosition = new(1200, 400);
 
 	private int _previewXMin;
 	private int _previewXMax;
@@ -45,7 +49,7 @@ public partial class HandView : Node2D, IGameComponent
 
 	public override void _Ready()
 	{
-		GetParent<screens.GameController>().Game.AddComponent(this);
+		GetParent<GameController>().Game.AddComponent(this);
 
 		_actionSystem = Game.GetComponent<ActionSystem>();
 		_events = Game.GetComponent<EventAggregator>();
@@ -201,8 +205,7 @@ public partial class HandView : Node2D, IGameComponent
 
 			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
 
-			var targetPosition = (Vector2.Right * 1200) + (Vector2.Down * 400);
-			tween.TweenProperty(cardView, "position", targetPosition, tweenDuration);
+			tween.TweenProperty(cardView, "position", DiscardPosition, tweenDuration);
 			tween.TweenProperty(cardView, "rotation", Mathf.Pi / 4, tweenDuration);
 			tween.TweenProperty(cardView, "scale", Vector2.One * 1.3f, tweenDuration);
 
@@ -249,8 +252,8 @@ public partial class HandView : Node2D, IGameComponent
 			return nullTween;
 		}
 
-		var targetPosition = _mapView.GetTileGlobalPosition(action.TargetTile);
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
+
 		if (action.CardToPlay.CardData.CardType == CardType.Technology)
 		{
 			tween.TweenProperty(cardView, "global_position", _viewport.GetVisibleRect().GetCenter(), tweenDuration);
@@ -261,6 +264,7 @@ public partial class HandView : Node2D, IGameComponent
 		}
 		else
 		{
+			var targetPosition = _mapView.GetTileGlobalPosition(action.TargetTile);
 			tween.TweenProperty(cardView, "position", ToLocal(targetPosition), tweenDuration);
 			tween.TweenProperty(cardView, "scale", Vector2.One * 0.2f, tweenDuration).SetEase(Tween.EaseType.Out);
 		}
@@ -301,8 +305,8 @@ public partial class HandView : Node2D, IGameComponent
 			{
 				var subTween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
 				var targetPosition = createAction.TargetZone == Zone.Deck
-					? Vector2.Left * 1200 + Vector2.Down * 400
-					: Vector2.Right * 1200 + Vector2.Down * 400;
+					? DeckPosition
+					: DiscardPosition;
 
 				var targetRotation = createAction.TargetZone == Zone.Deck
 					? Mathf.Pi / 4
@@ -439,10 +443,7 @@ public partial class HandView : Node2D, IGameComponent
 	private CardView CreateCardView(Card card)
 	{
 		var cardView = _cardScene.Instantiate<CardView>();
-
-		// Spawn card offscreen, to be animated in by TweenToHandPositions
-		// TODO: extract these positions into deck/discard positions
-		cardView.Position = (Vector2.Left * 1200) + (Vector2.Down * 400);
+		cardView.Position = DeckPosition;
 
 		_cards.Add(cardView);
 		AddChild(cardView);
