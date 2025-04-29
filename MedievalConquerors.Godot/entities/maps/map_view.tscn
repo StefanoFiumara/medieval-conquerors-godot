@@ -1,12 +1,10 @@
-[gd_scene load_steps=4 format=4 uid="uid://cjb85igujgkwe"]
+[gd_scene load_steps=3 format=4 uid="uid://cjb85igujgkwe"]
 
 [ext_resource type="Script" uid="uid://did0evs7shtc3" path="res://entities/maps/MapView.cs" id="1_8o7o4"]
-[ext_resource type="PackedScene" uid="uid://civascfpgtcfj" path="res://entities/tokens/token_view.tscn" id="2_u0vts"]
 [ext_resource type="TileSet" uid="uid://g2hjogkk4awb" path="res://entities/maps/hex_tileset.tres" id="3_m2l8k"]
 
 [node name="map_view" type="Node2D" node_paths=PackedStringArray("TerrainLayer", "MouseHoverLayer", "BlueTeamLayer", "RedTeamLayer", "SelectionHintLayer")]
 script = ExtResource("1_8o7o4")
-_tokenScene = ExtResource("2_u0vts")
 TerrainLayer = NodePath("terrain")
 MouseHoverLayer = NodePath("mouse_hover")
 BlueTeamLayer = NodePath("local_team")

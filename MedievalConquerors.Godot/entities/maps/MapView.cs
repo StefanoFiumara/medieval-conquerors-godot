@@ -21,7 +21,7 @@ public partial class MapView : Node2D, IGameComponent
 
 	public IGame Game { get; set; }
 
-	[Export] private PackedScene _tokenScene;
+	private PackedScene _tokenScene;
 
 	[Export] private TileMapLayer TerrainLayer { get; set; }
 	[Export] private TileMapLayer MouseHoverLayer { get; set; }
@@ -56,6 +56,8 @@ public partial class MapView : Node2D, IGameComponent
 	public override void _Ready()
 	{
 		GetParent<screens.GameController>().Game.AddComponent(this);
+
+		_tokenScene = ResourceLoader.Load<PackedScene>("uid://civascfpgtcfj");
 
 		_viewport = GetViewport();
 

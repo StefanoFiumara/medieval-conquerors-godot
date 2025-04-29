@@ -36,6 +36,8 @@ public partial class HandView : Node2D, IGameComponent
 	private IGameSettings _settings;
 	private EventAggregator _events;
 
+	private PackedScene _cardScene;
+
 	private readonly List<CardView> _cards = [];
 	private readonly TweenTracker<CardView> _tweenTracker = new();
 
@@ -43,7 +45,6 @@ public partial class HandView : Node2D, IGameComponent
 	[Export] private Curve _spreadCurve;
 	[Export] private Curve _heightCurve;
 	[Export] private Curve _rotationCurve;
-	[Export] private PackedScene _cardScene;
 
 	public IGame Game { get; set; }
 
@@ -51,6 +52,7 @@ public partial class HandView : Node2D, IGameComponent
 	{
 		GetParent<GameController>().Game.AddComponent(this);
 
+		_cardScene = ResourceLoader.Load<PackedScene>("uid://b53wqwu1youqe");
 		_actionSystem = Game.GetComponent<ActionSystem>();
 		_events = Game.GetComponent<EventAggregator>();
 		_settings = Game.GetComponent<IGameSettings>();
