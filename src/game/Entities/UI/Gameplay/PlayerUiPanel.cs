@@ -4,7 +4,7 @@ using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Screens;
 
-namespace MedievalConquerors.Entities.UI.player_gameplay_ui;
+namespace MedievalConquerors.Entities.UI;
 
 public partial class PlayerUiPanel : MarginContainer
 {

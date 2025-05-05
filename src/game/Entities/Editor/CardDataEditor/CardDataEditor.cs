@@ -6,11 +6,11 @@ using MedievalConquerors.Engine.Extensions;
 using MedievalConquerors.Engine.StateManagement;
 using MedievalConquerors.Entities.Editor.EditorStates;
 
-namespace MedievalConquerors.Entities.Editor.CardDataEditor;
+namespace MedievalConquerors.Entities.Editor;
 
 public partial class CardDataEditor : ScrollContainer
 {
-	[Export] private LibraryEditor.LibraryEditor _libraryEditor;
+	[Export] private LibraryEditor _libraryEditor;
 
 	// TODO: Remove internal exports, link children via node paths/uids
 	[Export] private RichTextLabel _panelTitle;
@@ -154,7 +154,7 @@ public partial class CardDataEditor : ScrollContainer
 
 	private void CreateAttributeEditor(ICardAttribute attr)
 	{
-		var editor = _attributeEditor.Instantiate<AttributeEditor.AttributeEditor>();
+		var editor = _attributeEditor.Instantiate<AttributeEditor>();
 		_attributesContainer.AddChild(editor);
 
 		editor.Load(attr);

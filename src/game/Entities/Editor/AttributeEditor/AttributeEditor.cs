@@ -4,7 +4,7 @@ using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Extensions;
 
-namespace MedievalConquerors.Entities.Editor.AttributeEditor;
+namespace MedievalConquerors.Entities.Editor;
 
 public partial class AttributeEditor : PanelContainer
 {
@@ -42,7 +42,7 @@ public partial class AttributeEditor : PanelContainer
 
 		foreach (var prop in props)
 		{
-			var propEditor = _propertyEditor.Instantiate<AttributePropertyEditor.AttributePropertyEditor>();
+			var propEditor = _propertyEditor.Instantiate<AttributePropertyEditor>();
 			_propertiesContainer.AddChild(propEditor);
 
 			propEditor.Load(attribute, prop);

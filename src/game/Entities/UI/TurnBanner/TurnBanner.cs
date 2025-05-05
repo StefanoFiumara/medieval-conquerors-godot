@@ -7,7 +7,7 @@ using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.Extensions;
 using MedievalConquerors.Screens;
 
-namespace MedievalConquerors.Entities.UI.turn_banner;
+namespace MedievalConquerors.Entities.UI;
 
 public partial class TurnBanner : Control
 {

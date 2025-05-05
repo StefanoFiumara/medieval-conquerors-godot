@@ -2,7 +2,7 @@ using MedievalConquerors.Engine.Extensions;
 
 namespace MedievalConquerors.Entities.Editor.EditorStates;
 
-public class EditingExistingCardState(CardDataEditor.CardDataEditor editor) : EditorState(editor)
+public class EditingExistingCardState(CardDataEditor editor) : EditorState(editor)
 {
     public override void Enter()
     {

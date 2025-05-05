@@ -3,7 +3,7 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
-using MedievalConquerors.Entities.UI.player_gameplay_ui;
+using MedievalConquerors.Entities.UI;
 
 namespace MedievalConquerors.Engine.GameComponents;
 

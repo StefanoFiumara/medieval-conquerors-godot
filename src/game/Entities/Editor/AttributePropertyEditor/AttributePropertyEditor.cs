@@ -3,7 +3,7 @@ using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Extensions;
 
-namespace MedievalConquerors.Entities.Editor.AttributePropertyEditor;
+namespace MedievalConquerors.Entities.Editor;
 
 public partial class AttributePropertyEditor : HBoxContainer
 {
@@ -31,7 +31,7 @@ public partial class AttributePropertyEditor : HBoxContainer
 			_strEditor.Text = (string)prop.GetValue(attr);
 			_strEditor.TextChanged += txt => prop.SetValue(attr, txt);
 		}
-		
+
 		else if (prop.PropertyType == typeof(int))
 		{
 			_intEditor.Show();
@@ -40,7 +40,7 @@ public partial class AttributePropertyEditor : HBoxContainer
 			_intEditor.CustomArrowStep = 1;
 			_intEditor.ValueChanged += v => prop.SetValue(attr, (int)v);
 		}
-		
+
 		else if (prop.PropertyType == typeof(float))
 		{
 			_intEditor.Show();
@@ -49,14 +49,14 @@ public partial class AttributePropertyEditor : HBoxContainer
 			_intEditor.CustomArrowStep = 0.1;
 			_intEditor.ValueChanged += v => prop.SetValue(attr, (float)v);
 		}
-		
+
 		else if (prop.PropertyType == typeof(Tags))
 		{
 			_tagsEditor.Show();
 			_tagsEditor.SelectedTags = (Tags) (prop.GetValue(attr) ?? Tags.None);
 			_tagsEditor.TagsChanged += () => prop.SetValue(attr, _tagsEditor.SelectedTags);
 		}
-		
+
 		else if (prop.PropertyType == typeof(ResourceType))
 		{
 			_resourceEditor.Show();
