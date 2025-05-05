@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cus8a0bckc5rh"
-path="res://.godot/imported/deck.png-e40eea9fcca17142370844a3c6099d67.ctex"
+path="res://.godot/imported/deck.png-41a7eb912b0d3dd4c99c713282ac7126.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Entities/UI/player_gameplay_ui/deck.png"
-dest_files=["res://.godot/imported/deck.png-e40eea9fcca17142370844a3c6099d67.ctex"]
+source_file="res://Entities/UI/Gameplay/deck.png"
+dest_files=["res://.godot/imported/deck.png-41a7eb912b0d3dd4c99c713282ac7126.ctex"]
 
 [params]
 
