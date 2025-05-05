@@ -8,12 +8,12 @@ using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
-using MedievalConquerors.entities.cards;
-using MedievalConquerors.entities.maps;
-using MedievalConquerors.screens;
-using MedievalConquerors.Utils;
+using MedievalConquerors.Engine.Utils;
+using MedievalConquerors.Entities.Cards;
+using MedievalConquerors.Entities.Maps;
+using MedievalConquerors.Screens;
 
-namespace MedievalConquerors.entities.hand;
+namespace MedievalConquerors.Entities.Hand;
 
 public partial class HandView : Node2D, IGameComponent
 {

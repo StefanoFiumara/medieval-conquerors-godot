@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bhiuvehidkh5r"
-path="res://.godot/imported/mill_icon.png-698f5a9d86b7b3163eef286a997d87a4.ctex"
+path="res://.godot/imported/mill_icon.png-8a4780d4af33db4e22c88c403a76afea.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/cards/portraits/mill_icon.png"
-dest_files=["res://.godot/imported/mill_icon.png-698f5a9d86b7b3163eef286a997d87a4.ctex"]
+source_file="res://Entities/Cards/Portraits/mill_icon.png"
+dest_files=["res://.godot/imported/mill_icon.png-8a4780d4af33db4e22c88c403a76afea.ctex"]
 
 [params]
 

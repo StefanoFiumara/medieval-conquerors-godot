@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c38lrbipggvm6"
-path="res://.godot/imported/town_center_icon.png-fa1b888e18694e9e09a3a860794395fc.ctex"
+path="res://.godot/imported/town_center_icon.png-3cd0704df805109341686786b8dea988.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/cards/portraits/town_center_icon.png"
-dest_files=["res://.godot/imported/town_center_icon.png-fa1b888e18694e9e09a3a860794395fc.ctex"]
+source_file="res://Entities/Cards/Portraits/town_center_icon.png"
+dest_files=["res://.godot/imported/town_center_icon.png-3cd0704df805109341686786b8dea988.ctex"]
 
 [params]
 

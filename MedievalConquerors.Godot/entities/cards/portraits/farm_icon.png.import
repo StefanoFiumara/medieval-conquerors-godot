@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://yfwh31ywd6vp"
-path="res://.godot/imported/farm_icon.png-a35a4ba9ae2abd1ee817d48929102afa.ctex"
+path="res://.godot/imported/farm_icon.png-f1871d01082d653333a824aa18d0a2a1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/cards/portraits/farm_icon.png"
-dest_files=["res://.godot/imported/farm_icon.png-a35a4ba9ae2abd1ee817d48929102afa.ctex"]
+source_file="res://Entities/Cards/Portraits/farm_icon.png"
+dest_files=["res://.godot/imported/farm_icon.png-f1871d01082d653333a824aa18d0a2a1.ctex"]
 
 [params]
 

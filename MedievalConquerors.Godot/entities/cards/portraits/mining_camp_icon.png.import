@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dp1hl113pt8dx"
-path="res://.godot/imported/mining_camp_icon.png-04ba3f57c57f4f723b0cf789613abb46.ctex"
+path="res://.godot/imported/mining_camp_icon.png-e083078c5f635fa7e4d47519f101b6f9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/cards/portraits/mining_camp_icon.png"
-dest_files=["res://.godot/imported/mining_camp_icon.png-04ba3f57c57f4f723b0cf789613abb46.ctex"]
+source_file="res://Entities/Cards/Portraits/mining_camp_icon.png"
+dest_files=["res://.godot/imported/mining_camp_icon.png-e083078c5f635fa7e4d47519f101b6f9.ctex"]
 
 [params]
 

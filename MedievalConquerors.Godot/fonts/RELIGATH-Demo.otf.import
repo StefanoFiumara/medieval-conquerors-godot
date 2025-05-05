@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://deedrus7sv00b"
-path="res://.godot/imported/RELIGATH-Demo.otf-f8fa98ad3b273b19590b86dde36f5ef8.fontdata"
+path="res://.godot/imported/RELIGATH-Demo.otf-b11c9b807adf91508325cc662f200b14.fontdata"
 
 [deps]
 
-source_file="res://fonts/RELIGATH-Demo.otf"
-dest_files=["res://.godot/imported/RELIGATH-Demo.otf-f8fa98ad3b273b19590b86dde36f5ef8.fontdata"]
+source_file="res://Fonts/RELIGATH-Demo.otf"
+dest_files=["res://.godot/imported/RELIGATH-Demo.otf-b11c9b807adf91508325cc662f200b14.fontdata"]
 
 [params]
 

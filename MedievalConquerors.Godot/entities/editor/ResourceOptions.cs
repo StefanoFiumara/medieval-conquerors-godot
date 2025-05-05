@@ -1,5 +1,5 @@
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.entities.editor;
+namespace MedievalConquerors.Entities.Editor;
 
 public partial class ResourceOptions : EnumOptions<ResourceType> { }

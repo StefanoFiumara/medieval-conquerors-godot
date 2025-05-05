@@ -2,11 +2,11 @@ using Godot;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Engine.Extensions;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
-using MedievalConquerors.Extensions;
 
-namespace MedievalConquerors.entities.cards;
+namespace MedievalConquerors.Entities.Cards;
 
 public partial class CardView : Node2D, IClickable
 {

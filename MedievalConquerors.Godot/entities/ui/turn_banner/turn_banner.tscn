@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cjocqbvli4dlx"]
 
-[ext_resource type="Script" uid="uid://b6dg1rqpebp4j" path="res://entities/ui/turn_banner/TurnBanner.cs" id="1_t2j4n"]
-[ext_resource type="FontFile" uid="uid://bnndeil6c3twa" path="res://fonts/QUILLPN.TTF" id="2_h3oap"]
+[ext_resource type="Script" uid="uid://b6dg1rqpebp4j" path="res://Entities/UI/turn_banner/TurnBanner.cs" id="1_t2j4n"]
+[ext_resource type="FontFile" uid="uid://bnndeil6c3twa" path="res://Fonts/QUILLPN.TTF" id="2_h3oap"]
 
 [node name="turn_banner" type="Control"]
 layout_mode = 3

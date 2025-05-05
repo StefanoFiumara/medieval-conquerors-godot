@@ -2,14 +2,15 @@ using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
+using MedievalConquerors.Screens;
 
-namespace MedievalConquerors.entities.ui.player_gameplay_ui;
+namespace MedievalConquerors.Entities.UI.player_gameplay_ui;
 
 public partial class PlayerUiPanel : MarginContainer
 {
 	public const string NextTurnClicked = "PlayerUiPanel.NextTurnButton.Clicked";
 
-	[Export] private screens.GameController _gameController;
+	[Export] private GameController _gameController;
 
 	private Button _endTurnButton;
 	private Label _foodLabel;

@@ -4,13 +4,14 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
-using MedievalConquerors.Extensions;
+using MedievalConquerors.Engine.Extensions;
+using MedievalConquerors.Screens;
 
-namespace MedievalConquerors.entities.ui.turn_banner;
+namespace MedievalConquerors.Entities.UI.turn_banner;
 
 public partial class TurnBanner : Control
 {
-	[Export] private screens.GameController _gameController;
+	[Export] private GameController _gameController;
 
 	private ColorRect _background;
 	private RichTextLabel _turnLabel;

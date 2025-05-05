@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://0uy1cqn42is3"
-path="res://.godot/imported/frame_border.png-52367b3d0ecaa4cec9cde85223dfd340.ctex"
+path="res://.godot/imported/frame_border.png-21c00a54831d631724eefb81cace87a3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/cards/frame_border.png"
-dest_files=["res://.godot/imported/frame_border.png-52367b3d0ecaa4cec9cde85223dfd340.ctex"]
+source_file="res://Entities/Cards/frame_border.png"
+dest_files=["res://.godot/imported/frame_border.png-21c00a54831d631724eefb81cace87a3.ctex"]
 
 [params]
 

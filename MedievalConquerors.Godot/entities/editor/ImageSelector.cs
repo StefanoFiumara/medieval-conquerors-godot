@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using Godot;
 
-namespace MedievalConquerors.entities.editor;
+namespace MedievalConquerors.Entities.Editor;
 
 public partial class ImageSelector : HBoxContainer
 {

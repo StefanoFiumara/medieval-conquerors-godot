@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
-namespace MedievalConquerors.entities.editor;
+namespace MedievalConquerors.Entities.Editor;
 
 public partial class EnumOptions<T> : OptionButton
     where T : struct, Enum

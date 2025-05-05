@@ -7,13 +7,14 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
+using MedievalConquerors.Engine.Extensions;
 using MedievalConquerors.Engine.Input;
 using MedievalConquerors.Engine.Logging;
-using MedievalConquerors.entities.tokens;
-using MedievalConquerors.Extensions;
+using MedievalConquerors.Entities.Tokens;
+using MedievalConquerors.Screens;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
-namespace MedievalConquerors.entities.maps;
+namespace MedievalConquerors.Entities.Maps;
 
 public partial class MapView : Node2D, IGameComponent
 {
@@ -55,7 +56,7 @@ public partial class MapView : Node2D, IGameComponent
 
 	public override void _Ready()
 	{
-		GetParent<screens.GameController>().Game.AddComponent(this);
+		GetParent<GameController>().Game.AddComponent(this);
 
 		_tokenScene = ResourceLoader.Load<PackedScene>("uid://civascfpgtcfj");
 

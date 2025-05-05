@@ -1,10 +1,10 @@
 [gd_resource type="TileSet" load_steps=8 format=3 uid="uid://g2hjogkk4awb"]
 
-[ext_resource type="Texture2D" uid="uid://ctrpqu56cavdf" path="res://entities/maps/hex_tile_spritesheet.png" id="1_8vvm1"]
-[ext_resource type="PackedScene" uid="uid://ckaet07qewjtq" path="res://entities/maps/tile_glow.tscn" id="2_3jsqd"]
-[ext_resource type="PackedScene" uid="uid://cj1p8gfhgt3q8" path="res://entities/maps/tile_glow_blue.tscn" id="3_6fa35"]
-[ext_resource type="PackedScene" uid="uid://m38hf45snpq8" path="res://entities/maps/tile_glow_red.tscn" id="4_t5ivl"]
-[ext_resource type="PackedScene" uid="uid://86vkrku6umuc" path="res://entities/maps/tile_glow_yellow.tscn" id="5_npel5"]
+[ext_resource type="Texture2D" uid="uid://ctrpqu56cavdf" path="res://Entities/Maps/hex_tile_spritesheet.png" id="1_8vvm1"]
+[ext_resource type="PackedScene" uid="uid://ckaet07qewjtq" path="res://Entities/Maps/tile_glow.tscn" id="2_3jsqd"]
+[ext_resource type="PackedScene" uid="uid://cj1p8gfhgt3q8" path="res://Entities/Maps/tile_glow_blue.tscn" id="3_6fa35"]
+[ext_resource type="PackedScene" uid="uid://m38hf45snpq8" path="res://Entities/Maps/tile_glow_red.tscn" id="4_t5ivl"]
+[ext_resource type="PackedScene" uid="uid://86vkrku6umuc" path="res://Entities/Maps/tile_glow_yellow.tscn" id="5_npel5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m5tl1"]
 texture = ExtResource("1_8vvm1")

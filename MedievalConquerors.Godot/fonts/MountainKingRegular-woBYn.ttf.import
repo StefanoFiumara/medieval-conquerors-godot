@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://bok6s0bktknw4"
-path="res://.godot/imported/MountainKingRegular-woBYn.ttf-ae8ea69959fd43da0854f313f879aa47.fontdata"
+path="res://.godot/imported/MountainKingRegular-woBYn.ttf-a8ab82a26676bb1292e080b02a48a6d4.fontdata"
 
 [deps]
 
-source_file="res://fonts/MountainKingRegular-woBYn.ttf"
-dest_files=["res://.godot/imported/MountainKingRegular-woBYn.ttf-ae8ea69959fd43da0854f313f879aa47.fontdata"]
+source_file="res://Fonts/MountainKingRegular-woBYn.ttf"
+dest_files=["res://.godot/imported/MountainKingRegular-woBYn.ttf-a8ab82a26676bb1292e080b02a48a6d4.fontdata"]
 
 [params]
 

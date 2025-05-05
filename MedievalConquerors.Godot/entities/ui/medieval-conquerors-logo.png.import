@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cbwt0akt2u1o7"
-path="res://.godot/imported/medieval-conquerors-logo.png-a66be8374029dfb692c7d2390fbf4308.ctex"
+path="res://.godot/imported/medieval-conquerors-logo.png-7403a03f4a37cc78a5a9c6f9a59a0f92.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/ui/medieval-conquerors-logo.png"
-dest_files=["res://.godot/imported/medieval-conquerors-logo.png-a66be8374029dfb692c7d2390fbf4308.ctex"]
+source_file="res://Entities/UI/medieval-conquerors-logo.png"
+dest_files=["res://.godot/imported/medieval-conquerors-logo.png-7403a03f4a37cc78a5a9c6f9a59a0f92.ctex"]
 
 [params]
 

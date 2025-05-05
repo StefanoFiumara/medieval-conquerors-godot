@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dqc1l4x1bhauk"
-path="res://.godot/imported/agriculture.png-c91d27dee7d47fac292a96bd97a8ec8d.ctex"
+path="res://.godot/imported/agriculture.png-a7cca4af27947a5dd4f9cc9332adb89c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/cards/portraits/agriculture.png"
-dest_files=["res://.godot/imported/agriculture.png-c91d27dee7d47fac292a96bd97a8ec8d.ctex"]
+source_file="res://Entities/Cards/Portraits/agriculture.png"
+dest_files=["res://.godot/imported/agriculture.png-a7cca4af27947a5dd4f9cc9332adb89c.ctex"]
 
 [params]
 

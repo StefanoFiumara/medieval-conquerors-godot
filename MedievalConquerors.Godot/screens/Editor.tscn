@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://c7w7oi0ih5jku"]
 
-[ext_resource type="PackedScene" uid="uid://r8nd3ueedopk" path="res://entities/editor/library_editor/library_editor.tscn" id="1_8bdb7"]
-[ext_resource type="Script" uid="uid://qq3km7t2ic3d" path="res://entities/editor/DatabaseMigrator.cs" id="1_ubafa"]
-[ext_resource type="PackedScene" uid="uid://b7rdfip0s4fyf" path="res://entities/editor/card_data_editor/card_data_editor.tscn" id="2_n7pbq"]
+[ext_resource type="PackedScene" uid="uid://r8nd3ueedopk" path="res://Entities/Editor/LibraryEditor/library_editor.tscn" id="1_8bdb7"]
+[ext_resource type="Script" uid="uid://qq3km7t2ic3d" path="res://Entities/Editor/DatabaseMigrator.cs" id="1_ubafa"]
+[ext_resource type="PackedScene" uid="uid://b7rdfip0s4fyf" path="res://Entities/Editor/CardDataEditor/card_data_editor.tscn" id="2_n7pbq"]
 
 [node name="editor-container" type="VBoxContainer"]
 anchors_preset = 15

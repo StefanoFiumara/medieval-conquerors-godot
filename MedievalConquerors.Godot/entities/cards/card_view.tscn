@@ -1,12 +1,12 @@
 [gd_scene load_steps=11 format=3 uid="uid://b53wqwu1youqe"]
 
-[ext_resource type="Script" uid="uid://iwsn12lqk8tu" path="res://entities/cards/CardView.cs" id="1_r8q4a"]
-[ext_resource type="Texture2D" uid="uid://sbqj2jrisdkc" path="res://entities/cards/glow.png" id="2_fo11h"]
-[ext_resource type="Texture2D" uid="uid://dmxr1faglyqof" path="res://entities/cards/frame_bg.png" id="3_xchd5"]
-[ext_resource type="Texture2D" uid="uid://dqc1l4x1bhauk" path="res://entities/cards/portraits/agriculture.png" id="4_qyos6"]
-[ext_resource type="Texture2D" uid="uid://0uy1cqn42is3" path="res://entities/cards/frame_border.png" id="5_wi131"]
-[ext_resource type="FontFile" uid="uid://bnndeil6c3twa" path="res://fonts/QUILLPN.TTF" id="6_hu4f0"]
-[ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://entities/ui/player_gameplay_ui/resource_icons.png" id="7_356ln"]
+[ext_resource type="Script" uid="uid://iwsn12lqk8tu" path="res://Entities/Cards/CardView.cs" id="1_r8q4a"]
+[ext_resource type="Texture2D" uid="uid://sbqj2jrisdkc" path="res://Entities/Cards/glow.png" id="2_fo11h"]
+[ext_resource type="Texture2D" uid="uid://dmxr1faglyqof" path="res://Entities/Cards/frame_bg.png" id="3_xchd5"]
+[ext_resource type="Texture2D" uid="uid://dqc1l4x1bhauk" path="res://Entities/Cards/Portraits/agriculture.png" id="4_qyos6"]
+[ext_resource type="Texture2D" uid="uid://0uy1cqn42is3" path="res://Entities/Cards/frame_border.png" id="5_wi131"]
+[ext_resource type="FontFile" uid="uid://bnndeil6c3twa" path="res://Fonts/QUILLPN.TTF" id="6_hu4f0"]
+[ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://Entities/UI/player_gameplay_ui/resource_icons.png" id="7_356ln"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_hu4f0"]
 font = ExtResource("6_hu4f0")

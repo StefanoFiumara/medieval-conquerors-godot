@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://civascfpgtcfj"]
 
-[ext_resource type="Script" uid="uid://b340kxtaahvhy" path="res://entities/tokens/TokenView.cs" id="1_vbu4k"]
-[ext_resource type="Texture2D" uid="uid://cnjl66dtkfg3x" path="res://entities/tokens/token_icons/missing_icon.png" id="2_csv2c"]
-[ext_resource type="PackedScene" uid="uid://cj1p8gfhgt3q8" path="res://entities/maps/tile_glow_blue.tscn" id="5_76c6l"]
-[ext_resource type="PackedScene" uid="uid://m38hf45snpq8" path="res://entities/maps/tile_glow_red.tscn" id="6_6mhrd"]
+[ext_resource type="Script" uid="uid://b340kxtaahvhy" path="res://Entities/Tokens/TokenView.cs" id="1_vbu4k"]
+[ext_resource type="Texture2D" uid="uid://cnjl66dtkfg3x" path="res://Entities/Tokens/TokenIcons/missing_icon.png" id="2_csv2c"]
+[ext_resource type="PackedScene" uid="uid://cj1p8gfhgt3q8" path="res://Entities/Maps/tile_glow_blue.tscn" id="5_76c6l"]
+[ext_resource type="PackedScene" uid="uid://m38hf45snpq8" path="res://Entities/Maps/tile_glow_red.tscn" id="6_6mhrd"]
 
 [node name="token_view" type="Node2D" node_paths=PackedStringArray("_image")]
 script = ExtResource("1_vbu4k")

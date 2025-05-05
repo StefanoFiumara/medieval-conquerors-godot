@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://bnndeil6c3twa"
-path="res://.godot/imported/QUILLPN.TTF-5053fab6cd31ca6b696b49ac7d439177.fontdata"
+path="res://.godot/imported/QUILLPN.TTF-b62803b19840424da4d34d1d075d2f72.fontdata"
 
 [deps]
 
-source_file="res://fonts/QUILLPN.TTF"
-dest_files=["res://.godot/imported/QUILLPN.TTF-5053fab6cd31ca6b696b49ac7d439177.fontdata"]
+source_file="res://Fonts/QUILLPN.TTF"
+dest_files=["res://.godot/imported/QUILLPN.TTF-b62803b19840424da4d34d1d075d2f72.fontdata"]
 
 [params]
 

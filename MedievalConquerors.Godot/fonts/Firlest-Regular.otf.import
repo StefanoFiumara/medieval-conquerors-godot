@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://csn3dx16o5bns"
-path="res://.godot/imported/Firlest-Regular.otf-7598cfbb072f5ed1520cf0e8d642857b.fontdata"
+path="res://.godot/imported/Firlest-Regular.otf-e130a66d7768f82f9090f1025c409d97.fontdata"
 
 [deps]
 
-source_file="res://fonts/Firlest-Regular.otf"
-dest_files=["res://.godot/imported/Firlest-Regular.otf-7598cfbb072f5ed1520cf0e8d642857b.fontdata"]
+source_file="res://Fonts/Firlest-Regular.otf"
+dest_files=["res://.godot/imported/Firlest-Regular.otf-e130a66d7768f82f9090f1025c409d97.fontdata"]
 
 [params]
 

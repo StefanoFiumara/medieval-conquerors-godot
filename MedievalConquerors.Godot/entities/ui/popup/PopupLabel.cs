@@ -1,6 +1,6 @@
 using Godot;
 
-namespace MedievalConquerors.entities.ui.popup;
+namespace MedievalConquerors.Entities.UI.popup;
 
 public partial class PopupLabel : CenterContainer
 {
