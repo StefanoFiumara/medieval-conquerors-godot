@@ -1,4 +1,6 @@
-﻿using MedievalConquerors.Engine.Data;
+﻿using LiteDB;
+using MedievalConquerors.Engine.Data;
+using Riok.Mapperly.Abstractions;
 
 namespace MedievalConquerors.Engine.Attributes;
 
@@ -6,10 +8,8 @@ public class HitPointsAttribute : CardAttribute
 {
     public int Health { get; set; }
 
-    public void TakeDamage(int amount)
-    {
-        Health -= amount;
-    }
+    [BsonIgnore] [MapperIgnore]
+    public int RemainingHealth { get; set; }
 
     public override ICardAttribute Clone() => AttributeMapper.Clone(this);
 }

@@ -78,9 +78,9 @@ public class MovementSystem : GameComponent, IAwake
         var player = _match.Players[action.PlayerId];
         foreach (var card in player.Map)
         {
-            foreach (var attr in card.Attributes.Values.OfType<MovementAttribute>())
+            if (card.HasAttribute<MovementAttribute>(out var movement))
             {
-                attr.RemainingDistance = attr.Distance;
+                movement.RemainingDistance = movement.Distance;
             }
         }
     }

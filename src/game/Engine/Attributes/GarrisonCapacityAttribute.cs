@@ -10,7 +10,7 @@ public class GarrisonCapacityAttribute : CardAttribute
     public int Limit { get; set; }
 
     [BsonIgnore] [MapperIgnore]
-    public List<Card> Units { get; private set; } = new();
+    public List<Card> Units { get; } = new();
 
     public bool CanGarrison(Card unit) =>
         Units.Count < Limit

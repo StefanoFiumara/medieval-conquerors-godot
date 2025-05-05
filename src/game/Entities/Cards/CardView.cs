@@ -76,8 +76,7 @@ public partial class CardView : Node2D, IClickable
 		if (ResourceUid.TextToId(card.CardData.ImagePath) != ResourceUid.InvalidId)
 			_image.Texture = GD.Load<Texture2D>(Card.CardData.ImagePath);
 
-		var cost = Card.GetAttribute<ResourceCostAttribute>();
-		if (cost != null)
+		if (Card.HasAttribute<ResourceCostAttribute>(out var cost))
 		{
 			_foodCost.Text = $"{cost.Food}";
 			_woodCost.Text = $"{cost.Wood}";

@@ -84,10 +84,10 @@ public class ResourceSystem : GameComponent, IAwake
             }
             else
             {
-                var resourceProvider = tile.Building?.GetAttribute<ResourceProviderAttribute>();
-                if (resourceProvider != null && collector.Resource.HasFlag(resourceProvider.Resource))
+                var provider = tile.Building?.GetAttribute<ResourceProviderAttribute>();
+                if (provider != null && collector.Resource.HasFlag(provider.Resource))
                 {
-                    yield return (tile.Position, resourceProvider.Resource, resourceProvider.ResourceYield);
+                    yield return (tile.Position, provider.Resource, provider.ResourceYield);
                 }
             }
         }

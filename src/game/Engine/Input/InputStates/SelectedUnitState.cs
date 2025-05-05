@@ -22,8 +22,7 @@ public class SelectedUnitState(IGame game, Card selectedUnit) : BaseInputState(g
 
     public override void Enter()
     {
-        var movement = _selectedUnit.GetAttribute<MovementAttribute>();
-        if (movement != null)
+        if (_selectedUnit.HasAttribute<MovementAttribute>(out var movement))
             _validTiles = _map.GetReachable(_selectedUnit.MapPosition, movement.RemainingDistance).ToList();
 
         // TODO: Should we have a separate layer/color for selected tiles vs Tile selection hints?

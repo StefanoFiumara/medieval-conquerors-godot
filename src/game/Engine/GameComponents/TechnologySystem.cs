@@ -47,8 +47,7 @@ public class TechnologySystem : GameComponent, IAwake
 
     private void OnPrepareResearchTechnology(ResearchTechnologyAction action)
     {
-        var ability = action.Card.GetAttribute<OnCardPlayedAbility>();
-        if (ability != null)
+        if (action.Card.HasAttribute<OnCardPlayedAbility>(out var ability))
             _abilitySystem.TriggerAbility(ability);
     }
 
