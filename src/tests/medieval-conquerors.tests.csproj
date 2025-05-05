@@ -25,13 +25,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MedievalConquerors.Godot\medieval-conquerors.csproj" />
+      <Content Include="..\game\GameData\CardLibrary.db">
+        <Link>GameData\CardLibrary.db</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\MedievalConquerors.Godot\game_data\CardLibrary.db">
-        <Link>game_data\CardLibrary.db</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
+      <ProjectReference Include="..\game\medieval-conquerors.csproj" />
     </ItemGroup>
 </Project>
