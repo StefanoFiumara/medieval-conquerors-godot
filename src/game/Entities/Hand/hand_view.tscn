@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://2ijuki0tpf0d"]
 
-[ext_resource type="Script" uid="uid://brg7bevra7hws" path="res://entities/hand/HandView.cs" id="1_psvbr"]
-[ext_resource type="PackedScene" uid="uid://b53wqwu1youqe" path="res://entities/cards/card_view.tscn" id="2_b6r7i"]
+[ext_resource type="Script" uid="uid://brg7bevra7hws" path="res://Entities/Hand/HandView.cs" id="1_psvbr"]
+[ext_resource type="Script" uid="uid://cf2f05aqcc23" path="res://Entities/Hand/DrawView.cs" id="2_l7t5f"]
 
 [sub_resource type="Curve" id="Curve_syyef"]
 _limits = [-1.0, 1.0, 0.0, 1.0]
@@ -21,7 +21,9 @@ metadata/_snap_count = 7
 
 [node name="hand_view" type="Node2D"]
 script = ExtResource("1_psvbr")
-_cardScene = ExtResource("2_b6r7i")
 _spreadCurve = SubResource("Curve_syyef")
 _heightCurve = SubResource("Curve_rdm8g")
 _rotationCurve = SubResource("Curve_nqi6x")
+
+[node name="draw_view" type="Node2D" parent="."]
+script = ExtResource("2_l7t5f")

@@ -17,12 +17,12 @@ namespace MedievalConquerors.Entities.Hand;
 
 public partial class HandView : Node2D, IGameComponent
 {
+	public static readonly Vector2 DeckPosition = new(-1200, 400);
+	public static readonly Vector2 DiscardPosition = new(1200, 400);
+
 	private const float MaxHandWidth = 650f;
 	private const float HandHeight = 95f;
 	private const int PreviewSectionHeight = 350;
-
-	private static readonly Vector2 DeckPosition = new(-1200, 400);
-	private static readonly Vector2 DiscardPosition = new(1200, 400);
 
 	private int _previewXMin;
 	private int _previewXMax;
@@ -38,7 +38,7 @@ public partial class HandView : Node2D, IGameComponent
 
 	private PackedScene _cardScene;
 
-	private readonly List<CardView> _cards = [];
+	public List<CardView> Cards { get; } = [];
 	private readonly TweenTracker<CardView> _tweenTracker = new();
 
 	[Export] private MapView _mapView;
@@ -58,8 +58,6 @@ public partial class HandView : Node2D, IGameComponent
 		_settings = Game.GetComponent<IGameSettings>();
 
 		_events.Subscribe<PlayCardAction>(GameEvent.Prepare<PlayCardAction>(), OnPreparePlayCard);
-		_events.Subscribe<DrawCardsAction>(GameEvent.Prepare<DrawCardsAction>(), OnPrepareDrawCards);
-		_events.Subscribe<DiscardCardsAction>(GameEvent.Prepare<DiscardCardsAction>(), OnPrepareDiscardCards);
 		_events.Subscribe<CreateCardAction>(GameEvent.Prepare<CreateCardAction>(), OnPrepareCreateCard);
 
 		_viewport = GetViewport();
@@ -67,8 +65,6 @@ public partial class HandView : Node2D, IGameComponent
 		_viewport.SizeChanged += CalculateViewPosition;
 	}
 
-	private void OnPrepareDrawCards(DrawCardsAction action)       => action.PerformPhase.Viewer = DrawCardsAnimation;
-	private void OnPrepareDiscardCards(DiscardCardsAction action) => action.PerformPhase.Viewer = DiscardCardsAnimation;
 	private void OnPreparePlayCard(PlayCardAction action)         => action.PerformPhase.Viewer = PlayCardAnimation;
 	private void OnPrepareCreateCard(CreateCardAction action)     => action.PerformPhase.Viewer = CreateCardAnimation;
 
@@ -86,17 +82,17 @@ public partial class HandView : Node2D, IGameComponent
 			}
 
 			_hoveredIndex = hovered;
-			HandPositionsTween();
+			ArrangeHandTween();
 
-			for (int i = 0; i < _cards.Count; i++)
+			for (int i = 0; i < Cards.Count; i++)
 			{
 				if(i == _selectedIndex)
 					continue;
 
 				if(i == _hoveredIndex)
-					_cards[_hoveredIndex].Highlight();
+					Cards[_hoveredIndex].Highlight();
 				else
-					_cards[i].RemoveHighlight();
+					Cards[i].RemoveHighlight();
 			}
 		}
 	}
@@ -111,7 +107,7 @@ public partial class HandView : Node2D, IGameComponent
 			}
 			if (mouseEvent.ButtonIndex == MouseButton.Left && _hoveredIndex != -1)
 			{
-				_events.Publish(InputSystem.ClickedEvent, _cards[_hoveredIndex], mouseEvent);
+				_events.Publish(InputSystem.ClickedEvent, Cards[_hoveredIndex], mouseEvent);
 				_viewport.SetInputAsHandled();
 			}
 		}
@@ -122,7 +118,7 @@ public partial class HandView : Node2D, IGameComponent
 		if (!_settings.DebugMode)
 			return;
 
-		for (int i = 0; i < _cards.Count; i++)
+		for (int i = 0; i < Cards.Count; i++)
 		{
 			var sectionRect = new Rect2(
 				x: _previewXMin + i * _previewSectionSize,
@@ -137,14 +133,14 @@ public partial class HandView : Node2D, IGameComponent
 
 	private void SetSelected(CardView card)
 	{
-		_selectedIndex = _cards.IndexOf(card);
+		_selectedIndex = Cards.IndexOf(card);
 	}
 
 	public void ResetSelection()
 	{
 		_selectedIndex = -1;
 		_hoveredIndex = -1;
-		HandPositionsTween();
+		ArrangeHandTween();
 	}
 
 	private void CalculateViewPosition()
@@ -156,7 +152,7 @@ public partial class HandView : Node2D, IGameComponent
 
 	private int CalculateHoveredIndex(Vector2 mousePos)
 	{
-		for (int i = 0; i < _cards.Count; i++)
+		for (int i = 0; i < Cards.Count; i++)
 		{
 			var sectionRect = new Rect2(
 				x: _previewXMin + i * _previewSectionSize,
@@ -172,51 +168,11 @@ public partial class HandView : Node2D, IGameComponent
 		return -1;
 	}
 
-	private IEnumerator DrawCardsAnimation(IGame game, GameAction action)
-	{
-		yield return true;
-		var drawAction = (DrawCardsAction) action;
 
-		// TODO: Draw animation for opposite player?
-		if (drawAction.TargetPlayerId != Match.LocalPlayerId) yield break;
 
-		foreach (var card in drawAction.DrawnCards)
-		{
-			CreateCardView(card);
-			var tweens = HandPositionsTween();
-			while (tweens.Any(t => t.IsRunning())) yield return null;
-		}
-
-		CalculatePreviewBoundaries();
-	}
-
-	private IEnumerator DiscardCardsAnimation(IGame game, GameAction action)
-	{
-		const double tweenDuration = 0.25;
-		var discardAction = (DiscardCardsAction) action;
-
-		yield return true;
-
-		discardAction.CardsToDiscard.Reverse();
-		foreach (var card in discardAction.CardsToDiscard)
-		{
-			var cardView = _cards.SingleOrDefault(c => c.Card == card);
-			if (cardView == null) continue;
-
-			cardView.RemoveHighlight();
-
-			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
-
-			tween.TweenProperty(cardView, "position", DiscardPosition, tweenDuration);
-			tween.TweenProperty(cardView, "rotation", Mathf.Pi / 4, tweenDuration);
-			tween.TweenProperty(cardView, "scale", Vector2.One * 1.3f, tweenDuration);
-
-			while (tween.IsRunning()) yield return null;
-			_cards.Remove(cardView);
-			cardView.QueueFree();
-		}
-	}
-
+	// TODO: Split animation between units/buildings and make these animations trigger from the SpawnUnitAction and BuildStructureAction, rather than from PlayCardAction
+	//		That way we can use this animation when reacting with those actions specifically
+	// IDEA: Implement this in child Unit/Structure Views ?
 	private IEnumerator PlayCardAnimation(IGame game, GameAction action)
 	{
 		yield return true;
@@ -231,10 +187,10 @@ public partial class HandView : Node2D, IGameComponent
 			var playCardTween = PlayCardTween(playAction);
 			while (playCardTween.IsRunning()) yield return null;
 
-			var handTweens = HandPositionsTween();
+			var handTweens = ArrangeHandTween();
 			while (handTweens.Any(t => t.IsRunning())) yield return null;
 
-			CalculatePreviewBoundaries();
+			// CalculatePreviewBoundaries();
 		}
 
 		while (tokenTween != null && tokenTween.IsRunning())
@@ -245,8 +201,8 @@ public partial class HandView : Node2D, IGameComponent
 	{
 		const double tweenDuration = 0.5;
 
-		var cardView = _cards.SingleOrDefault(c => c.Card == action.CardToPlay);
-		_cards.Remove(cardView);
+		var cardView = Cards.SingleOrDefault(c => c.Card == action.CardToPlay);
+		Cards.Remove(cardView);
 		if (cardView == null)
 		{
 			var nullTween = CreateTween();
@@ -295,7 +251,7 @@ public partial class HandView : Node2D, IGameComponent
 		for (var i = 0; i < createAction.CreatedCards.Count; i++)
 		{
 			var createdCard = createAction.CreatedCards[i];
-			var cardView = CreateCardView(createdCard);
+			var cardView = CreateCardView(createdCard, Vector2.Zero);
 			var offset = i - (createAction.CreatedCards.Count - 1) / 2.0f;
 			cardView.GlobalPosition = center + Vector2.Right * offset * spacing;
 			cardView.Scale = Vector2.Zero;
@@ -319,7 +275,7 @@ public partial class HandView : Node2D, IGameComponent
 				subTween.TweenProperty(cardView, "rotation", targetRotation, tweenDuration);
 				subTween.Chain().TweenCallback(Callable.From(() =>
 				{
-					_cards.Remove(cardView);
+					Cards.Remove(cardView);
 					cardView.QueueFree();
 				}));
 				subTween.Pause();
@@ -334,10 +290,10 @@ public partial class HandView : Node2D, IGameComponent
 		while (tweens.Any(t => t.IsRunning())) yield return null;
 		if (createAction.TargetZone == Zone.Hand)
 		{
-			var handTweens = HandPositionsTween();
+			var handTweens = ArrangeHandTween();
 			while (handTweens.Any(t => t.IsRunning())) yield return null;
 
-			CalculatePreviewBoundaries();
+			// CalculatePreviewBoundaries();
 		}
 	}
 
@@ -363,7 +319,7 @@ public partial class HandView : Node2D, IGameComponent
 	{
 		const double tweenDuration = 0.2;
 
-		var card = _cards[index];
+		var card = Cards[index];
 		card.ZIndex = 100;
 
 		var tween = CreateTween()
@@ -380,11 +336,11 @@ public partial class HandView : Node2D, IGameComponent
 
 	private void CalculatePreviewBoundaries()
 	{
-		if (_cards.Count > 0)
+		if (Cards.Count > 0)
 		{
-			_previewXMin = (int)(_cards[0].Position.X - 100);
-			_previewXMax = (int)(_cards[^1].Position.X + 100);
-			_previewSectionSize = (_previewXMax - _previewXMin) / _cards.Count;
+			_previewXMin = (int)(Cards[0].Position.X - 100);
+			_previewXMax = (int)(Cards[^1].Position.X + 100);
+			_previewSectionSize = (_previewXMax - _previewXMin) / Cards.Count;
 		}
 		else
 		{
@@ -396,18 +352,18 @@ public partial class HandView : Node2D, IGameComponent
 		QueueRedraw();
 	}
 
-	private List<Tween> HandPositionsTween()
+	public List<Tween> ArrangeHandTween()
 	{
 		const double tweenDuration = 0.25;
 		var tweens = new List<Tween>();
 
-		for (var i = 0; i < _cards.Count; i++)
+		for (var i = 0; i < Cards.Count; i++)
 		{
 			// Do not animate hovered/selected card.
 			if (i == _hoveredIndex)  continue;
 			if (i == _selectedIndex) continue;
 
-			var card = _cards[i];
+			var card = Cards[i];
 			card.ZIndex = i + 10;
 
 			var tween = CreateTween()
@@ -424,30 +380,33 @@ public partial class HandView : Node2D, IGameComponent
 			_tweenTracker.TrackTween(tween, card);
 		}
 
+		if(tweens.Count > 0)
+			tweens[^1].Chain().TweenCallback(Callable.From(CalculatePreviewBoundaries));
+
 		return tweens;
 	}
 
 	private (Vector2 position, float rotation) CalculateHandPosition(CardView card)
 	{
 		var ratio = 0.5f;
-		if (_cards.Count > 1)
-			ratio = _cards.IndexOf(card) / (float) (_cards.Count - 1);
+		if (Cards.Count > 1)
+			ratio = Cards.IndexOf(card) / (float) (Cards.Count - 1);
 
-		var xOffset = _spreadCurve.Sample(ratio) * (MaxHandWidth * (_cards.Count / 10f));
-		var yOffset = -_heightCurve.Sample(ratio) * (HandHeight * (_cards.Count / 10f));
+		var xOffset = _spreadCurve.Sample(ratio) * (MaxHandWidth * (Cards.Count / 10f));
+		var yOffset = -_heightCurve.Sample(ratio) * (HandHeight * (Cards.Count / 10f));
 		var position = new Vector2(xOffset, yOffset);
 
-		var rotation = -_rotationCurve.Sample(ratio) * (0.25f * (_cards.Count / 10f));
+		var rotation = -_rotationCurve.Sample(ratio) * (0.25f * (Cards.Count / 10f));
 
 		return (position, rotation);
 	}
 
-	private CardView CreateCardView(Card card)
+	public CardView CreateCardView(Card card, Vector2 position = default)
 	{
 		var cardView = _cardScene.Instantiate<CardView>();
-		cardView.Position = DeckPosition;
+		cardView.Position = position;
 
-		_cards.Add(cardView);
+		Cards.Add(cardView);
 		AddChild(cardView);
 
 		cardView.Initialize(Game, card);
