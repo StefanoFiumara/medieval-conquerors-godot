@@ -40,7 +40,7 @@ public class TechnologySystem : GameComponent, IAwake
     {
         if (action.CardToPlay.CardData.CardType == CardType.Technology)
         {
-            var researchAction = new ResearchTechnologyAction(action.CardToPlay);
+            var researchAction = new ResearchTechnologyAction(action.CardToPlay, action.TargetTile);
             Game.AddReaction(researchAction);
         }
     }
@@ -48,7 +48,7 @@ public class TechnologySystem : GameComponent, IAwake
     private void OnPrepareResearchTechnology(ResearchTechnologyAction action)
     {
         if (action.Card.HasAttribute<OnCardPlayedAbility>(out var ability))
-            _abilitySystem.TriggerAbility(ability);
+            _abilitySystem.TriggerAbility(ability, action.TargetTile);
     }
 
     private void OnPerformResearchTechnology(ResearchTechnologyAction action)

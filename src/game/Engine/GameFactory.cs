@@ -44,6 +44,7 @@ public static class GameFactory
         game.AddComponent<VillagerSystem>();
         game.AddComponent<ResourceSystem>();
         game.AddComponent<TechnologySystem>();
+        game.AddComponent<BuildingSystem>();
         game.AddComponent<MovementSystem>();
         game.AddComponent<GarrisonSystem>();
         // game.AddComponent<AgeSystem>();

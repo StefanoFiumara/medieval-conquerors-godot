@@ -1,4 +1,5 @@
 ﻿using System;
+using Godot;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
 
@@ -69,5 +70,5 @@ public class GameAction
 
 public interface IAbilityLoader
 {
-    void Load(IGame game, AbilityAttribute ability, ActionDefinition data);
+    void Load(IGame game, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile);
 }

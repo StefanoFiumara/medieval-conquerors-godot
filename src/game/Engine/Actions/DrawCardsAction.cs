@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Godot;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
@@ -18,7 +19,7 @@ public class DrawCardsAction(int targetPlayerId, int amount) : GameAction, IAbil
         return $"DrawCardsAction: Player {TargetPlayerId} Draws {Amount} card(s)";
     }
 
-    public void Load(IGame game, AbilityAttribute ability, ActionDefinition data)
+    public void Load(IGame game, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
     {
         var player = ability.Owner.Owner;
         var enemyPlayer = game.GetComponent<Match>().Players[1 - player.Id];

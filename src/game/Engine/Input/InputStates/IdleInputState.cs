@@ -19,7 +19,6 @@ public class IdleInputState(IGame game) : BaseInputState(game)
 
         if (IsOwnedUnit(clickedObject))
         {
-            // TODO: Validate that the selected unit belongs to the current player
             return new SelectedUnitState(Game, ((TileData) clickedObject).Unit);
         }
 

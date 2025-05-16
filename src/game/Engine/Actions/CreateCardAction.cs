@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
@@ -21,7 +22,7 @@ public class CreateCardAction(int cardId, int targetPlayerId, Zone targetZone, i
         return $"CreateCardAction: Player {TargetPlayerId} creates {Amount} card(s) (ID: {CardId}) in {TargetZone}";
     }
 
-    public void Load(IGame game, AbilityAttribute ability, ActionDefinition data)
+    public void Load(IGame game, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
     {
         var player = ability.Owner.Owner;
         var enemyPlayer = game.GetComponent<Match>().Players[1 - player.Id];

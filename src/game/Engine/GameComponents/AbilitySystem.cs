@@ -1,4 +1,5 @@
 ﻿using System;
+using Godot;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
@@ -28,7 +29,7 @@ public class AbilitySystem : GameComponent, IAwake
         foreach (var actionDef in action.Ability.Actions)
         {
 
-            var reaction = LoadAction(action.Ability, actionDef);
+            var reaction = LoadAction(action.Ability, actionDef, action.TargetTile);
             if (reaction != null)
             {
                 reaction.Priority = actionPriority--;
@@ -37,7 +38,7 @@ public class AbilitySystem : GameComponent, IAwake
         }
     }
 
-    private GameAction LoadAction(AbilityAttribute ability, ActionDefinition actionDef)
+    private GameAction LoadAction(AbilityAttribute ability, ActionDefinition actionDef, Vector2I targetTile)
     {
         var type = Type.GetType(actionDef.ActionType);
         if (type == null)
@@ -54,7 +55,7 @@ public class AbilitySystem : GameComponent, IAwake
 
         if (action is IAbilityLoader loadable)
         {
-            loadable.Load(Game, ability, actionDef);
+            loadable.Load(Game, ability, actionDef, targetTile);
         }
         else
         {
@@ -65,9 +66,9 @@ public class AbilitySystem : GameComponent, IAwake
         return action;
     }
 
-    public void TriggerAbility(AbilityAttribute ability)
+    public void TriggerAbility(AbilityAttribute ability, Vector2I targetTile)
     {
-        var action = new AbilityAction(ability);
+        var action = new AbilityAction(ability, targetTile);
 
         if (Game.GetComponent<ActionSystem>().IsActive)
             Game.AddReaction(action);

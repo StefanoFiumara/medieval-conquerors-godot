@@ -17,7 +17,7 @@ namespace MedievalConquerors.Entities.Hand;
 
 public partial class HandView : Node2D, IGameComponent
 {
-	private const float MaxHandWidth = 850f;
+	private const float MaxHandWidth = 650f;
 	private const float HandHeight = 95f;
 	private const int PreviewSectionHeight = 350;
 

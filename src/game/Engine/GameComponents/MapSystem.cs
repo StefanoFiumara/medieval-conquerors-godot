@@ -18,7 +18,7 @@ public class MapSystem : GameComponent, IAwake
         _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
         _events.Subscribe<DiscardCardsAction>(GameEvent.Perform<DiscardCardsAction>(), OnPerformDiscardCards);
         _events.Subscribe<PlayCardAction, ActionValidatorResult>(GameEvent.Validate<PlayCardAction>(), OnValidatePlayCard);
-        _events.Subscribe<BuildStructureAction>(GameEvent.Perform<BuildStructureAction>(), OnPerformBuildStructure);
+
         _events.Subscribe<SpawnUnitAction>(GameEvent.Perform<SpawnUnitAction>(), OnPerformSpawnUnit);
     }
 
@@ -70,14 +70,5 @@ public class MapSystem : GameComponent, IAwake
         tile.Unit = action.UnitToSpawn;
         action.UnitToSpawn.MapPosition = tile.Position;
         player.MoveCard(action.UnitToSpawn, Zone.Map);
-    }
-    private void OnPerformBuildStructure(BuildStructureAction action)
-    {
-        var tile = _map.GetTile(action.TargetTile);
-        var player = action.StructureToBuild.Owner;
-
-        tile.Building = action.StructureToBuild;
-        action.StructureToBuild.MapPosition = tile.Position;
-        player.MoveCard(action.StructureToBuild, Zone.Map);
     }
 }
