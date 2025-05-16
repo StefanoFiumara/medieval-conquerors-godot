@@ -173,7 +173,7 @@ public partial class MapView : Node2D, IGameComponent
 		return tokenView;
 	}
 
-	public Tween PlaceTokenAnimation(PlayCardAction action)
+	public Tween PlaceTokenTween(PlayCardAction action)
 	{
 		const double tweenDuration = 0.4;
 

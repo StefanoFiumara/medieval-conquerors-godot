@@ -168,8 +168,6 @@ public partial class HandView : Node2D, IGameComponent
 		return -1;
 	}
 
-
-
 	// TODO: Split animation between units/buildings and make these animations trigger from the SpawnUnitAction and BuildStructureAction, rather than from PlayCardAction
 	//		That way we can use this animation when reacting with those actions specifically
 	// IDEA: Implement this in child Unit/Structure Views ?
@@ -179,7 +177,7 @@ public partial class HandView : Node2D, IGameComponent
 		var playAction = (PlayCardAction) action;
 
 		var tokenTween = playAction.CardToPlay.CardData.CardType != CardType.Technology
-			? _mapView.PlaceTokenAnimation(playAction)
+			? _mapView.PlaceTokenTween(playAction)
 			:  null;
 
 		if (playAction.CardToPlay.Owner.Id == Match.LocalPlayerId)
@@ -187,14 +185,49 @@ public partial class HandView : Node2D, IGameComponent
 			var playCardTween = PlayCardTween(playAction);
 			while (playCardTween.IsRunning()) yield return null;
 
-			var handTweens = ArrangeHandTween();
-			while (handTweens.Any(t => t.IsRunning())) yield return null;
-
-			// CalculatePreviewBoundaries();
+			var arrangeTween = ArrangeHandTween();
+			while (arrangeTween.Any(t => t.IsRunning())) yield return null;
 		}
 
 		while (tokenTween != null && tokenTween.IsRunning())
 			yield return null;
+	}
+
+	public Tween PlayOnTileTween(CardView card, Vector2I tile, double duration = 0.5)
+	{
+		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
+		var targetPosition = _mapView.GetTileGlobalPosition(tile);
+		tween.TweenProperty(card, "position", ToLocal(targetPosition), duration);
+		tween.TweenProperty(card, "scale", Vector2.One * 0.2f, duration).SetEase(Tween.EaseType.Out);
+		tween.TweenProperty(card, "modulate:a", 0f, duration);
+
+		tween.Chain().TweenCallback(Callable.From(() =>
+		{
+			Cards.Remove(card);
+			card.QueueFree();
+		}));
+
+		return tween;
+	}
+
+	public Tween CenterAndFadeAwayTween(CardView card, double duration = 0.5)
+	{
+		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
+
+		tween.TweenProperty(card, "global_position", _viewport.GetVisibleRect().GetCenter(), duration);
+		tween.TweenProperty(card, "rotation", 0, duration);
+		tween.TweenProperty(card, "scale", Vector2.One, duration).SetEase(Tween.EaseType.Out);
+		tween.Chain().TweenInterval(0.4f);
+		tween.TweenProperty(card, "scale", Vector2.One * 1.5f, duration);
+		tween.TweenProperty(card, "modulate:a", 0f, duration);
+
+		tween.Chain().TweenCallback(Callable.From(() =>
+		{
+			Cards.Remove(card);
+			card.QueueFree();
+		}));
+
+		return tween;
 	}
 
 	private Tween PlayCardTween(PlayCardAction action)
@@ -202,7 +235,7 @@ public partial class HandView : Node2D, IGameComponent
 		const double tweenDuration = 0.5;
 
 		var cardView = Cards.SingleOrDefault(c => c.Card == action.CardToPlay);
-		Cards.Remove(cardView);
+		// Cards.Remove(cardView);
 		if (cardView == null)
 		{
 			var nullTween = CreateTween();
@@ -210,30 +243,9 @@ public partial class HandView : Node2D, IGameComponent
 			return nullTween;
 		}
 
-		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
-
-		if (action.CardToPlay.CardData.CardType == CardType.Technology)
-		{
-			tween.TweenProperty(cardView, "global_position", _viewport.GetVisibleRect().GetCenter(), tweenDuration);
-			tween.TweenProperty(cardView, "rotation", 0, tweenDuration);
-			tween.TweenProperty(cardView, "scale", Vector2.One, tweenDuration).SetEase(Tween.EaseType.Out);
-			tween.Chain().TweenInterval(0.4f);
-			tween.TweenProperty(cardView, "scale", Vector2.One * 1.5f, tweenDuration);
-		}
-		else
-		{
-			var targetPosition = _mapView.GetTileGlobalPosition(action.TargetTile);
-			tween.TweenProperty(cardView, "position", ToLocal(targetPosition), tweenDuration);
-			tween.TweenProperty(cardView, "scale", Vector2.One * 0.2f, tweenDuration).SetEase(Tween.EaseType.Out);
-		}
-
-		tween.TweenProperty(cardView, "modulate:a", 0f, tweenDuration);
-		tween.Chain().TweenCallback(Callable.From(() =>
-		{
-			cardView.QueueFree();
-		}));
-
-		return tween;
+		return action.CardToPlay.CardData.CardType == CardType.Technology
+			? CenterAndFadeAwayTween(cardView)
+			: PlayOnTileTween(cardView, action.TargetTile);
 	}
 
 	private IEnumerator CreateCardAnimation(IGame game, GameAction action)
