@@ -48,21 +48,24 @@ public partial class HandView : Node2D, IGameComponent
 
 	public IGame Game { get; set; }
 
-	public override void _Ready()
+	public override void _EnterTree()
 	{
+		_cardScene = ResourceLoader.Load<PackedScene>("uid://b53wqwu1youqe");
 		GetParent<GameController>().Game.AddComponent(this);
 
-		_cardScene = ResourceLoader.Load<PackedScene>("uid://b53wqwu1youqe");
 		_actionSystem = Game.GetComponent<ActionSystem>();
 		_events = Game.GetComponent<EventAggregator>();
 		_settings = Game.GetComponent<IGameSettings>();
 
-		_events.Subscribe<PlayCardAction>(GameEvent.Prepare<PlayCardAction>(), OnPreparePlayCard);
-		_events.Subscribe<CreateCardAction>(GameEvent.Prepare<CreateCardAction>(), OnPrepareCreateCard);
-
 		_viewport = GetViewport();
 		CalculateViewPosition();
 		_viewport.SizeChanged += CalculateViewPosition;
+	}
+
+	public override void _Ready()
+	{
+		_events.Subscribe<PlayCardAction>(GameEvent.Prepare<PlayCardAction>(), OnPreparePlayCard);
+		_events.Subscribe<CreateCardAction>(GameEvent.Prepare<CreateCardAction>(), OnPrepareCreateCard);
 	}
 
 	private void OnPreparePlayCard(PlayCardAction action)         => action.PerformPhase.Viewer = PlayCardAnimation;
@@ -176,10 +179,6 @@ public partial class HandView : Node2D, IGameComponent
 		yield return true;
 		var playAction = (PlayCardAction) action;
 
-		var tokenTween = playAction.CardToPlay.CardData.CardType != CardType.Technology
-			? _mapView.PlaceTokenTween(playAction)
-			:  null;
-
 		if (playAction.CardToPlay.Owner.Id == Match.LocalPlayerId)
 		{
 			var playCardTween = PlayCardTween(playAction);
@@ -188,12 +187,9 @@ public partial class HandView : Node2D, IGameComponent
 			var arrangeTween = ArrangeHandTween();
 			while (arrangeTween.Any(t => t.IsRunning())) yield return null;
 		}
-
-		while (tokenTween != null && tokenTween.IsRunning())
-			yield return null;
 	}
 
-	public Tween PlayOnTileTween(CardView card, Vector2I tile, double duration = 0.5)
+	private Tween PlayOnTileTween(CardView card, Vector2I tile, double duration = 0.5)
 	{
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
 		var targetPosition = _mapView.GetTileGlobalPosition(tile);
@@ -210,7 +206,7 @@ public partial class HandView : Node2D, IGameComponent
 		return tween;
 	}
 
-	public Tween CenterAndFadeAwayTween(CardView card, double duration = 0.5)
+	private Tween CenterAndFadeAwayTween(CardView card, double duration = 0.5)
 	{
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
 
@@ -243,9 +239,59 @@ public partial class HandView : Node2D, IGameComponent
 			return nullTween;
 		}
 
+		// TODO: Remove this animation and use separate animations from other views
+		//		to handle more specific actions
+
+		//
 		return action.CardToPlay.CardData.CardType == CardType.Technology
 			? CenterAndFadeAwayTween(cardView)
 			: PlayOnTileTween(cardView, action.TargetTile);
+	}
+
+	public Tween DisplayCardTween(CardView card, double duration = 0.4) => DisplayCardsTween([card], duration);
+	public Tween DisplayCardsTween(List<CardView> cards, double duration = 0.4)
+	{
+		const float spacing = 230f;
+
+		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
+		for (var i = 0; i < cards.Count; i++)
+		{
+			var card = cards[i];
+			var offset = i - (cards.Count - 1) / 2.0f;
+			tween.TweenCallback(Callable.From(() =>
+			{
+				var center = _viewport.GetVisibleRect().GetCenter();
+
+				card.GlobalPosition = center + Vector2.Right * offset * spacing;
+				card.Scale = Vector2.Zero;
+			}));
+
+			tween.Chain().TweenInterval(duration * 0.5);
+			tween.TweenProperty(card, "modulate:a", 1, duration).From((Variant.From(0)));
+			tween.TweenProperty(card, "scale", Vector2.One, duration);
+		}
+
+		return tween;
+	}
+
+	public Tween MoveToZoneTween(CardView card, Zone toZone, double duration = 0.5) => MoveToZoneTween([card], toZone, duration);
+	public Tween MoveToZoneTween(List<CardView> cards, Zone toZone, double duration = 0.5)
+	{
+		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
+		if (toZone == Zone.Hand)
+		{
+			// TODO: Add to _hand.Cards collection (if not already in there) and just call ArrangeHandTween
+			//		Alternatively - move cards manually to their target position / rotation
+			//		and let the caller worry about the arrange hand part?
+		}
+		else
+		{
+			// Determine if we're moving to the Deck, Discard, or Board zone
+			// TODO: If Board - which tile?
+			// Animate one by one to the correct position
+		}
+
+		return tween;
 	}
 
 	private IEnumerator CreateCardAnimation(IGame game, GameAction action)
@@ -259,6 +305,9 @@ public partial class HandView : Node2D, IGameComponent
 		var center = _viewport.GetVisibleRect().GetCenter();
 
 		List<Tween> tweens = [];
+		// var cardViews = createAction.CreatedCards.Select(c => CreateCardView(c)).ToList();
+		// var displayTween = DisplayCardsTween(cardViews);
+
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
 		for (var i = 0; i < createAction.CreatedCards.Count; i++)
 		{
@@ -421,7 +470,7 @@ public partial class HandView : Node2D, IGameComponent
 		Cards.Add(cardView);
 		AddChild(cardView);
 
-		cardView.Initialize(Game, card);
+		cardView.Load(Game, card);
 
 		return cardView;
 	}

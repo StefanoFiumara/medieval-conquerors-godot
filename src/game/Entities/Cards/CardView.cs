@@ -58,7 +58,7 @@ public partial class CardView : Node2D, IClickable
 
 	public Card Card { get; private set; }
 
-	public void Initialize(IGame game, Card card)
+	public void Load(IGame game, Card card)
 	{
 		Card = card;
 		_cardSystem = game.GetComponent<CardSystem>();
@@ -97,7 +97,7 @@ public partial class CardView : Node2D, IClickable
 
 	public void Highlight()
 	{
-		var color = _cardSystem.IsPlayable(Card) ? Colors.LawnGreen : Colors.IndianRed;
+		var color = _cardSystem.IsPlayable(Card) ? Colors.Yellow : Colors.IndianRed;
 		TargetHighlightColor = color;
 	}
 

@@ -54,19 +54,21 @@ public partial class MapView : Node2D, IGameComponent
 
 	private readonly List<TokenView> _tokens = [];
 
-	public override void _Ready()
+	public override void _EnterTree()
 	{
-		GetParent<GameController>().Game.AddComponent(this);
-
 		_tokenScene = ResourceLoader.Load<PackedScene>("uid://civascfpgtcfj");
 
-		_viewport = GetViewport();
+		GetParent<GameController>().Game.AddComponent(this);
 
+		_viewport = GetViewport();
 		_logger = Game.GetComponent<ILogger>();
 		_map = Game.GetComponent<HexMap>();
 		_events = Game.GetComponent<EventAggregator>();
 		_settings = Game.GetComponent<IGameSettings>();
+	}
 
+	public override void _Ready()
+	{
 		// TODO: Set scale/position based on reference resolution
 		// so that the map fits on the screen at different screen sizes on startup
 		_zoomTarget = Scale;
@@ -74,8 +76,16 @@ public partial class MapView : Node2D, IGameComponent
 		_map.OnTileChanged += OnTileMapChanged;
 		_events.Subscribe<MoveUnitAction>(GameEvent.Prepare<MoveUnitAction>(), OnPrepareMoveUnit);
 		_events.Subscribe<GarrisonAction>(GameEvent.Prepare<GarrisonAction>(), OnPrepareGarrison);
+		_events.Subscribe<BuildStructureAction>(GameEvent.Prepare<BuildStructureAction>(), OnPrepareBuildStructure);
+		_events.Subscribe<SpawnUnitAction>(GameEvent.Prepare<SpawnUnitAction>(), OnPrepareSpawnUnit);
 		_events.Subscribe<CollectResourcesAction>(GameEvent.Prepare<CollectResourcesAction>(), OnPrepareCollectResources);
 	}
+
+	private void OnPrepareBuildStructure(BuildStructureAction action) => action.PerformPhase.Viewer = BuildStructureAnimation;
+	private void OnPrepareSpawnUnit(SpawnUnitAction action) => action.PerformPhase.Viewer = SpawnUnitAnimation;
+	private void OnPrepareMoveUnit(MoveUnitAction action) => action.PerformPhase.Viewer = MoveTokenAnimation;
+	private void OnPrepareGarrison(GarrisonAction action) => action.PerformPhase.Viewer = GarrisonAnimation;
+	private void OnPrepareCollectResources(CollectResourcesAction action) => action.PerformPhase.Viewer = CollectResourcesAnimation;
 
 	public override void _ExitTree()
 	{
@@ -154,41 +164,48 @@ public partial class MapView : Node2D, IGameComponent
 				HighlightTile(mapCoord, MapLayerType.MouseHover);
 
 				if(_settings.DebugMode)
-					CreateTileDebugPopup(mapCoord);
+					CreateTileCoordsPopup(mapCoord);
 
 				_hovered = mapCoord;
 			}
 		}
 	}
 
-	private TokenView CreateTokenView(Card card)
+	private TokenView CreateTokenView(Card card, Vector2I tile)
 	{
-		var tokenView = _tokenScene.Instantiate<TokenView>();
-		tokenView.Modulate = Colors.Transparent;
-		tokenView.Initialize(Game, card);
+		var token = _tokenScene.Instantiate<TokenView>();
+		token.Initialize(Game, card);
+		token.Position = this[MapLayerType.Terrain].MapToLocal(tile);
 
-		_tokens.Add(tokenView);
+		_tokens.Add(token);
+		this[MapLayerType.Terrain].AddChild(token);
 
-		this[MapLayerType.Terrain].AddChild(tokenView);
-		return tokenView;
+		return token;
 	}
 
-	public Tween PlaceTokenTween(PlayCardAction action)
+	private Tween PlaceTokenTween(TokenView token, double duration = 0.4)
 	{
-		const double tweenDuration = 0.4;
-
-		var tokenView = CreateTokenView(action.CardToPlay);
-		tokenView.Position = this[MapLayerType.Terrain].MapToLocal(action.TargetTile);
-
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In);
-		tween.TweenProperty(tokenView, "modulate", Colors.White, tweenDuration);
-
+		tween.TweenProperty(token, "modulate", Colors.White, duration).From(Colors.Transparent);
 		return tween;
 	}
 
-	private void OnPrepareMoveUnit(MoveUnitAction action)
+	private IEnumerator BuildStructureAnimation(IGame game, GameAction action)
 	{
-		action.PerformPhase.Viewer = MoveTokenAnimation;
+		var buildAction = (BuildStructureAction) action;
+		var token = CreateTokenView(buildAction.StructureToBuild, buildAction.TargetTile);
+		var tween = PlaceTokenTween(token);
+		while(tween.IsRunning())
+			yield return null;
+	}
+
+	private IEnumerator SpawnUnitAnimation(IGame game, GameAction action)
+	{
+		var spawnAction = (SpawnUnitAction) action;
+		var token = CreateTokenView(spawnAction.UnitToSpawn, spawnAction.TargetTile);
+		var tween = PlaceTokenTween(token);
+		while(tween.IsRunning())
+			yield return null;
 	}
 
 	private IEnumerator MoveTokenAnimation(IGame game, GameAction action)
@@ -201,7 +218,6 @@ public partial class MapView : Node2D, IGameComponent
 		var token = _tokens.Single(t => t.Card == moveAction.CardToMove);
 
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine);
-
 		foreach (var tile in path)
 		{
 			var stepPosition = this[MapLayerType.Terrain].MapToLocal(tile);
@@ -212,35 +228,27 @@ public partial class MapView : Node2D, IGameComponent
 			yield return null;
 	}
 
-	private void OnPrepareGarrison(GarrisonAction action)
-	{
-		action.PerformPhase.Viewer = GarrisonAnimation;
-	}
-
 	private IEnumerator GarrisonAnimation(IGame game, GameAction action)
 	{
 		const double tweenDuration = 0.4;
 
 		var garrisonAction = (GarrisonAction)action;
-		var unitToken = _tokens.Single(t => t.Card == garrisonAction.Unit);
-		var buildingToken = _tokens.Single(t => t.Card == garrisonAction.Building);
+
+		var unitToken = CreateTokenView(garrisonAction.Unit, garrisonAction.Building.MapPosition);
 
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine);
+		tween.TweenProperty(unitToken, "modulate", Colors.White, tweenDuration).From(Colors.Transparent);
 		tween.TweenProperty(unitToken, "modulate", Colors.Transparent, tweenDuration);
+		tween.TweenCallback(Callable.From(() =>
+		{
+			_tokens.Remove(unitToken);
+			unitToken.QueueFree();
+		}));
 
 		yield return true;
-		buildingToken.UpdateGarrisonInfo();
 
 		while (tween.IsRunning())
 			yield return null;
-
-		_tokens.Remove(unitToken);
-		unitToken.QueueFree();
-	}
-
-	private void OnPrepareCollectResources(CollectResourcesAction action)
-	{
-		action.PerformPhase.Viewer = CollectResourcesAnimation;
 	}
 
 	private IEnumerator CollectResourcesAnimation(IGame game, GameAction action)
@@ -260,7 +268,7 @@ public partial class MapView : Node2D, IGameComponent
 		}
 	}
 
-	private void CreateTileDebugPopup(Vector2I pos)
+	private void CreateTileCoordsPopup(Vector2I pos)
 	{
 		var position = this[MapLayerType.Terrain].MapToLocal(pos);
 		this.CreatePopup(position, $"{pos}", duration: 5f, textScale: 0.5f);

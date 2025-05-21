@@ -17,13 +17,15 @@ public partial class DrawView : Node2D, IGameComponent
 
 	public IGame Game { get; set; }
 
+	public override void _EnterTree()
+	{
+		GetParent<HandView>().Game.AddComponent(this);
+		_hand = GetParent<HandView>();
+		_events = Game.GetComponent<EventAggregator>();
+	}
+
 	public override void _Ready()
 	{
-		_hand = GetParent<HandView>();
-		this.SearchParent<GameController>().Game.AddComponent(this);
-
-		_events = Game.GetComponent<EventAggregator>();
-
 		_events.Subscribe<DrawCardsAction>(GameEvent.Prepare<DrawCardsAction>(), OnPrepareDrawCards);
 		_events.Subscribe<DiscardCardsAction>(GameEvent.Prepare<DiscardCardsAction>(), OnPrepareDiscardCards);
 	}
