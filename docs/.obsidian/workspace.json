@@ -13,15 +13,33 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "game-mechanics.md",
+                "file": "card-designs/economic-cards.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "game-mechanics"
+              "title": "economic-cards"
+            }
+          },
+          {
+            "id": "b9e2e622305abfdc",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "tech-tree.canvas",
+                "viewState": {
+                  "x": -60.8232130784254,
+                  "y": 638.9847885131836,
+                  "zoom": -1.6042538393299164
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "tech-tree"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -41,7 +59,7 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": true
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -163,19 +181,20 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "f1725772d736e447",
+  "active": "b9e2e622305abfdc",
   "lastOpenFiles": [
-    "game-design-doc.md",
-    "engine-architecture/action-system.canvas",
     "engine-architecture/game-actions.canvas",
-    "game-mechanics.md",
+    "engine-architecture/action-system.canvas",
+    "tech-tree.canvas",
+    "game-design-doc.md",
     "planned-cards-list.md",
-    "to-do.md",
+    "game-mechanics.md",
+    "Untitled.md",
     "card-designs/economic-cards.md",
+    "to-do.md",
     "engine-architecture/Action System.canvas",
     "engine-architecture/Game State.canvas",
     "engine-architecture",
-    "Untitled.md",
     "card-designs",
     "Welcome.md"
   ]
