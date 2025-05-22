@@ -18,7 +18,7 @@ public class Player
     public List<Card> Discard  { get; } = [];
     public List<Card> Banished { get; } = [];
 
-    public int TurnStartDrawCount => 3 + (int)Age;
+    public int TurnStartDrawCount => 4 + (int)Age;
 
     private readonly Dictionary<Zone, List<Card>> _zoneMap;
 

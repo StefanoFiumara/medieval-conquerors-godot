@@ -5,8 +5,6 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
-using MedievalConquerors.Engine.Extensions;
-using MedievalConquerors.Screens;
 
 namespace MedievalConquerors.Entities.Hand;
 
@@ -47,8 +45,6 @@ public partial class DrawView : Node2D, IGameComponent
 			var tweens = _hand.ArrangeHandTween();
 			while (tweens.Any(t => t.IsRunning())) yield return null;
 		}
-
-		// CalculatePreviewBoundaries();
 	}
 
 	private IEnumerator DiscardCardsAnimation(IGame game, GameAction action)

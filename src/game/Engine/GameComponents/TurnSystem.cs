@@ -47,8 +47,8 @@ public class TurnSystem : GameComponent, IAwake
         // Spawn Town Centers
         var townCenter1 = _library.LoadCard(CardLibrary.TownCenterId, _match.LocalPlayer);
         var townCenter2 = _library.LoadCard(CardLibrary.TownCenterId, _match.EnemyPlayer);
-        Game.AddReaction(new PlayCardAction(townCenter1, _match.LocalPlayer.TownCenter.Position));
-        Game.AddReaction(new PlayCardAction(townCenter2, _match.EnemyPlayer.TownCenter.Position));
+        Game.AddReaction(new BuildStructureAction(townCenter1, _match.LocalPlayer.TownCenter.Position));
+        Game.AddReaction(new BuildStructureAction(townCenter2, _match.EnemyPlayer.TownCenter.Position));
 
         // Change the turn to the starting player
         Game.AddReaction(new BeginTurnAction(action.StartingPlayerId));

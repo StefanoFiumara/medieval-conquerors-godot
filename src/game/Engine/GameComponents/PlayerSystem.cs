@@ -60,9 +60,9 @@ public class PlayerSystem : GameComponent, IAwake
                 // (2, 2), // 2 Knights
                 // (15, 1), // Agriculture
                 // TODO: Implement and add a technology cards for each of these economic buildings
-                (6, 1), // Lumber Camp
-                (10, 1), // Mining Camp
-                (13, 1), // Mill
+                (6, 2), // Lumber Camp
+                (10, 2), // Mining Camp
+                (13, 2), // Mill
             };
 
             var loadedPlayerDeck = _cardDb.LoadDeck(_match.LocalPlayer, deckInfo);
@@ -74,7 +74,7 @@ public class PlayerSystem : GameComponent, IAwake
             {
                 Actions = [
                     new ActionDefinition { ActionType = typeof(BuildStructureByIdAction).FullName, Data = "CardId=14,TargetPlayerId=Owner" },
-                    new ActionDefinition { ActionType = typeof(CreateCardAction).FullName, Data = "CardId=14,TargetPlayerId=Owner,TargetZone=Deck,Amount=3" },
+                    new ActionDefinition { ActionType = typeof(CreateCardAction).FullName, Data = "CardId=14,TargetPlayerId=Owner,TargetZone=Deck,Amount=2" },
                 ],
                 Owner = abilityCard
             };

@@ -57,7 +57,7 @@ public class ResourceSystem : GameComponent, IAwake
             float efficiencyFactor = CalculateEfficiency(garrisonAttribute.Units.Count, resourcesToCollect.Count);
 
             int remainingVillagers = garrisonAttribute.Units.Count;
-            while (remainingVillagers > 0)
+            while (remainingVillagers > 0 && resourcesToCollect.Count > 0)
             {
                 var tile = resourcesToCollect[remainingVillagers % resourcesToCollect.Count];
                 int amountCollected = Mathf.CeilToInt(tile.Yield * efficiencyFactor);

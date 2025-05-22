@@ -4,7 +4,6 @@ using MedievalConquerors.Engine;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
-using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Logging;
 using NSubstitute;
 using Shouldly;
