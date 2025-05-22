@@ -47,9 +47,9 @@ public class AISystem : GameComponent, IAwake
     {
         var playableCards = _match.CurrentPlayer.Hand
             .Where(c => _cardSystem.IsPlayable(c))
-            .OrderByDescending(c => c.CardData.CardType == CardType.Building)
-            .ThenByDescending(c => c.CardData.CardType == CardType.Unit && c.CardData.Tags.HasFlag(Tags.Economic))
-            .ThenByDescending(c => c.CardData.CardType == CardType.Unit && c.CardData.Tags.HasFlag(Tags.Military));
+            .OrderByDescending(c => c.Data.CardType == CardType.Building)
+            .ThenByDescending(c => c.Data.CardType == CardType.Unit && c.Data.Tags.HasFlag(Tags.Economic))
+            .ThenByDescending(c => c.Data.CardType == CardType.Unit && c.Data.Tags.HasFlag(Tags.Military));
 
         foreach (var card in playableCards)
         {
@@ -69,13 +69,13 @@ public class AISystem : GameComponent, IAwake
     {
         int value = 0;
 
-        if (card.CardData.CardType == CardType.Building && card.CardData.Tags.HasFlag(Tags.Economic))
+        if (card.Data.CardType == CardType.Building && card.Data.Tags.HasFlag(Tags.Economic))
             value += CalculateEconomicBuildingScore(card, tilePos);
 
-        else if (card.CardData.CardType == CardType.Unit && card.CardData.Tags.HasFlag(Tags.Economic))
+        else if (card.Data.CardType == CardType.Unit && card.Data.Tags.HasFlag(Tags.Economic))
             value += CalculateEconomicUnitScore(card, tilePos);
 
-        else if (card.CardData.CardType == CardType.Unit && card.CardData.Tags.HasFlag(Tags.Military))
+        else if (card.Data.CardType == CardType.Unit && card.Data.Tags.HasFlag(Tags.Military))
             value += CalculateMilitaryUnitScore(card, tilePos);
         return value;
     }

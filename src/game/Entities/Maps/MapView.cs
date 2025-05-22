@@ -230,7 +230,7 @@ public partial class MapView : Node2D, IGameComponent
 
 	private IEnumerator GarrisonAnimation(IGame game, GameAction action)
 	{
-		const double tweenDuration = 0.4;
+		const double tweenDuration = 0.5;
 
 		var garrisonAction = (GarrisonAction)action;
 

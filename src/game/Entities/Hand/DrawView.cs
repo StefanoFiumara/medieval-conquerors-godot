@@ -8,6 +8,10 @@ using MedievalConquerors.Engine.Events;
 
 namespace MedievalConquerors.Entities.Hand;
 
+/// <summary>
+/// Connects animations for cards entering and exiting the hand
+/// TODO: Better name for this view since this is handling both Draw AND Discard animations?
+/// </summary>
 public partial class DrawView : Node2D, IGameComponent
 {
 	private EventAggregator _events;
@@ -17,8 +21,9 @@ public partial class DrawView : Node2D, IGameComponent
 
 	public override void _EnterTree()
 	{
-		GetParent<HandView>().Game.AddComponent(this);
 		_hand = GetParent<HandView>();
+
+		_hand.Game.AddComponent(this);
 		_events = Game.GetComponent<EventAggregator>();
 	}
 
@@ -54,12 +59,9 @@ public partial class DrawView : Node2D, IGameComponent
 
 		yield return true;
 
-		discardAction.CardsToDiscard.Reverse();
-		foreach (var card in discardAction.CardsToDiscard)
+		var discardedViews = _hand.Cards.Where(v => discardAction.CardsToDiscard.Contains(v.Card)).Reverse().ToList();
+		foreach (var cardView in discardedViews)
 		{
-			var cardView = _hand.Cards.SingleOrDefault(c => c.Card == card);
-			if (cardView == null) continue;
-
 			cardView.RemoveHighlight();
 
 			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
@@ -67,10 +69,15 @@ public partial class DrawView : Node2D, IGameComponent
 			tween.TweenProperty(cardView, "position", HandView.DiscardPosition, tweenDuration);
 			tween.TweenProperty(cardView, "rotation", Mathf.Pi / 4, tweenDuration);
 			tween.TweenProperty(cardView, "scale", Vector2.One * 1.3f, tweenDuration);
+			tween.TweenProperty(cardView, "modulate:a", 0f, tweenDuration);
+			tween.Chain().TweenCallback(Callable.From(() =>
+			{
+				_hand.Cards.Remove(cardView);
+				cardView.QueueFree();
+			}));
 
+			// TODO: convert this into a tween with an interval so we can overlap the card animations a little bit
 			while (tween.IsRunning()) yield return null;
-			_hand.Cards.Remove(cardView);
-			cardView.QueueFree();
 		}
 
 		var arrangeTweens = _hand.ArrangeHandTween();

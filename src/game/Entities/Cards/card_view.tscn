@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dqc1l4x1bhauk" path="res://Entities/Cards/Portraits/agriculture.png" id="4_qyos6"]
 [ext_resource type="Texture2D" uid="uid://0uy1cqn42is3" path="res://Entities/Cards/frame_border.png" id="5_wi131"]
 [ext_resource type="FontFile" uid="uid://bnndeil6c3twa" path="res://Fonts/QUILLPN.TTF" id="6_hu4f0"]
-[ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://Entities/UI/player_gameplay_ui/resource_icons.png" id="7_356ln"]
+[ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://Entities/UI/Gameplay/resource_icons.png" id="7_356ln"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_hu4f0"]
 font = ExtResource("6_hu4f0")

@@ -10,6 +10,6 @@ public class SpawnUnitAction(Card unitToSpawn, Vector2I targetTile) : GameAction
 
     public override string ToString()
     {
-        return $"SpawnUnitAction: Player {UnitToSpawn.Owner.Id} spawns {UnitToSpawn.CardData.Title} at {TargetTile}";
+        return $"SpawnUnitAction: Player {UnitToSpawn.Owner.Id} spawns {UnitToSpawn.Data.Title} at {TargetTile}";
     }
 }

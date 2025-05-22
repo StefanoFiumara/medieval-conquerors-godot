@@ -64,17 +64,17 @@ public partial class CardView : Node2D, IClickable
 		_cardSystem = game.GetComponent<CardSystem>();
 
 		// TODO: Update title color based on card type?
-		_title.Text = Card.CardData.Title;
-		_type.Text = Card.CardData.CardType.ToString();
+		_title.Text = Card.Data.Title;
+		_type.Text = Card.Data.CardType.ToString();
 
 		// TODO: Append tags and card type to description
-		_description.Text = Card.CardData.Description;
+		_description.Text = Card.Data.Description;
 		RemoveHighlight();
 
 		// _background.Frame = _cardFrameMap.GetValueOrDefault(Card.CardData.CardType, 0);
 
-		if (ResourceUid.TextToId(card.CardData.ImagePath) != ResourceUid.InvalidId)
-			_image.Texture = GD.Load<Texture2D>(Card.CardData.ImagePath);
+		if (ResourceUid.TextToId(card.Data.ImagePath) != ResourceUid.InvalidId)
+			_image.Texture = GD.Load<Texture2D>(Card.Data.ImagePath);
 
 		if (Card.HasAttribute<ResourceCostAttribute>(out var cost))
 		{

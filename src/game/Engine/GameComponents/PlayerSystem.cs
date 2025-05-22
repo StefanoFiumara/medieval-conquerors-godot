@@ -75,6 +75,7 @@ public class PlayerSystem : GameComponent, IAwake
                 Actions = [
                     new ActionDefinition { ActionType = typeof(BuildStructureByIdAction).FullName, Data = "CardId=14,TargetPlayerId=Owner" },
                     new ActionDefinition { ActionType = typeof(CreateCardAction).FullName, Data = "CardId=14,TargetPlayerId=Owner,TargetZone=Deck,Amount=2" },
+                    new ActionDefinition { ActionType = typeof(ShuffleDeckAction).FullName, Data = "TargetPlayerId=Owner"}
                 ],
                 Owner = abilityCard
             };
@@ -94,7 +95,7 @@ public class PlayerSystem : GameComponent, IAwake
         {
             var player = card.Owner;
             // TODO: split into a separate reaction with a BanishCardsAction instead of putting this logic here
-            if(card.CardData.Id == CardLibrary.VillagerId)
+            if(card.Data.Id == CardLibrary.VillagerId)
                 player.MoveCard(card, Zone.Banished);
             else
                 player.MoveCard(card, Zone.Discard);

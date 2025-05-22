@@ -14,7 +14,8 @@
 		{"id":"207767e9c5263db5","type":"text","text":"`PerformAction`","x":-280,"y":-400,"width":250,"height":60,"color":"1"},
 		{"id":"9f8f5eae30f44425","type":"text","text":"`EndAction`","x":-280,"y":-320,"width":250,"height":60,"color":"1"},
 		{"id":"470b9dd8dd3ad5d3","type":"text","text":"`CompleteAction`","x":-280,"y":-240,"width":250,"height":60,"color":"1"},
-		{"id":"6ea6effa4e50bc1a","type":"text","text":"`ValidateAction`","x":-280,"y":-560,"width":250,"height":60,"color":"1"}
+		{"id":"6ea6effa4e50bc1a","type":"text","text":"`ValidateAction`","x":-280,"y":-560,"width":250,"height":60,"color":"1"},
+		{"id":"f17085e58ee950e1","x":-306,"y":-920,"width":276,"height":169,"type":"text","text":"# TODO: Document Event Bus"}
 	],
 	"edges":[
 		{"id":"5f485fa134ccb8fe","fromNode":"35b4c50f0aae6ccc","fromSide":"right","toNode":"1d50caa5171ce9cd","toSide":"left","color":"2"},

@@ -8,22 +8,22 @@ namespace MedievalConquerors.Engine.Data;
 
 public class Card
 {
-	public CardData CardData { get; }
+	public CardData Data { get; }
 	public Dictionary<Type, ICardAttribute> Attributes { get; }
 	public Player Owner { get; }
 	public Zone Zone { get; set; }
 	public Vector2I MapPosition { get; set; }
 
-	public Card(CardData cardData, Player owner, Zone zone = Zone.None, Vector2I mapPosition = default)
+	public Card(CardData data, Player owner, Zone zone = Zone.None, Vector2I mapPosition = default)
 	{
-		CardData = cardData;
+		Data = data;
 		Owner = owner;
 		Zone = zone;
 		MapPosition = Zone == Zone.Map ? mapPosition : HexMap.None;
 
 		Attributes = new();
 		// NOTE: Copy the card attributes from CardData into our state, so we can modify them without affecting the originals
-		foreach (var dataAttribute in CardData.Attributes)
+		foreach (var dataAttribute in Data.Attributes)
 		{
 			var attributeCopy = dataAttribute.Clone();
 			attributeCopy.Owner = this;

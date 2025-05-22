@@ -45,7 +45,7 @@ public class ResourceSystem : GameComponent, IAwake
             var garrisonAttribute = card.GetAttribute<GarrisonCapacityAttribute>();
 
             // only process garrisoned buildings with a ResourceCollector attribute
-            if (card.CardData.CardType != CardType.Building) continue;
+            if (card.Data.CardType != CardType.Building) continue;
             if (collectorAttribute == null || garrisonAttribute == null) continue;
             if (garrisonAttribute.Units.Count == 0) continue;
 

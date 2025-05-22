@@ -14,8 +14,8 @@ public class GarrisonCapacityAttribute : CardAttribute
 
     public bool CanGarrison(Card unit) =>
         Units.Count < Limit
-        && unit.CardData.Tags.HasFlag(Tags.Economic)
-        && unit.CardData.CardType == CardType.Unit;
+        && unit.Data.Tags.HasFlag(Tags.Economic)
+        && unit.Data.CardType == CardType.Unit;
 
     public void Garrison(Card unit)
     {

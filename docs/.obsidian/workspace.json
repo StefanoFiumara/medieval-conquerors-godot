@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "planned-cards-list.md",
+                "file": "game-mechanics.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "planned-cards-list"
+              "title": "game-mechanics"
             }
           }
         ]
@@ -163,19 +163,19 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "b84f13ac068a2648",
+  "active": "f1725772d736e447",
   "lastOpenFiles": [
-    "to-do.md",
     "game-design-doc.md",
-    "card-designs/economic-cards.md",
     "engine-architecture/action-system.canvas",
     "engine-architecture/game-actions.canvas",
-    "mechanics-ideas.md",
+    "game-mechanics.md",
+    "planned-cards-list.md",
+    "to-do.md",
+    "card-designs/economic-cards.md",
     "engine-architecture/Action System.canvas",
     "engine-architecture/Game State.canvas",
     "engine-architecture",
     "Untitled.md",
-    "planned-cards-list.md",
     "card-designs",
     "Welcome.md"
   ]

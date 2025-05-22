@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://2ijuki0tpf0d"]
+[gd_scene load_steps=8 format=3 uid="uid://2ijuki0tpf0d"]
 
 [ext_resource type="Script" uid="uid://brg7bevra7hws" path="res://Entities/Hand/HandView.cs" id="1_psvbr"]
 [ext_resource type="Script" uid="uid://cf2f05aqcc23" path="res://Entities/Hand/DrawView.cs" id="2_l7t5f"]
+[ext_resource type="Script" uid="uid://ja4ae05oao6" path="res://Entities/Hand/PlayCardsView.cs" id="3_veqgi"]
+[ext_resource type="Script" uid="uid://b2klv5aka30yl" path="res://Entities/Hand/CardCreationView.cs" id="4_ysnsg"]
 
 [sub_resource type="Curve" id="Curve_syyef"]
 _limits = [-1.0, 1.0, 0.0, 1.0]
@@ -27,3 +29,9 @@ _rotationCurve = SubResource("Curve_nqi6x")
 
 [node name="draw_view" type="Node2D" parent="."]
 script = ExtResource("2_l7t5f")
+
+[node name="play_view" type="Node2D" parent="."]
+script = ExtResource("3_veqgi")
+
+[node name="card_creation_view" type="Node2D" parent="."]
+script = ExtResource("4_ysnsg")

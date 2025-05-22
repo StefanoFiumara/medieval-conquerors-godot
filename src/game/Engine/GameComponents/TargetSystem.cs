@@ -45,10 +45,10 @@ public class TargetSystem : GameComponent, IAwake
             return _map.GetReachable(player.TownCenter.Position, spawnPoint.SpawnRange == 0 ? player.InfluenceRange : spawnPoint.SpawnRange).ToList();
 
         var targetCandidates = new List<Vector2I>();
-        var buildings = player.Map.Where(c => c.CardData.CardType == CardType.Building);
+        var buildings = player.Map.Where(c => c.Data.CardType == CardType.Building);
         foreach (var building in buildings)
         {
-            if (building.CardData.Tags.HasFlag(spawnPoint.SpawnTags))
+            if (building.Data.Tags.HasFlag(spawnPoint.SpawnTags))
             {
                 // TODO: We may want to pull the garrison check into an extension method, as well as other attribute checks
                 //       This is so we can just call `building.CanGarrison(source)` directly instead of using `GetAttribute`

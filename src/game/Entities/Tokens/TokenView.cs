@@ -17,8 +17,8 @@ public partial class TokenView : Node2D, IClickable
 	{
 		Card = card;
 
-		if (ResourceUid.TextToId(card.CardData.TokenImagePath) != ResourceUid.InvalidId)
-			_image.Texture = GD.Load<Texture2D>(Card.CardData.TokenImagePath);
+		if (ResourceUid.TextToId(card.Data.TokenImagePath) != ResourceUid.InvalidId)
+			_image.Texture = GD.Load<Texture2D>(Card.Data.TokenImagePath);
 
 		// NOTE: The Match Player ID matches up to the frame we want to display for this token:
 		//		0 == Local Player

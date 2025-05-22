@@ -29,7 +29,7 @@ public class TechnologySystem : GameComponent, IAwake
 
     private void OnValidatePlayCard(PlayCardAction action, ActionValidatorResult validator)
     {
-        if (action.CardToPlay.CardData.CardType == CardType.Technology && action.CardToPlay.GetAttribute<OnCardPlayedAbility>() == null)
+        if (action.CardToPlay.Data.CardType == CardType.Technology && action.CardToPlay.GetAttribute<OnCardPlayedAbility>() == null)
         {
             _logger.Warn("Attempted to validate Technology Card without ability.");
             validator.Invalidate("Technology Card does not have ability attribute.");
@@ -38,7 +38,7 @@ public class TechnologySystem : GameComponent, IAwake
 
     private void OnPerformPlayCard(PlayCardAction action)
     {
-        if (action.CardToPlay.CardData.CardType == CardType.Technology)
+        if (action.CardToPlay.Data.CardType == CardType.Technology)
         {
             var researchAction = new ResearchTechnologyAction(action.CardToPlay, action.TargetTile);
             Game.AddReaction(researchAction);

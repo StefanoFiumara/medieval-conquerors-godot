@@ -30,10 +30,10 @@ public class MapSystem : GameComponent, IAwake
 
     private void OnPerformPlayCard(PlayCardAction action)
     {
-        if (action.CardToPlay.CardData.CardType == CardType.Building)
+        if (action.CardToPlay.Data.CardType == CardType.Building)
             Game.AddReaction(new BuildStructureAction(action.CardToPlay, action.TargetTile));
 
-        else if (action.CardToPlay.CardData.CardType == CardType.Unit)
+        else if (action.CardToPlay.Data.CardType == CardType.Unit)
         {
             var tile = _map.GetTile(action.TargetTile);
 

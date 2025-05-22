@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cjocqbvli4dlx"]
 
-[ext_resource type="Script" uid="uid://b6dg1rqpebp4j" path="res://Entities/UI/turn_banner/TurnBanner.cs" id="1_t2j4n"]
+[ext_resource type="Script" uid="uid://b6dg1rqpebp4j" path="res://Entities/UI/TurnBanner/TurnBanner.cs" id="1_t2j4n"]
 [ext_resource type="FontFile" uid="uid://bnndeil6c3twa" path="res://Fonts/QUILLPN.TTF" id="2_h3oap"]
 
 [node name="turn_banner" type="Control"]
@@ -15,9 +15,9 @@ anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = 450.0
+offset_top = 430.0
 offset_right = 1920.0
-offset_bottom = 630.0
+offset_bottom = 610.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2

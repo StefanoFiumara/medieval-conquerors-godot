@@ -10,6 +10,6 @@ public class BuildStructureAction(Card structureToBuild, Vector2I targetTile) : 
 
     public override string ToString()
     {
-        return $"BuildStructureAction: Player {StructureToBuild.Owner.Id} Builds {StructureToBuild.CardData.Title} at {TargetTile}";
+        return $"BuildStructureAction: Player {StructureToBuild.Owner.Id} Builds {StructureToBuild.Data.Title} at {TargetTile}";
     }
 }
