@@ -227,6 +227,7 @@ public partial class HandView : Node2D, IGameComponent
 	public CardView CreateCardView(Card card, Vector2 position = default)
 	{
 		var cardView = _cardScene.Instantiate<CardView>();
+		cardView.ZAsRelative = false;
 		cardView.Position = position;
 
 		Cards.Add(cardView);

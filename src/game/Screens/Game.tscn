@@ -17,6 +17,7 @@ _mapView = NodePath("map_view")
 position = Vector2(947, 573)
 
 [node name="hand_view" parent="." node_paths=PackedStringArray("_mapView") instance=ExtResource("4_tgpsp")]
+z_index = 1000
 _mapView = NodePath("../map_view")
 
 [node name="ui_layer" type="CanvasLayer" parent="."]
