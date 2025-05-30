@@ -57,13 +57,13 @@ public partial class HandView : Node2D, IGameComponent
 		_settings = Game.GetComponent<IGameSettings>();
 
 		_viewport = GetViewport();
-		CalculateViewPosition();
-		_viewport.SizeChanged += CalculateViewPosition;
+		CenterView();
+		_viewport.SizeChanged += CenterView;
 	}
 
-	public override void _ExitTree() => _viewport.SizeChanged -= CalculateViewPosition;
+	public override void _ExitTree() => _viewport.SizeChanged -= CenterView;
 
-	private void CalculateViewPosition()
+	private void CenterView()
 	{
 		var visibleRect = _viewport.GetVisibleRect();
 		Scale = visibleRect.CalculateScaleFactor();
