@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Engine.Extensions;
+using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;
 

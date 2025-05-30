@@ -7,7 +7,7 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 
 using MedievalConquerors.Engine.Events;
-using MedievalConquerors.Engine.Extensions;
+using MedievalConquerors.Extensions;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Engine.GameComponents;

@@ -2,8 +2,8 @@ using Godot;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Engine.Extensions;
 using MedievalConquerors.Engine.Input;
+using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Tokens;
 

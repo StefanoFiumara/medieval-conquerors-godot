@@ -7,7 +7,7 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 
 using MedievalConquerors.Engine.Events;
-using MedievalConquerors.Engine.Extensions;
+using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Engine.GameComponents;
 

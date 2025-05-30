@@ -2,8 +2,8 @@
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Engine.Extensions;
 using MedievalConquerors.Engine.GameComponents;
+using MedievalConquerors.Extensions;
 using Shouldly;
 
 namespace MedievalConquerors.Tests.Engine.GameSystemTests;

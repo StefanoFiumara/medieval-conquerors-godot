@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Engine.Extensions;
 using MedievalConquerors.Engine.StateManagement;
 using MedievalConquerors.Entities.Editor.EditorStates;
+using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;
 
@@ -12,7 +12,7 @@ public partial class CardDataEditor : ScrollContainer
 {
 	[Export] private LibraryEditor _libraryEditor;
 
-	// TODO: Remove internal exports, link children via node paths/uids
+	// TODO: Remove internal exports, link children via node paths in _EnterTree
 	[Export] private RichTextLabel _panelTitle;
 
 	[Export] private Button _newButton;

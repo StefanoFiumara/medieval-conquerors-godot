@@ -1,4 +1,4 @@
-using MedievalConquerors.Engine.Extensions;
+using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor.EditorStates;
 

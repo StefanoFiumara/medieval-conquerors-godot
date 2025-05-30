@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://b7rdfip0s4fyf"]
 
-[ext_resource type="Script" uid="uid://vj4kp50aw2ya" path="res://entities/editor/card_data_editor/CardDataEditor.cs" id="1_sh3r2"]
-[ext_resource type="Script" uid="uid://0xeajluhirkr" path="res://entities/editor/CardTypeOptions.cs" id="2_87lta"]
-[ext_resource type="PackedScene" uid="uid://bh6f2471u0ypf" path="res://entities/editor/image_selector.tscn" id="2_ildny"]
-[ext_resource type="Script" uid="uid://dbl7fs61kt85q" path="res://entities/editor/TagOptions.cs" id="3_yh4g2"]
-[ext_resource type="Script" uid="uid://bma7j88rjty3d" path="res://entities/editor/AttributeOptions.cs" id="4_pbjlj"]
+[ext_resource type="Script" uid="uid://vj4kp50aw2ya" path="res://Entities/Editor/CardDataEditor/CardDataEditor.cs" id="1_sh3r2"]
+[ext_resource type="Script" uid="uid://0xeajluhirkr" path="res://Entities/Editor/CardTypeOptions.cs" id="2_87lta"]
+[ext_resource type="PackedScene" uid="uid://bh6f2471u0ypf" path="res://Entities/Editor/image_selector.tscn" id="2_ildny"]
+[ext_resource type="Script" uid="uid://dbl7fs61kt85q" path="res://Entities/Editor/TagOptions.cs" id="3_yh4g2"]
+[ext_resource type="Script" uid="uid://bma7j88rjty3d" path="res://Entities/Editor/AttributeOptions.cs" id="4_pbjlj"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2uco"]
 

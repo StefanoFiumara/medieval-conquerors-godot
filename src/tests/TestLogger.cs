@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using MedievalConquerors.Engine.Core;
-using MedievalConquerors.Engine.Extensions;
 using MedievalConquerors.Engine.Logging;
+using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Tests;
 

@@ -2,7 +2,7 @@ using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Entities.UI;
 
-namespace MedievalConquerors.Engine.Extensions;
+namespace MedievalConquerors.Extensions;
 
 public static class PopupExtensions
 {

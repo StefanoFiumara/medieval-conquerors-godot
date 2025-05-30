@@ -1,6 +1,6 @@
 ﻿using MedievalConquerors.Engine.Logging;
 
-namespace MedievalConquerors.Engine.Extensions;
+namespace MedievalConquerors.Extensions;
 
 public static class LoggerExtensions
 {

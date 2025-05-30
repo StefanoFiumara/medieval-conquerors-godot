@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.Engine.Extensions;
+namespace MedievalConquerors.Extensions;
 
 public static class TextColorExtensions
 {

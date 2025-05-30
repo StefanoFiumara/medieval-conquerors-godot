@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace MedievalConquerors.Engine.Extensions;
+namespace MedievalConquerors.Extensions;
 
 public static class TextExtensions
 {
