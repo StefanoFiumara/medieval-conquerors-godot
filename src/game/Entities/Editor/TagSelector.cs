@@ -6,10 +6,10 @@ using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Entities.Editor;
 
-public partial class TagOptions : GridContainer
+public partial class TagSelector : GridContainer
 {
 	private readonly Dictionary<Tags, CheckBox> _tagSelectors = new();
-	
+
 	public event Action TagsChanged;
 
 	public Tags SelectedTags
@@ -82,7 +82,7 @@ public partial class TagOptions : GridContainer
 				checkBox.Toggled -= OnTagsChanged;
 				checkBox.QueueFree();
 			}
-			
+
 			_tagSelectors.Clear();
 		}
 	}

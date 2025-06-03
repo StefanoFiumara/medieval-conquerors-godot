@@ -31,6 +31,11 @@ public partial class AttributeEditor : PanelContainer
 		_removeButton.Pressed -= OnRemovePressed;
 	}
 
+	private void OnRemovePressed()
+	{
+		RemovePressed?.Invoke();
+	}
+
 	public void Load(ICardAttribute attribute)
 	{
 		_titleLabel.Text = attribute.GetType().Name.PrettyPrint().Replace("Attribute", string.Empty);
@@ -42,15 +47,10 @@ public partial class AttributeEditor : PanelContainer
 
 		foreach (var prop in props)
 		{
-			var propEditor = _propertyEditor.Instantiate<AttributePropertyEditor>();
+			var propEditor = _propertyEditor.Instantiate<PropertyEditor>();
 			_propertiesContainer.AddChild(propEditor);
 
 			propEditor.Load(attribute, prop);
 		}
-	}
-
-	private void OnRemovePressed()
-	{
-		RemovePressed?.Invoke();
 	}
 }

@@ -12,8 +12,7 @@ public partial class CardDataEditor : ScrollContainer
 {
 	[Export] private LibraryEditor _libraryEditor;
 
-	// TODO: Remove internal exports, link children via node paths in _EnterTree
-	[Export] private RichTextLabel _panelTitle;
+	[Export] private RichTextLabel _statusLabel;
 
 	[Export] private Button _newButton;
 	[Export] private Button _saveButton;
@@ -22,10 +21,10 @@ public partial class CardDataEditor : ScrollContainer
 	[Export] private LineEdit _cardTitle;
 	[Export] private TextEdit _description;
 
-	[Export] private ImageSelector _imageSelector;
-	[Export] private CardTypeOptions _cardTypeOptions;
-	[Export] private TagOptions _tagOptions;
-	[Export] private AttributeOptions _attributeSelector;
+	[Export] private ImageSelector _portraitSelector;
+	[Export] private CardTypeOptions _cardTypeSelector;
+	[Export] private TagSelector _tagSelector;
+	[Export] private AttributeOptions _newAttributeSelector;
 	[Export] private Button _addAttributeButton;
 
 	[Export] private VBoxContainer _attributesContainer;
@@ -39,15 +38,19 @@ public partial class CardDataEditor : ScrollContainer
 		get => _loadedData;
 		private set
 		{
-			_loadedData = value;
+			_loadedData = null;
 			Reset();
+			_loadedData = value;
+
 			if (value != null)
 			{
 				_cardTitle.Text = _loadedData.Title;
 				_description.Text = _loadedData.Description;
-				_cardTypeOptions.SelectedOption = _loadedData.CardType;
-				_tagOptions.SelectedTags = _loadedData.Tags;
-				_imageSelector.SelectedImageUid = _loadedData.ImagePath;
+
+				_cardTypeSelector.SelectedOption = _loadedData.CardType;
+
+				_tagSelector.SelectedTags = _loadedData.Tags;
+				_portraitSelector.SelectedImageUid = _loadedData.ImagePath;
 
 				foreach (var attr in value.Attributes)
 					CreateAttributeEditor(attr);
@@ -64,27 +67,52 @@ public partial class CardDataEditor : ScrollContainer
 		}
 	}
 
+	public override void _EnterTree()
+	{
+		_newAttributeSelector.ItemSelected += OnNewAttributeSelected;
+
+		_addAttributeButton.Pressed += CreateNewAttribute;
+		_saveButton.Pressed += SaveCardResource;
+		_newButton.Pressed += CreateNewCard;
+		_deleteButton.Pressed += DeleteLoadedCard;
+
+		_cardTitle.TextChanged += CardTitleChanged;
+		_description.TextChanged += CardDescriptionChanged;
+
+		_cardTypeSelector.ItemSelected += OnCardTypeSelected;
+		_tagSelector.TagsChanged += OnTagsChanged;
+
+		_portraitSelector.ImageSelected += OnPortraitSelected;
+	}
+
+	public override void _ExitTree()
+	{
+		_newAttributeSelector.ItemSelected -= OnNewAttributeSelected;
+
+		_addAttributeButton.Pressed -= CreateNewAttribute;
+		_saveButton.Pressed -= SaveCardResource;
+		_newButton.Pressed -= CreateNewCard;
+		_deleteButton.Pressed -= DeleteLoadedCard;
+
+		_cardTitle.TextChanged -= CardTitleChanged;
+		_description.TextChanged -= CardDescriptionChanged;
+
+		_cardTypeSelector.ItemSelected -= OnCardTypeSelected;
+		_tagSelector.TagsChanged -= OnTagsChanged;
+
+		_portraitSelector.ImageSelected -= OnPortraitSelected;
+	}
+
 	public override void _Ready()
 	{
 		_attributeEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
 
 		LoadedData = null;
 		_stateMachine = new StateMachine(new NoDataState(this));
+
+		// TODO: is it possible to subscribe in EnterTree? Library editor probably will not exist yet
+		//		Maybe a different way of setting up this communication
 		_libraryEditor.SearchResultClicked += card => LoadedData = card;
-	}
-
-	public override void _EnterTree()
-	{
-		_attributeSelector.ItemSelected += OnAttributeSelectorItemSelected;
-		_addAttributeButton.Pressed += CreateNewAttribute;
-		_saveButton.Pressed += SaveCardResource;
-		_newButton.Pressed += CreateNewCard;
-		_deleteButton.Pressed += DeleteLoadedCard;
-	}
-
-	public void SetTitle(string title)
-	{
-		_panelTitle.Text = title;
 	}
 
 	public void Enable()
@@ -92,11 +120,11 @@ public partial class CardDataEditor : ScrollContainer
 		_saveButton.Disabled = false;
 		_cardTitle.Editable = true;
 		_description.Editable = true;
-		_cardTypeOptions.Disabled = false;
-		_attributeSelector.Disabled = false;
-		_addAttributeButton.Disabled = _attributeSelector.Selected == 0;
-		_imageSelector.Disabled = false;
-		_tagOptions.Enable();
+		_cardTypeSelector.Disabled = false;
+		_newAttributeSelector.Disabled = false;
+		_addAttributeButton.Disabled = _newAttributeSelector.Selected == 0;
+		_portraitSelector.Disabled = false;
+		_tagSelector.Enable();
 	}
 
 	public void Disable()
@@ -104,33 +132,70 @@ public partial class CardDataEditor : ScrollContainer
 		_saveButton.Disabled = true;
 		_cardTitle.Editable = false;
 		_description.Editable = false;
-		_cardTypeOptions.Disabled = true;
-		_tagOptions.Disable();
-		_attributeSelector.Disabled = true;
+		_cardTypeSelector.Disabled = true;
+		_tagSelector.Disable();
+		_newAttributeSelector.Disabled = true;
 		_addAttributeButton.Disabled = true;
-		_imageSelector.Disabled = true;
+		_portraitSelector.Disabled = true;
 	}
 
-	private void OnAttributeSelectorItemSelected(long i)
-	{
-		var selectedText = _attributeSelector.GetItemText((int)i);
-		_addAttributeButton.Disabled = selectedText == "None" || LoadedData?.Attributes.Any(a => a.GetType().Name == selectedText) == true;
-	}
+	public void SetStatus(string status) => _statusLabel.Text = status;
 
 	private void Reset()
 	{
+		// we may be able to remove some of this
 		_cardTitle.Text = string.Empty;
 		_description.Text = string.Empty;
-		_cardTypeOptions.SelectedOption = CardType.None;
-		_tagOptions.SelectedTags = Tags.None;
+		_cardTypeSelector.SelectedOption = CardType.None;
+		_tagSelector.SelectedTags = Tags.None;
 
 		var attributeControls = _attributesContainer.GetChildren();
 
 		foreach (var control in attributeControls)
 			control.QueueFree();
 
-		_attributeSelector.Select(0);
-		OnAttributeSelectorItemSelected(0);
+		_newAttributeSelector.Select(0);
+		OnNewAttributeSelected(0);
+	}
+
+	// TODO: Better way to bind this data to loaded data?
+	private void CardTitleChanged(string newTitle)
+	{
+		if (_loadedData != null)
+			_loadedData.Title = newTitle;
+	}
+
+	private void CardDescriptionChanged()
+	{
+		if(_loadedData != null)
+			_loadedData.Description = _description.Text;
+	}
+
+	private void OnCardTypeSelected(long index)
+	{
+		if (_loadedData != null)
+			_loadedData.CardType = _cardTypeSelector.SelectedOption;
+	}
+
+	private void OnTagsChanged()
+	{
+		if (_loadedData != null)
+			_loadedData.Tags = _tagSelector.SelectedTags;
+	}
+
+	private void OnPortraitSelected()
+	{
+		if (_loadedData != null)
+		{
+			_loadedData.ImagePath = _portraitSelector.SelectedImageUid;
+			_loadedData.TokenImagePath = _portraitSelector.SelectedTokenUid;
+		}
+	}
+
+	private void OnNewAttributeSelected(long itemIndex)
+	{
+		var selectedText = _newAttributeSelector.GetItemText((int)itemIndex);
+		_addAttributeButton.Disabled = selectedText == "None" || LoadedData?.Attributes.Any(a => a.GetType().Name == selectedText) == true;
 	}
 
 	private void CreateNewCard()
@@ -143,13 +208,13 @@ public partial class CardDataEditor : ScrollContainer
 
 	private void CreateNewAttribute()
 	{
-		var attr = _attributeSelector.CreateSelected();
+		var attr = _newAttributeSelector.CreateSelected();
 		LoadedData.Attributes.Add(attr);
 
 		CreateAttributeEditor(attr);
 
-		_attributeSelector.Select(0);
-		OnAttributeSelectorItemSelected(0);
+		_newAttributeSelector.Select(0);
+		OnNewAttributeSelected(0);
 	}
 
 	private void CreateAttributeEditor(ICardAttribute attr)
@@ -168,6 +233,7 @@ public partial class CardDataEditor : ScrollContainer
 
 	private void DeleteLoadedCard()
 	{
+		// TODO: Implement confirmation to prevent misclicks
 		using var database = new CardDatabase();
 		database.DeleteCardData(LoadedData);
 
@@ -175,23 +241,12 @@ public partial class CardDataEditor : ScrollContainer
 		_stateMachine.ChangeState(new NoDataState(this));
 	}
 
-	private void UpdateLoadedResourceFromEditor()
-	{
-		// TODO: set up auto update of these basic properties so that this method can be removed
-		LoadedData.Title = _cardTitle.Text.Trim();
-		LoadedData.Description = _description.Text.Trim();
-		LoadedData.CardType = _cardTypeOptions.SelectedOption;
-		LoadedData.Tags = _tagOptions.SelectedTags;
-		LoadedData.ImagePath = _imageSelector.SelectedImageUid;
-		LoadedData.TokenImagePath = _imageSelector.SelectedTokenUid;
-		//NOTE: Attributes are automatically updated
-	}
-
 	private void SaveCardResource()
 	{
 		if (LoadedData == null) return;
 
-		UpdateLoadedResourceFromEditor();
+		LoadedData.Title = LoadedData.Title.Trim();
+		LoadedData.Description = LoadedData.Description.Trim();
 
 		try
 		{
@@ -206,14 +261,5 @@ public partial class CardDataEditor : ScrollContainer
 			GD.PrintErr("Failed to save Card Data");
 			GD.PrintErr(e.ToString());
 		}
-	}
-
-	public override void _ExitTree()
-	{
-		_attributeSelector.ItemSelected -= OnAttributeSelectorItemSelected;
-		_addAttributeButton.Pressed -= CreateNewAttribute;
-		_saveButton.Pressed -= SaveCardResource;
-		_newButton.Pressed -= CreateNewCard;
-		_deleteButton.Pressed -= DeleteLoadedCard;
 	}
 }

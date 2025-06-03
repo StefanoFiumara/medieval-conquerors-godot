@@ -10,7 +10,7 @@ public partial class LibraryEditor : ScrollContainer
 {
 	[Export] private Button _clearButton;
 	[Export] private LineEdit _searchInput;
-	[Export] private TagOptions _tagFilter;
+	[Export] private TagSelector _tagFilter;
 	[Export] private CardTypeOptions _typeFilter;
 	[Export] private ItemList _resultsContainer;
 

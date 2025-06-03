@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bxlv4w3wwtsro"]
 
-[ext_resource type="Script" uid="uid://x85002jm1pxs" path="res://entities/editor/attribute_editor/AttributeEditor.cs" id="1_lefwh"]
+[ext_resource type="Script" uid="uid://x85002jm1pxs" path="res://Entities/Editor/AttributeEditor/AttributeEditor.cs" id="1_lefwh"]
 
 [node name="attribute_editor" type="PanelContainer" node_paths=PackedStringArray("_titleLabel", "_propertiesContainer", "_removeButton")]
 anchors_preset = 15

@@ -6,7 +6,7 @@ public class CreatingNewCardState(CardDataEditor editor) : EditorState(editor)
 {
     public override void Enter()
     {
-        Editor.SetTitle("New Card".Orange().Italics());
+        Editor.SetStatus("New Card".Orange().Italics());
         Editor.Enable();
     }
 

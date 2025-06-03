@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,8 @@ public partial class ImageSelector : HBoxContainer
 	[Export] private Button _refreshButton;
 
 	private List<string> _portraitPaths;
+
+	public event Action ImageSelected;
 
 	public string SelectedImageUid
 	{
@@ -39,6 +42,8 @@ public partial class ImageSelector : HBoxContainer
 			{
 				_imageOptions?.Select(0);
 			}
+
+			ImageSelected?.Invoke();
 		}
 	}
 

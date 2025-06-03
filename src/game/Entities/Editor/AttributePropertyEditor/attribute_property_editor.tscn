@@ -1,66 +1,32 @@
-[gd_scene load_steps=4 format=3 uid="uid://bti603u6u2oh"]
+[gd_scene load_steps=2 format=3 uid="uid://bti603u6u2oh"]
 
-[ext_resource type="Script" uid="uid://d1fqgw5g2qjpw" path="res://entities/editor/attribute_property_editor/AttributePropertyEditor.cs" id="1_oym1g"]
-[ext_resource type="Script" uid="uid://dbl7fs61kt85q" path="res://entities/editor/TagOptions.cs" id="2_ub8t2"]
-[ext_resource type="Script" uid="uid://jcshs4t7y5lp" path="res://entities/editor/ResourceOptions.cs" id="3_1b7ym"]
+[ext_resource type="Script" uid="uid://d1fqgw5g2qjpw" path="res://Entities/Editor/AttributePropertyEditor/PropertyEditor.cs" id="1_oym1g"]
 
-[node name="attribute_property_editor" type="HBoxContainer" node_paths=PackedStringArray("_titleLabel", "_intEditor", "_strEditor", "_tagsEditor", "_resourceEditor")]
-theme_override_constants/separation = 15
+[node name="attribute_property_editor" type="CenterContainer"]
+offset_right = 168.0
+offset_bottom = 33.0
 script = ExtResource("1_oym1g")
-_titleLabel = NodePath("property_label")
-_intEditor = NodePath("property_editor_int")
-_strEditor = NodePath("property_editor_str")
-_tagsEditor = NodePath("property_tags_editor")
-_resourceEditor = NodePath("resource_picker")
 
-[node name="property_label" type="Label" parent="."]
-custom_minimum_size = Vector2(185, 0)
+[node name="margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+
+[node name="container" type="HBoxContainer" parent="margin"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="label_margin" type="MarginContainer" parent="margin/container"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="property_label" type="Label" parent="margin/container/label_margin"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
-theme_override_colors/font_color = Color(0.380392, 0.882353, 1, 1)
-text = "Storage Limit Increase:"
+theme_override_colors/font_color = Color(0.335587, 1, 0.531526, 1)
+text = "Property Name:"
 horizontal_alignment = 2
-
-[node name="property_editor_int" type="SpinBox" parent="."]
-visible = false
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-step = 0.1
-custom_arrow_step = 0.1
-
-[node name="property_editor_str" type="LineEdit" parent="."]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-
-[node name="property_tags_editor" type="GridContainer" parent="."]
-visible = false
-layout_mode = 2
-size_flags_vertical = 0
-columns = 2
-script = ExtResource("2_ub8t2")
-
-[node name="resource_picker" type="OptionButton" parent="."]
-visible = false
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-selected = 0
-item_count = 6
-popup/item_0/text = "None"
-popup/item_0/id = 0
-popup/item_1/text = "Food"
-popup/item_1/id = 1
-popup/item_2/text = "Wood"
-popup/item_2/id = 2
-popup/item_3/text = "Gold"
-popup/item_3/id = 4
-popup/item_4/text = "Stone"
-popup/item_4/id = 8
-popup/item_5/text = "Mining"
-popup/item_5/id = 12
-script = ExtResource("3_1b7ym")
+vertical_alignment = 1
