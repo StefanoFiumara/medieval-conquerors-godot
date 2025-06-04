@@ -1,16 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using Godot;
+using Range = Godot.Range;
 
 namespace MedievalConquerors.Entities.Editor.PropertyEditors;
 
 public static class DataBindingExtensions
 {
+    private record SignalConnection(StringName Signal, Callable Callable);
+    private static readonly Dictionary<Control, SignalConnection> _activeBindings = new();
+
     public static void Bind<TProperty>(this SpinBox editor, object owner, Expression<Func<TProperty>> propertyExpression)
     {
-        var prop = GetPropertyInfo(propertyExpression);
+        RemoveBinding(editor);
 
+        var prop = GetPropertyInfo(propertyExpression);
         if (prop.PropertyType == typeof(int))
         {
             editor.Rounded = true;
@@ -18,59 +24,68 @@ public static class DataBindingExtensions
             editor.CustomArrowStep = 1;
         }
 
-        // Set initial value from property
         if (prop.GetValue(owner) is int currentValue)
             editor.Value = currentValue;
 
-        editor.TreeEntered += () => editor.ValueChanged += OnValueChanged;
-        editor.TreeExiting += () => editor.ValueChanged -= OnValueChanged;
-        return;
-
-        void OnValueChanged(double value)
+        var callable = Callable.From<double>(value =>
         {
-            if(owner != null)
-                prop.SetValue(owner, (int) value);
-        }
+            if (owner != null)
+                prop.SetValue(owner, (int)value);
+        });
+
+        editor.Connect(Range.SignalName.ValueChanged, callable);
+        _activeBindings[editor] = new(Range.SignalName.ValueChanged, callable);
     }
 
     public static void Bind<TProperty>(this LineEdit editor, object owner, Expression<Func<TProperty>> propertyExpression)
     {
-        var prop = GetPropertyInfo(propertyExpression);
+        RemoveBinding(editor);
 
+        var prop = GetPropertyInfo(propertyExpression);
         if (prop.GetValue(owner) is string currentValue)
         {
             editor.Text = currentValue;
         }
 
-        editor.TreeEntered += () => editor.TextChanged += OnTextChanged;
-        editor.TreeExiting += () => editor.TextChanged -= OnTextChanged;
-        return;
-
-        void OnTextChanged(string text)
+        var callable = Callable.From<string>(text =>
         {
-            if(owner != null)
+            if (owner != null)
                 prop.SetValue(owner, text);
-        }
+        });
+
+        editor.Connect(LineEdit.SignalName.TextChanged, callable);
+        _activeBindings[editor] = new(LineEdit.SignalName.TextChanged, callable);
     }
 
     public static void Bind<TProperty>(this TextEdit editor, object owner, Expression<Func<TProperty>> propertyExpression)
     {
-        var prop = GetPropertyInfo(propertyExpression);
+        RemoveBinding(editor);
 
+        var prop = GetPropertyInfo(propertyExpression);
         if (prop.GetValue(owner) is string currentValue)
         {
             editor.Text = currentValue;
         }
 
-        editor.TreeEntered += () => editor.TextChanged += OnTextChanged;
-        editor.TreeExiting += () => editor.TextChanged -= OnTextChanged;
-        return;
-
-        void OnTextChanged()
+        // Connect to the text_changed signal
+        var callable = Callable.From(() =>
         {
-            if(owner != null)
+            if (owner != null)
                 prop.SetValue(owner, editor.Text);
-        }
+        });
+
+        editor.Connect(TextEdit.SignalName.TextChanged, callable);
+        _activeBindings[editor] = new(TextEdit.SignalName.TextChanged, callable);
+    }
+
+    private static void RemoveBinding(Control control)
+    {
+        if (!_activeBindings.TryGetValue(control, out var connection)) return;
+
+        if (control.IsConnected(connection.Signal, connection.Callable))
+            control.Disconnect(connection.Signal, connection.Callable);
+
+        _activeBindings.Remove(control);
     }
 
     private static PropertyInfo GetPropertyInfo<TProperty>(Expression<Func<TProperty>> propertyExpression)
