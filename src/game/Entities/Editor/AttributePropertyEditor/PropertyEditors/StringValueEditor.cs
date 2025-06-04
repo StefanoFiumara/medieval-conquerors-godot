@@ -16,8 +16,6 @@ public partial class StringValueEditor : PanelContainer, IValueEditor
         _attribute = attribute;
         _property = propertyInfo;
 
-        // TODO: Assert _property.PropertyType == typeof(string)
-
         _editor = new LineEdit { Text = (string)propertyInfo.GetValue(attribute) ?? string.Empty };
         _editor.TextChanged += OnTextChanged;
 

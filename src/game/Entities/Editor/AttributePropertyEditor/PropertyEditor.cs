@@ -29,6 +29,8 @@ public partial class PropertyEditor : CenterContainer
 
 		_propertyLabel.Text = $"{prop.Name.PrettyPrint()}:";
 
+		// TODO: Update to use data binding
+		//		Perhaps this property editor class will not be needed after the data binding framework is properly defined?
 		var editor = PropertyEditorFactory.CreateEditor(attr, prop);
 
 		if (editor != null)
