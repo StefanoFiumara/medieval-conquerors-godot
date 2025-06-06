@@ -14,7 +14,7 @@ public interface IValueEditor
 
 public static class PropertyEditorFactory
 {
-    private static readonly Dictionary<Type, Type> EditorRegistry = new();
+    private static readonly Dictionary<Type, Type> _editorRegistry = new();
 
     static PropertyEditorFactory()
     {
@@ -33,12 +33,12 @@ public static class PropertyEditorFactory
         if (!typeof(IValueEditor).IsAssignableFrom(editorType))
             throw new ArgumentException($"Editor type must implement IValueEditor: {editorType}");
 
-        EditorRegistry[propertyType] = editorType;
+        _editorRegistry[propertyType] = editorType;
     }
 
     public static IValueEditor CreateEditor(ICardAttribute attribute, PropertyInfo propertyInfo)
     {
-        if (EditorRegistry.TryGetValue(propertyInfo.PropertyType, out var editorType))
+        if (_editorRegistry.TryGetValue(propertyInfo.PropertyType, out var editorType))
         {
             var editor = (IValueEditor)Activator.CreateInstance(editorType);
             editor!.Initialize(attribute, propertyInfo);

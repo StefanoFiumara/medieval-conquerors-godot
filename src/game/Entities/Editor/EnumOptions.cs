@@ -17,12 +17,10 @@ public partial class EnumOptions<T> : OptionButton
 
     public override void _Ready()
     {
-        _options = Enum.GetValues<T>().OrderBy(t => Convert.ToInt32(t)).ToList();
-
         Clear();
+
+        _options = Enum.GetValues<T>().OrderBy(t => Convert.ToInt32(t)).ToList();
         foreach (var type in _options)
-        {
             AddItem(type.ToString(), Convert.ToInt32(type));
-        }
     }
 }

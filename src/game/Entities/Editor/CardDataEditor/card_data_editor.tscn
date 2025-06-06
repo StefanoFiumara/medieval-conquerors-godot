@@ -51,6 +51,7 @@ text = "[i][color=red]No Card Data Loaded[/color][/i]"
 fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
+horizontal_alignment = 2
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 

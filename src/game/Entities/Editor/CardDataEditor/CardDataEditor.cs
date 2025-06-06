@@ -4,6 +4,7 @@ using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.StateManagement;
 using MedievalConquerors.Entities.Editor.EditorStates;
+using MedievalConquerors.Entities.Editor.PropertyEditors;
 using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;
@@ -93,6 +94,8 @@ public partial class CardDataEditor : ScrollContainer
 		_saveButton.Pressed -= SaveCardResource;
 		_newButton.Pressed -= CreateNewCard;
 		_deleteButton.Pressed -= DeleteLoadedCard;
+
+		_cardTitle.Bind(LoadedData, data => data.Title);
 
 		_cardTitle.TextChanged -= CardTitleChanged;
 		_description.TextChanged -= CardDescriptionChanged;

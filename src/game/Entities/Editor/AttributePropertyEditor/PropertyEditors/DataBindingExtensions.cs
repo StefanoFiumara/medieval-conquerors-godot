@@ -12,7 +12,7 @@ public static class DataBindingExtensions
     private record SignalConnection(StringName Signal, Callable Callable);
     private static readonly Dictionary<Control, SignalConnection> _activeBindings = new();
 
-    public static void Bind<TProperty>(this SpinBox editor, object owner, Expression<Func<TProperty>> propertyExpression)
+    public static void Bind<TOwner, TProperty>(this SpinBox editor, TOwner owner, Expression<Func<TOwner, TProperty>> propertyExpression)
     {
         RemoveBinding(editor);
 
@@ -37,7 +37,7 @@ public static class DataBindingExtensions
         _activeBindings[editor] = new(Range.SignalName.ValueChanged, callable);
     }
 
-    public static void Bind<TProperty>(this LineEdit editor, object owner, Expression<Func<TProperty>> propertyExpression)
+    public static void Bind<TOwner, TProperty>(this LineEdit editor, TOwner owner, Expression<Func<TOwner, TProperty>> propertyExpression)
     {
         RemoveBinding(editor);
 
@@ -57,7 +57,7 @@ public static class DataBindingExtensions
         _activeBindings[editor] = new(LineEdit.SignalName.TextChanged, callable);
     }
 
-    public static void Bind<TProperty>(this TextEdit editor, object owner, Expression<Func<TProperty>> propertyExpression)
+    public static void Bind<TOwner, TProperty>(this TextEdit editor, TOwner owner, Expression<Func<TOwner, TProperty>> propertyExpression)
     {
         RemoveBinding(editor);
 
@@ -88,7 +88,7 @@ public static class DataBindingExtensions
         _activeBindings.Remove(control);
     }
 
-    private static PropertyInfo GetPropertyInfo<TProperty>(Expression<Func<TProperty>> propertyExpression)
+    private static PropertyInfo GetPropertyInfo<TOwner, TProperty>(Expression<Func<TOwner, TProperty>> propertyExpression)
     {
         if (propertyExpression.Body is MemberExpression { Member: PropertyInfo propertyInfo })
             return propertyInfo;
