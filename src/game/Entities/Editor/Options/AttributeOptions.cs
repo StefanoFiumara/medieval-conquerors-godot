@@ -4,7 +4,7 @@ using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.Entities.Editor;
+namespace MedievalConquerors.Entities.Editor.Options;
 
 public partial class AttributeOptions : OptionButton
 {
@@ -14,7 +14,7 @@ public partial class AttributeOptions : OptionButton
 		_attributeTypeMap = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
 			.Where(t => t.IsClass && !t.IsAbstract && t.GetInterfaces().Contains(typeof(ICardAttribute)))
 			.ToDictionary(t => t.Name, t => t);
-		
+
 		Clear();
 		AddItem("None");
 		foreach (var attr in _attributeTypeMap.Keys)

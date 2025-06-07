@@ -2,7 +2,7 @@
 using Godot;
 using MedievalConquerors.DataBinding;
 
-namespace MedievalConquerors.Entities.Editor.PropertyEditors;
+namespace MedievalConquerors.Entities.Editor.ValueEditors;
 
 public partial class StringValueEditor : PanelContainer, IValueEditor
 {

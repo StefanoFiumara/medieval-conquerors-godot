@@ -11,7 +11,7 @@ public partial class LibraryEditor : ScrollContainer
 	[Export] private Button _clearButton;
 	[Export] private LineEdit _searchInput;
 	[Export] private TagSelector _tagFilter;
-	[Export] private CardTypeOptions _typeFilter;
+	[Export] private Options.CardTypeOptions _typeFilter;
 	[Export] private ItemList _resultsContainer;
 
 	public event Action<CardData> SearchResultClicked;

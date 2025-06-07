@@ -10,7 +10,8 @@ public partial class TagSelector : GridContainer
 {
 	private readonly Dictionary<Tags, CheckBox> _tagSelectors = new();
 
-	public event Action TagsChanged;
+	[Signal]
+	public delegate void TagsChangedEventHandler();
 
 	public Tags SelectedTags
 	{
@@ -33,7 +34,7 @@ public partial class TagSelector : GridContainer
 				{
 					tagSelector.Value.ButtonPressed = value.HasFlag(tagSelector.Key);
 				}
-				TagsChanged?.Invoke();
+				EmitSignal(nameof(TagsChangedEventHandler));
 			}
 		}
 	}
@@ -54,7 +55,7 @@ public partial class TagSelector : GridContainer
 
 	private void OnTagsChanged(bool toggled)
 	{
-		TagsChanged?.Invoke();
+		EmitSignal(nameof(TagsChangedEventHandler));
 	}
 
 	public void Enable()

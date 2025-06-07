@@ -5,7 +5,6 @@ using MedievalConquerors.DataBinding;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.StateManagement;
 using MedievalConquerors.Entities.Editor.EditorStates;
-using MedievalConquerors.Entities.Editor.PropertyEditors;
 using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;
@@ -24,9 +23,9 @@ public partial class CardDataEditor : ScrollContainer
 	[Export] private TextEdit _description;
 
 	[Export] private ImageSelector _portraitSelector;
-	[Export] private CardTypeOptions _cardTypeSelector;
+	[Export] private Options.CardTypeOptions _cardTypeSelector;
 	[Export] private TagSelector _tagSelector;
-	[Export] private AttributeOptions _newAttributeSelector;
+	[Export] private Options.AttributeOptions _newAttributeSelector;
 	[Export] private Button _addAttributeButton;
 
 	[Export] private VBoxContainer _attributesContainer;
@@ -48,8 +47,8 @@ public partial class CardDataEditor : ScrollContainer
 			{
 				_cardTitle.Bind(LoadedData, data => data.Title);
 				_description.Bind(LoadedData, data => data.Description);
-
-				_cardTypeSelector.SelectedOption = _loadedData.CardType;
+				_cardTypeSelector.Bind(LoadedData, data => data.CardType);
+				_tagSelector.Bind(LoadedData, data => data.Tags);
 
 				_tagSelector.SelectedTags = _loadedData.Tags;
 				_portraitSelector.SelectedImageUid = _loadedData.ImagePath;
@@ -78,9 +77,6 @@ public partial class CardDataEditor : ScrollContainer
 		_newButton.Pressed += CreateNewCard;
 		_deleteButton.Pressed += DeleteLoadedCard;
 
-		_cardTypeSelector.ItemSelected += OnCardTypeSelected;
-		_tagSelector.TagsChanged += OnTagsChanged;
-
 		_portraitSelector.ImageSelected += OnPortraitSelected;
 	}
 
@@ -92,9 +88,6 @@ public partial class CardDataEditor : ScrollContainer
 		_saveButton.Pressed -= SaveCardResource;
 		_newButton.Pressed -= CreateNewCard;
 		_deleteButton.Pressed -= DeleteLoadedCard;
-
-		_cardTypeSelector.ItemSelected -= OnCardTypeSelected;
-		_tagSelector.TagsChanged -= OnTagsChanged;
 
 		_portraitSelector.ImageSelected -= OnPortraitSelected;
 	}
@@ -155,18 +148,6 @@ public partial class CardDataEditor : ScrollContainer
 	}
 
 	// TODO: Better way to bind this data to loaded data?
-	private void OnCardTypeSelected(long index)
-	{
-		if (_loadedData != null)
-			_loadedData.CardType = _cardTypeSelector.SelectedOption;
-	}
-
-	private void OnTagsChanged()
-	{
-		if (_loadedData != null)
-			_loadedData.Tags = _tagSelector.SelectedTags;
-	}
-
 	private void OnPortraitSelected()
 	{
 		if (_loadedData != null)

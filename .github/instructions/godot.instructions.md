@@ -16,4 +16,6 @@ applyTo: '**/*.cs'
 
 ## Conditional Statements
 - `if` statements that contain a single statement should not use braces. The single statement should be on the next line and indented.
+- For single line `if` statements, always add blank lines around it.
 - Use `switch` expressions instead of `switch` statements when possible.
+- Prefer early returns in methods to reduce nesting.

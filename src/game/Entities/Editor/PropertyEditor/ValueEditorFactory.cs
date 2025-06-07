@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Godot;
+using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Entities.Editor.ValueEditors;
 
 namespace MedievalConquerors.Entities.Editor;
-
-public interface IValueEditor
-{
-    Control GetControl();
-    void Load<TOwner>(TOwner owner, PropertyInfo prop);
-}
 
 public static class ValueEditorFactory
 {
@@ -20,8 +16,9 @@ public static class ValueEditorFactory
         // TODO: Possible way to map everything automatically by using the types?
         //      Maybe re-introduce the generic parameter to the interface?
         // Register editors
-        Register(typeof(string), typeof(PropertyEditors.StringValueEditor));
-        Register(typeof(int), typeof(PropertyEditors.IntValueEditor));
+        Register(typeof(string), typeof(StringValueEditor));
+        Register(typeof(int), typeof(IntValueEditor));
+        Register(typeof(Tags), typeof(TagsValueEditor));
         // Register(typeof(float), typeof(FloatPropertyEditor));
         // Register(typeof(Tags), typeof(TagsPropertyEditor));
         // Register(typeof(ResourceType), typeof(ResourceTypePropertyEditor));

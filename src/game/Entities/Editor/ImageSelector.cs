@@ -8,8 +8,8 @@ namespace MedievalConquerors.Entities.Editor;
 
 public partial class ImageSelector : HBoxContainer
 {
-	public const string PortraitsPath = "res://entities/cards/portraits/";
-	public const string TokensPath = "res://entities/tokens/token_icons/";
+	private const string PortraitsPath = "res://entities/cards/portraits/";
+	private const string TokensPath = "res://entities/tokens/token_icons/";
 
 	[Export] private OptionButton _imageOptions;
 	[Export] private Button _refreshButton;
