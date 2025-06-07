@@ -86,7 +86,12 @@ public partial class LibraryEditor : ScrollContainer
 
 	private void SendToEditor(long selectedIndex)
 	{
-		SearchResultClicked?.Invoke(_searchResults[(int)selectedIndex]);
+		// Fetch a new result from the database to prevent stale data
+		using var db = new CardDatabase();
+		var cardId = _searchResults[(int)selectedIndex].Id;
+		var result = db.Query.Where(c => c.Id == cardId).Single();
+
+		SearchResultClicked?.Invoke(result);
 	}
 
 	public override void _ExitTree()

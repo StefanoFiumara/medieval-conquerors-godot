@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Reflection;
 using Godot;
-using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Entities.Editor;
 
 public interface IValueEditor
 {
     Control GetControl();
-    void Initialize(ICardAttribute attribute, PropertyInfo propertyInfo);
+    void Load<TOwner>(TOwner owner, PropertyInfo prop);
 }
 
-public static class PropertyEditorFactory
+public static class ValueEditorFactory
 {
     private static readonly Dictionary<Type, Type> _editorRegistry = new();
 
-    static PropertyEditorFactory()
+    static ValueEditorFactory()
     {
         // TODO: Possible way to map everything automatically by using the types?
         //      Maybe re-introduce the generic parameter to the interface?
@@ -36,16 +36,16 @@ public static class PropertyEditorFactory
         _editorRegistry[propertyType] = editorType;
     }
 
-    public static IValueEditor CreateEditor(ICardAttribute attribute, PropertyInfo propertyInfo)
+    public static IValueEditor CreateEditor<TOwner>(TOwner owner, PropertyInfo prop)
     {
-        if (_editorRegistry.TryGetValue(propertyInfo.PropertyType, out var editorType))
+        if (_editorRegistry.TryGetValue(prop.PropertyType, out var editorType))
         {
             var editor = (IValueEditor)Activator.CreateInstance(editorType);
-            editor!.Initialize(attribute, propertyInfo);
+            editor!.Load(owner, prop);
             return editor;
         }
 
-        GD.PrintErr($"No editor registered for type: {propertyInfo.PropertyType}");
+        GD.PrintErr($"No editor registered for type: {prop.PropertyType}");
         return null;
     }
 }

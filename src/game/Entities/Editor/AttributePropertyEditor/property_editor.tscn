@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d1fqgw5g2qjpw" path="res://Entities/Editor/AttributePropertyEditor/PropertyEditor.cs" id="1_oym1g"]
 
-[node name="attribute_property_editor" type="CenterContainer"]
+[node name="property_editor" type="CenterContainer"]
 offset_right = 168.0
 offset_bottom = 33.0
 script = ExtResource("1_oym1g")

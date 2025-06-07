@@ -111,6 +111,7 @@ layout_mode = 2
 [node name="desc_label" type="Label" parent="margin/editor_vbox_container/description"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+size_flags_vertical = 1
 text = "Description:"
 horizontal_alignment = 2
 
@@ -127,6 +128,7 @@ layout_mode = 2
 [node name="portrait_label" type="Label" parent="margin/editor_vbox_container/portrait"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+size_flags_vertical = 1
 text = "Portrait:"
 horizontal_alignment = 2
 
@@ -165,6 +167,7 @@ layout_mode = 2
 [node name="tags_label" type="Label" parent="margin/editor_vbox_container/tags"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+size_flags_vertical = 1
 text = "Tags:"
 horizontal_alignment = 2
 

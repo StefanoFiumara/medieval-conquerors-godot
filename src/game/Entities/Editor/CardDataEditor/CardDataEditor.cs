@@ -45,8 +45,8 @@ public partial class CardDataEditor : ScrollContainer
 
 			if (value != null)
 			{
-				_cardTitle.Text = _loadedData.Title;
-				_description.Text = _loadedData.Description;
+				_cardTitle.Bind(LoadedData, data => data.Title);
+				_description.Bind(LoadedData, data => data.Description);
 
 				_cardTypeSelector.SelectedOption = _loadedData.CardType;
 
@@ -77,9 +77,6 @@ public partial class CardDataEditor : ScrollContainer
 		_newButton.Pressed += CreateNewCard;
 		_deleteButton.Pressed += DeleteLoadedCard;
 
-		_cardTitle.TextChanged += CardTitleChanged;
-		_description.TextChanged += CardDescriptionChanged;
-
 		_cardTypeSelector.ItemSelected += OnCardTypeSelected;
 		_tagSelector.TagsChanged += OnTagsChanged;
 
@@ -94,11 +91,6 @@ public partial class CardDataEditor : ScrollContainer
 		_saveButton.Pressed -= SaveCardResource;
 		_newButton.Pressed -= CreateNewCard;
 		_deleteButton.Pressed -= DeleteLoadedCard;
-
-		_cardTitle.Bind(LoadedData, data => data.Title);
-
-		_cardTitle.TextChanged -= CardTitleChanged;
-		_description.TextChanged -= CardDescriptionChanged;
 
 		_cardTypeSelector.ItemSelected -= OnCardTypeSelected;
 		_tagSelector.TagsChanged -= OnTagsChanged;
@@ -162,18 +154,6 @@ public partial class CardDataEditor : ScrollContainer
 	}
 
 	// TODO: Better way to bind this data to loaded data?
-	private void CardTitleChanged(string newTitle)
-	{
-		if (_loadedData != null)
-			_loadedData.Title = newTitle;
-	}
-
-	private void CardDescriptionChanged()
-	{
-		if(_loadedData != null)
-			_loadedData.Description = _description.Text;
-	}
-
 	private void OnCardTypeSelected(long index)
 	{
 		if (_loadedData != null)

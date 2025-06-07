@@ -1,6 +1,9 @@
+using System;
+using System.Linq.Expressions;
 using System.Reflection;
 using Godot;
 using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Entities.Editor.PropertyEditors;
 using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;
@@ -16,22 +19,10 @@ public partial class PropertyEditor : CenterContainer
 		_propertyLabel = GetNode<Label>("%property_label");
 	}
 
-	public void Load(ICardAttribute attr, PropertyInfo prop)
+	public void Load<TOwner>(TOwner owner, PropertyInfo propertyInfo)
 	{
-		// foreach (var child in _container.GetChildren())
-		// {
-		// 	if (child != _propertyLabel)
-		// 	{
-		// 		RemoveChild(child);
-		// 		child.QueueFree();
-		// 	}
-		// }
-
-		_propertyLabel.Text = $"{prop.Name.PrettyPrint()}:";
-
-		// TODO: Update to use data binding
-		//		Perhaps this property editor class will not be needed after the data binding framework is properly defined?
-		var editor = PropertyEditorFactory.CreateEditor(attr, prop);
+		_propertyLabel.Text = $"{propertyInfo.Name.PrettyPrint()}:";
+		var editor = ValueEditorFactory.CreateEditor(owner, propertyInfo);
 
 		if (editor != null)
 			_container.AddChild(editor.GetControl());

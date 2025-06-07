@@ -12,11 +12,10 @@ public static class DataBindingExtensions
     private record SignalConnection(StringName Signal, Callable Callable);
     private static readonly Dictionary<Control, SignalConnection> _activeBindings = new();
 
-    public static void Bind<TOwner, TProperty>(this SpinBox editor, TOwner owner, Expression<Func<TOwner, TProperty>> propertyExpression)
+    public static void Bind<TOwner>(this SpinBox editor, TOwner owner, PropertyInfo prop)
     {
         RemoveBinding(editor);
 
-        var prop = GetPropertyInfo(propertyExpression);
         if (prop.PropertyType == typeof(int))
         {
             editor.Rounded = true;
@@ -24,7 +23,7 @@ public static class DataBindingExtensions
             editor.CustomArrowStep = 1;
         }
 
-        if (prop.GetValue(owner) is int currentValue)
+        if (prop.TryGetValue(owner, out int currentValue))
             editor.Value = currentValue;
 
         var callable = Callable.From<double>(value =>
@@ -37,15 +36,18 @@ public static class DataBindingExtensions
         _activeBindings[editor] = new(Range.SignalName.ValueChanged, callable);
     }
 
-    public static void Bind<TOwner, TProperty>(this LineEdit editor, TOwner owner, Expression<Func<TOwner, TProperty>> propertyExpression)
+    public static void Bind<TOwner, TProperty>(this SpinBox editor, TOwner owner, Expression<Func<TOwner, TProperty>> propertyExpression)
+    {
+        var prop = GetPropertyInfo(propertyExpression);
+        editor.Bind(owner, prop);
+    }
+
+    public static void Bind<TOwner>(this LineEdit editor, TOwner owner, PropertyInfo prop)
     {
         RemoveBinding(editor);
 
-        var prop = GetPropertyInfo(propertyExpression);
-        if (prop.GetValue(owner) is string currentValue)
-        {
+        if (prop.TryGetValue(owner, out string currentValue))
             editor.Text = currentValue;
-        }
 
         var callable = Callable.From<string>(text =>
         {
@@ -57,15 +59,18 @@ public static class DataBindingExtensions
         _activeBindings[editor] = new(LineEdit.SignalName.TextChanged, callable);
     }
 
-    public static void Bind<TOwner, TProperty>(this TextEdit editor, TOwner owner, Expression<Func<TOwner, TProperty>> propertyExpression)
+    public static void Bind<TOwner, TProperty>(this LineEdit editor, TOwner owner, Expression<Func<TOwner, TProperty>> propertyExpression)
+    {
+        var prop = GetPropertyInfo(propertyExpression);
+        editor.Bind(owner, prop);
+    }
+
+    public static void Bind<TOwner>(this TextEdit editor, TOwner owner, PropertyInfo prop)
     {
         RemoveBinding(editor);
 
-        var prop = GetPropertyInfo(propertyExpression);
-        if (prop.GetValue(owner) is string currentValue)
-        {
+        if (prop.TryGetValue(owner, out string currentValue))
             editor.Text = currentValue;
-        }
 
         // Connect to the text_changed signal
         var callable = Callable.From(() =>
@@ -78,6 +83,12 @@ public static class DataBindingExtensions
         _activeBindings[editor] = new(TextEdit.SignalName.TextChanged, callable);
     }
 
+    public static void Bind<TOwner, TProperty>(this TextEdit editor, TOwner owner, Expression<Func<TOwner, TProperty>> propertyExpression)
+    {
+        var prop = GetPropertyInfo(propertyExpression);
+        editor.Bind(owner, prop);
+    }
+
     private static void RemoveBinding(Control control)
     {
         if (!_activeBindings.TryGetValue(control, out var connection)) return;
@@ -88,7 +99,19 @@ public static class DataBindingExtensions
         _activeBindings.Remove(control);
     }
 
-    private static PropertyInfo GetPropertyInfo<TOwner, TProperty>(Expression<Func<TOwner, TProperty>> propertyExpression)
+    private static bool TryGetValue<T>(this PropertyInfo prop, object owner, out T value)
+    {
+        if (owner != null && prop.GetValue(owner) is T val)
+        {
+            value = val;
+            return true;
+        }
+
+        value = default;
+        return false;
+    }
+
+    public static PropertyInfo GetPropertyInfo<TOwner, TProperty>(this Expression<Func<TOwner, TProperty>> propertyExpression)
     {
         if (propertyExpression.Body is MemberExpression { Member: PropertyInfo propertyInfo })
             return propertyInfo;
