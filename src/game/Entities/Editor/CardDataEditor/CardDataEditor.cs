@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Godot;
+using MedievalConquerors.DataBinding;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.StateManagement;
 using MedievalConquerors.Entities.Editor.EditorStates;

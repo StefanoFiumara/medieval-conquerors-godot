@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Godot;
 
-namespace MedievalConquerors.Entities.Editor.PropertyEditors;
+namespace MedievalConquerors.DataBinding;
 
 public static partial class DataBindingExtensions
 {

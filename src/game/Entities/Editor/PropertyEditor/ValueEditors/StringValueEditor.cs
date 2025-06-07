@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Godot;
-using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Extensions;
+using MedievalConquerors.DataBinding;
 
 namespace MedievalConquerors.Entities.Editor.PropertyEditors;
 

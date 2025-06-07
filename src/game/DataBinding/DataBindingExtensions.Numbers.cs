@@ -4,7 +4,7 @@ using System.Reflection;
 using Godot;
 using Range = Godot.Range;
 
-namespace MedievalConquerors.Entities.Editor.PropertyEditors;
+namespace MedievalConquerors.DataBinding;
 
 public static partial class DataBindingExtensions
 {
