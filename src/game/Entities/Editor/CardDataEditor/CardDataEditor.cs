@@ -5,6 +5,7 @@ using MedievalConquerors.DataBinding;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.StateManagement;
 using MedievalConquerors.Entities.Editor.EditorStates;
+using MedievalConquerors.Entities.Editor.Options;
 using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;
@@ -23,9 +24,9 @@ public partial class CardDataEditor : ScrollContainer
 	[Export] private TextEdit _description;
 
 	[Export] private ImageSelector _portraitSelector;
-	[Export] private Options.CardTypeOptions _cardTypeSelector;
+	[Export] private CardTypeOptions _cardTypeSelector;
 	[Export] private TagSelector _tagSelector;
-	[Export] private Options.AttributeOptions _newAttributeSelector;
+	[Export] private AttributeOptions _newAttributeSelector;
 	[Export] private Button _addAttributeButton;
 
 	[Export] private VBoxContainer _attributesContainer;
@@ -50,7 +51,6 @@ public partial class CardDataEditor : ScrollContainer
 				_cardTypeSelector.Bind(LoadedData, data => data.CardType);
 				_tagSelector.Bind(LoadedData, data => data.Tags);
 
-				_tagSelector.SelectedTags = _loadedData.Tags;
 				_portraitSelector.SelectedImageUid = _loadedData.ImagePath;
 
 				foreach (var attr in value.Attributes)

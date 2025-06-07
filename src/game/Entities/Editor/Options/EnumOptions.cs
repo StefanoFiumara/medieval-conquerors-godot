@@ -1,26 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Godot;
+using MedievalConquerors.DataBinding;
+using MedievalConquerors.Entities.Editor.ValueEditors;
 
 namespace MedievalConquerors.Entities.Editor.Options;
 
-public partial class EnumOptions<T> : OptionButton
+public partial class EnumOptions<T> : OptionButton, IValueEditor
     where T : struct, Enum
 {
-    private List<T> _options;
+    private readonly List<T> _options = Enum.GetValues<T>().OrderBy(t => Convert.ToInt32(t)).ToList();
+    // TODO: cache selected option in backing field
+    private T _selectedOption;
     public T SelectedOption
     {
-        get => (T)Enum.ToObject(typeof(T), GetSelectedId());
-        set => Select(_options.IndexOf(value));
+        get => _selectedOption;
+        set
+        {
+            if (!EqualityComparer<T>.Default.Equals(_selectedOption, value))
+            {
+                _selectedOption = value;
+                if (GetItemCount() > 0)
+                    Select(_options.IndexOf(value));
+            }
+
+        }
     }
 
     public override void _Ready()
     {
         Clear();
 
-        _options = Enum.GetValues<T>().OrderBy(t => Convert.ToInt32(t)).ToList();
         foreach (var type in _options)
             AddItem(type.ToString(), Convert.ToInt32(type));
+
+        Select(_options.IndexOf(_selectedOption));
+    }
+
+    public Control GetControl() => this;
+
+    public void Load<TOwner>(TOwner owner, PropertyInfo prop)
+    {
+        this.Bind(owner, prop);
     }
 }

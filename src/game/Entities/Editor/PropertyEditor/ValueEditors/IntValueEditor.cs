@@ -4,7 +4,7 @@ using MedievalConquerors.DataBinding;
 
 namespace MedievalConquerors.Entities.Editor.ValueEditors;
 
-public partial class IntValueEditor : PanelContainer, IValueEditor
+public partial class IntValueEditor : CenterContainer, IValueEditor
 {
     public void Load<TOwner>(TOwner owner, PropertyInfo prop)
     {

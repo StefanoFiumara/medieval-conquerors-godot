@@ -1,40 +1,38 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Godot;
+using MedievalConquerors.DataBinding;
 using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Entities.Editor.ValueEditors;
 
 namespace MedievalConquerors.Entities.Editor;
 
-public partial class TagSelector : GridContainer
+public partial class TagSelector : GridContainer, IValueEditor
 {
-	private readonly Dictionary<Tags, CheckBox> _tagSelectors = new();
-
 	[Signal]
 	public delegate void TagsChangedEventHandler();
 
+	private readonly Dictionary<Tags, CheckBox> _tagSelectors = new();
+
+	private Tags _selectedTags = Tags.None;
 	public Tags SelectedTags
 	{
-		get
-		{
-			if (_tagSelectors == null) return Tags.None;
-
-			return _tagSelectors
-				.Where(s => s.Value.ButtonPressed)
-				.Aggregate(Tags.None, (current, selector) => current | selector.Key);
-		}
+		get => _selectedTags;
 		set
 		{
-			if (_tagSelectors == null) return;
-
-			var selected = SelectedTags;
-			if (selected != value)
+			if (_selectedTags != value)
 			{
-				foreach (var tagSelector in _tagSelectors)
+				_selectedTags = value;
+				if (_tagSelectors is { Count: > 0 })
 				{
-					tagSelector.Value.ButtonPressed = value.HasFlag(tagSelector.Key);
+					foreach (var tagSelector in _tagSelectors)
+					{
+						tagSelector.Value.ButtonPressed = value.HasFlag(tagSelector.Key);
+					}
 				}
-				EmitSignal(nameof(TagsChangedEventHandler));
+				EmitSignal(TagSelector.SignalName.TagsChanged);
 			}
 		}
 	}
@@ -49,42 +47,29 @@ public partial class TagSelector : GridContainer
 			checkBox.Text = tag.ToString();
 			_tagSelectors.Add(tag, checkBox);
 			AddChild(checkBox);
-			checkBox.Toggled += OnTagsChanged;
+			checkBox.Connect(BaseButton.SignalName.Toggled, Callable.From<bool>(_ => EmitSignal(SignalName.TagsChanged)));
 		}
-	}
 
-	private void OnTagsChanged(bool toggled)
-	{
-		EmitSignal(nameof(TagsChangedEventHandler));
+		foreach (var tagSelector in _tagSelectors)
+			tagSelector.Value.ButtonPressed = _selectedTags.HasFlag(tagSelector.Key);
 	}
 
 	public void Enable()
 	{
 		foreach (var checkBox in _tagSelectors.Values)
-		{
 			checkBox.Disabled = false;
-		}
 	}
 
 	public void Disable()
 	{
 		foreach (var checkBox in _tagSelectors.Values)
-		{
 			checkBox.Disabled = true;
-		}
 	}
 
-	public override void _ExitTree()
-	{
-		if (_tagSelectors != null)
-		{
-			foreach (var checkBox in _tagSelectors.Values)
-			{
-				checkBox.Toggled -= OnTagsChanged;
-				checkBox.QueueFree();
-			}
+	public Control GetControl() => this;
 
-			_tagSelectors.Clear();
-		}
+	public void Load<TOwner>(TOwner owner, PropertyInfo prop)
+	{
+		this.Bind(owner, prop);
 	}
 }
