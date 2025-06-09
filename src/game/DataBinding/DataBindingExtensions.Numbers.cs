@@ -19,12 +19,9 @@ public static partial class DataBindingExtensions
     {
         RemoveBinding(editor);
 
-        if (prop.PropertyType == typeof(int))
-        {
-            editor.Rounded = true;
-            editor.Step = 1;
-            editor.CustomArrowStep = 1;
-        }
+        editor.Rounded = true;
+        editor.Step = 1;
+        editor.CustomArrowStep = 1;
 
         if (prop.TryGetValue(owner, out int currentValue))
             editor.Value = currentValue;
@@ -36,6 +33,6 @@ public static partial class DataBindingExtensions
         });
 
         editor.Connect(Range.SignalName.ValueChanged, callable);
-        _activeBindings[editor] = new(Range.SignalName.ValueChanged, callable);
+        _activeBindings[editor] = new SignalConnection(Range.SignalName.ValueChanged, callable);
     }
 }

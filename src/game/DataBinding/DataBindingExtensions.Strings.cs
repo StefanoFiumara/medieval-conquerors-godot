@@ -27,7 +27,7 @@ public static partial class DataBindingExtensions
         });
 
         editor.Connect(LineEdit.SignalName.TextChanged, callable);
-        _activeBindings[editor] = new(LineEdit.SignalName.TextChanged, callable);
+        _activeBindings[editor] = new SignalConnection(LineEdit.SignalName.TextChanged, callable);
     }
 
     public static void Bind<TOwner, TProperty>(this TextEdit editor, TOwner owner, Expression<Func<TOwner, TProperty>> propertyExpression)
@@ -50,6 +50,6 @@ public static partial class DataBindingExtensions
         });
 
         editor.Connect(TextEdit.SignalName.TextChanged, callable);
-        _activeBindings[editor] = new(TextEdit.SignalName.TextChanged, callable);
+        _activeBindings[editor] = new SignalConnection(TextEdit.SignalName.TextChanged, callable);
     }
 }
