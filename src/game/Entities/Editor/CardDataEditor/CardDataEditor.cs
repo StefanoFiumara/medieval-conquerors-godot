@@ -40,28 +40,29 @@ public partial class CardDataEditor : ScrollContainer
 		get => _loadedData;
 		private set
 		{
-			_loadedData = null;
 			Reset();
 			_loadedData = value;
 
 			if (value != null)
 			{
-				_cardTitle.Bind(LoadedData, data => data.Title);
-				_description.Bind(LoadedData, data => data.Description);
-				_cardTypeSelector.Bind(LoadedData, data => data.CardType);
-				_tagSelector.Bind(LoadedData, data => data.Tags);
+				_cardTitle.Bind(_loadedData, data => data.Title);
+				_description.Bind(_loadedData, data => data.Description);
+				_cardTypeSelector.Bind(_loadedData, data => data.CardType);
+				_tagSelector.Bind(_loadedData, data => data.Tags);
 
+				// TODO: data binding for portrait selector
 				_portraitSelector.SelectedImageUid = _loadedData.ImagePath;
 
 				foreach (var attr in value.Attributes)
 					CreateAttributeEditor(attr);
-
-				GD.Print($"Updating Editor to card data with ID: {value.Id}");
-				if (value.Id == 0)
-					_stateMachine.ChangeState(new CreatingNewCardState(this));
-				else
-					_stateMachine.ChangeState(new EditingExistingCardState(this));
 			}
+
+			if(value == null)
+				_stateMachine.ChangeState(new NoDataState(this));
+			else if (value.Id == 0)
+				_stateMachine.ChangeState(new CreatingNewCardState(this));
+			else
+				_stateMachine.ChangeState(new EditingExistingCardState(this));
 
 			_saveButton.Disabled = _loadedData == null;
 			_deleteButton.Disabled = _loadedData == null;
@@ -70,13 +71,15 @@ public partial class CardDataEditor : ScrollContainer
 
 	public override void _EnterTree()
 	{
+		// TODO: If we update these methods to use Connect(), we won't need to unsubscribe in ExitTree
+		//		And can move all this logic to _Ready()
 		_newAttributeSelector.ItemSelected += OnNewAttributeSelected;
-
 		_addAttributeButton.Pressed += CreateNewAttribute;
 		_saveButton.Pressed += SaveCardResource;
 		_newButton.Pressed += CreateNewCard;
 		_deleteButton.Pressed += DeleteLoadedCard;
 
+		// TODO: Update to use binding framework
 		_portraitSelector.ImageSelected += OnPortraitSelected;
 	}
 
@@ -95,9 +98,9 @@ public partial class CardDataEditor : ScrollContainer
 	public override void _Ready()
 	{
 		_attributeEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
+		_stateMachine = new StateMachine(new NoDataState(this));
 
 		LoadedData = null;
-		_stateMachine = new StateMachine(new NoDataState(this));
 
 		// TODO: is it possible to subscribe in EnterTree? Library editor probably will not exist yet
 		//		Maybe a different way of setting up this communication

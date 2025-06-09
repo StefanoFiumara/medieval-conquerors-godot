@@ -1,8 +1,8 @@
 ﻿namespace MedievalConquerors.Engine.StateManagement;
-    
+
 public class StateMachine
 {
-    public IState CurrentState { get; private set; } = new NullGameState();
+    public IState CurrentState { get; private set; } = new NullState();
     public IState PreviousState { get; private set; }
 
     public StateMachine() { }
@@ -11,7 +11,7 @@ public class StateMachine
     {
         ChangeState(initialState);
     }
-    
+
     public void ChangeState<TState>() where TState : IState, new()
     {
         var toState = new TState();
@@ -22,9 +22,9 @@ public class StateMachine
     {
         var fromState = CurrentState;
         if (fromState == newState) return;
-            
+
         fromState.Exit();
-            
+
         CurrentState = newState;
         PreviousState = fromState;
 
