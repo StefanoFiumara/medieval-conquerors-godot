@@ -70,6 +70,7 @@ public partial class TagSelector : GridContainer, IValueEditor
 
 	public void Load<TOwner>(TOwner owner, PropertyInfo prop)
 	{
+		Columns = 2;
 		this.Bind(owner, prop);
 	}
 }
