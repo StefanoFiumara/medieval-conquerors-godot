@@ -37,9 +37,23 @@
               "icon": "lucide-layout-dashboard",
               "title": "tech-tree"
             }
+          },
+          {
+            "id": "487b1c6ca157f3f2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "game-design-doc.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "game-design-doc"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -181,15 +195,15 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "b9e2e622305abfdc",
+  "active": "487b1c6ca157f3f2",
   "lastOpenFiles": [
+    "game-mechanics.md",
+    "leonardo-ai-prompts.md",
+    "tech-tree.canvas",
     "engine-architecture/game-actions.canvas",
     "engine-architecture/action-system.canvas",
-    "tech-tree.canvas",
     "game-design-doc.md",
     "planned-cards-list.md",
-    "game-mechanics.md",
-    "Untitled.md",
     "card-designs/economic-cards.md",
     "to-do.md",
     "engine-architecture/Action System.canvas",

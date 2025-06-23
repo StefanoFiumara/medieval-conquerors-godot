@@ -1,5 +1,5 @@
 # Villager System
-- Villagers are economic units that can be spawned in gathering posts
+- Villagers are economic units that can be played on gathering posts
 - Villager cards are not shuffled into the player's deck
 	- Instead, a single villager card is drawn each turn, and destroyed if it is not played during that turn.
 - At the start of the game, 3 `Settler` cards are added the to player's starting hand.
