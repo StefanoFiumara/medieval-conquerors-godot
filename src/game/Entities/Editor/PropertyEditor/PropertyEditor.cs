@@ -18,9 +18,9 @@ public partial class PropertyEditor : CenterContainer
 	public void Load<TOwner>(TOwner owner, PropertyInfo propertyInfo)
 	{
 		_propertyLabel.Text = $"{propertyInfo.Name.PrettyPrint()}:";
-		var editor = ValueEditorFactory.CreateEditor(owner, propertyInfo);
 
+		var editor = EditorFactory.CreateEditor(owner, propertyInfo);
 		if (editor != null)
-			_container.AddChild(editor.GetControl());
+			_container.AddChild(editor);
 	}
 }
