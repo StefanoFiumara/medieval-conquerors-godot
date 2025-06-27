@@ -45,4 +45,6 @@ public static class ValueEditorFactory
 		GD.PrintErr($"No editor registered for type: {prop.PropertyType}");
 		return null;
 	}
+
+	public static bool IsRegistered(Type type) => _editorRegistry.ContainsKey(type);
 }

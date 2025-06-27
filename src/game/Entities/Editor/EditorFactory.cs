@@ -15,9 +15,9 @@ public static class EditorFactory
 	{
 		var type = prop.PropertyType;
 
-		if (type.IsPrimitive || type == typeof(string))
+		if(ValueEditorFactory.IsRegistered(type))
 			return ValueEditorFactory.CreateEditor(owner, prop)?.GetControl();
-
+		
 		if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(System.Collections.Generic.List<>))
 		{
 			var listEditorScene = GD.Load<PackedScene>("uid://your_list_editor_uid"); // TODO: Replace with actual UID

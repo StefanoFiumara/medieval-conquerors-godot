@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://dpol2wnv6wd"]
 
-[ext_resource type="Script" uid="uid://c5ftsyqphp4r" path="res://entities/ui/player_gameplay_ui/PlayerUiPanel.cs" id="1_miglb"]
-[ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://entities/ui/player_gameplay_ui/resource_icons.png" id="2_lwx21"]
-[ext_resource type="Texture2D" uid="uid://cus8a0bckc5rh" path="res://entities/ui/player_gameplay_ui/deck.png" id="7_fypch"]
+[ext_resource type="Script" uid="uid://c5ftsyqphp4r" path="res://Entities/UI/Gameplay/PlayerUiPanel.cs" id="1_miglb"]
+[ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://Entities/UI/Gameplay/resource_icons.png" id="2_lwx21"]
+[ext_resource type="Texture2D" uid="uid://cus8a0bckc5rh" path="res://Entities/UI/Gameplay/deck.png" id="7_fypch"]
 
 [node name="ui_panel" type="MarginContainer"]
 anchors_preset = 15
@@ -10,6 +10,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
@@ -133,23 +135,20 @@ horizontal_alignment = 2
 
 [node name="age_container" type="CenterContainer" parent="."]
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="vbox_container" type="VBoxContainer" parent="age_container"]
+[node name="age_panel" type="PanelContainer" parent="age_container"]
 layout_mode = 2
 
-[node name="storage_panel" type="PanelContainer" parent="age_container/vbox_container"]
-layout_mode = 2
-
-[node name="margin" type="MarginContainer" parent="age_container/vbox_container/storage_panel"]
+[node name="margin" type="MarginContainer" parent="age_container/age_panel"]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="age_label" type="Label" parent="age_container/vbox_container/storage_panel/margin"]
-unique_name_in_owner = true
+[node name="age_label" type="Label" parent="age_container/age_panel/margin"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "I - Dark Age"

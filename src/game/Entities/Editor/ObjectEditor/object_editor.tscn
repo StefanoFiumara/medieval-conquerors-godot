@@ -6,8 +6,8 @@
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -1641.0
-offset_bottom = -1023.0
+offset_right = -1809.0
+offset_bottom = -1035.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -28,7 +28,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.862745, 0.784314, 0.156863, 1)
-text = "Attribute Name"
+text = "Object Name"
 
 [node name="separator" type="HSeparator" parent="margin/vbox_container"]
 layout_mode = 2
