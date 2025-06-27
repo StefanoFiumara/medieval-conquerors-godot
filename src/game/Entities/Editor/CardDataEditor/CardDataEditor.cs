@@ -187,16 +187,22 @@ public partial class CardDataEditor : ScrollContainer
 
 	private void CreateAttributeEditor(ICardAttribute attr)
 	{
-		var editor = _attributeEditor.Instantiate<AttributeEditor>();
+		var editor = _attributeEditor.Instantiate<ObjectEditor>();
 		_attributesContainer.AddChild(editor);
 
-		editor.Load(attr);
-		editor.RemovePressed += () =>
-		{
-			_attributesContainer.RemoveChild(editor);
-			LoadedData.Attributes.Remove(attr);
-			editor.QueueFree();
-		};
+		editor.Load(
+			target: attr,
+			customTitle: attr.GetType().Name.PrettyPrint().Replace("Attribute", string.Empty),
+			propertyFilter: p => p.Name != nameof(ICardAttribute.Owner)
+		);
+
+		// TODO: Re-implement RemovePressed functionality for attributes
+		// editor.RemovePressed += () =>
+		// {
+		// 	_attributesContainer.RemoveChild(editor);
+		// 	LoadedData.Attributes.Remove(attr);
+		// 	editor.QueueFree();
+		// };
 	}
 
 	private void DeleteLoadedCard()

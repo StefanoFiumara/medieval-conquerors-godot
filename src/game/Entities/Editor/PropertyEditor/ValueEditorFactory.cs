@@ -28,7 +28,7 @@ public static class ValueEditorFactory
 	private static void Register(Type propertyType, Type editorType)
 	{
 		if (!typeof(IValueEditor).IsAssignableFrom(editorType))
-			throw new ArgumentException($"Editor type must implement IValueEditor: {editorType}");
+			throw new ArgumentException($"{nameof(ValueEditorFactory)} -- Editor type must implement IValueEditor: {editorType}");
 
 		_editorRegistry[propertyType] = editorType;
 	}
