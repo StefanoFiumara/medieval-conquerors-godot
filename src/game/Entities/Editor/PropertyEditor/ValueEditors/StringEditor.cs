@@ -1,19 +1,15 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using Godot;
 using MedievalConquerors.DataBinding;
 
 namespace MedievalConquerors.Entities.Editor.ValueEditors;
 
-public partial class IntValueEditor : CenterContainer, IValueEditor
+public partial class StringEditor : CenterContainer, IPropertyEditor
 {
     public void Load<TOwner>(TOwner owner, PropertyInfo prop)
     {
-        var editor = new SpinBox {
-            Value = (int)(prop.GetValue(owner) ?? 0),
-            Step = 1,
-            CustomArrowStep = 1
-        };
-
+        var editor = new LineEdit();
         editor.Bind(owner, prop);
         AddChild(editor);
     }

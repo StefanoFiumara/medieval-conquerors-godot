@@ -21,6 +21,6 @@ public partial class PropertyEditor : CenterContainer
 
 		var editor = EditorFactory.CreateEditor(owner, propertyInfo);
 		if (editor != null)
-			_container.AddChild(editor);
+			_container.AddChild(editor.GetControl());
 	}
 }

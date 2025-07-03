@@ -8,11 +8,10 @@ using MedievalConquerors.Entities.Editor.ValueEditors;
 
 namespace MedievalConquerors.Entities.Editor.Options;
 
-public partial class EnumOptions<T> : OptionButton, IValueEditor
+public partial class EnumOptions<T> : OptionButton, IPropertyEditor
     where T : struct, Enum
 {
     private readonly List<T> _options = Enum.GetValues<T>().OrderBy(t => Convert.ToInt32(t)).ToList();
-    // TODO: cache selected option in backing field
     private T _selectedOption;
     public T SelectedOption
     {

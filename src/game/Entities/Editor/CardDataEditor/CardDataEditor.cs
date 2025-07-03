@@ -187,6 +187,7 @@ public partial class CardDataEditor : ScrollContainer
 
 	private void CreateAttributeEditor(ICardAttribute attr)
 	{
+		// TODO: perhaps this should be a List Editor instead, but it is polymorphic, so we have to solve for that first.
 		var editor = _objectEditor.Instantiate<ObjectEditor>();
 		_attributesContainer.AddChild(editor);
 

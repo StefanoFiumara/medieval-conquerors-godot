@@ -9,7 +9,7 @@ using MedievalConquerors.Entities.Editor.ValueEditors;
 
 namespace MedievalConquerors.Entities.Editor;
 
-public partial class TagSelector : GridContainer, IValueEditor
+public partial class TagSelector : GridContainer, IPropertyEditor
 {
 	[Signal]
 	public delegate void TagsChangedEventHandler();

@@ -27,9 +27,7 @@ public partial class ListItem : MarginContainer
 			QueueFree();
 		}));
 
-		// TODO: support for primitive values or custom editors?
-		var editor = _objectEditor.Instantiate<ObjectEditor>();
-		_itemContainer.AddChild(editor);
-		editor.Load(item, $"[{owner.IndexOf(item)}] {item.GetType().Name.PrettyPrint()}");
+		var editor = EditorFactory.CreateEditor(item, $"[{owner.IndexOf(item)}] {item.GetType().Name.PrettyPrint()}");
+		_itemContainer.AddChild(editor.GetControl());
 	}
 }

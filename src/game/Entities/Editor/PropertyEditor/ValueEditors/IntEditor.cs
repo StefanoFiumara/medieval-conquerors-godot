@@ -4,11 +4,16 @@ using MedievalConquerors.DataBinding;
 
 namespace MedievalConquerors.Entities.Editor.ValueEditors;
 
-public partial class StringValueEditor : CenterContainer, IValueEditor
+public partial class IntEditor : CenterContainer, IPropertyEditor
 {
     public void Load<TOwner>(TOwner owner, PropertyInfo prop)
     {
-        var editor = new LineEdit();
+        var editor = new SpinBox {
+            Value = (int)(prop.GetValue(owner) ?? 0),
+            Step = 1,
+            CustomArrowStep = 1
+        };
+
         editor.Bind(owner, prop);
         AddChild(editor);
     }

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Godot;
+using MedievalConquerors.Entities.Editor.ValueEditors;
 using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;
@@ -20,11 +21,15 @@ namespace MedievalConquerors.Entities.Editor;
 /// editor.Load(myObject, "Custom Title", p => p.Name != "Id");
 /// </code>
 /// </summary>
-public partial class ObjectEditor : PanelContainer
+public partial class ObjectEditor : PanelContainer, IPropertyEditor, IRootEditor
 {
 	private PackedScene _propertyEditor;
 	private Label _titleLabel;
 	private GridContainer _propertiesContainer;
+
+	private object _target;
+	private string _title;
+	private Func<PropertyInfo, bool> _propertyFilter;
 
 	public override void _Ready()
 	{
@@ -33,26 +38,37 @@ public partial class ObjectEditor : PanelContainer
 		_propertiesContainer = GetNode<GridContainer>("%properties_container");
 	}
 
-	/// <summary>
-	/// Loads the editor with the properties of the specified target object.
-	/// </summary>
-	/// <param name="target">The object whose properties will be displayed and edited.</param>
-	/// <param name="customTitle">Optional. A custom title for the editor panel. If null, the type's name is used.</param>
-	/// <param name="propertyFilter">Optional. A filter to determine which properties to display. The filter is applied after ensuring the property has a public set method.</param>
 	public void Load(object target, string customTitle = null, Func<PropertyInfo, bool> propertyFilter = null)
 	{
-		_titleLabel.Text = customTitle ?? target.GetType().Name.PrettyPrint();
+		_target = target;
+		_title = customTitle;
+		_propertyFilter = propertyFilter;
 
-		var props = target.GetType().GetProperties()
+		CallDeferred(MethodName.DeferredLoad);
+	}
+
+	public void Load<TOwner>(TOwner owner, PropertyInfo prop)
+	{
+		var value = prop.GetValue(owner);
+		Load(value);
+	}
+
+	private void DeferredLoad()
+	{
+		_titleLabel.Text = _title ?? _target.GetType().Name.PrettyPrint();
+
+		var props = _target.GetType().GetProperties()
 			.Where(p => p.GetSetMethod() != null)
-			.Where(p => propertyFilter == null || propertyFilter(p))
+			.Where(p => _propertyFilter == null || _propertyFilter(p))
 			.ToList();
 
 		foreach (var prop in props)
 		{
 			var propEditor = _propertyEditor.Instantiate<PropertyEditor>();
 			_propertiesContainer.AddChild(propEditor);
-			propEditor.Load(target, prop);
+			propEditor.Load(_target, prop);
 		}
 	}
+
+	public Control GetControl() => this;
 }
