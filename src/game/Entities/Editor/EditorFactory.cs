@@ -85,7 +85,7 @@ public static class EditorFactory
 
 		if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
 		{
-			var listEditorScene = GD.Load<PackedScene>("uid://cgfb6ruan5t2n");
+			var listEditorScene = GD.Load<PackedScene>(LIST_EDITOR_UID);
 			var listEditor = listEditorScene.Instantiate<ListEditor>();
 			listEditor.Load(root, customName);
 
@@ -93,7 +93,7 @@ public static class EditorFactory
 		}
 
 		// TODO: Support for custom editors
-		var objectEditorScene = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
+		var objectEditorScene = GD.Load<PackedScene>(OBJ_EDITOR_UID);
 		var objectEditor = objectEditorScene.Instantiate<ObjectEditor>();
 		objectEditor.Load(root, customName);
 
