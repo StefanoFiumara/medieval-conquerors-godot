@@ -37,6 +37,7 @@ public partial class ListEditor : PanelContainer
 		_list = list;
 		_itemType = itemType;
 
+		// TODO: This doesn't work because CreateItemEditor is run before _Ready.
 		foreach (var item in list)
 			CreateItemEditor(item);
 	}
