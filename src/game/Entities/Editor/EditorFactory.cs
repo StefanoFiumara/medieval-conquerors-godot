@@ -15,7 +15,6 @@ public static class EditorFactory
 	public const string OBJ_EDITOR_UID = "uid://bxlv4w3wwtsro";
 
 	private static readonly Dictionary<Type, Type> _editorRegistry = new();
-	private static readonly Dictionary<Type, Func<IEditor>> _registry = new();
 
 	static EditorFactory()
 	{
