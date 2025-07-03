@@ -45,7 +45,7 @@ public class ActionDefinition
 
 public abstract class AbilityAttribute : CardAttribute
 {
-    public List<ActionDefinition> Actions { get; set; }
+    public List<ActionDefinition> Actions { get; set; } = [];
     // TODO: Target selector?
 }
 

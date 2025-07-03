@@ -33,7 +33,7 @@ public partial class CardDataEditor : ScrollContainer
 
 	private CardData _loadedData;
 	private StateMachine _stateMachine;
-	private PackedScene _attributeEditor;
+	private PackedScene _objectEditor;
 
 	public CardData LoadedData
 	{
@@ -97,7 +97,7 @@ public partial class CardDataEditor : ScrollContainer
 
 	public override void _Ready()
 	{
-		_attributeEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
+		_objectEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
 		_stateMachine = new StateMachine(new NoDataState(this));
 
 		LoadedData = null;
@@ -187,7 +187,7 @@ public partial class CardDataEditor : ScrollContainer
 
 	private void CreateAttributeEditor(ICardAttribute attr)
 	{
-		var editor = _attributeEditor.Instantiate<ObjectEditor>();
+		var editor = _objectEditor.Instantiate<ObjectEditor>();
 		_attributesContainer.AddChild(editor);
 
 		editor.Load(

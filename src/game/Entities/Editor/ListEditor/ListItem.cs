@@ -1,0 +1,35 @@
+using System.Collections;
+using Godot;
+using MedievalConquerors.Extensions;
+
+namespace MedievalConquerors.Entities.Editor;
+
+public partial class ListItem : MarginContainer
+{
+	private Button _removeButton;
+	private IList _owner;
+	private PackedScene _objectEditor;
+	private CenterContainer _itemContainer;
+
+	public override void _Ready()
+	{
+		_objectEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
+		_removeButton = GetNode<Button>("%remove_button");
+		_itemContainer = GetNode<CenterContainer>("%item_container");
+	}
+
+	public void Load(IList owner, object item)
+	{
+		_owner = owner;
+		_removeButton.Connect(BaseButton.SignalName.Pressed, Callable.From(() =>
+		{
+			_owner.Remove(item);
+			QueueFree();
+		}));
+
+		// TODO: support for primitive values or custom editors?
+		var editor = _objectEditor.Instantiate<ObjectEditor>();
+		_itemContainer.AddChild(editor);
+		editor.Load(item, $"[{owner.IndexOf(item)}] {item.GetType().Name.PrettyPrint()}");
+	}
+}

@@ -17,10 +17,10 @@ public static class EditorFactory
 
 		if(ValueEditorFactory.IsRegistered(type))
 			return ValueEditorFactory.CreateEditor(owner, prop)?.GetControl();
-		
+
 		if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(System.Collections.Generic.List<>))
 		{
-			var listEditorScene = GD.Load<PackedScene>("uid://your_list_editor_uid"); // TODO: Replace with actual UID
+			var listEditorScene = GD.Load<PackedScene>("uid://dyw3b7kfd00ck");
 			var listEditor = listEditorScene.Instantiate<ListEditor>();
 			var list = prop.GetValue(owner) as IList;
 			var itemType = type.GetGenericArguments()[0];
@@ -30,7 +30,7 @@ public static class EditorFactory
 			return listEditor;
 		}
 
-		var objectEditorScene = GD.Load<PackedScene>("uid://bti603u6u2oh");
+		var objectEditorScene = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
 		var objectEditor = objectEditorScene.Instantiate<ObjectEditor>();
 		var value = prop.GetValue(owner);
 

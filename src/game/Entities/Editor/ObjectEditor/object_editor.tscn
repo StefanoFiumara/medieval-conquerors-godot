@@ -3,13 +3,10 @@
 [ext_resource type="Script" uid="uid://x85002jm1pxs" path="res://Entities/Editor/ObjectEditor/ObjectEditor.cs" id="1_qe2mh"]
 
 [node name="attribute_editor" type="PanelContainer"]
-anchors_preset = 15
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -1809.0
-offset_bottom = -1035.0
+offset_bottom = 45.0
 grow_horizontal = 2
-grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_qe2mh")

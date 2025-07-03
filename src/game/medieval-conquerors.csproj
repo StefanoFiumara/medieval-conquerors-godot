@@ -1,20 +1,12 @@
 <Project Sdk="Godot.NET.Sdk/4.4.0">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
-    <RootNamespace>MedievalConquerors</RootNamespace>
+    <RootNamespace>medievalconquerors</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Fano.ASCIITableUtil" Version="1.1.1" />
-    <PackageReference Include="LiteDB" Version="5.0.19" />
-    <PackageReference Include="Riok.Mapperly" Version="4.2.0-next.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Views\**" />
-    <Compile Remove="GameData\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Remove="Views\**" />
-    <EmbeddedResource Remove="GameData\**" />
+    <PackageReference Include="LiteDB" Version="5.0.21" />
+    <PackageReference Include="Riok.Mapperly" Version="4.2.1" />
   </ItemGroup>
 </Project>

@@ -5,27 +5,25 @@ using Godot;
 namespace MedievalConquerors.Entities.Editor;
 
 /// <summary>
-/// ListEditor is a generic Godot editor panel for displaying and editing the items of any List<T>.
+/// ListEditor is a generic Godot editor panel for displaying and editing the items of a List.
 /// It creates an ObjectEditor for each item and allows adding/removing items.
 /// </summary>
 public partial class ListEditor : PanelContainer
 {
 	private Button _addButton;
 	private VBoxContainer _itemsContainer;
-	private PackedScene _objectEditorScene;
+	private PackedScene _itemEditor;
 
 	private IList _list;
 	private Type _itemType;
 
 	public override void _Ready()
 	{
-		// TODO: Create Scene for ListEditor
+		_itemEditor = GD.Load<PackedScene>("uid://bcdq665qxr1e8");
 		_addButton = GetNode<Button>("%add_button");
 		_itemsContainer = GetNode<VBoxContainer>("%items_container");
-		// TODO: double check UID
-		_objectEditorScene = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
 
-		_addButton.Pressed += OnAddPressed;
+		_addButton.Connect(BaseButton.SignalName.Pressed, Callable.From(OnAddPressed));
 	}
 
 	/// <summary>
@@ -39,34 +37,16 @@ public partial class ListEditor : PanelContainer
 		_list = list;
 		_itemType = itemType;
 
-		foreach (var child in _itemsContainer.GetChildren())
-			child.QueueFree();
-
 		foreach (var item in list)
-			AddItemEditor(item);
+			CreateItemEditor(item);
 	}
 
-	private void AddItemEditor(object item)
+	private void CreateItemEditor(object item)
 	{
-		var editor = _objectEditorScene.Instantiate<ObjectEditor>();
+		var editor = _itemEditor.Instantiate<ListItem>();
 		_itemsContainer.AddChild(editor);
-		editor.Load(item);
-		
-		var removeButton = new Button { Text = "Remove" };
-		
-		var listItem = new HBoxContainer();
-		listItem.AddChild(removeButton);
-		listItem.AddChild(editor);
-		_itemsContainer.AddChild(listItem);
+		editor.Load(_list, item);
 
-		removeButton.Connect(BaseButton.SignalName.Pressed, Callable.From(() => RemoveItem(listItem, item)));
-	}
-
-	private void RemoveItem(HBoxContainer container, object item)
-	{
-		_itemsContainer.RemoveChild(container);
-		_list.Remove(item);
-		container.QueueFree();
 	}
 
 	private void OnAddPressed()
@@ -75,6 +55,6 @@ public partial class ListEditor : PanelContainer
 		// For polymorphic lists, we may want to provide a factory or selector for the type
 		var newItem = Activator.CreateInstance(_itemType);
 		_list.Add(newItem);
-		AddItemEditor(newItem);
+		CreateItemEditor(newItem);
 	}
 }

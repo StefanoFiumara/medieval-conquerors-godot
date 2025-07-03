@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://dyw3b7kfd00ck"]
+
+[ext_resource type="Script" uid="uid://bbf4rqdua044a" path="res://Entities/Editor/ListEditor/ListEditor.cs" id="1_apkni"]
+
+[node name="list_editor" type="PanelContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 59.0
+grow_horizontal = 2
+script = ExtResource("1_apkni")
+
+[node name="margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="content" type="VBoxContainer" parent="margin"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="title" type="VBoxContainer" parent="margin/content"]
+layout_mode = 2
+
+[node name="title_container" type="HBoxContainer" parent="margin/content/title"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="title_label" type="Label" parent="margin/content/title/title_container"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.298201, 0.791912, 0.0626427, 1)
+text = "List Name"
+
+[node name="add_button" type="Button" parent="margin/content/title/title_container"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.223786, 0.716817, 1, 1)
+text = "Add"
+
+[node name="separator" type="HSeparator" parent="margin/content/title"]
+layout_mode = 2
+
+[node name="items_container" type="VBoxContainer" parent="margin/content"]
+unique_name_in_owner = true
+layout_mode = 2

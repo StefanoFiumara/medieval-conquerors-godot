@@ -24,6 +24,7 @@ window/vsync/vsync_mode=0
 [dotnet]
 
 project/assembly_name="medieval-conquerors"
+project/solution_directory="src"
 
 [filesystem]
 
