@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://dyw3b7kfd00ck"]
+[gd_scene load_steps=2 format=3 uid="uid://cgfb6ruan5t2n"]
 
 [ext_resource type="Script" uid="uid://bbf4rqdua044a" path="res://Entities/Editor/ListEditor/ListEditor.cs" id="1_apkni"]
 
