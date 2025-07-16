@@ -10,6 +10,8 @@ At the start of the game, players draw a set number of cards from their deck and
 
 At certain milestones, players will be able to advance through the ages, from the Dark Age, through the Feudal, Castle, and Imperial ages. Each age unlocks the ability to play more powerful cards, including new units, buildings, and technologies in order to increase their strength.
 
+For detailed strategies and goals for the opening phase of the game, see the [Dark Age Phase Guide](dark-age-phase.md).
+
 ## 3. Civilizations
 Each deck a player crafts represents a medieval civilization, each civilization has certain unique cards, which may influence the player to adopt certain strategies according to their civilizations playstyle. For example, the French may opt for a stable and attack with cavalry based units, an English player could defend with towers and longbowmen, while a Mongolian player may craft an early rush strategy to defeat their opponent or disrupt their early game resource collection before they can advance through the ages.
 
