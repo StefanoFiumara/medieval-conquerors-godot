@@ -131,6 +131,7 @@ layout_mode = 2
 size_flags_vertical = 1
 text = "Portrait:"
 horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="portrait_selector" parent="margin/editor_vbox_container/portrait" instance=ExtResource("2_ildny")]
 layout_mode = 2

@@ -4,8 +4,9 @@
 
 [node name="list_item" type="MarginContainer"]
 theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 script = ExtResource("1_evfo1")
 
 [node name="hbox_container" type="HBoxContainer" parent="."]
