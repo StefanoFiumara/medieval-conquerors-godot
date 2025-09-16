@@ -1,17 +1,17 @@
 ﻿<component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Editor" type="RunExe" factoryName=".NET Executable">
-    <option name="EXE_PATH" value="$PROJECT_DIR$/../../Godot/Godot_v4.4-stable_mono_win64/Godot_v4.4-stable_mono_win64.exe" />
+    <option name="EXE_PATH" value="C:/Godot/Godot_v4.5-stable_mono_win64/Godot_v4.5-stable_mono_win64.exe" />
     <option name="PROGRAM_PARAMETERS" value="--path &quot;$PROJECT_DIR$/game&quot; Screens/Editor.tscn" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/game" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     <option name="PASS_PARENT_ENVS" value="1" />
     <option name="USE_EXTERNAL_CONSOLE" value="0" />
     <option name="ENV_FILE_PATHS" value="" />
     <option name="REDIRECT_INPUT_PATH" value="" />
     <option name="PTY_MODE" value="Auto" />
+    <option name="MIXED_MODE_DEBUG" value="0" />
     <option name="USE_MONO" value="0" />
     <option name="RUNTIME_ARGUMENTS" value="" />
     <option name="AUTO_ATTACH_CHILDREN" value="0" />
-    <option name="MIXED_MODE_DEBUG" value="0" />
     <option name="RUNTIME_TYPE" value="coreclr" />
     <method v="2">
       <option name="Build Solution" enabled="true" />
