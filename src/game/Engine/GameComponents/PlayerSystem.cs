@@ -95,7 +95,7 @@ public class PlayerSystem : GameComponent, IAwake
         {
             var player = card.Owner;
             // TODO: split into a separate reaction with a BanishCardsAction instead of putting this logic here
-            if(card.Data.Id == CardLibrary.VillagerId)
+            if(card.Data.Id == CardLibrary.VILLAGER_ID)
                 player.MoveCard(card, Zone.Banished);
             else
                 player.MoveCard(card, Zone.Discard);

@@ -21,7 +21,7 @@ public class HexMap(Dictionary<Vector2I, TileData> tileData, Dictionary<TileTerr
 	public delegate void TileChangedHandler(TileData oldTile, TileData newTile);
 	public event TileChangedHandler OnTileChanged;
 
-	private static readonly Vector2I[] EvenHexDirections =
+	private static readonly Vector2I[] _evenHexDirections =
 	[
 		new( 1,  0),
 		new( 0, -1),
@@ -31,7 +31,7 @@ public class HexMap(Dictionary<Vector2I, TileData> tileData, Dictionary<TileTerr
 		new( 0,  1)
 	];
 
-	private static readonly Vector2I[] OddHexDirections =
+	private static readonly Vector2I[] _oddHexDirections =
 	[
 		new( 1,  0),
 		new( 1, -1),
@@ -57,7 +57,7 @@ public class HexMap(Dictionary<Vector2I, TileData> tileData, Dictionary<TileTerr
 
 	public IEnumerable<TileData> GetNeighbors(Vector2I pos)
 	{
-		var directions = pos.Y % 2 == 0 ? EvenHexDirections : OddHexDirections;
+		var directions = pos.Y % 2 == 0 ? _evenHexDirections : _oddHexDirections;
 
 		foreach (var dir in directions)
 		{

@@ -10,9 +10,9 @@ namespace MedievalConquerors.Engine;
 
 public static class CustomTileData
 {
-	public const string TerrainType = "TerrainType";
-	public const string ResourceType = "ResourceType";
-	public const string ResourceYield = "ResourceYield";
+	public const string TERRAIN_TYPE = "TerrainType";
+	public const string RESOURCE_TYPE = "ResourceType";
+	public const string RESOURCE_YIELD = "ResourceYield";
 }
 
 public static class GameMapFactory
@@ -35,9 +35,9 @@ public static class GameMapFactory
 		{
 			// TODO: Resource yields should probably go somewhere else so that they are not tied to the tile set and are easier to edit (Game Settings?)
 			// TODO: Resource type for the yield should be derived from the terrain type, rather than stored as separate data.
-			var terrain = tileMap.GetCellTileData(pos).GetCustomData(CustomTileData.TerrainType).As<TileTerrain>();
-			var resourceType = tileMap.GetCellTileData(pos).GetCustomData(CustomTileData.ResourceType).As<ResourceType>();
-			var resourceYield = tileMap.GetCellTileData(pos).GetCustomData(CustomTileData.ResourceYield).As<int>();
+			var terrain = tileMap.GetCellTileData(pos).GetCustomData(CustomTileData.TERRAIN_TYPE).As<TileTerrain>();
+			var resourceType = tileMap.GetCellTileData(pos).GetCustomData(CustomTileData.RESOURCE_TYPE).As<ResourceType>();
+			var resourceYield = tileMap.GetCellTileData(pos).GetCustomData(CustomTileData.RESOURCE_YIELD).As<int>();
 
 			var tile = new TileData(pos, terrain, resourceType, resourceYield);
 			tiles.Add(pos, tile);

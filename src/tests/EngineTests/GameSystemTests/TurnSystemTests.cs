@@ -20,8 +20,8 @@ public class TurnSystemTests : GameSystemTestFixture
     public void GameFactory_Creates_TurnSystem() => _turnSystem.ShouldNotBeNull();
 
     [Theory]
-    [InlineData(Match.LocalPlayerId)]
-    [InlineData(Match.EnemyPlayerId)]
+    [InlineData(Match.LOCAL_PLAYER_ID)]
+    [InlineData(Match.ENEMY_PLAYER_ID)]
     public void Match_Tracks_CurrentPlayer_Id(int nextPlayerId)
     {
         // Start the game with the given player

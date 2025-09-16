@@ -20,9 +20,9 @@ public partial class HandView : Node2D, IGameComponent
 	public static readonly Vector2 DeckPosition = new(-1200, 400);
 	public static readonly Vector2 DiscardPosition = new(1200, 400);
 
-	private const float HandWidth = 600;
-	private const float HandHeight = 95f;
-	private const int PreviewSectionHeight = 350;
+	private const float HAND_WIDTH = 600;
+	private const float HAND_HEIGHT = 95f;
+	private const int PREVIEW_SECTION_HEIGHT = 350;
 
 	private int _hoverXMin;
 	private int _hoverXMax;
@@ -106,11 +106,11 @@ public partial class HandView : Node2D, IGameComponent
 		{
 			if (mouseEvent.ButtonIndex == MouseButton.Right)
 			{
-				 _events.Publish(InputSystem.ClickedEvent, (IClickable)null, mouseEvent);
+				 _events.Publish(InputSystem.CLICKED_EVENT, (IClickable)null, mouseEvent);
 			}
 			if (mouseEvent.ButtonIndex == MouseButton.Left && _hoveredIndex != -1)
 			{
-				_events.Publish(InputSystem.ClickedEvent, Cards[_hoveredIndex], mouseEvent);
+				_events.Publish(InputSystem.CLICKED_EVENT, Cards[_hoveredIndex], mouseEvent);
 				_viewport.SetInputAsHandled();
 			}
 		}
@@ -128,7 +128,7 @@ public partial class HandView : Node2D, IGameComponent
 				x: _hoverXMin + i * _hoverSectionSize,
 				y: -150,
 				width: _hoverSectionSize,
-				height: PreviewSectionHeight
+				height: PREVIEW_SECTION_HEIGHT
 			);
 
 			DrawRect(sectionRect, Colors.Magenta, false, 2);
@@ -150,8 +150,8 @@ public partial class HandView : Node2D, IGameComponent
 
 	public Tween SelectCardTween(CardView card)
 	{
-		const float selectedScale = 0.7f;
-		const double tweenDuration = 0.3;
+		const float SELECTED_SCALE = 0.7f;
+		const double TWEEN_DURATION = 0.3;
 		// TODO: Formalize highlight colors in one file (Game settings?)
 		SetSelected(card);
 		card.Highlight(Colors.Cyan);
@@ -160,8 +160,8 @@ public partial class HandView : Node2D, IGameComponent
 
 		// TODO: Store the card's width/height as constants in the CardView class
 		//		 Figure out if it's possible to derive these values from the card scene itself
-		tween.TweenProperty(card, "global_position", Vector2.Right * 135 * selectedScale + Vector2.Down * 185 * selectedScale, tweenDuration);
-		tween.TweenProperty(card, "scale", Vector2.One * selectedScale, tweenDuration);
+		tween.TweenProperty(card, "global_position", Vector2.Right * 135 * SELECTED_SCALE + Vector2.Down * 185 * SELECTED_SCALE, TWEEN_DURATION);
+		tween.TweenProperty(card, "scale", Vector2.One * SELECTED_SCALE, TWEEN_DURATION);
 
 		return tween;
 	}
@@ -175,7 +175,7 @@ public partial class HandView : Node2D, IGameComponent
 				x: _hoverXMin + i * _hoverSectionSize,
 				y: -150,
 				width: _hoverSectionSize,
-				height: PreviewSectionHeight
+				height: PREVIEW_SECTION_HEIGHT
 			);
 
 			if (sectionRect.HasPoint(mousePos))
@@ -206,7 +206,7 @@ public partial class HandView : Node2D, IGameComponent
 
 	private Tween HoverCardTween(int index)
 	{
-		const double tweenDuration = 0.2;
+		const double TWEEN_DURATION = 0.2;
 
 		var card = Cards[index];
 		card.ZIndex = 100;
@@ -216,8 +216,8 @@ public partial class HandView : Node2D, IGameComponent
 			.SetParallel();
 
 		var (handPos, _) = GetCardPosition(card);
-		tween.TweenProperty(card, "position", handPos + Vector2.Up * (30 + handPos.Y), tweenDuration);
-		tween.TweenProperty(card, "rotation", 0, tweenDuration);
+		tween.TweenProperty(card, "position", handPos + Vector2.Up * (30 + handPos.Y), TWEEN_DURATION);
+		tween.TweenProperty(card, "rotation", 0, TWEEN_DURATION);
 
 		_tweenTracker.TrackTween(tween, card);
 		return tween;
@@ -278,8 +278,8 @@ public partial class HandView : Node2D, IGameComponent
 		if (Cards.Count > 1)
 			ratio = Cards.IndexOf(card) / (float) (Cards.Count - 1);
 
-		var xOffset = _spreadCurve.Sample(ratio) * HandWidth * (Cards.Count / 10f);
-		var yOffset = -_heightCurve.Sample(ratio) * HandHeight;
+		var xOffset = _spreadCurve.Sample(ratio) * HAND_WIDTH * (Cards.Count / 10f);
+		var yOffset = -_heightCurve.Sample(ratio) * HAND_HEIGHT;
 		var position = new Vector2(xOffset, yOffset);
 
 		var rotation = -_rotationCurve.Sample(ratio) * 0.25f * (Cards.Count / 5f);

@@ -8,8 +8,8 @@ namespace MedievalConquerors.Entities.Editor;
 
 public partial class ImageSelector : HBoxContainer
 {
-	private const string PortraitsPath = "res://entities/cards/portraits/";
-	private const string TokensPath = "res://entities/tokens/token_icons/";
+	private const string PORTRAITS_PATH = "res://entities/cards/portraits/";
+	private const string TOKENS_PATH = "res://entities/tokens/token_icons/";
 
 	[Export] private OptionButton _imageOptions;
 	[Export] private Button _refreshButton;
@@ -24,7 +24,7 @@ public partial class ImageSelector : HBoxContainer
 		{
 			var selected = _imageOptions?.GetItemText(_imageOptions?.GetSelectedId() ?? 0) ?? "None";
 			return selected != "None"
-				? ResourceUid.IdToText(ResourceLoader.GetResourceUid($"{PortraitsPath}/{selected}"))
+				? ResourceUid.IdToText(ResourceLoader.GetResourceUid($"{PORTRAITS_PATH}/{selected}"))
 				: string.Empty;
 		}
 		set
@@ -55,7 +55,7 @@ public partial class ImageSelector : HBoxContainer
 		{
 			var selected = _imageOptions?.GetItemText(_imageOptions?.GetSelectedId() ?? 0) ?? "None";
 			return selected != "None"
-				? ResourceUid.IdToText(ResourceLoader.GetResourceUid($"{TokensPath}/{selected}"))
+				? ResourceUid.IdToText(ResourceLoader.GetResourceUid($"{TOKENS_PATH}/{selected}"))
 				: string.Empty;
 		}
 	}
@@ -97,7 +97,7 @@ public partial class ImageSelector : HBoxContainer
 
 	private IEnumerable<(string iconUid, string imagePath)> GetImageList()
 	{
-		var files =  DirAccess.Open(PortraitsPath).GetFiles()
+		var files =  DirAccess.Open(PORTRAITS_PATH).GetFiles()
 			.GroupBy(p => p.Replace("_icon", string.Empty).Replace(".import", string.Empty))
 			.ToDictionary(g => g.Key, g => g.ToList())
 			.Where(p => p.Value.Count == 4)
@@ -105,7 +105,7 @@ public partial class ImageSelector : HBoxContainer
 			.ToList();
 
 			return files.Select(g => (
-				iconUid: ResourceUid.IdToText(ResourceLoader.GetResourceUid($"{PortraitsPath}/{g.iconPath}")),
+				iconUid: ResourceUid.IdToText(ResourceLoader.GetResourceUid($"{PORTRAITS_PATH}/{g.iconPath}")),
 				g.imagePath
 			));
 	}

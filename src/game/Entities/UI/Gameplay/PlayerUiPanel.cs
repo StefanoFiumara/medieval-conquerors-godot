@@ -8,7 +8,7 @@ namespace MedievalConquerors.Entities.UI;
 
 public partial class PlayerUiPanel : MarginContainer
 {
-	public const string NextTurnClicked = "PlayerUiPanel.NextTurnButton.Clicked";
+	public const string NEXT_TURN_CLICKED = "PlayerUiPanel.NextTurnButton.Clicked";
 
 	[Export] private GameController _gameController;
 
@@ -36,9 +36,9 @@ public partial class PlayerUiPanel : MarginContainer
 		_events = _gameController.Game.GetComponent<EventAggregator>();
 		_match = _gameController.Game.GetComponent<Match>();
 
-		_endTurnButton.ButtonUp += () => _events.Publish(NextTurnClicked);
-		_events.Subscribe(ActionSystem.BeginActionEvent, OnBeginSequence);
-		_events.Subscribe(ActionSystem.CompleteActionEvent, OnActionsComplete);
+		_endTurnButton.ButtonUp += () => _events.Publish(NEXT_TURN_CLICKED);
+		_events.Subscribe(ActionSystem.BEGIN_ACTION_EVENT, OnBeginSequence);
+		_events.Subscribe(ActionSystem.COMPLETE_ACTION_EVENT, OnActionsComplete);
 	}
 	private void OnBeginSequence() => _endTurnButton.Disabled = true;
 
@@ -61,7 +61,7 @@ public partial class PlayerUiPanel : MarginContainer
 
 	public override void _ExitTree()
 	{
-		_events.Unsubscribe(ActionSystem.BeginActionEvent, OnBeginSequence);
-		_events.Unsubscribe(ActionSystem.CompleteActionEvent, OnActionsComplete);
+		_events.Unsubscribe(ActionSystem.BEGIN_ACTION_EVENT, OnBeginSequence);
+		_events.Unsubscribe(ActionSystem.COMPLETE_ACTION_EVENT, OnActionsComplete);
 	}
 }

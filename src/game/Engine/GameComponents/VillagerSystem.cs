@@ -24,7 +24,7 @@ public class VillagerSystem : GameComponent, IAwake {
     {
         var player = _match.Players[action.PlayerId];
 
-        var card = _cardDb.LoadCard(CardLibrary.VillagerId, player);
+        var card = _cardDb.LoadCard(CardLibrary.VILLAGER_ID, player);
         player.Deck.Add(card);
     }
 }

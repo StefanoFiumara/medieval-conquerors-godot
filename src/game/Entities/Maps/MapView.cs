@@ -18,7 +18,7 @@ namespace MedievalConquerors.Entities.Maps;
 
 public partial class MapView : Node2D, IGameComponent
 {
-	private const int HighlightTileSetId = 1;
+	private const int HIGHLIGHT_TILE_SET_ID = 1;
 
 	public IGame Game { get; set; }
 
@@ -114,7 +114,7 @@ public partial class MapView : Node2D, IGameComponent
 		switch (buttonEvent.ButtonIndex)
 		{
 			case MouseButton.Left when buttonEvent.IsReleased():
-				_events.Publish(InputSystem.ClickedEvent, _map.GetTile(GetTileCoord(buttonEvent.Position)), buttonEvent);
+				_events.Publish(InputSystem.CLICKED_EVENT, _map.GetTile(GetTileCoord(buttonEvent.Position)), buttonEvent);
 				return true;
 			case MouseButton.Middle:
 				SetDragging(buttonEvent.Pressed);
@@ -210,7 +210,7 @@ public partial class MapView : Node2D, IGameComponent
 
 	private IEnumerator MoveTokenAnimation(IGame game, GameAction action)
 	{
-		const double stepDuration = 0.3;
+		const double STEP_DURATION = 0.3;
 
 		var moveAction = (MoveUnitAction) action;
 		var path = _map.CalculatePath(moveAction.CardToMove.MapPosition, moveAction.TargetTile);
@@ -221,7 +221,7 @@ public partial class MapView : Node2D, IGameComponent
 		foreach (var tile in path)
 		{
 			var stepPosition = this[MapLayerType.Terrain].MapToLocal(tile);
-			tween.TweenProperty(token, "position", stepPosition, stepDuration);
+			tween.TweenProperty(token, "position", stepPosition, STEP_DURATION);
 		}
 
 		while (tween.IsRunning())
@@ -230,15 +230,15 @@ public partial class MapView : Node2D, IGameComponent
 
 	private IEnumerator GarrisonAnimation(IGame game, GameAction action)
 	{
-		const double tweenDuration = 0.5;
+		const double TWEEN_DURATION = 0.5;
 
 		var garrisonAction = (GarrisonAction)action;
 
 		var unitToken = CreateTokenView(garrisonAction.Unit, garrisonAction.Building.MapPosition);
 
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine);
-		tween.TweenProperty(unitToken, "modulate", Colors.White, tweenDuration).From(Colors.Transparent);
-		tween.TweenProperty(unitToken, "modulate", Colors.Transparent, tweenDuration);
+		tween.TweenProperty(unitToken, "modulate", Colors.White, TWEEN_DURATION).From(Colors.Transparent);
+		tween.TweenProperty(unitToken, "modulate", Colors.Transparent, TWEEN_DURATION);
 		tween.TweenCallback(Callable.From(() =>
 		{
 			_tokens.Remove(unitToken);
@@ -253,7 +253,7 @@ public partial class MapView : Node2D, IGameComponent
 
 	private IEnumerator CollectResourcesAnimation(IGame game, GameAction action)
 	{
-		const double stepDuration = 0.45;
+		const double STEP_DURATION = 0.45;
 		var collectAction = (CollectResourcesAction)action;
 
 		yield return true;
@@ -261,7 +261,7 @@ public partial class MapView : Node2D, IGameComponent
 		foreach (var collected in collectAction.ResourcesCollected)
 		{
 			var position = this[MapLayerType.Terrain].MapToLocal(collected.position);
-			var tween = this.CreateResourcePopup(position, collected.resource, collected.amount, stepDuration);
+			var tween = this.CreateResourcePopup(position, collected.resource, collected.amount, STEP_DURATION);
 
 			while (tween.IsRunning())
 				yield return null;
@@ -311,7 +311,7 @@ public partial class MapView : Node2D, IGameComponent
 
 		// NOTE: The layer ID also matches up with the scene collection ID for the glow color for that layer
 		if (coord != HexMap.None)
-			this[layer].SetCell(coord, HighlightTileSetId, Vector2I.Zero, (int)layer);
+			this[layer].SetCell(coord, HIGHLIGHT_TILE_SET_ID, Vector2I.Zero, (int)layer);
 	}
 
 	public bool IsHighlighted(Vector2I coord, MapLayerType layer)

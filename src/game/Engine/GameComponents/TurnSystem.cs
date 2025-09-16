@@ -25,7 +25,7 @@ public class TurnSystem : GameComponent, IAwake
         _events.Subscribe<BeginTurnAction>(GameEvent.Perform<BeginTurnAction>(), OnPerformBeginTurn);
         _events.Subscribe<EndTurnAction>(GameEvent.Perform<EndTurnAction>(), OnPerformEndTurn);
         _events.Subscribe<BeginGameAction>(GameEvent.Perform<BeginGameAction>(), OnPerformBeginGame);
-        _events.Subscribe(PlayerUiPanel.NextTurnClicked, OnClickNextTurn);
+        _events.Subscribe(PlayerUiPanel.NEXT_TURN_CLICKED, OnClickNextTurn);
     }
 
     private void OnClickNextTurn()
@@ -41,12 +41,12 @@ public class TurnSystem : GameComponent, IAwake
     private void OnPerformBeginGame(BeginGameAction action)
     {
         // Shuffle Decks
-        Game.AddReaction(new ShuffleDeckAction(Match.LocalPlayerId));
-        Game.AddReaction(new ShuffleDeckAction(Match.EnemyPlayerId));
+        Game.AddReaction(new ShuffleDeckAction(Match.LOCAL_PLAYER_ID));
+        Game.AddReaction(new ShuffleDeckAction(Match.ENEMY_PLAYER_ID));
 
         // Spawn Town Centers
-        var townCenter1 = _library.LoadCard(CardLibrary.TownCenterId, _match.LocalPlayer);
-        var townCenter2 = _library.LoadCard(CardLibrary.TownCenterId, _match.EnemyPlayer);
+        var townCenter1 = _library.LoadCard(CardLibrary.TOWN_CENTER_ID, _match.LocalPlayer);
+        var townCenter2 = _library.LoadCard(CardLibrary.TOWN_CENTER_ID, _match.EnemyPlayer);
         Game.AddReaction(new BuildStructureAction(townCenter1, _match.LocalPlayer.TownCenter.Position));
         Game.AddReaction(new BuildStructureAction(townCenter2, _match.EnemyPlayer.TownCenter.Position));
 

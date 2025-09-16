@@ -45,7 +45,7 @@ public partial class PlayCardsView : Node2D, IGameComponent
 		yield return true;
 		var playAction = (PlayCardAction) action;
 
-		if (playAction.CardToPlay.Owner.Id == Match.LocalPlayerId)
+		if (playAction.CardToPlay.Owner.Id == Match.LOCAL_PLAYER_ID)
 		{
 			var cardView = _hand.Cards.Single(c => c.Card == playAction.CardToPlay);
 			var playCardTween = PlayCardTween(cardView, playAction.TargetTile);

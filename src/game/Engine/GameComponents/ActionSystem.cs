@@ -9,9 +9,9 @@ namespace MedievalConquerors.Engine.GameComponents;
 
 public class ActionSystem : GameComponent, IAwake, IUpdate
 {
-	public const string BeginActionEvent = "ActionSystem.beginActionEvent";
-	public const string EndActionEvent = "ActionSystem.endActionEvent";
-	public const string CompleteActionEvent = "ActionSystem.completeActionEvent";
+	public const string BEGIN_ACTION_EVENT = "ActionSystem.beginActionEvent";
+	public const string END_ACTION_EVENT = "ActionSystem.endActionEvent";
+	public const string COMPLETE_ACTION_EVENT = "ActionSystem.completeActionEvent";
 
 	public bool IsActive => _rootSequence != null;
 
@@ -51,7 +51,7 @@ public class ActionSystem : GameComponent, IAwake, IUpdate
 			_rootAction = null;
 			_rootSequence = null;
 			_openReactions = null;
-			_events.Publish(CompleteActionEvent);
+			_events.Publish(COMPLETE_ACTION_EVENT);
 		}
 	}
 
@@ -68,7 +68,7 @@ public class ActionSystem : GameComponent, IAwake, IUpdate
 
 	private IEnumerator Sequence(GameAction action)
 	{
-		_events.Publish(BeginActionEvent, action);
+		_events.Publish(BEGIN_ACTION_EVENT, action);
 
 		var validationResult = action.Validate(Game);
 		if (validationResult.IsValid == false)
@@ -99,7 +99,7 @@ public class ActionSystem : GameComponent, IAwake, IUpdate
 		while (phase.MoveNext())
 			yield return null;
 
-		_events.Publish(EndActionEvent, action);
+		_events.Publish(END_ACTION_EVENT, action);
 	}
 
 	private IEnumerator MainPhase (ActionPhase phase)

@@ -9,7 +9,7 @@ namespace MedievalConquerors.Engine.Input;
 
 public class InputSystem : GameComponent, IAwake, IDestroy
 {
-    public const string ClickedEvent = "InputSystem.ClickedEvent";
+    public const string CLICKED_EVENT = "InputSystem.ClickedEvent";
 
     private StateMachine _stateMachine;
     private EventAggregator _events;
@@ -20,7 +20,7 @@ public class InputSystem : GameComponent, IAwake, IDestroy
         _actionSystem = Game.GetComponent<ActionSystem>();
         _events = Game.GetComponent<EventAggregator>();
 
-        _events.Subscribe<IClickable, InputEventMouseButton>(ClickedEvent, OnInput);
+        _events.Subscribe<IClickable, InputEventMouseButton>(CLICKED_EVENT, OnInput);
 
         _stateMachine = new StateMachine(new IdleInputState(Game));
     }
@@ -39,6 +39,6 @@ public class InputSystem : GameComponent, IAwake, IDestroy
 
     public void Destroy()
     {
-        _events.Unsubscribe(ClickedEvent, OnInput);
+        _events.Unsubscribe(CLICKED_EVENT, OnInput);
     }
 }

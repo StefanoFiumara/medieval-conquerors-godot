@@ -17,8 +17,8 @@ public class GlobalGameStateSystem : GameComponent, IAwake
     {
         _events = Game.GetComponent<EventAggregator>();
         
-        _events.Subscribe(ActionSystem.BeginActionEvent, OnBeginSequence);
-        _events.Subscribe(ActionSystem.CompleteActionEvent, OnActionsComplete);
+        _events.Subscribe(ActionSystem.BEGIN_ACTION_EVENT, OnBeginSequence);
+        _events.Subscribe(ActionSystem.COMPLETE_ACTION_EVENT, OnActionsComplete);
     }
 
     private void OnActionsComplete()

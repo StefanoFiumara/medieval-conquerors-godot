@@ -38,12 +38,12 @@ public partial class CardCreationView : Node2D, IGameComponent
 
     private IEnumerator CreateCardAnimation(IGame game, GameAction action)
     {
-        const double tweenDuration = 0.6;
+        const double TWEEN_DURATION = 0.6;
         yield return true;
 
         var createAction = (CreateCardAction) action;
 
-        const float spacing = 230f;
+        const float SPACING = 230f;
         var center = _viewport.GetVisibleRect().GetCenter();
 
         List<Tween> tweens = [];
@@ -56,11 +56,11 @@ public partial class CardCreationView : Node2D, IGameComponent
             var createdCard = createAction.CreatedCards[i];
             var cardView = _hand.CreateCardView(createdCard, Vector2.Zero);
             var offset = i - (createAction.CreatedCards.Count - 1) / 2.0f;
-            cardView.GlobalPosition = center + Vector2.Right * offset * spacing;
+            cardView.GlobalPosition = center + Vector2.Right * offset * SPACING;
             cardView.Scale = Vector2.Zero;
             tween.Chain().TweenInterval(0.3);
-            tween.TweenProperty(cardView, "modulate:a", 1, tweenDuration).From((Variant.From(0)));
-            tween.TweenProperty(cardView, "scale", Vector2.One, tweenDuration);
+            tween.TweenProperty(cardView, "modulate:a", 1, TWEEN_DURATION).From((Variant.From(0)));
+            tween.TweenProperty(cardView, "scale", Vector2.One, TWEEN_DURATION);
 
             if (createAction.TargetZone != Zone.Hand)
             {
@@ -75,9 +75,9 @@ public partial class CardCreationView : Node2D, IGameComponent
                     ? Mathf.Pi / 4
                     : -Mathf.Pi / 4;
 
-                subTween.TweenInterval(tweenDuration * i);
-                subTween.Chain().TweenProperty(cardView, "position", targetPosition, tweenDuration / 2);
-                subTween.TweenProperty(cardView, "rotation", targetRotation, tweenDuration / 2);
+                subTween.TweenInterval(TWEEN_DURATION * i);
+                subTween.Chain().TweenProperty(cardView, "position", targetPosition, TWEEN_DURATION / 2);
+                subTween.TweenProperty(cardView, "rotation", targetRotation, TWEEN_DURATION / 2);
                 subTween.Chain().TweenCallback(Callable.From(() =>
                 {
                     cardView.QueueFree();
@@ -103,7 +103,7 @@ public partial class CardCreationView : Node2D, IGameComponent
     private Tween DisplayCardTween(CardView card, double duration = 0.4) => DisplayCardsTween([card], duration);
     private Tween DisplayCardsTween(List<CardView> cards, double duration = 0.4)
     {
-        const float spacing = 230f;
+        const float SPACING = 230f;
 
         var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
         for (var i = 0; i < cards.Count; i++)
@@ -114,7 +114,7 @@ public partial class CardCreationView : Node2D, IGameComponent
             {
                 var center = _viewport.GetVisibleRect().GetCenter();
 
-                card.GlobalPosition = center + Vector2.Right * offset * spacing;
+                card.GlobalPosition = center + Vector2.Right * offset * SPACING;
                 card.Scale = Vector2.Zero;
             }));
 

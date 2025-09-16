@@ -36,7 +36,7 @@ public class ActionSystemTests : GameSystemTestFixture
         bool eventRaised = false;
         void BeginSequenceHandler() => eventRaised = true;
 
-        Events.Subscribe(ActionSystem.BeginActionEvent, BeginSequenceHandler);
+        Events.Subscribe(ActionSystem.BEGIN_ACTION_EVENT, BeginSequenceHandler);
 
         var action = new TestGameAction();
         Game.Perform(action);
@@ -120,12 +120,12 @@ public class ActionSystemTests : GameSystemTestFixture
 
     public static IEnumerable<object[]> ExpectedEvents => new List<object[]>
     {
-        new object[]{ ActionSystem.BeginActionEvent },
+        new object[]{ ActionSystem.BEGIN_ACTION_EVENT },
         new object[]{ GameEvent.Validate<TestGameAction>() },
         new object[]{ GameEvent.Prepare<TestGameAction>() },
         new object[]{ GameEvent.Perform<TestGameAction>() },
-        new object[]{ ActionSystem.EndActionEvent },
-        new object[]{ ActionSystem.CompleteActionEvent },
+        new object[]{ ActionSystem.END_ACTION_EVENT },
+        new object[]{ ActionSystem.COMPLETE_ACTION_EVENT },
     };
 
     [Theory]

@@ -6,11 +6,11 @@ namespace MedievalConquerors.Engine.Data;
 
 public class Match : GameComponent
 {
-    public const int LocalPlayerId = 0;
-    public const int EnemyPlayerId = 1;
+    public const int LOCAL_PLAYER_ID = 0;
+    public const int ENEMY_PLAYER_ID = 1;
     
-    public Player LocalPlayer { get; } = new Player(LocalPlayerId);
-    public Player EnemyPlayer { get; } = new Player(EnemyPlayerId);
+    public Player LocalPlayer { get; } = new Player(LOCAL_PLAYER_ID);
+    public Player EnemyPlayer { get; } = new Player(ENEMY_PLAYER_ID);
 
     public IReadOnlyList<Player> Players { get; }
     

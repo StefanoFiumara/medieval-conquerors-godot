@@ -6,7 +6,7 @@ namespace MedievalConquerors.Extensions;
 
 public static class PopupExtensions
 {
-	private static readonly PackedScene PopupScene = GD.Load<PackedScene>("uid://clw487na7ypbg");
+	private static readonly PackedScene _popupScene = GD.Load<PackedScene>("uid://clw487na7ypbg");
 
 	public static Tween CreatePopup(
 		this Node2D parent,
@@ -17,7 +17,7 @@ public static class PopupExtensions
 	{
 		var tween = parent.CreateTween().SetParallel().SetTrans(Tween.TransitionType.Sine);
 
-		var popup = PopupScene.Instantiate<PopupLabel>();
+		var popup = _popupScene.Instantiate<PopupLabel>();
 		parent.AddChild(popup);
 		popup.Label.AppendText(text);
 		popup.Position = position;

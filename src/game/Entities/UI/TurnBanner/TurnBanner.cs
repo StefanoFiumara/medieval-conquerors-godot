@@ -40,22 +40,22 @@ public partial class TurnBanner : Control
 
 	private IEnumerator TweenTurnBanner(IGame game, GameAction action)
 	{
-		const float tweenDuration = 0.5f;
-		const float middleDelay = 0.3f;
+		const float TWEEN_DURATION = 0.5f;
+		const float MIDDLE_DELAY = 0.3f;
 
 		var turnAction = (BeginTurnAction)action;
-		var labelText = turnAction.PlayerId == Match.LocalPlayerId ? "Your Turn" : "Enemy Turn";
+		var labelText = turnAction.PlayerId == Match.LOCAL_PLAYER_ID ? "Your Turn" : "Enemy Turn";
 
 		_turnLabel.Text = labelText.Center();
 
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
 
-		tween.TweenProperty(_background, "scale", Vector2.One, tweenDuration);
-		tween.TweenProperty(_turnLabel, "modulate:a", 1f, tweenDuration);
+		tween.TweenProperty(_background, "scale", Vector2.One, TWEEN_DURATION);
+		tween.TweenProperty(_turnLabel, "modulate:a", 1f, TWEEN_DURATION);
 		tween.Chain().TweenCallback(Callable.From(() => _background.PivotOffset = _background.Size));
 
-		tween.TweenProperty(_background, "scale", new Vector2(0f, 1f), tweenDuration).SetDelay(middleDelay);
-		tween.TweenProperty(_turnLabel, "modulate:a", 0f, tweenDuration).SetDelay(middleDelay);;
+		tween.TweenProperty(_background, "scale", new Vector2(0f, 1f), TWEEN_DURATION).SetDelay(MIDDLE_DELAY);
+		tween.TweenProperty(_turnLabel, "modulate:a", 0f, TWEEN_DURATION).SetDelay(MIDDLE_DELAY);;
 		tween.Chain().TweenCallback(Callable.From(() => _background.PivotOffset = Vector2.Zero));
 
 		while (tween.IsRunning())

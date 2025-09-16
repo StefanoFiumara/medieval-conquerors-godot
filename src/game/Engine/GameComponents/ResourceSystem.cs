@@ -100,10 +100,10 @@ public class ResourceSystem : GameComponent, IAwake
 
         int extraVillagers = totalVillagers - totalTiles;
         var efficiency = 1.0f;
-        const float decayFactor = 0.65f;
+        const float DECAY_FACTOR = 0.65f;
 
         for (int i = 0; i < extraVillagers; i++)
-            efficiency *= decayFactor;
+            efficiency *= DECAY_FACTOR;
 
         return efficiency;
     }

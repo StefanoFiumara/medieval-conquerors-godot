@@ -42,7 +42,7 @@ public partial class DrawView : Node2D, IGameComponent
 		var drawAction = (DrawCardsAction) action;
 
 		// TODO: Draw animation for opposite player?
-		if (drawAction.TargetPlayerId != Match.LocalPlayerId) yield break;
+		if (drawAction.TargetPlayerId != Match.LOCAL_PLAYER_ID) yield break;
 
 		foreach (var card in drawAction.DrawnCards)
 		{
@@ -54,7 +54,7 @@ public partial class DrawView : Node2D, IGameComponent
 
 	private IEnumerator DiscardCardsAnimation(IGame game, GameAction action)
 	{
-		const double tweenDuration = 0.25;
+		const double TWEEN_DURATION = 0.25;
 		var discardAction = (DiscardCardsAction) action;
 
 		yield return true;
@@ -66,10 +66,10 @@ public partial class DrawView : Node2D, IGameComponent
 
 			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
 
-			tween.TweenProperty(cardView, "position", HandView.DiscardPosition, tweenDuration);
-			tween.TweenProperty(cardView, "rotation", Mathf.Pi / 4, tweenDuration);
-			tween.TweenProperty(cardView, "scale", Vector2.One * 1.3f, tweenDuration);
-			tween.TweenProperty(cardView, "modulate:a", 0f, tweenDuration);
+			tween.TweenProperty(cardView, "position", HandView.DiscardPosition, TWEEN_DURATION);
+			tween.TweenProperty(cardView, "rotation", Mathf.Pi / 4, TWEEN_DURATION);
+			tween.TweenProperty(cardView, "scale", Vector2.One * 1.3f, TWEEN_DURATION);
+			tween.TweenProperty(cardView, "modulate:a", 0f, TWEEN_DURATION);
 			tween.Chain().TweenCallback(Callable.From(() =>
 			{
 				_hand.Cards.Remove(cardView);

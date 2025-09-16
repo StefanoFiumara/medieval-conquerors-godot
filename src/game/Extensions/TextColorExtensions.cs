@@ -25,14 +25,14 @@ public static class ResourceColors
 {
     public static readonly Dictionary<ResourceType, string> Map = new()
     {
-        { ResourceType.Food,  Food },
-        { ResourceType.Wood,  Wood },
-        { ResourceType.Gold,  Gold },
-        { ResourceType.Stone, Stone },
+        { ResourceType.Food,  FOOD },
+        { ResourceType.Wood,  WOOD },
+        { ResourceType.Gold,  GOLD },
+        { ResourceType.Stone, STONE },
     };
 
-    public const string Food = "#f76a67";
-    public const string Wood = "#ab7b64";
-    public const string Gold = "#fcdd00";
-    public const string Stone = "#c7d1db";
+    public const string FOOD = "#f76a67";
+    public const string WOOD = "#ab7b64";
+    public const string GOLD = "#fcdd00";
+    public const string STONE = "#c7d1db";
 }
