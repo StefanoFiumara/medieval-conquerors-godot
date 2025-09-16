@@ -28,11 +28,9 @@ public partial class TagSelector : GridContainer, IPropertyEditor
 				if (_tagSelectors is { Count: > 0 })
 				{
 					foreach (var tagSelector in _tagSelectors)
-					{
-						tagSelector.Value.ButtonPressed = value.HasFlag(tagSelector.Key);
-					}
+						tagSelector.Value.SetPressedNoSignal(value.HasFlag(tagSelector.Key));
 				}
-				EmitSignal(TagSelector.SignalName.TagsChanged);
+				EmitSignal(SignalName.TagsChanged);
 			}
 		}
 	}
@@ -47,7 +45,15 @@ public partial class TagSelector : GridContainer, IPropertyEditor
 			checkBox.Text = tag.ToString();
 			_tagSelectors.Add(tag, checkBox);
 			AddChild(checkBox);
-			checkBox.Connect(BaseButton.SignalName.Toggled, Callable.From<bool>(_ => EmitSignal(SignalName.TagsChanged)));
+			checkBox.Connect(BaseButton.SignalName.Toggled, Callable.From<bool>(_ =>
+			{
+				if (_tagSelectors is { Count: > 0 })
+				{
+					SelectedTags = _tagSelectors
+						.Where(s => s.Value.ButtonPressed)
+						.Aggregate(Tags.None, (current, selector) => current | selector.Key);
+				}
+			}));
 		}
 
 		foreach (var tagSelector in _tagSelectors)
