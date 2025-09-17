@@ -7,8 +7,10 @@
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
         <OutputType>Exe</OutputType>
+        <GodotSourceGenerators>disabled</GodotSourceGenerators>
     </PropertyGroup>
     <ItemGroup>
+        <CompilerVisibleProperty Include="GodotSourceGenerators" />
         <PackageReference Include="AutoFixture" Version="5.0.0-preview0012" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
         <PackageReference Include="NSubstitute" Version="5.1.0" />
