@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bhmiifttu4eln"]
+
+[node name="action_parameter_editor" type="HBoxContainer"]
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Target: "
+
+[node name="OptionButton" type="OptionButton" parent="."]
+layout_mode = 2
+selected = 0
+item_count = 1
+popup/item_0/text = "Owner"
+popup/item_0/id = 0

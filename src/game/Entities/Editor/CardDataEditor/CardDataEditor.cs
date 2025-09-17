@@ -104,6 +104,7 @@ public partial class CardDataEditor : ScrollContainer
 
 		// TODO: is it possible to subscribe in EnterTree? Library editor probably will not exist yet
 		//		Maybe a different way of setting up this communication
+		// IDEA: turn this into a signal and wire it up in the godot editor instead.
 		_libraryEditor.SearchResultClicked += card => LoadedData = card;
 	}
 

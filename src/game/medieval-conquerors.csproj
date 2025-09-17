@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
-    <RootNamespace>medievalconquerors</RootNamespace>
+    <RootNamespace>MedievalConquerors</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Fano.ASCIITableUtil" Version="1.1.1" />

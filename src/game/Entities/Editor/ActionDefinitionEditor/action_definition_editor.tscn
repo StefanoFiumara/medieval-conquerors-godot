@@ -1,0 +1,66 @@
+[gd_scene load_steps=4 format=3 uid="uid://r7okqixgwqie"]
+
+[ext_resource type="Script" uid="uid://bme0pqnh2xfm5" path="res://Entities/Editor/Options/GameActionOptions.cs" id="1_0842s"]
+[ext_resource type="Script" uid="uid://c52fc7bu8yihr" path="res://Entities/Editor/ActionDefinitionEditor/ActionDefinitionEditor.cs" id="1_f3rbf"]
+[ext_resource type="PackedScene" uid="uid://bhmiifttu4eln" path="res://Entities/Editor/ActionDefinitionEditor/action_parameter_editor.tscn" id="3_8ypy6"]
+
+[node name="action_definition_editor" type="PanelContainer"]
+offset_right = 467.0
+offset_bottom = 46.0
+size_flags_horizontal = 3
+script = ExtResource("1_f3rbf")
+
+[node name="margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="hbox_container" type="HBoxContainer" parent="margin"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="action_container" type="HBoxContainer" parent="margin/hbox_container"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="action_label" type="Label" parent="margin/hbox_container/action_container"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.862745, 0.784314, 0.156863, 1)
+text = "Action: "
+
+[node name="action_options" type="OptionButton" parent="margin/hbox_container/action_container"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+selected = 0
+item_count = 1
+popup/item_0/text = "ShuffleDeckAction"
+popup/item_0/id = 0
+script = ExtResource("1_0842s")
+
+[node name="VSeparator" type="VSeparator" parent="margin/hbox_container"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="vbox_container" type="VBoxContainer" parent="margin/hbox_container"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="margin" type="MarginContainer" parent="margin/hbox_container/vbox_container"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="params_container" type="VBoxContainer" parent="margin/hbox_container/vbox_container/margin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="action_parameter_editor" parent="margin/hbox_container/vbox_container/margin/params_container" instance=ExtResource("3_8ypy6")]
+layout_mode = 2

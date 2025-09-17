@@ -58,4 +58,30 @@ public static partial class DataBindingExtensions
         _activeBindings[options] = new SignalConnection(OptionButton.SignalName.ItemSelected, callable);
     }
 
+    public static void Bind<TOwner>(this GameActionOptions options, TOwner owner,
+        Expression<Func<TOwner, string>> propertyExpression)
+    {
+        var prop = GetPropertyInfo(propertyExpression);
+        options.Bind(owner, prop);
+    }
+
+    public static void Bind<TOwner>(this GameActionOptions options, TOwner owner, PropertyInfo prop)
+    {
+        if (prop.PropertyType != typeof(string))
+            throw new InvalidOperationException("GameActionOptions can only bind to string properties.");
+
+        RemoveBinding(options);
+
+        if (prop.TryGetValue(owner, out string currentValue))
+            options.SelectedOption = Type.GetType(currentValue);
+
+        var callable = Callable.From(() =>
+        {
+            if (owner != null)
+                prop.SetValue(owner, options.SelectedOption.FullName);
+        });
+
+        options.Connect(OptionButton.SignalName.ItemSelected, callable);
+        _activeBindings[options] = new SignalConnection(OptionButton.SignalName.ItemSelected, callable);
+    }
 }

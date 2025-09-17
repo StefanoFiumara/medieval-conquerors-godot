@@ -36,7 +36,7 @@ public partial class PlayerUiPanel : MarginContainer
 		_events = _gameController.Game.GetComponent<EventAggregator>();
 		_match = _gameController.Game.GetComponent<Match>();
 
-		_endTurnButton.ButtonUp += () => _events.Publish(NEXT_TURN_CLICKED);
+		_endTurnButton.Pressed += () => _events.Publish(NEXT_TURN_CLICKED);
 		_events.Subscribe(ActionSystem.BEGIN_ACTION_EVENT, OnBeginSequence);
 		_events.Subscribe(ActionSystem.COMPLETE_ACTION_EVENT, OnActionsComplete);
 	}

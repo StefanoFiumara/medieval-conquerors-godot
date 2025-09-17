@@ -16,10 +16,11 @@ public partial class LibraryEditor : ScrollContainer
 
 	public event Action<CardData> SearchResultClicked;
 
-	private readonly List<CardData> _searchResults = new();
+	private readonly List<CardData> _searchResults = [];
 
 	public override void _EnterTree()
 	{
+		// TODO: should we migrate to using signals so we can get rid of the unsub code?
 		_clearButton.Pressed += ClearSearch;
 		_searchInput.TextChanged += SearchTextChanged;
 		_tagFilter.TagsChanged += UpdateResults;

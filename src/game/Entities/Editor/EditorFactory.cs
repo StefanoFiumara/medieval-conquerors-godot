@@ -14,7 +14,7 @@ public static class EditorFactory
 	public const string LIST_EDITOR_UID = "uid://cgfb6ruan5t2n";
 	public const string OBJ_EDITOR_UID = "uid://bxlv4w3wwtsro";
 
-	private static readonly Dictionary<Type, Type> _editorRegistry = new();
+	private static readonly Dictionary<Type, Func<IPropertyEditor>> _editorRegistry = [];
 
 	static EditorFactory()
 	{
@@ -24,42 +24,45 @@ public static class EditorFactory
 		Register(typeof(Tags), typeof(TagSelector));
 		Register(typeof(CardType), typeof(CardTypeOptions));
 		Register(typeof(ResourceType), typeof(ResourceOptions));
+		// TODO: Register with factory method for Ability's Action Definition editor
 		// Register(typeof(float), typeof(FloatPropertyEditor));
-	}
-
-	private static void Register(Type propertyType, Type editorType)
-	{
-		if (!typeof(IEditor).IsAssignableFrom(editorType))
-			throw new ArgumentException($"{nameof(EditorFactory)} -- Editor type must implement IValueEditor: {editorType}");
-
-		_editorRegistry[propertyType] = editorType;
-	}
-
-	private static IPropertyEditor CreateValueEditor<TOwner>(TOwner owner, PropertyInfo prop)
-	{
-		if (_editorRegistry.TryGetValue(prop.PropertyType, out var editorType))
-		{
-			var editor = (IPropertyEditor) Activator.CreateInstance(editorType);
-			editor!.Load(owner, prop);
-			return editor;
-		}
-
-		GD.PrintErr($"No editor registered for type: {prop.PropertyType}");
-		return null;
 	}
 
 	private static bool IsRegistered(Type type) => _editorRegistry.ContainsKey(type);
 
+	private static void Register(Type propertyType, Type editorType)
+	{
+		if (!typeof(IPropertyEditor).IsAssignableFrom(editorType))
+			throw new ArgumentException($"{nameof(EditorFactory)} -- Editor type must implement IValueEditor: {editorType}");
+
+		_editorRegistry[propertyType] = () => (IPropertyEditor) Activator.CreateInstance(editorType);
+	}
+
+	private static void Register<TEditor>(Type propertyType, string sceneUid) where TEditor : class, IPropertyEditor
+	{
+		_editorRegistry[propertyType] = () =>
+		{
+			var editorScene = GD.Load<PackedScene>(sceneUid);
+			return editorScene.Instantiate<TEditor>();
+		};
+	}
+
+	private static void Register(Type propertyType, Func<IPropertyEditor> editorFactory)
+	{
+		_editorRegistry[propertyType] = editorFactory;
+	}
+
 	public static IPropertyEditor CreateEditor(object owner, PropertyInfo prop)
 	{
 		var type = prop.PropertyType;
-
-		// TODO: Register other custom types before falling back to ObjectEditor
 		if (IsRegistered(type))
-			return CreateValueEditor(owner, prop);
+		{
+			var editor = _editorRegistry[type]();
+			editor.Load(owner, prop);
+			return editor;
+		}
 
 		// TODO: can we register this so all the different editors simply go to the registry?
-		//		perhaps we can use pass a factory function instead of a dict<type, type>
 		if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
 		{
 			var listEditorScene = GD.Load<PackedScene>(LIST_EDITOR_UID);
@@ -92,7 +95,7 @@ public static class EditorFactory
 			return listEditor;
 		}
 
-		// TODO: Support for custom editors
+		// TODO: Support for custom root editors from the registry?
 		var objectEditorScene = GD.Load<PackedScene>(OBJ_EDITOR_UID);
 		var objectEditor = objectEditorScene.Instantiate<ObjectEditor>();
 		objectEditor.Load(root, customName);

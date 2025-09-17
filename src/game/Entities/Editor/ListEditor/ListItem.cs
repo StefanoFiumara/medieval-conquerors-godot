@@ -8,12 +8,10 @@ public partial class ListItem : MarginContainer
 {
 	private Button _removeButton;
 	private IList _owner;
-	private PackedScene _objectEditor;
 	private CenterContainer _itemContainer;
 
 	public override void _Ready()
 	{
-		_objectEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
 		_removeButton = GetNode<Button>("%remove_button");
 		_itemContainer = GetNode<CenterContainer>("%item_container");
 	}
