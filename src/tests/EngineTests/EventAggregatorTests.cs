@@ -1,6 +1,6 @@
 using MedievalConquerors.Engine.Events;
 
-namespace MedievalConquerors.Tests.Engine;
+namespace MedievalConquerors.Tests.EngineTests;
 
 public class EventAggregatorTests
 {

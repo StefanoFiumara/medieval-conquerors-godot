@@ -1,9 +1,9 @@
 ﻿using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
-using MedievalConquerors.Tests.Engine;
+using MedievalConquerors.Tests.EngineTests;
 
 [assembly: AssemblyFixture(typeof(CardLibraryFixture))]
-namespace MedievalConquerors.Tests.Engine;
+namespace MedievalConquerors.Tests.EngineTests;
 public class CardLibraryFixture
 {
     public CardLibrary Library { get; private set; }

@@ -3,8 +3,7 @@ using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
 using Shouldly;
 
-
-namespace MedievalConquerors.Tests.Engine.GameSystemTests;
+namespace MedievalConquerors.Tests.EngineTests.GameSystemTests;
 
 internal class TestGameAction : GameAction { }
 

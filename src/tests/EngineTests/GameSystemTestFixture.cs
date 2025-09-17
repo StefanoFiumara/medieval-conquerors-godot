@@ -7,10 +7,9 @@ using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.Logging;
 using NSubstitute;
 using Shouldly;
-
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
-namespace MedievalConquerors.Tests.Engine;
+namespace MedievalConquerors.Tests.EngineTests;
 
 public abstract class GameSystemTestFixture
 {

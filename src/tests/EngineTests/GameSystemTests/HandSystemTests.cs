@@ -3,7 +3,7 @@ using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
 using Shouldly;
 
-namespace MedievalConquerors.Tests.Engine.GameSystemTests;
+namespace MedievalConquerors.Tests.EngineTests.GameSystemTests;
 
 public class HandSystemTests : GameSystemTestFixture
 {

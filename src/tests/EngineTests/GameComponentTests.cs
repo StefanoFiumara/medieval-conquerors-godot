@@ -1,6 +1,6 @@
 using MedievalConquerors.Engine.Core;
 
-namespace MedievalConquerors.Tests.Engine;
+namespace MedievalConquerors.Tests.EngineTests;
 
 public class GameComponentTests
 {

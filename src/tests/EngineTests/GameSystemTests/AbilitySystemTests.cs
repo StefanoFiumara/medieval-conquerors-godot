@@ -6,7 +6,7 @@ using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Extensions;
 using Shouldly;
 
-namespace MedievalConquerors.Tests.Engine.GameSystemTests;
+namespace MedievalConquerors.Tests.EngineTests.GameSystemTests;
 
 public class AbilitySystemTests : GameSystemTestFixture
 {
