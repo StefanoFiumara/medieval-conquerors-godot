@@ -58,31 +58,14 @@ public class PlayerSystem : GameComponent, IAwake
             {
                 // TEMP: mocked deck info data using IDs from our DB, to test deck loading from disk
                 // (2, 2), // 2 Knights
-                // (15, 1), // Agriculture
-                // TODO: Implement and add a technology cards for each of these economic buildings
                 (6, 2), // Lumber Camp
                 (10, 2), // Mining Camp
                 (13, 2), // Mill
+                (15, 1) // Agriculture
             };
 
             var loadedPlayerDeck = _cardDb.LoadDeck(_match.LocalPlayer, deckInfo);
             var loadedEnemyDeck = _cardDb.LoadDeck(_match.EnemyPlayer, deckInfo);
-
-            // TEMP: create agriculture card for testing ability
-            var abilityCard = _cardDb.LoadCard(15, _match.LocalPlayer);
-            var ability = new OnCardPlayedAbility
-            {
-                Actions = [
-                    new ActionDefinition { ActionType = typeof(BuildStructureByIdAction).FullName, Data = "CardId=14,TargetPlayerId=Owner" },
-                    new ActionDefinition { ActionType = typeof(CreateCardAction).FullName, Data = "CardId=14,TargetPlayerId=Owner,TargetZone=Deck,Amount=2" },
-                    new ActionDefinition { ActionType = typeof(ShuffleDeckAction).FullName, Data = "TargetPlayerId=Owner"}
-                ],
-                Owner = abilityCard
-            };
-            abilityCard.Attributes.Add(typeof(OnCardPlayedAbility), ability);
-
-
-            loadedPlayerDeck.Add(abilityCard);
 
             _match.LocalPlayer.Deck.AddRange(loadedPlayerDeck);
             _match.EnemyPlayer.Deck.AddRange(loadedEnemyDeck);
@@ -94,11 +77,11 @@ public class PlayerSystem : GameComponent, IAwake
         foreach (var card in action.CardsToDiscard)
         {
             var player = card.Owner;
-            // TODO: split into a separate reaction with a BanishCardsAction instead of putting this logic here
-            if(card.Data.Id == CardLibrary.VILLAGER_ID)
-                player.MoveCard(card, Zone.Banished);
-            else
-                player.MoveCard(card, Zone.Discard);
+
+            // TODO: Should the list of cards being banished be data driven? Perhaps this can be checked by a tag
+            //       on the card itself rather than a hardcoded list of IDs
+            var targetZone = card.Data.Id == CardLibrary.VILLAGER_ID ? Zone.Banished : Zone.Discard;
+            player.MoveCard(card, targetZone);
         }
     }
 
