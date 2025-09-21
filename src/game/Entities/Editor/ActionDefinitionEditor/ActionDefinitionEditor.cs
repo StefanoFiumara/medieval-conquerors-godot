@@ -21,5 +21,7 @@ public partial class ActionDefinitionEditor : PanelContainer
 		_actionOptions.Bind(actionDef, definition => definition.ActionType);
 
 		// TODO: Derive parameter values based on ActionType to create action parameter editors
+		// TODO: Make that process reusable so we can recreate the parameters when the selection action changes
+		// TODO: Binding for the action parameters may be more complex than just a bind method
 	}
 }

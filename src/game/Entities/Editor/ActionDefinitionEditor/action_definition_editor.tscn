@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://bhmiifttu4eln" path="res://Entities/Editor/ActionDefinitionEditor/action_parameter_editor.tscn" id="3_8ypy6"]
 
 [node name="action_definition_editor" type="PanelContainer"]
-offset_right = 467.0
-offset_bottom = 46.0
+offset_right = 457.0
+offset_bottom = 41.0
 size_flags_horizontal = 3
 script = ExtResource("1_f3rbf")
 
@@ -44,23 +44,16 @@ script = ExtResource("1_0842s")
 
 [node name="VSeparator" type="VSeparator" parent="margin/hbox_container"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 5
 
 [node name="vbox_container" type="VBoxContainer" parent="margin/hbox_container"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="margin" type="MarginContainer" parent="margin/hbox_container/vbox_container"]
-layout_mode = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="params_container" type="VBoxContainer" parent="margin/hbox_container/vbox_container/margin"]
+[node name="params_container" type="VBoxContainer" parent="margin/hbox_container/vbox_container"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="action_parameter_editor" parent="margin/hbox_container/vbox_container/margin/params_container" instance=ExtResource("3_8ypy6")]
+[node name="action_parameter_editor" parent="margin/hbox_container/vbox_container/params_container" instance=ExtResource("3_8ypy6")]
 layout_mode = 2
