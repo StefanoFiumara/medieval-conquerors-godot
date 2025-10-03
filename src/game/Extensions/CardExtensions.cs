@@ -12,14 +12,6 @@ public static class CardExtensions
         return result;
     }
 
-    public static TAttribute GetAttribute<TAttribute>(this Card card)
-        where TAttribute : class, ICardAttribute
-    {
-        if(card.Attributes.TryGetValue(typeof(TAttribute), out var attribute))
-        {
-            return attribute as TAttribute;
-        }
-
-        return null;
-    }
+    public static TAttribute GetAttribute<TAttribute>(this Card card) where TAttribute : class, ICardAttribute
+        => card.HasAttribute<TAttribute>(out var attr) ? attr : null;
 }
