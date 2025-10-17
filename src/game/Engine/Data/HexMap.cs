@@ -47,10 +47,9 @@ public class HexMap(Dictionary<Vector2I, TileData> tileData, Dictionary<TileTerr
 
 	public void SetTile(Vector2I pos, TileTerrain terrain, ResourceType resource = ResourceType.None, int resourceYield = 0)
 	{
-		if (tileData.ContainsKey(pos))
+		if (tileData.TryGetValue(pos, out var oldTileData))
 		{
-			var oldTileData = tileData[pos];
-			tileData[pos] = new TileData(pos, terrain, resource, resourceYield);
+            tileData[pos] = new TileData(pos, terrain, resource, resourceYield);
 			OnTileChanged?.Invoke(oldTileData, tileData[pos]);
 		}
 	}
@@ -126,9 +125,10 @@ public class HexMap(Dictionary<Vector2I, TileData> tileData, Dictionary<TileTerr
 			{
 				var position = neighbor.Position;
 				var newCost = costSoFar[current] + 1;
-				if (!costSoFar.ContainsKey(position) || newCost < costSoFar[position])
+				if (!costSoFar.TryGetValue(position, out int value) || newCost < value)
 				{
-					costSoFar[position] = newCost;
+                    value = newCost;
+                    costSoFar[position] = value;
 					var priority = newCost + Distance(end, position);
 					frontier.Enqueue(position, priority);
 					cameFrom[position] = current;

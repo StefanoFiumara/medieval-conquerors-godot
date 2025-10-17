@@ -8,7 +8,7 @@ public sealed class CardDatabase : IDisposable
 {
 	private readonly ILiteCollection<CardData> _cardCollection;
 
-	public LiteDatabase Database { get; }
+	private LiteDatabase Database { get; }
 	public ILiteQueryable<CardData> Query => _cardCollection.Query();
 
 	public CardDatabase()

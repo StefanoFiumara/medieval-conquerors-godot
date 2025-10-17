@@ -17,7 +17,6 @@ public partial class GameSettings : Resource, IGameSettings
 {
 	public IGame Game { get; set; }
 
-	[Export] public int StartingHandCount { get; set; }
 	[Export] public bool DebugMode { get; set; }
 
 	[Export] public int StartingFoodCount  { get; set; }

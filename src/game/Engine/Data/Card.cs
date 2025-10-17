@@ -22,6 +22,7 @@ public class Card
 		MapPosition = Zone == Zone.Map ? mapPosition : HexMap.None;
 
 		Attributes = new();
+
 		// NOTE: Copy the card attributes from CardData into our state, so we can modify them without affecting the originals
 		foreach (var dataAttribute in Data.Attributes)
 		{

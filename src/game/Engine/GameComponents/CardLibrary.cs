@@ -26,6 +26,8 @@ public class CardLibrary : GameComponent, IAwake
 		if (_cardData is null || _cardData.Count == 0)
 		{
 			using var db = new CardDatabase();
+
+			// ?? Are these TODOs still relevant? I think we have already done all this.
 			// TODO(High Priority): update database to use new paths for card portraits, token icons, and attribute type names
 			// TODO: Update card view and token view code to load from a specified path so that we do not need to include full paths in the database
 			// TODO: Should we store uids instead of paths?
