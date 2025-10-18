@@ -23,9 +23,8 @@ public class Card
 
 		Attributes = new();
 
-		// NOTE: Copy the card attributes from CardData into our state, so we can modify them without affecting the originals
-		// TODO: Add a buff/debuff system, rather than relying on mutable card attributes
-		//		This way, we can make everything related to CardData Immutable, and the Card object can hold any state necessary without cloning attributes.
+		// NOTE: Copy the card attributes from CardData into our state, so we can modify them without affecting the originals.
+		// TODO: Add a system for attribute modifications, rather than relying on mutable card attributes.
 		foreach (var dataAttribute in Data.Attributes)
 		{
 			var attributeCopy = dataAttribute.Clone();
@@ -35,16 +34,16 @@ public class Card
 	}
 }
 
-public class CardData
+public record CardData
 {
-	public int Id { get; set; }
-	public string Title { get; set; }
-	public string Description { get; set; }
-	public string ImagePath { get; set; }
-	public string TokenImagePath { get; set; }
-	public CardType CardType { get; set; }
-	public Tags Tags { get; set; }
-	public List<ICardAttribute> Attributes { get; set; } = new();
+	public int Id { get; init; }
+	public string Title { get; init; }
+	public string Description { get; init; }
+	public string ImagePath { get; init; }
+	public string TokenImagePath { get; init; }
+	public CardType CardType { get; init; }
+	public Tags Tags { get; init; }
+	public IReadOnlyList<ICardAttribute> Attributes { get; init; } = [];
 }
 
 public abstract class CardAttribute : ICardAttribute

@@ -6,7 +6,7 @@ public class EditingExistingCardState(CardDataEditor editor) : EditorState(edito
 {
     public override void Enter()
     {
-        Editor.SetStatus($"Currently Editing: Card ID {Editor.LoadedData.Id}".Green().Italics());
+        Editor.SetStatus($"Currently Editing: Card ID {Editor.CurrentCardId}".Green().Italics());
 		Editor.Enable();
     }
 
