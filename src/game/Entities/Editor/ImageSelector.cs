@@ -11,12 +11,12 @@ public partial class ImageSelector : HBoxContainer
 	private const string PORTRAITS_PATH = "res://entities/cards/portraits/";
 	private const string TOKENS_PATH = "res://entities/tokens/token_icons/";
 
+	public static readonly string None = ResourceUid.IdToText(ResourceUid.InvalidId);
+
 	[Export] private OptionButton _imageOptions;
 	[Export] private Button _refreshButton;
 
 	private List<string> _portraitPaths;
-
-	public event Action ImageSelected;
 
 	public string SelectedImageUid
 	{
@@ -29,7 +29,11 @@ public partial class ImageSelector : HBoxContainer
 		}
 		set
 		{
-			if (string.IsNullOrEmpty(value)) return;
+			if (string.IsNullOrEmpty(value) || value == None)
+			{
+				_imageOptions?.Select(0);
+				return;
+			}
 
 			var id = ResourceUid.TextToId(value);
 			if (ResourceUid.HasId(id))
@@ -42,8 +46,6 @@ public partial class ImageSelector : HBoxContainer
 			{
 				_imageOptions?.Select(0);
 			}
-
-			ImageSelected?.Invoke();
 		}
 	}
 

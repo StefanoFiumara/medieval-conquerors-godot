@@ -96,9 +96,6 @@ public partial class CardDataEditor : ScrollContainer
 		_saveButton.Pressed += SaveCardResource;
 		_newButton.Pressed += CreateNewCard;
 		_deleteButton.Pressed += DeleteLoadedCard;
-
-		// TODO: Update to use binding framework
-		_portraitSelector.ImageSelected += OnPortraitSelected;
 	}
 
 	public override void _ExitTree()
@@ -109,8 +106,6 @@ public partial class CardDataEditor : ScrollContainer
 		_saveButton.Pressed -= SaveCardResource;
 		_newButton.Pressed -= CreateNewCard;
 		_deleteButton.Pressed -= DeleteLoadedCard;
-
-		_portraitSelector.ImageSelected -= OnPortraitSelected;
 	}
 
 	public override void _Ready()
@@ -123,7 +118,7 @@ public partial class CardDataEditor : ScrollContainer
 		// TODO: is it possible to subscribe in EnterTree? Library editor probably will not exist yet
 		//		Maybe a different way of setting up this communication
 		// IDEA: turn this into a signal and wire it up in the godot editor instead.
-		_libraryEditor.SearchResultClicked += card => Load(card);
+		_libraryEditor.SearchResultClicked += Load;
 	}
 
 	public void Enable()
@@ -161,6 +156,7 @@ public partial class CardDataEditor : ScrollContainer
 		// Clear UI controls
 		_cardTitle.Text = string.Empty;
 		_description.Text = string.Empty;
+		_portraitSelector.SelectedImageUid = ImageSelector.None;
 		_cardTypeSelector.SelectedOption = CardType.None;
 		_tagSelector.SelectedTags = Tags.None;
 
@@ -171,12 +167,6 @@ public partial class CardDataEditor : ScrollContainer
 
 		_newAttributeSelector.Select(0);
 		OnNewAttributeSelected(0);
-	}
-
-	private void OnPortraitSelected()
-	{
-		// Portrait values are read directly from _portraitSelector in CreateCardData()
-		// No need to store in backing fields
 	}
 
 	private void OnNewAttributeSelected(long itemIndex)
