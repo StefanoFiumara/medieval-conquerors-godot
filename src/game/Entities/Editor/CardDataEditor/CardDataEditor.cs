@@ -34,9 +34,9 @@ public partial class CardDataEditor : ScrollContainer
 	private StateMachine _stateMachine;
 	private PackedScene _objectEditor;
 
-	public int CurrentCardId { get; private set; }
-	// TODO: Should be a separate AttributeEditor with the same patterns (creating immutable attribute records?)
+	// TODO: Should we maintain a separate editor for attributes, rather than having a backing field here?
 	private List<ICardAttribute> _dataAttributes = [];
+	public int CurrentCardId { get; private set; }
 
 	private CardData CreateCardData()
 	{
@@ -53,7 +53,6 @@ public partial class CardDataEditor : ScrollContainer
 		};
 	}
 
-	// Loads a CardData object into the UI controls
 	private void Load(CardData data)
 	{
 		Reset();
@@ -84,33 +83,16 @@ public partial class CardDataEditor : ScrollContainer
 		_deleteButton.Disabled = _stateMachine.CurrentState is NoDataState;
 	}
 
-	public override void _EnterTree()
-	{
-		// TODO: If we update these methods to use Connect(), we won't need to unsubscribe in ExitTree
-		//		And can move all this logic to _Ready()
-		_newAttributeSelector.ItemSelected += OnNewAttributeSelected;
-		_addAttributeButton.Pressed += CreateNewAttribute;
-		_saveButton.Pressed += SaveCardResource;
-		_newButton.Pressed += CreateNewCard;
-		_deleteButton.Pressed += DeleteLoadedCard;
-	}
-
-	public override void _ExitTree()
-	{
-		_newAttributeSelector.ItemSelected -= OnNewAttributeSelected;
-
-		_addAttributeButton.Pressed -= CreateNewAttribute;
-		_saveButton.Pressed -= SaveCardResource;
-		_newButton.Pressed -= CreateNewCard;
-		_deleteButton.Pressed -= DeleteLoadedCard;
-	}
-
 	public override void _Ready()
 	{
 		_objectEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
 		_stateMachine = new StateMachine(new NoDataState(this));
 
-		Load(null);
+		_newAttributeSelector.Connect(OptionButton.SignalName.ItemSelected, Callable.From<long>(OnNewAttributeSelected));
+		_addAttributeButton.Connect(BaseButton.SignalName.Pressed, Callable.From(CreateNewAttribute));
+		_saveButton.Connect(BaseButton.SignalName.Pressed, Callable.From(SaveCardResource));
+		_newButton.Connect(BaseButton.SignalName.Pressed, Callable.From(CreateNewCard));
+		_deleteButton.Connect(BaseButton.SignalName.Pressed, Callable.From(DeleteLoadedCard));
 
 		// TODO: is it possible to subscribe in EnterTree? Library editor probably will not exist yet
 		//		Maybe a different way of setting up this communication
