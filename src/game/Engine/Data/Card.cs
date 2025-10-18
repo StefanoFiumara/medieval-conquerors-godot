@@ -45,8 +45,7 @@ public record CardData
 	public string TokenImagePath { get; init; }
 	public CardType CardType { get; init; }
 	public Tags Tags { get; init; }
-	// TODO: Implement as ReadOnlyList
-	public List<ICardAttribute> Attributes { get; init; } = new();
+	public IReadOnlyList<ICardAttribute> Attributes { get; init; } = [];
 }
 
 public abstract class CardAttribute : ICardAttribute
