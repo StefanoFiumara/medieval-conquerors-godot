@@ -34,13 +34,10 @@ public partial class CardDataEditor : ScrollContainer
 	private StateMachine _stateMachine;
 	private PackedScene _objectEditor;
 
-	// Mutable backing fields - values read directly from UI controls
-	// TODO: Should be a separate AttributeEditor with the same patterns (creating immutable attribute records?)
-	private List<ICardAttribute> _dataAttributes = new();
-
 	public int CurrentCardId { get; private set; }
+	// TODO: Should be a separate AttributeEditor with the same patterns (creating immutable attribute records?)
+	private List<ICardAttribute> _dataAttributes = [];
 
-	// Creates a CardData object from the current UI control values
 	private CardData CreateCardData()
 	{
 		return new CardData
@@ -213,18 +210,6 @@ public partial class CardDataEditor : ScrollContainer
 		// };
 	}
 
-	private void DeleteLoadedCard()
-	{
-		// TODO: Implement confirmation to prevent misclicks
-		if (_stateMachine.CurrentState is NoDataState) return;
-
-		using var database = new CardDatabase();
-		var cardData = CreateCardData();
-		database.DeleteCardData(cardData);
-
-		Load(null);
-	}
-
 	private void SaveCardResource()
 	{
 		if (_stateMachine.CurrentState is NoDataState) return;
@@ -245,5 +230,17 @@ public partial class CardDataEditor : ScrollContainer
 			GD.PrintErr("Failed to save Card Data");
 			GD.PrintErr(e.ToString());
 		}
+	}
+
+	private void DeleteLoadedCard()
+	{
+		// TODO: Implement confirmation to prevent misclicks
+		if (_stateMachine.CurrentState is NoDataState) return;
+
+		using var database = new CardDatabase();
+		var cardData = CreateCardData();
+		database.DeleteCardData(cardData);
+
+		Load(null);
 	}
 }
