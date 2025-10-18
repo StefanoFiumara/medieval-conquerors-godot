@@ -35,18 +35,17 @@ public partial class CardDataEditor : ScrollContainer
 	private PackedScene _objectEditor;
 
 	// Mutable backing fields - values read directly from UI controls
-	private int _dataId;
+	// TODO: Should be a separate AttributeEditor with the same patterns (creating immutable attribute records?)
 	private List<ICardAttribute> _dataAttributes = new();
 
-	// Public accessor for the current card ID (used by editor states)
-	public int CurrentCardId => _dataId;
+	public int CurrentCardId { get; private set; }
 
 	// Creates a CardData object from the current UI control values
 	private CardData CreateCardData()
 	{
 		return new CardData
 		{
-			Id = _dataId,
+			Id = CurrentCardId,
 			Title = _cardTitle.Text?.Trim() ?? string.Empty,
 			Description = _description.Text?.Trim() ?? string.Empty,
 			ImagePath = _portraitSelector.SelectedImageUid,
@@ -65,7 +64,7 @@ public partial class CardDataEditor : ScrollContainer
 		if (data != null)
 		{
 			// Populate UI controls from CardData
-			_dataId = data.Id;
+			CurrentCardId = data.Id;
 			_cardTitle.Text = data.Title ?? string.Empty;
 			_description.Text = data.Description ?? string.Empty;
 			_portraitSelector.SelectedImageUid = data.ImagePath;
@@ -156,7 +155,7 @@ public partial class CardDataEditor : ScrollContainer
 	private void Reset()
 	{
 		// Clear backing fields
-		_dataId = 0;
+		CurrentCardId = 0;
 		_dataAttributes.Clear();
 
 		// Clear UI controls
