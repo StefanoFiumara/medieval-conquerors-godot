@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using MedievalConquerors.DataBinding;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.StateManagement;
 using MedievalConquerors.Entities.Editor.EditorStates;
@@ -32,63 +31,61 @@ public partial class CardDataEditor : ScrollContainer
 
 	[Export] private VBoxContainer _attributesContainer;
 
-	private CardData _loadedData;
 	private StateMachine _stateMachine;
 	private PackedScene _objectEditor;
 
-	// Mutable backing fields for data binding
+	// Mutable backing fields - values read directly from UI controls
 	private int _dataId;
-	private string _dataTitle;
-	private string _dataDescription;
-	private string _dataImagePath;
-	private string _dataTokenImagePath;
-	private CardType _dataCardType;
-	private Tags _dataTags;
 	private List<ICardAttribute> _dataAttributes = new();
 
-	public CardData LoadedData
+	// Public accessor for the current card ID (used by editor states)
+	public int CurrentCardId => _dataId;
+
+	// Creates a CardData object from the current UI control values
+	private CardData CreateCardData()
 	{
-		get => _loadedData;
-		private set
+		return new CardData
 		{
-			Reset();
-			_loadedData = value;
+			Id = _dataId,
+			Title = _cardTitle.Text?.Trim() ?? string.Empty,
+			Description = _description.Text?.Trim() ?? string.Empty,
+			ImagePath = _portraitSelector.SelectedImageUid,
+			TokenImagePath = _portraitSelector.SelectedTokenUid,
+			CardType = _cardTypeSelector.SelectedOption,
+			Tags = _tagSelector.SelectedTags,
+			Attributes = _dataAttributes
+		};
+	}
 
-			if (value != null)
-			{
-				// Populate mutable backing fields from CardData
-				_dataId = value.Id;
-				_dataTitle = value.Title;
-				_dataDescription = value.Description;
-				_dataImagePath = value.ImagePath;
-				_dataTokenImagePath = value.TokenImagePath;
-				_dataCardType = value.CardType;
-				_dataTags = value.Tags;
-				_dataAttributes = new List<ICardAttribute>(value.Attributes);
+	// Loads a CardData object into the UI controls
+	private void Load(CardData data)
+	{
+		Reset();
 
-				// Bind UI controls to mutable backing fields
-				_cardTitle.Bind(this, editor => editor._dataTitle);
-				_description.Bind(this, editor => editor._dataDescription);
-				_cardTypeSelector.Bind(this, editor => editor._dataCardType);
-				_tagSelector.Bind(this, editor => editor._dataTags);
+		if (data != null)
+		{
+			// Populate UI controls from CardData
+			_dataId = data.Id;
+			_cardTitle.Text = data.Title ?? string.Empty;
+			_description.Text = data.Description ?? string.Empty;
+			_portraitSelector.SelectedImageUid = data.ImagePath;
+			_cardTypeSelector.SelectedOption = data.CardType;
+			_tagSelector.SelectedTags = data.Tags;
+			_dataAttributes = new List<ICardAttribute>(data.Attributes);
 
-				// TODO: data binding for portrait selector
-				_portraitSelector.SelectedImageUid = _dataImagePath;
-
-				foreach (var attr in value.Attributes)
-					CreateAttributeEditor(attr);
-			}
-
-			if(value == null)
-				_stateMachine.ChangeState(new NoDataState(this));
-			else if (value.Id == 0)
-				_stateMachine.ChangeState(new CreatingNewCardState(this));
-			else
-				_stateMachine.ChangeState(new EditingExistingCardState(this));
-
-			_saveButton.Disabled = _loadedData == null;
-			_deleteButton.Disabled = _loadedData == null;
+			foreach (var attr in data.Attributes)
+				CreateAttributeEditor(attr);
 		}
+
+		if(data == null)
+			_stateMachine.ChangeState(new NoDataState(this));
+		else if (data.Id == 0)
+			_stateMachine.ChangeState(new CreatingNewCardState(this));
+		else
+			_stateMachine.ChangeState(new EditingExistingCardState(this));
+
+		_saveButton.Disabled = _stateMachine.CurrentState is NoDataState;
+		_deleteButton.Disabled = _stateMachine.CurrentState is NoDataState;
 	}
 
 	public override void _EnterTree()
@@ -122,12 +119,12 @@ public partial class CardDataEditor : ScrollContainer
 		_objectEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
 		_stateMachine = new StateMachine(new NoDataState(this));
 
-		LoadedData = null;
+		Load(null);
 
 		// TODO: is it possible to subscribe in EnterTree? Library editor probably will not exist yet
 		//		Maybe a different way of setting up this communication
 		// IDEA: turn this into a signal and wire it up in the godot editor instead.
-		_libraryEditor.SearchResultClicked += card => LoadedData = card;
+		_libraryEditor.SearchResultClicked += card => Load(card);
 	}
 
 	public void Enable()
@@ -158,14 +155,8 @@ public partial class CardDataEditor : ScrollContainer
 
 	private void Reset()
 	{
-		// Clear mutable backing fields
+		// Clear backing fields
 		_dataId = 0;
-		_dataTitle = string.Empty;
-		_dataDescription = string.Empty;
-		_dataImagePath = string.Empty;
-		_dataTokenImagePath = string.Empty;
-		_dataCardType = CardType.None;
-		_dataTags = Tags.None;
 		_dataAttributes.Clear();
 
 		// Clear UI controls
@@ -183,14 +174,10 @@ public partial class CardDataEditor : ScrollContainer
 		OnNewAttributeSelected(0);
 	}
 
-	// TODO: Better way to bind this data to loaded data?
 	private void OnPortraitSelected()
 	{
-		if (_loadedData != null)
-		{
-			_dataImagePath = _portraitSelector.SelectedImageUid;
-			_dataTokenImagePath = _portraitSelector.SelectedTokenUid;
-		}
+		// Portrait values are read directly from _portraitSelector in CreateCardData()
+		// No need to store in backing fields
 	}
 
 	private void OnNewAttributeSelected(long itemIndex)
@@ -201,9 +188,7 @@ public partial class CardDataEditor : ScrollContainer
 
 	private void CreateNewCard()
 	{
-		LoadedData = new CardData();
-		_stateMachine.ChangeState(new CreatingNewCardState(this));
-		Reset();
+		Load(new CardData());
 		GD.PrintRich("New Card Data Resource Created".Purple());
 	}
 
@@ -242,38 +227,29 @@ public partial class CardDataEditor : ScrollContainer
 	private void DeleteLoadedCard()
 	{
 		// TODO: Implement confirmation to prevent misclicks
-		using var database = new CardDatabase();
-		database.DeleteCardData(LoadedData);
+		if (_stateMachine.CurrentState is NoDataState) return;
 
-		LoadedData = null;
-		_stateMachine.ChangeState(new NoDataState(this));
+		using var database = new CardDatabase();
+		var cardData = CreateCardData();
+		database.DeleteCardData(cardData);
+
+		Load(null);
 	}
 
 	private void SaveCardResource()
 	{
-		if (LoadedData == null) return;
+		if (_stateMachine.CurrentState is NoDataState) return;
 
-		// Build CardData from mutable backing fields
-		var dataToSave = new CardData
-		{
-			Id = _dataId,
-			Title = _dataTitle?.Trim() ?? string.Empty,
-			Description = _dataDescription?.Trim() ?? string.Empty,
-			ImagePath = _dataImagePath,
-			TokenImagePath = _dataTokenImagePath,
-			CardType = _dataCardType,
-			Tags = _dataTags,
-			Attributes = _dataAttributes
-		};
+		// Create CardData from UI controls
+		var dataToSave = CreateCardData();
 
 		try
 		{
 			using var db = new CardDatabase();
 			var savedId = db.SaveCardData(dataToSave);
-			LoadedData = dataToSave with { Id = savedId };
+			var savedData = dataToSave with { Id = savedId };
+			Load(savedData);
 			GD.PrintRich("Successfully saved Card Data".Green());
-
-			_stateMachine.ChangeState(new EditingExistingCardState(this));
 		}
 		catch(Exception e)
 		{
