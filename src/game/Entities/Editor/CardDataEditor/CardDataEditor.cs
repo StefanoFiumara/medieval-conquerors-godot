@@ -52,7 +52,7 @@ public partial class CardDataEditor : ScrollContainer
 			TokenImagePath = _portraitSelector.SelectedTokenUid,
 			CardType = _cardTypeSelector.SelectedOption,
 			Tags = _tagSelector.SelectedTags,
-			Attributes = _dataAttributes
+			Attributes = new List<ICardAttribute>(_dataAttributes)
 		};
 	}
 
