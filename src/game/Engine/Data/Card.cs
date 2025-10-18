@@ -24,9 +24,7 @@ public class Card
 		Attributes = new();
 
 		// NOTE: Copy the card attributes from CardData into our state, so we can modify them without affecting the originals.
-		// CardData is now immutable, but attributes still need to be cloned because they contain game state (e.g., health,
-		// position) that changes during gameplay and should not be shared between card instances.
-		// TODO: Add a buff/debuff system, rather than relying on mutable card attributes.
+		// TODO: Add a system for attribute modifications, rather than relying on mutable card attributes.
 		foreach (var dataAttribute in Data.Attributes)
 		{
 			var attributeCopy = dataAttribute.Clone();
