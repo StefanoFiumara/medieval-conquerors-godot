@@ -36,6 +36,16 @@ public partial class CardDataEditor : ScrollContainer
 	private StateMachine _stateMachine;
 	private PackedScene _objectEditor;
 
+	// Mutable backing fields for data binding
+	private int _dataId;
+	private string _dataTitle;
+	private string _dataDescription;
+	private string _dataImagePath;
+	private string _dataTokenImagePath;
+	private CardType _dataCardType;
+	private Tags _dataTags;
+	private List<ICardAttribute> _dataAttributes = new();
+
 	public CardData LoadedData
 	{
 		get => _loadedData;
@@ -46,18 +56,24 @@ public partial class CardDataEditor : ScrollContainer
 
 			if (value != null)
 			{
-				// Set initial values from the loaded data
-				_cardTitle.Text = _loadedData.Title ?? string.Empty;
-				_description.Text = _loadedData.Description ?? string.Empty;
-				_cardTypeSelector.SelectedOption = _loadedData.CardType;
-				_tagSelector.SelectedTags = _loadedData.Tags;
-				_portraitSelector.SelectedImageUid = _loadedData.ImagePath;
+				// Populate mutable backing fields from CardData
+				_dataId = value.Id;
+				_dataTitle = value.Title;
+				_dataDescription = value.Description;
+				_dataImagePath = value.ImagePath;
+				_dataTokenImagePath = value.TokenImagePath;
+				_dataCardType = value.CardType;
+				_dataTags = value.Tags;
+				_dataAttributes = new List<ICardAttribute>(value.Attributes);
 
-				// Connect to change events to update LoadedData
-				_cardTitle.TextChanged += OnTitleChanged;
-				_description.TextChanged += OnDescriptionChanged;
-				_cardTypeSelector.ItemSelected += OnCardTypeChanged;
-				_tagSelector.TagsChanged += OnTagsChanged;
+				// Bind UI controls to mutable backing fields
+				_cardTitle.Bind(this, editor => editor._dataTitle);
+				_description.Bind(this, editor => editor._dataDescription);
+				_cardTypeSelector.Bind(this, editor => editor._dataCardType);
+				_tagSelector.Bind(this, editor => editor._dataTags);
+
+				// TODO: data binding for portrait selector
+				_portraitSelector.SelectedImageUid = _dataImagePath;
 
 				foreach (var attr in value.Attributes)
 					CreateAttributeEditor(attr);
@@ -142,11 +158,15 @@ public partial class CardDataEditor : ScrollContainer
 
 	private void Reset()
 	{
-		// Disconnect event handlers if they were connected
-		_cardTitle.TextChanged -= OnTitleChanged;
-		_description.TextChanged -= OnDescriptionChanged;
-		_cardTypeSelector.ItemSelected -= OnCardTypeChanged;
-		_tagSelector.TagsChanged -= OnTagsChanged;
+		// Clear mutable backing fields
+		_dataId = 0;
+		_dataTitle = string.Empty;
+		_dataDescription = string.Empty;
+		_dataImagePath = string.Empty;
+		_dataTokenImagePath = string.Empty;
+		_dataCardType = CardType.None;
+		_dataTags = Tags.None;
+		_dataAttributes.Clear();
 
 		// Clear UI controls
 		_cardTitle.Text = string.Empty;
@@ -168,50 +188,15 @@ public partial class CardDataEditor : ScrollContainer
 	{
 		if (_loadedData != null)
 		{
-			_loadedData = _loadedData with
-			{
-				ImagePath = _portraitSelector.SelectedImageUid,
-				TokenImagePath = _portraitSelector.SelectedTokenUid
-			};
-		}
-	}
-
-	private void OnTitleChanged(string newTitle)
-	{
-		if (_loadedData != null)
-		{
-			_loadedData = _loadedData with { Title = newTitle };
-		}
-	}
-
-	private void OnDescriptionChanged()
-	{
-		if (_loadedData != null)
-		{
-			_loadedData = _loadedData with { Description = _description.Text };
-		}
-	}
-
-	private void OnCardTypeChanged(long index)
-	{
-		if (_loadedData != null)
-		{
-			_loadedData = _loadedData with { CardType = _cardTypeSelector.SelectedOption };
-		}
-	}
-
-	private void OnTagsChanged()
-	{
-		if (_loadedData != null)
-		{
-			_loadedData = _loadedData with { Tags = _tagSelector.SelectedTags };
+			_dataImagePath = _portraitSelector.SelectedImageUid;
+			_dataTokenImagePath = _portraitSelector.SelectedTokenUid;
 		}
 	}
 
 	private void OnNewAttributeSelected(long itemIndex)
 	{
 		var selectedText = _newAttributeSelector.GetItemText((int)itemIndex);
-		_addAttributeButton.Disabled = selectedText == "None" || LoadedData?.Attributes.Any(a => a.GetType().Name == selectedText) == true;
+		_addAttributeButton.Disabled = selectedText == "None" || _dataAttributes.Any(a => a.GetType().Name == selectedText);
 	}
 
 	private void CreateNewCard()
@@ -225,8 +210,7 @@ public partial class CardDataEditor : ScrollContainer
 	private void CreateNewAttribute()
 	{
 		var attr = _newAttributeSelector.CreateSelected();
-		var updatedAttributes = new List<ICardAttribute>(LoadedData.Attributes) { attr };
-		LoadedData = LoadedData with { Attributes = updatedAttributes };
+		_dataAttributes.Add(attr);
 
 		CreateAttributeEditor(attr);
 
@@ -269,10 +253,17 @@ public partial class CardDataEditor : ScrollContainer
 	{
 		if (LoadedData == null) return;
 
-		var dataToSave = LoadedData with
+		// Build CardData from mutable backing fields
+		var dataToSave = new CardData
 		{
-			Title = LoadedData.Title.Trim(),
-			Description = LoadedData.Description.Trim()
+			Id = _dataId,
+			Title = _dataTitle?.Trim() ?? string.Empty,
+			Description = _dataDescription?.Trim() ?? string.Empty,
+			ImagePath = _dataImagePath,
+			TokenImagePath = _dataTokenImagePath,
+			CardType = _dataCardType,
+			Tags = _dataTags,
+			Attributes = _dataAttributes
 		};
 
 		try
