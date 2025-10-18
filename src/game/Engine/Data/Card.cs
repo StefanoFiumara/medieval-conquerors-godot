@@ -24,6 +24,8 @@ public class Card
 		Attributes = new();
 
 		// NOTE: Copy the card attributes from CardData into our state, so we can modify them without affecting the originals
+		// TODO: Add a buff/debuff system, rather than relying on mutable card attributes
+		//		This way, we can make everything related to CardData Immutable, and the Card object can hold any state necessary without cloning attributes.
 		foreach (var dataAttribute in Data.Attributes)
 		{
 			var attributeCopy = dataAttribute.Clone();
