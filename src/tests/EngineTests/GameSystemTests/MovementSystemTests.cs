@@ -14,6 +14,7 @@ public class MovementSystemTests : GameSystemTestFixture
     private readonly Match _match;
 
     private readonly Card _moveableCard;
+    private readonly Card _immoveableCard;
 
     public MovementSystemTests(ITestOutputHelper output, CardLibraryFixture libraryFixture) : base(output, libraryFixture)
     {
@@ -27,7 +28,14 @@ public class MovementSystemTests : GameSystemTestFixture
             .WithSpawnPoint(Tags.TownCenter, 3)
             .Create();
 
+        _immoveableCard = CardBuilder
+            .Build(_player)
+            .WithCardType(CardType.Unit)
+            .WithSpawnPoint(Tags.TownCenter, 3)
+            .Create();
+
         _player.Deck.Add(_moveableCard);
+        _player.Deck.Add(_immoveableCard);
 
         // Begin the game
         Game.Awake();
@@ -57,6 +65,7 @@ public class MovementSystemTests : GameSystemTestFixture
         Game.Perform(moveAction);
         Game.Update();
 
+
         _moveableCard.MapPosition.ShouldBe(newPosition);
         Map.GetTile(newPosition).Unit.ShouldBe(_moveableCard);
         Map.GetTile(firstPosition).Unit.ShouldBeNull();
@@ -67,25 +76,24 @@ public class MovementSystemTests : GameSystemTestFixture
     [Fact]
     public void MovementSystem_MoveUnitAction_Invalidated_Without_MoveAttribute()
     {
-        _moveableCard.Attributes.Remove(typeof(MovementAttribute));
-        _moveableCard.Zone.ShouldBe(Zone.Hand);
-        _player.Hand.ShouldContain(_moveableCard);
+        _immoveableCard.Zone.ShouldBe(Zone.Hand);
+        _player.Hand.ShouldContain(_immoveableCard);
 
         // Play the card
         var firstPosition = new Vector2I(5, 5);
-        var playAction = new PlayCardAction(_moveableCard, firstPosition);
+        var playAction = new PlayCardAction(_immoveableCard, firstPosition);
         Game.Perform(playAction);
         Game.Update();
 
         // Then attempt to Move it.
         var newPosition = new Vector2I(5, 4);
-        var moveAction = new MoveUnitAction(_moveableCard, newPosition);
+        var moveAction = new MoveUnitAction(_immoveableCard, newPosition);
         Game.Perform(moveAction);
         Game.Update();
 
-        _moveableCard.MapPosition.ShouldBe(firstPosition);
+        _immoveableCard.MapPosition.ShouldBe(firstPosition);
         Map.GetTile(newPosition).Unit.ShouldBeNull();
-        Map.GetTile(firstPosition).Unit.ShouldBe(_moveableCard);
+        Map.GetTile(firstPosition).Unit.ShouldBe(_immoveableCard);
     }
 
     [Fact]

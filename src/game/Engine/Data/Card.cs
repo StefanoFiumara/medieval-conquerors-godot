@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using Godot;
 using LiteDB;
 using Riok.Mapperly.Abstractions;
@@ -8,8 +10,10 @@ namespace MedievalConquerors.Engine.Data;
 
 public class Card
 {
+	private readonly IReadOnlyDictionary<Type, ICardAttribute> _attributeMap;
+
 	public CardData Data { get; }
-	public Dictionary<Type, ICardAttribute> Attributes { get; }
+
 	public Player Owner { get; }
 	public Zone Zone { get; set; }
 	public Vector2I MapPosition { get; set; }
@@ -21,17 +25,26 @@ public class Card
 		Zone = zone;
 		MapPosition = Zone == Zone.Map ? mapPosition : HexMap.None;
 
-		Attributes = new();
-
-		// NOTE: Copy the card attributes from CardData into our state, so we can modify them without affecting the originals.
 		// TODO: Add a system for attribute modifications, rather than relying on mutable card attributes.
-		foreach (var dataAttribute in Data.Attributes)
-		{
-			var attributeCopy = dataAttribute.Clone();
-			attributeCopy.Owner = this;
-			Attributes.Add(dataAttribute.GetType(), attributeCopy);
-		}
+		// This way we can get rid of the clunky Clone() methods
+		_attributeMap = Data.Attributes.Select(attr =>
+			{
+				var copy = attr.Clone();
+				copy.Owner = this;
+				return copy;
+			})
+			.ToImmutableDictionary(attr => attr.GetType(), attr => attr);
 	}
+
+	public bool HasAttribute<TAttribute>(out TAttribute attribute) where TAttribute : class, ICardAttribute
+	{
+		var result = _attributeMap.TryGetValue(typeof(TAttribute), out var data);
+		attribute = data as TAttribute;
+		return result;
+	}
+
+	public TAttribute GetAttribute<TAttribute>() where TAttribute : class, ICardAttribute
+		=> HasAttribute<TAttribute>(out var attr) ? attr : null;
 }
 
 public record CardData
