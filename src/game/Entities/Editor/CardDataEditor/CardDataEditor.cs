@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using MedievalConquerors.DataBinding;
@@ -45,13 +46,18 @@ public partial class CardDataEditor : ScrollContainer
 
 			if (value != null)
 			{
-				_cardTitle.Bind(_loadedData, data => data.Title);
-				_description.Bind(_loadedData, data => data.Description);
-				_cardTypeSelector.Bind(_loadedData, data => data.CardType);
-				_tagSelector.Bind(_loadedData, data => data.Tags);
-
-				// TODO: data binding for portrait selector
+				// Set initial values from the loaded data
+				_cardTitle.Text = _loadedData.Title ?? string.Empty;
+				_description.Text = _loadedData.Description ?? string.Empty;
+				_cardTypeSelector.SelectedOption = _loadedData.CardType;
+				_tagSelector.SelectedTags = _loadedData.Tags;
 				_portraitSelector.SelectedImageUid = _loadedData.ImagePath;
+
+				// Connect to change events to update LoadedData
+				_cardTitle.TextChanged += OnTitleChanged;
+				_description.TextChanged += OnDescriptionChanged;
+				_cardTypeSelector.ItemSelected += OnCardTypeChanged;
+				_tagSelector.TagsChanged += OnTagsChanged;
 
 				foreach (var attr in value.Attributes)
 					CreateAttributeEditor(attr);
@@ -136,7 +142,13 @@ public partial class CardDataEditor : ScrollContainer
 
 	private void Reset()
 	{
-		// we may be able to remove some of this
+		// Disconnect event handlers if they were connected
+		_cardTitle.TextChanged -= OnTitleChanged;
+		_description.TextChanged -= OnDescriptionChanged;
+		_cardTypeSelector.ItemSelected -= OnCardTypeChanged;
+		_tagSelector.TagsChanged -= OnTagsChanged;
+
+		// Clear UI controls
 		_cardTitle.Text = string.Empty;
 		_description.Text = string.Empty;
 		_cardTypeSelector.SelectedOption = CardType.None;
@@ -156,8 +168,43 @@ public partial class CardDataEditor : ScrollContainer
 	{
 		if (_loadedData != null)
 		{
-			_loadedData.ImagePath = _portraitSelector.SelectedImageUid;
-			_loadedData.TokenImagePath = _portraitSelector.SelectedTokenUid;
+			_loadedData = _loadedData with
+			{
+				ImagePath = _portraitSelector.SelectedImageUid,
+				TokenImagePath = _portraitSelector.SelectedTokenUid
+			};
+		}
+	}
+
+	private void OnTitleChanged(string newTitle)
+	{
+		if (_loadedData != null)
+		{
+			_loadedData = _loadedData with { Title = newTitle };
+		}
+	}
+
+	private void OnDescriptionChanged()
+	{
+		if (_loadedData != null)
+		{
+			_loadedData = _loadedData with { Description = _description.Text };
+		}
+	}
+
+	private void OnCardTypeChanged(long index)
+	{
+		if (_loadedData != null)
+		{
+			_loadedData = _loadedData with { CardType = _cardTypeSelector.SelectedOption };
+		}
+	}
+
+	private void OnTagsChanged()
+	{
+		if (_loadedData != null)
+		{
+			_loadedData = _loadedData with { Tags = _tagSelector.SelectedTags };
 		}
 	}
 
@@ -178,7 +225,8 @@ public partial class CardDataEditor : ScrollContainer
 	private void CreateNewAttribute()
 	{
 		var attr = _newAttributeSelector.CreateSelected();
-		LoadedData.Attributes.Add(attr);
+		var updatedAttributes = new List<ICardAttribute>(LoadedData.Attributes) { attr };
+		LoadedData = LoadedData with { Attributes = updatedAttributes };
 
 		CreateAttributeEditor(attr);
 
@@ -221,13 +269,17 @@ public partial class CardDataEditor : ScrollContainer
 	{
 		if (LoadedData == null) return;
 
-		LoadedData.Title = LoadedData.Title.Trim();
-		LoadedData.Description = LoadedData.Description.Trim();
+		var dataToSave = LoadedData with
+		{
+			Title = LoadedData.Title.Trim(),
+			Description = LoadedData.Description.Trim()
+		};
 
 		try
 		{
 			using var db = new CardDatabase();
-			LoadedData.Id = db.SaveCardData(LoadedData);
+			var savedId = db.SaveCardData(dataToSave);
+			LoadedData = dataToSave with { Id = savedId };
 			GD.PrintRich("Successfully saved Card Data".Green());
 
 			_stateMachine.ChangeState(new EditingExistingCardState(this));

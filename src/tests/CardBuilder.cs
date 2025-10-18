@@ -13,59 +13,65 @@ public class CardBuilder
     }
 
     private readonly Player _owner;
-    private readonly CardData _data;
+    private int _id;
+    private string? _title;
+    private string? _description;
+    private string? _imagePath;
+    private string? _tokenImagePath;
+    private CardType _cardType;
+    private Tags _tags;
+    private readonly List<ICardAttribute> _attributes = new();
 
     private CardBuilder(Player  owner)
     {
         _owner = owner;
-        _data = new CardData();
     }
 
     public CardBuilder WithTitle(string title)
     {
-        _data.Title = title;
+        _title = title;
         return this;
     }
 
     public CardBuilder WithDescription(string description)
     {
-        _data.Description = description;
+        _description = description;
         return this;
     }
 
     public CardBuilder WithImagePath(string imagePath)
     {
-        _data.ImagePath = imagePath;
+        _imagePath = imagePath;
         return this;
     }
 
     public CardBuilder WithTokenImagePath(string imagePath)
     {
-        _data.TokenImagePath = imagePath;
+        _tokenImagePath = imagePath;
         return this;
     }
 
     public CardBuilder WithCardType(CardType cardType)
     {
-        _data.CardType = cardType;
+        _cardType = cardType;
         return this;
     }
 
     public CardBuilder WithTags(Tags tags)
     {
-        _data.Tags = tags;
+        _tags = tags;
         return this;
     }
 
     public CardBuilder WithResourceCollector(ResourceType resource)
     {
-        _data.Attributes.Add(new ResourceCollectorAttribute { Resource = resource });
+        _attributes.Add(new ResourceCollectorAttribute { Resource = resource });
         return this;
     }
 
     public CardBuilder WithResourceCost(int food = 0, int wood = 0, int gold = 0, int stone = 0)
     {
-        _data.Attributes.Add(new ResourceCostAttribute
+        _attributes.Add(new ResourceCostAttribute
         {
             Food = food,
             Wood = wood,
@@ -78,19 +84,19 @@ public class CardBuilder
 
     public CardBuilder WithMovement(int distance = 0)
     {
-        _data.Attributes.Add(new MovementAttribute { Distance = distance });
+        _attributes.Add(new MovementAttribute { Distance = distance });
         return this;
     }
 
     public CardBuilder WithHealthPoints(int health)
     {
-        _data.Attributes.Add(new HitPointsAttribute { Health = health });
+        _attributes.Add(new HitPointsAttribute { Health = health });
         return this;
     }
 
     public CardBuilder WithSpawnPoint(Tags spawnTags, int spawnRange = 0)
     {
-        _data.Attributes.Add(new SpawnPointAttribute
+        _attributes.Add(new SpawnPointAttribute
         {
             SpawnRange = spawnRange,
             SpawnTags = spawnTags
@@ -107,14 +113,14 @@ public class CardBuilder
         {
             Actions = [new ActionDefinition { ActionType = typeof(TAction).FullName, Data = data }]
         };
-        _data.Attributes.Add(ability);
+        _attributes.Add(ability);
 
         return this;
     }
 
     public CardBuilder WithGarrisonCapacity(int capacity)
     {
-        _data.Attributes.Add(new GarrisonCapacityAttribute
+        _attributes.Add(new GarrisonCapacityAttribute
         {
             Limit = capacity
         });
@@ -122,8 +128,23 @@ public class CardBuilder
         return this;
     }
 
-    public Card Create() => new(_data, _owner);
-    public List<Card> CreateMany(int count) => Enumerable.Range(0, count).Select(_ => new Card(_data, _owner)).ToList();
+    public Card Create()
+    {
+        var data = new CardData
+        {
+            Id = _id,
+            Title = _title,
+            Description = _description,
+            ImagePath = _imagePath,
+            TokenImagePath = _tokenImagePath,
+            CardType = _cardType,
+            Tags = _tags,
+            Attributes = _attributes
+        };
+        return new Card(data, _owner);
+    }
+
+    public List<Card> CreateMany(int count) => Enumerable.Range(0, count).Select(_ => Create()).ToList();
 }
 
 public static class DeckBuilder
