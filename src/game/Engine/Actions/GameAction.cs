@@ -2,7 +2,7 @@
 using Godot;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
-
+using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 
 namespace MedievalConquerors.Engine.Actions;
@@ -70,5 +70,5 @@ public class GameAction
 
 public interface IAbilityLoader
 {
-    void Load(IGame game, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile);
+    void Load(IGame game, Card card, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile);
 }

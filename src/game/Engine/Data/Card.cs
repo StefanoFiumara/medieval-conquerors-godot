@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Godot;
-using LiteDB;
-using Riok.Mapperly.Abstractions;
 
 namespace MedievalConquerors.Engine.Data;
 
 public class Card
 {
-	private readonly IReadOnlyDictionary<Type, ICardAttribute> _attributeMap;
+	private readonly ImmutableDictionary<Type, ICardAttribute> _attributeMap;
 
 	public CardData Data { get; }
 
@@ -30,7 +28,6 @@ public class Card
 		_attributeMap = Data.Attributes.Select(attr =>
 			{
 				var copy = attr.Clone();
-				copy.Owner = this;
 				return copy;
 			})
 			.ToImmutableDictionary(attr => attr.GetType(), attr => attr);
@@ -61,15 +58,10 @@ public record CardData
 
 public abstract class CardAttribute : ICardAttribute
 {
-	[MapperIgnore]
-	[BsonIgnore]
-	public Card Owner { get; set; }
-
 	public abstract ICardAttribute Clone();
 }
 
 public interface ICardAttribute
 {
-	Card Owner { get; set; }
 	ICardAttribute Clone();
 }

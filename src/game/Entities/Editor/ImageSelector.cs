@@ -8,8 +8,8 @@ namespace MedievalConquerors.Entities.Editor;
 
 public partial class ImageSelector : HBoxContainer
 {
-	private const string PORTRAITS_PATH = "res://entities/cards/portraits/";
-	private const string TOKENS_PATH = "res://entities/tokens/token_icons/";
+	private const string PORTRAITS_PATH = "res://Entities/Cards/Portraits/";
+	private const string TOKENS_PATH = "res://Entities/Tokens/TokenIcons/";
 
 	public static readonly string None = ResourceUid.IdToText(ResourceUid.InvalidId);
 

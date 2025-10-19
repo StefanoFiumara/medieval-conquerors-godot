@@ -179,8 +179,7 @@ public partial class CardDataEditor : ScrollContainer
 
 		editor.Load(
 			target: attr,
-			customTitle: attr.GetType().Name.PrettyPrint().Replace("Attribute", string.Empty),
-			propertyFilter: p => p.Name != nameof(ICardAttribute.Owner)
+			customTitle: attr.GetType().Name.PrettyPrint().Replace("Attribute", string.Empty)
 		);
 
 		// TODO: Re-implement RemovePressed functionality for attributes

@@ -16,9 +16,9 @@ public class ShuffleDeckAction(int targetPlayerId) : GameAction, IAbilityLoader
         return $"ShuffleDeckAction:\tPlayer {TargetPlayerId} Shuffles their deck";
     }
 
-    public void Load(IGame game, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
+    public void Load(IGame game, Card card, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
     {
-        var player = ability.Owner.Owner;
+        var player = card.Owner;
         var enemyPlayer = game.GetComponent<Match>().Players[1 - player.Id];
 
         var target = data.GetData<PlayerTarget>(nameof(TargetPlayerId));

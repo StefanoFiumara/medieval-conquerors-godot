@@ -13,9 +13,9 @@ public class BuildStructureByIdAction(int cardId, int ownerId, Vector2I targetTi
 
     public BuildStructureByIdAction() : this(-1, -1, HexMap.None) { }
 
-    public void Load(IGame game, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
+    public void Load(IGame game, Card card, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
     {
-        var player = ability.Owner.Owner;
+        var player = card.Owner;
         OwnerId = player.Id;
         TargetTile = targetTile;
         CardId = data.GetData<int>(nameof(CardId));

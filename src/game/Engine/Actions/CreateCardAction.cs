@@ -22,9 +22,9 @@ public class CreateCardAction(int cardId, int targetPlayerId, Zone targetZone, i
         return $"CreateCardAction: Player {TargetPlayerId} creates {Amount} card(s) (ID: {CardId}) in {TargetZone}";
     }
 
-    public void Load(IGame game, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
+    public void Load(IGame game, Card card, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
     {
-        var player = ability.Owner.Owner;
+        var player = card.Owner;
         var enemyPlayer = game.GetComponent<Match>().Players[1 - player.Id];
         var target = data.GetData<PlayerTarget>(nameof(TargetPlayerId));
 

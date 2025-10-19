@@ -19,9 +19,9 @@ public class DrawCardsAction(int targetPlayerId, int amount) : GameAction, IAbil
         return $"DrawCardsAction: Player {TargetPlayerId} Draws {Amount} card(s)";
     }
 
-    public void Load(IGame game, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
+    public void Load(IGame game, Card card, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
     {
-        var player = ability.Owner.Owner;
+        var player = card.Owner;
         var enemyPlayer = game.GetComponent<Match>().Players[1 - player.Id];
 
         var target = data.GetData<PlayerTarget>(nameof(TargetPlayerId));
