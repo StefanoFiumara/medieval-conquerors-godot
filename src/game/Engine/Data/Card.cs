@@ -15,6 +15,7 @@ public class Card
 	public Player Owner { get; }
 	public Zone Zone { get; set; }
 	public Vector2I MapPosition { get; set; }
+	// TODO: Implement attribute modifiers here
 
 	public Card(CardData data, Player owner, Zone zone = Zone.None, Vector2I mapPosition = default)
 	{
@@ -23,14 +24,7 @@ public class Card
 		Zone = zone;
 		MapPosition = Zone == Zone.Map ? mapPosition : HexMap.None;
 
-		// TODO: Add a system for attribute modifications, rather than relying on mutable card attributes.
-		// This way we can get rid of the clunky Clone() methods
-		_attributeMap = Data.Attributes.Select(attr =>
-			{
-				var copy = attr.Clone();
-				return copy;
-			})
-			.ToImmutableDictionary(attr => attr.GetType(), attr => attr);
+		_attributeMap = Data.Attributes.ToImmutableDictionary(attr => attr.GetType(), attr => attr);
 	}
 
 	public bool HasAttribute<TAttribute>(out TAttribute attribute) where TAttribute : class, ICardAttribute
@@ -56,12 +50,4 @@ public record CardData
 	public IReadOnlyList<ICardAttribute> Attributes { get; init; } = [];
 }
 
-public abstract class CardAttribute : ICardAttribute
-{
-	public abstract ICardAttribute Clone();
-}
-
-public interface ICardAttribute
-{
-	ICardAttribute Clone();
-}
+public interface ICardAttribute;

@@ -88,12 +88,6 @@ public class CardBuilder
         return this;
     }
 
-    public CardBuilder WithHealthPoints(int health)
-    {
-        _attributes.Add(new HitPointsAttribute { Health = health });
-        return this;
-    }
-
     public CardBuilder WithSpawnPoint(Tags spawnTags, int spawnRange = 0)
     {
         _attributes.Add(new SpawnPointAttribute

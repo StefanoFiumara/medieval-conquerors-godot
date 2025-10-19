@@ -5,22 +5,21 @@ using Riok.Mapperly.Abstractions;
 
 namespace MedievalConquerors.Engine.Attributes;
 
-public class GarrisonCapacityAttribute : CardAttribute
+public record GarrisonCapacityAttribute : ICardAttribute
 {
-    public int Limit { get; set; }
+    public int Limit { get; init; }
 
-    [BsonIgnore] [MapperIgnore]
-    public List<Card> Units { get; } = new();
+    // TODO: Reimplement this logic in the modifier system
+    // [BsonIgnore] [MapperIgnore]
+    // public List<Card> Units { get; } = new();
 
-    public bool CanGarrison(Card unit) =>
-        Units.Count < Limit
-        && unit.Data.Tags.HasFlag(Tags.Economic)
+    // public void Garrison(Card unit)
+    // {
+    //     Units.Add(unit);
+    // }
+
+    public static bool CanGarrison(Card unit) =>
+        unit.Data.Tags.HasFlag(Tags.Economic)
+     // && Units.Count < Limit
         && unit.Data.CardType == CardType.Unit;
-
-    public void Garrison(Card unit)
-    {
-        Units.Add(unit);
-    }
-
-    public override ICardAttribute Clone() => AttributeMapper.Clone(this);
 }

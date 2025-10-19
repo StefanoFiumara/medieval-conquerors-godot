@@ -2,10 +2,8 @@
 
 namespace MedievalConquerors.Engine.Attributes;
 
-public class SpawnPointAttribute : CardAttribute
+public record SpawnPointAttribute : ICardAttribute
 {
-    public Tags SpawnTags { get; set; }
-    public int SpawnRange { get; set; }
-
-    public override ICardAttribute Clone() => AttributeMapper.Clone(this);
+    public Tags SpawnTags { get; init; }
+    public int SpawnRange { get; init; }
 }

@@ -2,12 +2,10 @@
 
 namespace MedievalConquerors.Engine.Attributes;
 
-public class ResourceCostAttribute : CardAttribute
+public record ResourceCostAttribute : ICardAttribute
 {
-    public int Food { get; set; }
-    public int Wood { get; set; }
-    public int Gold { get; set; }
-    public int Stone { get; set; }
-
-    public override ICardAttribute Clone() => AttributeMapper.Clone(this);
+    public int Food { get; init; }
+    public int Wood { get; init; }
+    public int Gold { get; init; }
+    public int Stone { get; init; }
 }

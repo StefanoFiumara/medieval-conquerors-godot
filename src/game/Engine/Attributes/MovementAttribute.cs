@@ -4,17 +4,11 @@ using Riok.Mapperly.Abstractions;
 
 namespace MedievalConquerors.Engine.Attributes;
 
-public class MovementAttribute : CardAttribute
+public record MovementAttribute : ICardAttribute
 {
-    public int Distance { get; set; }
+    public int Distance { get; init; }
 
-    // TODO: Do we need an additional attribute to ignore this properly in the attribute editor?
-    //      Alternatively - we can just check for BsonIgnore when choosing which props to display
-    [BsonIgnore] [MapperIgnore]
-    public int RemainingDistance { get; set; }
-
-    public bool CanMove(int amount) => RemainingDistance >= amount;
-    public void Move(int amount) => RemainingDistance -= amount;
-
-    public override ICardAttribute Clone() => AttributeMapper.Clone(this);
+    // TODO: Reimplement this logic with the modifier system
+    // public bool CanMove(int amount) => RemainingDistance >= amount;
+    // public void Move(int amount) => RemainingDistance -= amount;
 }

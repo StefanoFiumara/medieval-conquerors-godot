@@ -2,10 +2,8 @@
 
 namespace MedievalConquerors.Engine.Attributes;
 
-public class ResourceProviderAttribute : CardAttribute
+public record ResourceProviderAttribute : ICardAttribute
 {
-    public ResourceType Resource { get; set; }
-    public int ResourceYield { get; set; }
-
-    public override ICardAttribute Clone() => AttributeMapper.Clone(this);
+    public ResourceType Resource { get; init; }
+    public int Yield { get; init; }
 }

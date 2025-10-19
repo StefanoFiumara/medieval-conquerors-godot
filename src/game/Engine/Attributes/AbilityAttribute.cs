@@ -1,60 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using MedievalConquerors.Engine.Data;
 using Riok.Mapperly.Abstractions;
 
 namespace MedievalConquerors.Engine.Attributes;
 
-public class ActionDefinition
+public record ActionDefinition
 {
-    public string ActionType { get; set; }
-    public string Data { get; set; }
+    public string ActionType { get; init; }
+    public string Data { get; init; }
 
-    private Lazy<Dictionary<string, string>> LazyData => new(ParseData);
+    private Lazy<ImmutableDictionary<string, string>> LazyData => new(ParseData);
 
-    [MapperIgnore]
-    private Dictionary<string, string> ParsedData => LazyData.Value;
+    private ImmutableDictionary<string, string> ParsedData => LazyData.Value;
 
     public T GetData<T>(string key)
     {
-        if (ParsedData.TryGetValue(key, out var value))
-        {
-            if (typeof(T).IsEnum)
-                return (T) Enum.Parse(typeof(T), value);
+        if (!ParsedData.TryGetValue(key, out var value))
+            return default;
 
-            return (T) Convert.ChangeType(value, typeof(T));
-        }
+        if (typeof(T).IsEnum)
+            return (T) Enum.Parse(typeof(T), value);
 
+        return (T) Convert.ChangeType(value, typeof(T));
         // TODO: Should we throw an error here instead of returning a default value?
-        return default;
     }
 
-    public void SetData<T>(string key, T value)
-    {
-        ParsedData[key] = value.ToString();
-    }
-
-    private Dictionary<string, string> ParseData()
+    private ImmutableDictionary<string, string> ParseData()
     {
         return Data.Split(',')
             .Select(pair => pair.Split('='))
-            .ToDictionary(parts => parts[0], parts => parts[1]);
+            .ToImmutableDictionary(parts => parts[0], parts => parts[1]);
     }
 }
 
-public abstract class AbilityAttribute : CardAttribute
+public abstract record AbilityAttribute : ICardAttribute
 {
-    public List<ActionDefinition> Actions { get; set; } = [];
-    // TODO: Target selector?
+    public IReadOnlyList<ActionDefinition> Actions { get; init; } = [];
 }
 
-public class OnCardPlayedAbility : AbilityAttribute
-{
-    public override ICardAttribute Clone() => AttributeMapper.Clone(this);
-}
-
-public class OnCardActivatedAbility : AbilityAttribute
-{
-    public override ICardAttribute Clone() => AttributeMapper.Clone(this);
-}
+public record OnCardPlayedAbility : AbilityAttribute;
+public record OnCardActivatedAbility : AbilityAttribute;

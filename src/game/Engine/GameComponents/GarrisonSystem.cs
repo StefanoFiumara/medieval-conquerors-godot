@@ -28,7 +28,7 @@ public class GarrisonSystem : GameComponent, IAwake
             return;
         }
         
-        if(!garrisonAttribute.CanGarrison(action.Unit))
+        if(!GarrisonCapacityAttribute.CanGarrison(action.Unit))
             validator.Invalidate("This building cannot garrison the given unit.");
     }
 
