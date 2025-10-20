@@ -1,10 +1,9 @@
-﻿using MedievalConquerors.Engine.Actions;
+﻿using System.Linq;
+using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
-
 using MedievalConquerors.Engine.Events;
-using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
@@ -28,33 +27,28 @@ public class MovementSystem : GameComponent, IAwake
 
     private void OnPerformPlayCard(PlayCardAction action)
     {
-        if (action.CardToPlay.HasAttribute<MovementAttribute>(out var attribute))
-        {
-            attribute.RemainingDistance = attribute.Distance;
-        }
+        if(action.CardToPlay.HasAttribute<MovementAttribute>())
+            action.CardToPlay.ClearModifiers<MovementAttribute>();
     }
 
     private void OnValidateMoveUnit(MoveUnitAction action, ActionValidatorResult validator)
     {
-        var moveAttr = action.CardToMove.GetAttribute<MovementAttribute>();
-
         if (action.CardToMove.Zone != Zone.Map)
         {
             validator.Invalidate("Card is not on the map.");
             return;
         }
 
-        if (moveAttr == null)
+        if (action.CardToMove.HasAttribute<MovementAttribute>(out var moveAttr))
         {
             validator.Invalidate("Card does not have MoveAttribute.");
             return;
         }
 
         var distanceToTarget = _map.CalculatePath(action.CardToMove.MapPosition, action.TargetTile).Count;
+
         if (!moveAttr.CanMove(distanceToTarget))
-        {
             validator.Invalidate("Card's MoveAttribute does not have enough distance remaining.");
-        }
     }
 
     private void OnPerformMoveUnit(MoveUnitAction action)
@@ -68,19 +62,19 @@ public class MovementSystem : GameComponent, IAwake
         newTile.Unit = action.CardToMove;
 
         action.CardToMove.MapPosition = action.TargetTile;
-        var moveAttr = action.CardToMove.GetAttribute<MovementAttribute>();
-        moveAttr.Move(distanceTraveled);
+        var moveAttribute = action.CardToMove.GetAttribute<MovementAttribute>();
+
+        action.CardToMove.AddModifier(new MovementModifier { RemainingDistance = moveAttribute.Distance - distanceTraveled });
     }
 
     private void OnPerformBeginTurn(BeginTurnAction action)
     {
         var player = _match.Players[action.PlayerId];
+
         foreach (var card in player.Map)
         {
-            if (card.HasAttribute<MovementAttribute>(out var movement))
-            {
-                movement.RemainingDistance = movement.Distance;
-            }
+            if (card.HasAttribute<MovementAttribute>())
+                card.ClearModifiers<MovementAttribute>();
         }
     }
 }

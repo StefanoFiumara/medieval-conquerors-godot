@@ -7,7 +7,6 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Entities.Maps;
-using MedievalConquerors.Extensions;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Engine.Input.InputStates;
@@ -23,7 +22,7 @@ public class SelectedUnitState(IGame game, Card selectedUnit) : BaseInputState(g
     public override void Enter()
     {
         if (_selectedUnit.HasAttribute<MovementAttribute>(out var movement))
-            _validTiles = _map.GetReachable(_selectedUnit.MapPosition, movement.RemainingDistance).ToList();
+            _validTiles = _map.GetReachable(_selectedUnit.MapPosition, movement.Distance).ToList();
 
         // TODO: Should we have a separate layer/color for selected tiles vs Tile selection hints?
         _mapView.HighlightTile(_selectedUnit.MapPosition, MapLayerType.SelectionHint);
