@@ -47,7 +47,7 @@ public class MovementSystem : GameComponent, IAwake
 
         var distanceToTarget = _map.CalculatePath(action.CardToMove.MapPosition, action.TargetTile).Count;
 
-        if (!moveAttr.CanMove(distanceToTarget))
+        if (distanceToTarget > moveAttr.Distance)
             validator.Invalidate("Card's MoveAttribute does not have enough distance remaining.");
     }
 
@@ -63,7 +63,7 @@ public class MovementSystem : GameComponent, IAwake
 
         action.CardToMove.MapPosition = action.TargetTile;
 
-        action.CardToMove.AddModifier(new MovementModifier { DistanceTraveled = distanceTraveled });
+        action.CardToMove.AddModifier<MovementAttribute>(attr => attr with { Distance = attr.Distance - distanceTraveled });
     }
 
     private void OnPerformBeginTurn(BeginTurnAction action)
