@@ -69,7 +69,7 @@ public class MovementSystemTests : GameSystemTestFixture
         Map.GetTile(newPosition).Unit.ShouldBe(_moveableCard);
         Map.GetTile(firstPosition).Unit.ShouldBeNull();
 
-        _moveableCard.GetAttribute<MovementAttribute>().RemainingDistance.ShouldBe(0);
+        _moveableCard.GetAttribute<MovementAttribute>().Distance.ShouldBe(0);
     }
 
     [Fact]
@@ -153,7 +153,7 @@ public class MovementSystemTests : GameSystemTestFixture
         Game.Update();
 
         var movement = _moveableCard.GetAttribute<MovementAttribute>();
-        movement.RemainingDistance.ShouldBe(0);
+        movement.Distance.ShouldBe(0);
 
         // Change turn to opposite player
         var turnAction = new ChangeTurnAction(_match.OppositePlayer.Id);
@@ -165,6 +165,6 @@ public class MovementSystemTests : GameSystemTestFixture
         Game.Perform(turnAction);
         Game.Update();
 
-        movement.RemainingDistance.ShouldBe(movement.Distance);
+        movement.Distance.ShouldBe(movement.Distance);
     }
 }

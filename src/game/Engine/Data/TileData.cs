@@ -3,6 +3,7 @@ using MedievalConquerors.Engine.Input;
 
 namespace MedievalConquerors.Engine.Data;
 
+// TODO: Make immutable, track building/Unit somewhere else, perhaps just with their map position?
 public class TileData(Vector2I position, TileTerrain terrain, ResourceType resourceType, int resourceYield) : IClickable
 {
 	public Card Building { get; set; }

@@ -10,10 +10,8 @@ public record MovementAttribute : ICardAttribute
 
 public record MovementModifier : Modifier<MovementAttribute>
 {
-    public int RemainingDistance { get; init; }
+    public int DistanceTraveled { get; init; }
 
-    public override MovementAttribute Apply(MovementAttribute original) => original with
-    {
-        Distance = original.Distance - RemainingDistance
-    };
+    public override MovementAttribute Apply(MovementAttribute original)
+        => original with { Distance = original.Distance - DistanceTraveled };
 }

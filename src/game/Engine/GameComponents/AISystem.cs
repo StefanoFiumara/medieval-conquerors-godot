@@ -15,6 +15,7 @@ public class AISystem : GameComponent, IAwake
     private ILogger _logger;
 
     private CardSystem _cardSystem;
+    private GarrisonSystem _garrisonSystem;
     private TargetSystem _targetSystem;
 
     private HexMap _map;
@@ -22,6 +23,7 @@ public class AISystem : GameComponent, IAwake
     public void Awake()
     {
         _cardSystem = Game.GetComponent<CardSystem>();
+        _garrisonSystem = Game.GetComponent<GarrisonSystem>();
         _targetSystem = Game.GetComponent<TargetSystem>();
         _map = Game.GetComponent<HexMap>();
         _match = Game.GetComponent<Match>();
@@ -104,7 +106,7 @@ public class AISystem : GameComponent, IAwake
         var resourceCollected = building?.GetAttribute<ResourceCollectorAttribute>()?.Resource;
         if (resourceCollected == null) return 0;
 
-        var unitsGarrisoned = building.GetAttribute<GarrisonCapacityAttribute>()?.Units.Count ?? 0;
+        var unitsGarrisoned = _garrisonSystem.GetGarrisonedUnits(building).Count;
 
         // TODO: Test this logic with mining resources
         var adjacentResourceCount = _map.GetNeighbors(tilePos).Where(t => t.ResourceType != ResourceType.None).Count(t => resourceCollected.Value.HasFlag(t.ResourceType));

@@ -5,9 +5,7 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
-
 using MedievalConquerors.Engine.Events;
-using MedievalConquerors.Extensions;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Engine.GameComponents;
@@ -18,12 +16,14 @@ public class ResourceSystem : GameComponent, IAwake
     private EventAggregator _events;
     private Match _match;
     private HexMap _map;
+    private GarrisonSystem _garrisonSystem;
 
     public void Awake()
     {
         _match = Game.GetComponent<Match>();
         _map = Game.GetComponent<HexMap>();
         _events = Game.GetComponent<EventAggregator>();
+        _garrisonSystem = Game.GetComponent<GarrisonSystem>();
 
         _events.Subscribe<PlayCardAction, ActionValidatorResult>(GameEvent.Validate<PlayCardAction>(), OnValidatePlayCard);
         _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
@@ -47,16 +47,18 @@ public class ResourceSystem : GameComponent, IAwake
             // only process garrisoned buildings with a ResourceCollector attribute
             if (card.Data.CardType != CardType.Building) continue;
             if (collectorAttribute == null || garrisonAttribute == null) continue;
-            if (garrisonAttribute.Units.Count == 0) continue;
+
+            var garrisonedUnits = _garrisonSystem.GetGarrisonedUnits(card);
+            if (garrisonedUnits.Count == 0) continue;
 
             var resourcesToCollect = CalculateYields(collectorAttribute, _map.GetNeighbors(card.MapPosition))
                 // Filter out tiles that have been already collected by other collectors
                 .Where(t => !resourceOwnership.ContainsKey(t.Position) || resourceOwnership[t.Position] == card.MapPosition)
                 .ToList();
 
-            float efficiencyFactor = CalculateEfficiency(garrisonAttribute.Units.Count, resourcesToCollect.Count);
+            float efficiencyFactor = CalculateEfficiency(garrisonedUnits.Count, resourcesToCollect.Count);
 
-            int remainingVillagers = garrisonAttribute.Units.Count;
+            int remainingVillagers = garrisonedUnits.Count;
             while (remainingVillagers > 0 && resourcesToCollect.Count > 0)
             {
                 var tile = resourcesToCollect[remainingVillagers % resourcesToCollect.Count];

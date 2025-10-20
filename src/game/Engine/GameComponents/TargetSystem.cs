@@ -15,11 +15,14 @@ public class TargetSystem : GameComponent, IAwake
 {
     private HexMap _map;
     private EventAggregator _events;
+    private GarrisonSystem _garrisonSystem;
 
     public void Awake()
     {
         _events = Game.GetComponent<EventAggregator>();
         _map = Game.GetComponent<HexMap>();
+        _garrisonSystem = Game.GetComponent<GarrisonSystem>();
+
         _events.Subscribe<PlayCardAction, ActionValidatorResult>(GameEvent.Validate<PlayCardAction>(), OnValidatePlayCard);
     }
 
@@ -50,9 +53,7 @@ public class TargetSystem : GameComponent, IAwake
         {
             if (building.Data.Tags.HasFlag(spawnPoint.SpawnTags))
             {
-                // TODO: We may want to pull the garrison check into an extension method, as well as other attribute checks
-                //       This is so we can just call `building.CanGarrison(source)` directly instead of using `GetAttribute`
-                if (spawnPoint.SpawnRange == 0 && building.GetAttribute<GarrisonCapacityAttribute>()?.CanGarrison(card) == true)
+                if (spawnPoint.SpawnRange == 0 && _garrisonSystem.CanGarrison(building, card))
                 {
                     targetCandidates.Add(building.MapPosition);
                 }

@@ -39,7 +39,7 @@ public class MovementSystem : GameComponent, IAwake
             return;
         }
 
-        if (action.CardToMove.HasAttribute<MovementAttribute>(out var moveAttr))
+        if (!action.CardToMove.HasAttribute<MovementAttribute>(out var moveAttr))
         {
             validator.Invalidate("Card does not have MoveAttribute.");
             return;
@@ -62,9 +62,8 @@ public class MovementSystem : GameComponent, IAwake
         newTile.Unit = action.CardToMove;
 
         action.CardToMove.MapPosition = action.TargetTile;
-        var moveAttribute = action.CardToMove.GetAttribute<MovementAttribute>();
 
-        action.CardToMove.AddModifier(new MovementModifier { RemainingDistance = moveAttribute.Distance - distanceTraveled });
+        action.CardToMove.AddModifier(new MovementModifier { DistanceTraveled = distanceTraveled });
     }
 
     private void OnPerformBeginTurn(BeginTurnAction action)

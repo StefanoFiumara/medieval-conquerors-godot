@@ -1,6 +1,8 @@
-﻿namespace MedievalConquerors.Engine.Attributes;
+﻿using MedievalConquerors.Engine.Data;
 
-public class HitPointsAttribute
+namespace MedievalConquerors.Engine.Attributes;
+
+public class HitPointsAttribute : ICardAttribute
 {
-    
+    public int Health { get; set; }
 }
