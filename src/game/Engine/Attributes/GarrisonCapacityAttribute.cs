@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using LiteDB;
-using MedievalConquerors.Engine.Data;
-using Riok.Mapperly.Abstractions;
+﻿using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Engine.Attributes;
 

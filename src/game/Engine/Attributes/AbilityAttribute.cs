@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using MedievalConquerors.Engine.Data;
-using Riok.Mapperly.Abstractions;
 
 namespace MedievalConquerors.Engine.Attributes;
 
