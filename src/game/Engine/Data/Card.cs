@@ -28,6 +28,7 @@ public class Card
 	}
 
 	// TODO: Use Func instead of creating a type for each modifier, that way we do not have more class bloat for all the different modifiers
+	// TODO: How do we maintain the modifiers dict when storing simple Func<TAttribute, TAttribute>?
 	public void AddModifier<TAttribute>(Modifier<TAttribute> modifier)
 		where TAttribute : class, ICardAttribute
 	{
