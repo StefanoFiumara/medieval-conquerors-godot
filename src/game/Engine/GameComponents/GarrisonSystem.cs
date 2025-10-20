@@ -4,7 +4,6 @@ using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
-using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
@@ -25,9 +24,7 @@ public class GarrisonSystem : GameComponent, IAwake
 
     private void OnValidateGarrison(GarrisonAction action, ActionValidatorResult validator)
     {
-        var garrisonAttribute = action.Building.GetAttribute<GarrisonCapacityAttribute>();
-
-        if (garrisonAttribute == null)
+        if (!action.Building.HasAttribute<GarrisonCapacityAttribute>(out var garrisonAttribute))
         {
             validator.Invalidate("This building cannot garrison any units.");
             return;
@@ -45,10 +42,7 @@ public class GarrisonSystem : GameComponent, IAwake
             validator.Invalidate($"Garrison capacity reached ({garrisonAttribute.Limit}).");
     }
 
-    private void OnPerformGarrison(GarrisonAction action)
-    {
-        _tracker.Garrison(action.Building, action.Unit);
-    }
+    private void OnPerformGarrison(GarrisonAction action) => _tracker.Garrison(action.Building, action.Unit);
 
     public bool CanGarrison(Card building, Card unit) => _tracker.CanGarrison(building, unit);
     public IReadOnlyList<Card> GetGarrisonedUnits(Card building) => _tracker.GetGarrisonedUnits(building);

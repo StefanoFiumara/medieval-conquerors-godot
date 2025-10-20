@@ -33,7 +33,7 @@ public class DeckCycleSystem : GameComponent, IAwake
         if (player.Deck.Count < action.Amount)
         {
             // If the deck doesn't have enough cards for the draw action
-            // cancel the action draw the remainder of the deck
+            // cancel the action, instead draw the remainder of the deck
             // then, cycle the deck (shuffle the discard pine into the deck), and draw the remaining cards.
             action.Cancel();
             Game.AddReaction(new DrawCardsAction(action.TargetPlayerId, player.Deck.Count));
