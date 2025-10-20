@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
@@ -34,7 +33,7 @@ public class GarrisonSystem : GameComponent, IAwake
             return;
         }
 
-        if (!_tracker.CanGarrison(action.Building, action.Unit))
+        if (!CanGarrison(action.Building, action.Unit))
         {
             validator.Invalidate("This building cannot garrison the given unit.");
             return;
@@ -53,57 +52,4 @@ public class GarrisonSystem : GameComponent, IAwake
 
     public bool CanGarrison(Card building, Card unit) => _tracker.CanGarrison(building, unit);
     public IReadOnlyList<Card> GetGarrisonedUnits(Card building) => _tracker.GetGarrisonedUnits(building);
-}
-
-public class GarrisonTracker : GameComponent
-{
-    private readonly Dictionary<Card, List<Card>> _garrisonedUnits = new();
-
-    public bool CanGarrison(Card building, Card unit)
-    {
-        if (!building.HasAttribute<GarrisonCapacityAttribute>(out var capacity))
-            return false;
-
-        var currentGarrison = GetGarrisonCount(building);
-        var isEconomicUnit = unit.Data.Tags.HasFlag(Tags.Economic) && unit.Data.CardType == CardType.Unit;
-        var buildingHasRoom = currentGarrison < capacity.Limit;
-
-        return isEconomicUnit && buildingHasRoom;
-    }
-
-    public void Garrison(Card building, Card unit)
-    {
-        var garrisonAttribute = building.GetAttribute<GarrisonCapacityAttribute>();
-
-        if (garrisonAttribute == null)
-            throw new InvalidOperationException("Building does not have a GarrisonCapacityAttribute.");
-
-        if (!_garrisonedUnits.ContainsKey(building))
-            _garrisonedUnits[building] = new();
-
-        _garrisonedUnits[building].Add(unit);
-    }
-
-    public void Ungarrison(Card building, Card unit)
-    {
-        if (_garrisonedUnits.TryGetValue(building, out var units))
-            units.Remove(unit);
-    }
-
-    public IReadOnlyList<Card> GetGarrisonedUnits(Card building)
-    {
-        return _garrisonedUnits.TryGetValue(building, out var units)
-            ? units.AsReadOnly()
-            : new List<Card>().AsReadOnly();
-    }
-
-    public int GetGarrisonCount(Card building)
-    {
-        return _garrisonedUnits.TryGetValue(building, out var units) ? units.Count : 0;
-    }
-
-    public void Clear(Card building)
-    {
-        _garrisonedUnits.Remove(building);
-    }
 }

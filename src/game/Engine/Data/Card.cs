@@ -8,15 +8,6 @@ using MedievalConquerors.Engine.Attributes;
 
 namespace MedievalConquerors.Engine.Data;
 
-public interface ICardAttribute;
-public interface IModifier;
-
-public abstract record Modifier<TAttribute> : IModifier
-	where TAttribute : class, ICardAttribute
-{
-	public abstract TAttribute Apply(TAttribute original);
-}
-
 public class Card
 {
 	private readonly ImmutableDictionary<Type, ICardAttribute> _attributeMap;
@@ -38,6 +29,7 @@ public class Card
 		_attributeMap = Data.Attributes.ToImmutableDictionary(attr => attr.GetType(), attr => attr);
 	}
 
+	// TODO: Use Func instead of creating a type for each modifier, that way we do not have more class bloat for all the different modifiers
 	public void AddModifier<TAttribute>(Modifier<TAttribute> modifier)
 		where TAttribute : class, ICardAttribute
 	{
@@ -87,16 +79,4 @@ public class Card
 		return modifierList.Cast<Modifier<TAttribute>>()
 			.Aggregate(original, (current, modifier) => modifier.Apply(current));
 	}
-}
-
-public record CardData
-{
-	public int Id { get; init; }
-	public string Title { get; init; }
-	public string Description { get; init; }
-	public string ImagePath { get; init; }
-	public string TokenImagePath { get; init; }
-	public CardType CardType { get; init; }
-	public Tags Tags { get; init; }
-	public IReadOnlyList<ICardAttribute> Attributes { get; init; } = [];
 }

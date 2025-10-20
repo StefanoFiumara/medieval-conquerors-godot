@@ -76,6 +76,7 @@ public class ResourceSystem : GameComponent, IAwake
 
     private IEnumerable<(Vector2I Position, ResourceType Resource, int Yield)> CalculateYields(ResourceCollectorAttribute collector, IEnumerable<TileData> tiles)
     {
+        // TODO: BUG - sometimes farms are giving +0 even when a villager should be assigned to it, double check this logic.
         foreach (var tile in tiles)
         {
             // Determine if this tile has a resource to collect by checking if it has a specific resource type
