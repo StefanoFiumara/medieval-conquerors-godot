@@ -68,7 +68,6 @@ public class MovementSystem : GameComponent, IAwake
     private void OnPerformBeginTurn(BeginTurnAction action)
     {
         var player = _match.Players[action.PlayerId];
-
         foreach (var card in player.Map)
         {
             if (card.HasAttribute<MovementAttribute>())
