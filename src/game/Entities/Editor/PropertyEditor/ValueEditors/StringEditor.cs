@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using Godot;
 using MedievalConquerors.DataBinding;
 

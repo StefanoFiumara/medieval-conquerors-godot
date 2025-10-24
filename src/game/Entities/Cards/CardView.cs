@@ -4,7 +4,6 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
-using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Cards;
 

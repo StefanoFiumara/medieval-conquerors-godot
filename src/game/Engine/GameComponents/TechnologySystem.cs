@@ -5,7 +5,6 @@ using MedievalConquerors.Engine.Data;
 
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.Logging;
-using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
