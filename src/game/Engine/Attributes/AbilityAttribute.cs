@@ -12,7 +12,6 @@ public record ActionDefinition
     public string Data { get; init; }
 
     private Lazy<ImmutableDictionary<string, string>> LazyData => new(ParseData);
-
     private ImmutableDictionary<string, string> ParsedData => LazyData.Value;
 
     public T GetData<T>(string key)

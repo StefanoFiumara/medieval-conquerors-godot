@@ -14,14 +14,16 @@ public partial class ActionDefinitionEditor : PanelContainer
 	{
 		_paramEditorScene = GD.Load<PackedScene>("uid://bhmiifttu4eln");
 		_actionOptions = GetNode<GameActionOptions>("%action_options");
+
+		// TODO: when selected action changes, redraw parameters, derive parameters from action type
 	}
 
-	public void Bind(ActionDefinition actionDef)
+	public ActionDefinition CreateActionDefinition()
 	{
-		_actionOptions.Bind(actionDef, definition => definition.ActionType);
-
-		// TODO: Derive parameter values based on ActionType to create action parameter editors
-		// TODO: Make that process reusable so we can recreate the parameters when the selection action changes
-		// TODO: Binding for the action parameters may be more complex than just a bind method
+		return new ActionDefinition
+		{
+			ActionType = _actionOptions.SelectedOption.FullName,
+			Data = "" // TODO: create and set up action parameter editor
+		};
 	}
 }
