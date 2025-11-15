@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.StateManagement;
@@ -22,20 +21,17 @@ public partial class CardDataEditor : ScrollContainer
 
 	[Export] private LineEdit _cardTitle;
 	[Export] private TextEdit _description;
-
 	[Export] private ImageSelector _portraitSelector;
 	[Export] private CardTypeOptions _cardTypeSelector;
 	[Export] private TagSelector _tagSelector;
-	[Export] private AttributeOptions _newAttributeSelector;
-	[Export] private Button _addAttributeButton;
 
-	[Export] private VBoxContainer _attributesContainer;
-
+	// TODO: Refactor out state machine, we probably don't need it.
 	private StateMachine _stateMachine;
-	private PackedScene _objectEditor;
 
-	// TODO: Should we maintain a separate editor for attributes, rather than having a backing field here?
-	private List<ICardAttribute> _dataAttributes = [];
+
+	// TODO: Make private
+	// TODO: If we make this a nullable int we can derive the status from it and manage state transitions in the setter
+	// 		Or use something like int.MinValue to represent the NoData state.
 	public int CurrentCardId { get; private set; }
 
 	private CardData CreateCardData()
@@ -49,7 +45,8 @@ public partial class CardDataEditor : ScrollContainer
 			TokenImagePath = _portraitSelector.SelectedTokenUid,
 			CardType = _cardTypeSelector.SelectedOption,
 			Tags = _tagSelector.SelectedTags,
-			Attributes = new List<ICardAttribute>(_dataAttributes)
+			// TODO: Call AttributesEditor.CreateAttributes() instead
+			// Attributes = _attributesEditor.CreateAttributes()
 		};
 	}
 
@@ -66,12 +63,15 @@ public partial class CardDataEditor : ScrollContainer
 			_portraitSelector.SelectedImageUid = data.ImagePath;
 			_cardTypeSelector.SelectedOption = data.CardType;
 			_tagSelector.SelectedTags = data.Tags;
-			_dataAttributes = new List<ICardAttribute>(data.Attributes);
 
-			foreach (var attr in data.Attributes)
-				CreateAttributeEditor(attr);
+			// TODO: Delegate loading attributes to Attributes Editor
+			// _attributesEditor.Load(data.Attributes)
+			// _dataAttributes = new List<ICardAttribute>(data.Attributes);
+			// foreach (var attr in data.Attributes)
+			// 	CreateAttributeEditor(attr);
 		}
 
+		// TODO: Refactor out state machine stuff, figure out what to do with the save/delete buttons here.
 		if(data == null)
 			_stateMachine.ChangeState(new NoDataState(this));
 		else if (data.Id == 0)
@@ -85,11 +85,8 @@ public partial class CardDataEditor : ScrollContainer
 
 	public override void _Ready()
 	{
-		_objectEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
 		_stateMachine = new StateMachine(new NoDataState(this));
 
-		_newAttributeSelector.Connect(OptionButton.SignalName.ItemSelected, Callable.From<long>(OnNewAttributeSelected));
-		_addAttributeButton.Connect(BaseButton.SignalName.Pressed, Callable.From(CreateNewAttribute));
 		_saveButton.Connect(BaseButton.SignalName.Pressed, Callable.From(SaveCardResource));
 		_newButton.Connect(BaseButton.SignalName.Pressed, Callable.From(CreateNewCard));
 		_deleteButton.Connect(BaseButton.SignalName.Pressed, Callable.From(DeleteLoadedCard));
@@ -97,6 +94,7 @@ public partial class CardDataEditor : ScrollContainer
 		// TODO: is it possible to subscribe in EnterTree? Library editor probably will not exist yet
 		//		Maybe a different way of setting up this communication
 		// IDEA: turn this into a signal and wire it up in the godot editor instead.
+		// IDEA: move this logic into a parent script that can reference both the library and the card editors.
 		_libraryEditor.SearchResultClicked += Load;
 	}
 
@@ -106,8 +104,9 @@ public partial class CardDataEditor : ScrollContainer
 		_cardTitle.Editable = true;
 		_description.Editable = true;
 		_cardTypeSelector.Disabled = false;
-		_newAttributeSelector.Disabled = false;
-		_addAttributeButton.Disabled = _newAttributeSelector.Selected == 0;
+		// TODO: enable attributes editor
+		// _attributesEditor.Enable()
+
 		_portraitSelector.Disabled = false;
 		_tagSelector.Enable();
 	}
@@ -119,18 +118,18 @@ public partial class CardDataEditor : ScrollContainer
 		_description.Editable = false;
 		_cardTypeSelector.Disabled = true;
 		_tagSelector.Disable();
-		_newAttributeSelector.Disabled = true;
-		_addAttributeButton.Disabled = true;
 		_portraitSelector.Disabled = true;
+		// TODO: disable attributes editor
+		// _attributesEditor.Disable()
 	}
 
+	// TODO: maybe derive status off of CurrentCardId?
 	public void SetStatus(string status) => _statusLabel.Text = status;
 
 	private void Reset()
 	{
 		// Clear backing fields
-		CurrentCardId = 0;
-		_dataAttributes.Clear();
+		CurrentCardId = int.MinValue;
 
 		// Clear UI controls
 		_cardTitle.Text = string.Empty;
@@ -139,70 +138,30 @@ public partial class CardDataEditor : ScrollContainer
 		_cardTypeSelector.SelectedOption = CardType.None;
 		_tagSelector.SelectedTags = Tags.None;
 
-		var attributeControls = _attributesContainer.GetChildren();
-
-		foreach (var control in attributeControls)
-			control.QueueFree();
-
-		_newAttributeSelector.Select(0);
-		OnNewAttributeSelected(0);
+		// TODO: reset the attribute editor
+		// _attributesEditor.Reset();
 	}
 
-	private void OnNewAttributeSelected(long itemIndex)
-	{
-		var selectedText = _newAttributeSelector.GetItemText((int)itemIndex);
-		_addAttributeButton.Disabled = selectedText == "None" || _dataAttributes.Any(a => a.GetType().Name == selectedText);
-	}
 
 	private void CreateNewCard()
 	{
+		// TODO: Set the state here without creating a new CardData, since it will get discarded anyway.
 		Load(new CardData());
 		GD.PrintRich("New Card Data Resource Created".Purple());
-	}
-
-	private void CreateNewAttribute()
-	{
-		var attr = _newAttributeSelector.CreateSelected();
-		_dataAttributes.Add(attr);
-
-		CreateAttributeEditor(attr);
-
-		_newAttributeSelector.Select(0);
-		OnNewAttributeSelected(0);
-	}
-
-	private void CreateAttributeEditor(ICardAttribute attr)
-	{
-		// TODO: perhaps this should be a List Editor instead, but it is polymorphic, so we have to solve for that first.
-		var editor = _objectEditor.Instantiate<ObjectEditor>();
-		_attributesContainer.AddChild(editor);
-
-		editor.Load(
-			target: attr,
-			customTitle: attr.GetType().Name.PrettyPrint().Replace("Attribute", string.Empty)
-		);
-
-		// TODO: Re-implement RemovePressed functionality for attributes
-		// editor.RemovePressed += () =>
-		// {
-		// 	_attributesContainer.RemoveChild(editor);
-		// 	LoadedData.Attributes.Remove(attr);
-		// 	editor.QueueFree();
-		// };
 	}
 
 	private void SaveCardResource()
 	{
 		if (_stateMachine.CurrentState is NoDataState) return;
 
-		// Create CardData from UI controls
-		var dataToSave = CreateCardData();
-
 		try
 		{
+			var dataToSave = CreateCardData();
+
 			using var db = new CardDatabase();
 			var savedId = db.SaveCardData(dataToSave);
 			var savedData = dataToSave with { Id = savedId };
+			// TODO: Should we reload here or just update the CurrentCardId?
 			Load(savedData);
 			GD.PrintRich("Successfully saved Card Data".Green());
 		}
@@ -220,6 +179,7 @@ public partial class CardDataEditor : ScrollContainer
 
 		using var database = new CardDatabase();
 		var cardData = CreateCardData();
+		// TODO: Should this method just take an ID instead of an entire object?
 		database.DeleteCardData(cardData);
 
 		Load(null);

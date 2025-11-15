@@ -4,29 +4,26 @@
 [ext_resource type="Script" uid="uid://0xeajluhirkr" path="res://Entities/Editor/Options/CardTypeOptions.cs" id="2_87lta"]
 [ext_resource type="PackedScene" uid="uid://bh6f2471u0ypf" path="res://Entities/Editor/image_selector.tscn" id="2_ildny"]
 [ext_resource type="Script" uid="uid://dbl7fs61kt85q" path="res://Entities/Editor/TagSelector.cs" id="3_yh4g2"]
-[ext_resource type="Script" uid="uid://bma7j88rjty3d" path="res://Entities/Editor/Options/AttributeOptions.cs" id="4_pbjlj"]
+[ext_resource type="PackedScene" uid="uid://cqldalr602l5i" path="res://Entities/Editor/CardDataEditor/attributes_editor.tscn" id="5_8dxsl"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2uco"]
 
-[node name="card_data_editor" type="ScrollContainer" node_paths=PackedStringArray("_statusLabel", "_newButton", "_saveButton", "_deleteButton", "_cardTitle", "_description", "_portraitSelector", "_cardTypeSelector", "_tagSelector", "_newAttributeSelector", "_addAttributeButton", "_attributesContainer")]
+[node name="card_data_editor" type="ScrollContainer" node_paths=PackedStringArray("_statusLabel", "_newButton", "_saveButton", "_deleteButton", "_cardTitle", "_description", "_portraitSelector", "_cardTypeSelector", "_tagSelector")]
 offset_right = 635.0
 offset_bottom = 700.0
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 script = ExtResource("1_sh3r2")
-_statusLabel = NodePath("margin/editor_vbox_container/status_label")
-_newButton = NodePath("margin/editor_vbox_container/save_load/new_btn")
-_saveButton = NodePath("margin/editor_vbox_container/save_load/save_btn")
-_deleteButton = NodePath("margin/editor_vbox_container/save_load/delete_btn")
-_cardTitle = NodePath("margin/editor_vbox_container/title/title_edit")
-_description = NodePath("margin/editor_vbox_container/description/desc_edit")
-_portraitSelector = NodePath("margin/editor_vbox_container/portrait/portrait_selector")
-_cardTypeSelector = NodePath("margin/editor_vbox_container/card_type/card_type_selector")
-_tagSelector = NodePath("margin/editor_vbox_container/tags/tags_selector")
-_newAttributeSelector = NodePath("margin/editor_vbox_container/add_attribute/new_attribute_selector")
-_addAttributeButton = NodePath("margin/editor_vbox_container/add_attribute/add_attribute_btn")
-_attributesContainer = NodePath("margin/editor_vbox_container/attributes_list")
+_statusLabel = NodePath("margin/vbox_container/status_label")
+_newButton = NodePath("margin/vbox_container/save_load/new_btn")
+_saveButton = NodePath("margin/vbox_container/save_load/save_btn")
+_deleteButton = NodePath("margin/vbox_container/save_load/delete_btn")
+_cardTitle = NodePath("margin/vbox_container/title/title_edit")
+_description = NodePath("margin/vbox_container/description/desc_edit")
+_portraitSelector = NodePath("margin/vbox_container/portrait/portrait_selector")
+_cardTypeSelector = NodePath("margin/vbox_container/card_type/card_type_selector")
+_tagSelector = NodePath("margin/vbox_container/tags/tags_selector")
 
 [node name="margin" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -37,13 +34,13 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="editor_vbox_container" type="VBoxContainer" parent="margin"]
+[node name="vbox_container" type="VBoxContainer" parent="margin"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 5
 
-[node name="status_label" type="RichTextLabel" parent="margin/editor_vbox_container"]
+[node name="status_label" type="RichTextLabel" parent="margin/vbox_container"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_t2uco")
 bbcode_enabled = true
@@ -55,77 +52,76 @@ horizontal_alignment = 2
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
-[node name="save_load" type="HBoxContainer" parent="margin/editor_vbox_container"]
+[node name="save_load" type="HBoxContainer" parent="margin/vbox_container"]
 layout_mode = 2
+theme_override_constants/separation = 15
 alignment = 2
 
-[node name="margin" type="MarginContainer" parent="margin/editor_vbox_container/save_load"]
-layout_mode = 2
-theme_override_constants/margin_left = 100
-theme_override_constants/margin_top = 0
-
-[node name="save_btn" type="Button" parent="margin/editor_vbox_container/save_load"]
+[node name="save_btn" type="Button" parent="margin/vbox_container/save_load"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-theme_override_colors/font_disabled_color = Color(0, 0.486275, 0, 1)
-theme_override_colors/font_hover_color = Color(0.682353, 1, 0.65098, 1)
 theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(0.682353, 1, 0.65098, 1)
+theme_override_colors/font_disabled_color = Color(0, 0.486275, 0, 1)
 disabled = true
 text = "Save"
 
-[node name="delete_btn" type="Button" parent="margin/editor_vbox_container/save_load"]
+[node name="delete_btn" type="Button" parent="margin/vbox_container/save_load"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-theme_override_colors/font_disabled_color = Color(1, 0, 0, 0.537255)
-theme_override_colors/font_hover_color = Color(1, 0.6, 0.541176, 1)
 theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 0.6, 0.541176, 1)
+theme_override_colors/font_disabled_color = Color(1, 0, 0, 0.537255)
 disabled = true
 text = "Delete"
 
-[node name="new_btn" type="Button" parent="margin/editor_vbox_container/save_load"]
+[node name="new_btn" type="Button" parent="margin/vbox_container/save_load"]
 custom_minimum_size = Vector2(155, 0)
 layout_mode = 2
-theme_override_colors/font_disabled_color = Color(0.564706, 0.423529, 0, 1)
-theme_override_colors/font_hover_color = Color(1, 0.898039, 0.678431, 1)
 theme_override_colors/font_color = Color(1, 0.776471, 0.203922, 1)
+theme_override_colors/font_hover_color = Color(1, 0.898039, 0.678431, 1)
+theme_override_colors/font_disabled_color = Color(0.564706, 0.423529, 0, 1)
 text = "New"
 
-[node name="title" type="HBoxContainer" parent="margin/editor_vbox_container"]
+[node name="title" type="HBoxContainer" parent="margin/vbox_container"]
 layout_mode = 2
+theme_override_constants/separation = 22
 
-[node name="title_label" type="Label" parent="margin/editor_vbox_container/title"]
+[node name="title_label" type="Label" parent="margin/vbox_container/title"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Title:"
 horizontal_alignment = 2
 
-[node name="title_edit" type="LineEdit" parent="margin/editor_vbox_container/title"]
+[node name="title_edit" type="LineEdit" parent="margin/vbox_container/title"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 editable = false
 
-[node name="description" type="HBoxContainer" parent="margin/editor_vbox_container"]
+[node name="description" type="HBoxContainer" parent="margin/vbox_container"]
 layout_mode = 2
+theme_override_constants/separation = 22
 
-[node name="desc_label" type="Label" parent="margin/editor_vbox_container/description"]
+[node name="desc_label" type="Label" parent="margin/vbox_container/description"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_vertical = 1
 text = "Description:"
 horizontal_alignment = 2
 
-[node name="desc_edit" type="TextEdit" parent="margin/editor_vbox_container/description"]
+[node name="desc_edit" type="TextEdit" parent="margin/vbox_container/description"]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 size_flags_horizontal = 3
 editable = false
 autowrap_mode = 2
 
-[node name="portrait" type="HBoxContainer" parent="margin/editor_vbox_container"]
+[node name="portrait" type="HBoxContainer" parent="margin/vbox_container"]
 layout_mode = 2
+theme_override_constants/separation = 22
 
-[node name="portrait_label" type="Label" parent="margin/editor_vbox_container/portrait"]
+[node name="portrait_label" type="Label" parent="margin/vbox_container/portrait"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_vertical = 1
@@ -133,20 +129,21 @@ text = "Portrait:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="portrait_selector" parent="margin/editor_vbox_container/portrait" instance=ExtResource("2_ildny")]
+[node name="portrait_selector" parent="margin/vbox_container/portrait" instance=ExtResource("2_ildny")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="card_type" type="HBoxContainer" parent="margin/editor_vbox_container"]
+[node name="card_type" type="HBoxContainer" parent="margin/vbox_container"]
 layout_mode = 2
+theme_override_constants/separation = 22
 
-[node name="card_type_label" type="Label" parent="margin/editor_vbox_container/card_type"]
+[node name="card_type_label" type="Label" parent="margin/vbox_container/card_type"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Card Type:"
 horizontal_alignment = 2
 
-[node name="card_type_selector" type="OptionButton" parent="margin/editor_vbox_container/card_type"]
+[node name="card_type_selector" type="OptionButton" parent="margin/vbox_container/card_type"]
 custom_minimum_size = Vector2(250, 30)
 layout_mode = 2
 disabled = true
@@ -162,57 +159,24 @@ popup/item_3/text = "Technology"
 popup/item_3/id = 3
 script = ExtResource("2_87lta")
 
-[node name="tags" type="HBoxContainer" parent="margin/editor_vbox_container"]
+[node name="tags" type="HBoxContainer" parent="margin/vbox_container"]
 layout_mode = 2
+theme_override_constants/separation = 22
 
-[node name="tags_label" type="Label" parent="margin/editor_vbox_container/tags"]
+[node name="tags_label" type="Label" parent="margin/vbox_container/tags"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_vertical = 1
 text = "Tags:"
 horizontal_alignment = 2
 
-[node name="tags_selector" type="GridContainer" parent="margin/editor_vbox_container/tags"]
+[node name="tags_selector" type="GridContainer" parent="margin/vbox_container/tags"]
 layout_mode = 2
 columns = 4
 script = ExtResource("3_yh4g2")
 
-[node name="add_attribute" type="HBoxContainer" parent="margin/editor_vbox_container"]
+[node name="HSeparator" type="HSeparator" parent="margin/vbox_container"]
 layout_mode = 2
-theme_override_constants/separation = 10
 
-[node name="attributes_label" type="Label" parent="margin/editor_vbox_container/add_attribute"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-text = "Attributes:"
-horizontal_alignment = 2
-
-[node name="new_attribute_selector" type="OptionButton" parent="margin/editor_vbox_container/add_attribute"]
-custom_minimum_size = Vector2(250, 30)
-layout_mode = 2
-disabled = true
-selected = 0
-item_count = 7
-popup/item_0/text = "None"
-popup/item_0/id = 0
-popup/item_1/text = "GarrisonCapacityAttribute"
-popup/item_1/id = 1
-popup/item_2/text = "HitPointsAttribute"
-popup/item_2/id = 2
-popup/item_3/text = "MovementAttribute"
-popup/item_3/id = 3
-popup/item_4/text = "ResourceCollectorAttribute"
-popup/item_4/id = 4
-popup/item_5/text = "ResourceCostAttribute"
-popup/item_5/id = 5
-popup/item_6/text = "SpawnPointAttribute"
-popup/item_6/id = 6
-script = ExtResource("4_pbjlj")
-
-[node name="add_attribute_btn" type="Button" parent="margin/editor_vbox_container/add_attribute"]
-layout_mode = 2
-disabled = true
-text = "Add"
-
-[node name="attributes_list" type="VBoxContainer" parent="margin/editor_vbox_container"]
+[node name="attributes_editor" parent="margin/vbox_container" instance=ExtResource("5_8dxsl")]
 layout_mode = 2

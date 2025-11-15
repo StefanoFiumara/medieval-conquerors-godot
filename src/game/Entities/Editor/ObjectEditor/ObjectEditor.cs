@@ -21,6 +21,11 @@ namespace MedievalConquerors.Entities.Editor;
 /// editor.Load(myObject, "Custom Title", p => p.Name != "Id");
 /// </code>
 /// </summary>
+
+// TODO: Perhaps object editor can be updated to use a Load<T> method
+// So that you wouldn't have to provide an instance to create the editor
+// And it can still work with a Load<T> and Create<T> pattern, like we're doing with the other editors
+// We can then apply the same refactoring to the editor registry and do away with the binding framework.
 public partial class ObjectEditor : PanelContainer, IPropertyEditor, IRootEditor
 {
 	private PackedScene _propertyEditor;
@@ -38,6 +43,12 @@ public partial class ObjectEditor : PanelContainer, IPropertyEditor, IRootEditor
 		_propertiesContainer = GetNode<GridContainer>("%properties_container");
 	}
 
+	public void Load<TOwner>(TOwner owner, PropertyInfo prop)
+	{
+		var value = prop.GetValue(owner);
+		Load(value);
+	}
+
 	public void Load(object target, string customTitle = null, Func<PropertyInfo, bool> propertyFilter = null)
 	{
 		_target = target;
@@ -45,12 +56,6 @@ public partial class ObjectEditor : PanelContainer, IPropertyEditor, IRootEditor
 		_propertyFilter = propertyFilter;
 
 		CallDeferred(MethodName.DeferredLoad);
-	}
-
-	public void Load<TOwner>(TOwner owner, PropertyInfo prop)
-	{
-		var value = prop.GetValue(owner);
-		Load(value);
 	}
 
 	private void DeferredLoad()

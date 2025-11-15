@@ -1,5 +1,4 @@
 using Godot;
-using MedievalConquerors.DataBinding;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Entities.Editor.Options;
 
@@ -16,6 +15,7 @@ public partial class ActionDefinitionEditor : PanelContainer
 		_actionOptions = GetNode<GameActionOptions>("%action_options");
 
 		// TODO: when selected action changes, redraw parameters, derive parameters from action type
+		// TODO: Do we need a separate scene? can we just do it in code?
 	}
 
 	public ActionDefinition CreateActionDefinition()
@@ -23,7 +23,7 @@ public partial class ActionDefinitionEditor : PanelContainer
 		return new ActionDefinition
 		{
 			ActionType = _actionOptions.SelectedOption.FullName,
-			Data = "" // TODO: create and set up action parameter editor
+			Data = "" // TODO: serialize action parameters
 		};
 	}
 }

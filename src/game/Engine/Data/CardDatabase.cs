@@ -7,17 +7,17 @@ namespace MedievalConquerors.Engine.Data;
 public sealed class CardDatabase : IDisposable
 {
 	private readonly ILiteCollection<CardData> _cardCollection;
+	private readonly LiteDatabase _database;
 
-	private LiteDatabase Database { get; }
 	public ILiteQueryable<CardData> Query => _cardCollection.Query();
 
 	public CardDatabase()
 	{
 		var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "GameData", "CardLibrary.db");
-		Database = new LiteDatabase(dbPath);
+		_database = new LiteDatabase(dbPath);
 		BsonMapper.Global.EnumAsInteger = true;
 
-		_cardCollection = Database.GetCollection<CardData>();
+		_cardCollection = _database.GetCollection<CardData>();
 		_cardCollection.EnsureIndex(x => x.Id, true);
 	}
 
@@ -37,6 +37,6 @@ public sealed class CardDatabase : IDisposable
 
 	public void Dispose()
 	{
-		Database?.Dispose();
+		_database?.Dispose();
 	}
 }
