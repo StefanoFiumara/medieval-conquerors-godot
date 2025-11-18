@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Entities.Editor.Options;
-using AttributeOptions = MedievalConquerors.Entities.Editor.ValueEditors.AttributeOptions;
 
 namespace MedievalConquerors.Entities.Editor;
 

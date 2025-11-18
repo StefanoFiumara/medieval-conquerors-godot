@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Entities.Editor.ValueEditors;
 
-namespace MedievalConquerors.Entities.Editor.ValueEditors;
+namespace MedievalConquerors.Entities.Editor.Options;
 
 // TODO: turn into TypeOptions? Maybe we need to make ICardAttribute a class instead of an interface.
 public partial class AttributeOptions : OptionButton, IValueEditor

@@ -1,9 +1,8 @@
 using System;
 using System.Linq;
 using MedievalConquerors.Engine.Actions;
-using MedievalConquerors.Entities.Editor.Options;
 
-namespace MedievalConquerors.Entities.Editor.ValueEditors;
+namespace MedievalConquerors.Entities.Editor.Options;
 
 public partial class GameActionOptions : TypeOptions<GameAction>
 {

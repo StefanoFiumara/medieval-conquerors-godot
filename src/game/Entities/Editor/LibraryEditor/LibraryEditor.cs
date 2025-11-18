@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Entities.Editor.ValueEditors;
+using MedievalConquerors.Entities.Editor.Options;
 
 namespace MedievalConquerors.Entities.Editor;
 

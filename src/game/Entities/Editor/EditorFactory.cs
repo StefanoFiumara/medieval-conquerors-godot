@@ -4,8 +4,6 @@ using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Entities.Editor.Options;
 using MedievalConquerors.Entities.Editor.ValueEditors;
-using CardTypeOptions = MedievalConquerors.Entities.Editor.ValueEditors.CardTypeOptions;
-using ResourceOptions = MedievalConquerors.Entities.Editor.ValueEditors.ResourceOptions;
 
 namespace MedievalConquerors.Entities.Editor;
 

@@ -1,6 +1,6 @@
 using Godot;
 using MedievalConquerors.Engine.Attributes;
-using MedievalConquerors.Entities.Editor.ValueEditors;
+using MedievalConquerors.Entities.Editor.Options;
 
 namespace MedievalConquerors.Entities.Editor;
 
