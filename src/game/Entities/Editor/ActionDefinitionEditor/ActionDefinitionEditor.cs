@@ -22,7 +22,7 @@ public partial class ActionDefinitionEditor : PanelContainer
 	{
 		return new ActionDefinition
 		{
-			ActionType = _actionOptions.SelectedOption.FullName,
+			ActionType = _actionOptions.SelectedType.FullName,
 			Data = "" // TODO: serialize action parameters
 		};
 	}

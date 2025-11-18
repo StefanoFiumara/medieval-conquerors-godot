@@ -1,9 +1,6 @@
 using System;
 using System.Linq;
-using System.Reflection;
 using Godot;
-using MedievalConquerors.Entities.Editor.ValueEditors;
-using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;
 
@@ -12,8 +9,15 @@ public partial class ObjectEditor : PanelContainer
 	private PackedScene _propertyEditor;
 	private GridContainer _propertiesContainer;
 
-	private string _title;
 	private Label _titleLabel;
+	public Type ObjectType { get; private set; }
+
+	// TODO: Add an option to close this editor with an X button (Calls QueueFree on itself)
+	//		This should allow the editor to add/remove itself from the attribute list in the Attributes Editor without additional logic needed.
+	//		It would work because the Attributes Editor simply looks through its nodes to find which attributes to create.
+	//
+	//		The X button should default to invisible unless specifically enabled by the caller, since we may not want to grant
+	//		all object editors this functionality.
 
 	public override void _Ready()
 	{
@@ -22,10 +26,16 @@ public partial class ObjectEditor : PanelContainer
 		_propertiesContainer = GetNode<GridContainer>("%properties_container");
 	}
 
-	// TODO: is this error prone? What if there's a type mismatch?
-	public T Create<T>() where T : new()
+	public object CreateObject()
 	{
-		var result = new T();
+		if (ObjectType == null)
+		{
+			GD.PrintErr($"Attempted to create Object from ObjectEditor without calling Load()");
+			return null;
+		}
+
+		var result = Activator.CreateInstance(ObjectType);
+
 		var editors = _propertiesContainer
 			.GetChildren()
 			.OfType<PropertyEditor>();
@@ -36,11 +46,12 @@ public partial class ObjectEditor : PanelContainer
 		return result;
 	}
 
-	public void Load(Type type)
+	public void Load(Type type, string title, object source = null)
 	{
-		_titleLabel.Text = _title;
+		ObjectType = type;
+		_titleLabel.Text = title;
 
-		var props = type.GetProperties()
+		var props = ObjectType.GetProperties()
 			.Where(p => p.GetSetMethod() != null)
 			.ToList();
 
@@ -49,8 +60,24 @@ public partial class ObjectEditor : PanelContainer
 			var editor = _propertyEditor.Instantiate<PropertyEditor>();
 			_propertiesContainer.AddChild(editor);
 			editor.Load(prop);
+			if (source != null)
+			{
+				var propValue = prop.GetValue(source);
+				editor.SetValue(propValue);
+			}
+
 		}
 	}
 
-	public Control GetControl() => this;
+	public void Enable()
+	{
+		foreach (var editor in _propertiesContainer.GetChildren().OfType<PropertyEditor>())
+			editor.Enable();
+	}
+
+	public void Disable()
+	{
+		foreach (var editor in _propertiesContainer.GetChildren().OfType<PropertyEditor>())
+			editor.Disable();
+	}
 }

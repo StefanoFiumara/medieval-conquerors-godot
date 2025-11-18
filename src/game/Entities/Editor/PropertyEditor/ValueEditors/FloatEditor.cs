@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace MedievalConquerors.Entities.Editor.ValueEditors;
@@ -17,6 +18,15 @@ public partial class FloatEditor : CenterContainer, IValueEditor
         AddChild(_editor);
     }
 
-    public object GetValue() => _editor.Value;
+    public object GetValue() => (float) _editor.Value;
+    public void SetValue(object value)
+    {
+        if (value is int or double)
+            _editor.Value = (double) value;
+    }
+
     public Control GetControl() => this;
+
+    public void Enable() => _editor.Editable = true;
+    public void Disable() => _editor.Editable = false;
 }

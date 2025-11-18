@@ -38,4 +38,12 @@ public partial class EnumOptions<T> : OptionButton, IValueEditor
 
     public Control GetControl() => this;
     public object GetValue() => SelectedOption;
+    public void SetValue(object value)
+    {
+        if (value is T type)
+            SelectedOption = type;
+    }
+
+    public void Enable() => Disabled = false;
+    public void Disable() => Disabled = true;
 }

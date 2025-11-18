@@ -50,7 +50,10 @@ public static class EditorFactory
 	public static IValueEditor CreateEditor(Type type)
 	{
 		if (!IsRegistered(type))
-			throw new ArgumentException($"Editor for type {type.Name} is not registered.");
+		{
+			GD.PrintErr($"Editor for type {type.Name} is not registered.");
+			return null;
+		}
 
 		var editor = _editorRegistry[type]();
 		return editor;

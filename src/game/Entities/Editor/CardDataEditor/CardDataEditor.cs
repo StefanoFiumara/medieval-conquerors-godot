@@ -148,11 +148,11 @@ public partial class CardDataEditor : ScrollContainer
 	private void SaveCardResource()
 	{
 		if (_stateMachine.CurrentState is NoDataState) return;
+		var dataToSave = CreateCardData();
 
 		try
 		{
 			using var db = new CardDatabase();
-			var dataToSave = CreateCardData();
 			CurrentCardId = db.SaveCardData(dataToSave);
 			GD.PrintRich("Successfully saved Card Data".Green());
 		}

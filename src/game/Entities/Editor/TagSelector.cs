@@ -58,6 +58,12 @@ public partial class TagSelector : GridContainer, IValueEditor
 			tagSelector.Value.ButtonPressed = _selectedTags.HasFlag(tagSelector.Key);
 	}
 
+	public void SetValue(object value)
+	{
+		if (value is Tags t)
+			SelectedTags = t;
+	}
+
 	public void Enable()
 	{
 		foreach (var checkBox in _tagSelectors.Values)

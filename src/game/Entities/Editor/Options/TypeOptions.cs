@@ -15,7 +15,7 @@ public abstract partial class TypeOptions<T> : OptionButton, IValueEditor
 
     protected abstract bool IsValid(Type t);
 
-    public Type SelectedOption
+    public Type SelectedType
     {
         get => _typeMap[GetItemText(GetSelectedId())];
         set
@@ -33,22 +33,35 @@ public abstract partial class TypeOptions<T> : OptionButton, IValueEditor
 
     public override void _Ready()
     {
-        Clear();
-
         var options = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
             .Where(t => t.IsAssignableTo(typeof(T)))
             .Where(IsValid)
             .OrderBy(t => t.Name);
 
-        _typeMap = new OrderedDictionary<string, Type>();
+        _typeMap = new OrderedDictionary<string, Type>
+        {
+            { "None", null }
+        };
 
         foreach (var option in options)
             _typeMap.Add(option.Name, option);
+
+        Clear();
+        foreach (var attr in _typeMap.Keys)
+            AddItem(attr);
 
         AllowReselect = false;
         Select(0);
     }
 
     public Control GetControl() => this;
-    public object GetValue() => SelectedOption;
+    public object GetValue() => SelectedType;
+    public void SetValue(object value)
+    {
+        if (value is Type t)
+            SelectedType = t;
+    }
+
+    public void Enable() => Disabled = false;
+    public void Disable() => Disabled = true;
 }

@@ -13,5 +13,16 @@ public partial class StringEditor : CenterContainer, IValueEditor
     }
 
     public object GetValue() => _editor.Text;
+    public void SetValue(object value)
+    {
+        if (value is string str)
+        {
+            _editor.Text = str;
+        }
+    }
+
     public Control GetControl() => this;
+
+    public void Enable() => _editor.Editable = true;
+    public void Disable() => _editor.Editable = false;
 }

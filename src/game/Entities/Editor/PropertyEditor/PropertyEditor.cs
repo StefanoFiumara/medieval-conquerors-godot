@@ -1,4 +1,3 @@
-using System;
 using System.Reflection;
 using Godot;
 using MedievalConquerors.Entities.Editor.ValueEditors;
@@ -6,7 +5,7 @@ using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;
 
-public partial class PropertyEditor : CenterContainer
+public partial class PropertyEditor : PanelContainer
 {
 	private Label _propertyLabel;
 	private HBoxContainer _container;
@@ -21,8 +20,11 @@ public partial class PropertyEditor : CenterContainer
 
 	public void Load(PropertyInfo prop, string title = null)
 	{
-		foreach (var child in _container.GetChildren())
-			child.QueueFree();
+		if (_valueEditor != null)
+		{
+			_valueEditor.GetControl().QueueFree();
+			_valueEditor = null;
+		}
 
 		_property = prop;
 		_propertyLabel.Text = $"{title ?? prop.Name.PrettyPrint()}: ";
@@ -30,12 +32,11 @@ public partial class PropertyEditor : CenterContainer
 		_valueEditor = EditorFactory.CreateEditor(prop.PropertyType);
 		if (_valueEditor != null)
 			_container.AddChild(_valueEditor.GetControl());
-		else
-			GD.PrintErr($"Could not find value editor for property type: {prop.PropertyType.Name}");
 	}
 
-	public void ApplyTo<TOwner>(TOwner owner)
-	{
-		_property.SetValue(owner, _valueEditor.GetValue());
-	}
+	public void ApplyTo<TOwner>(TOwner owner) => _property.SetValue(owner, _valueEditor?.GetValue());
+	public void SetValue(object value) => _valueEditor?.SetValue(value);
+
+	public void Enable() => _valueEditor?.Enable();
+	public void Disable() => _valueEditor?.Disable();
 }
