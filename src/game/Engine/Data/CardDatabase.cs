@@ -30,9 +30,10 @@ public sealed class CardDatabase : IDisposable
 		return data.Id;
 	}
 
-	public bool DeleteCardData(CardData data)
+	public bool DeleteCardData(CardData data) => DeleteCardData(data.Id);
+	public bool DeleteCardData(int dataId)
 	{
-		return _cardCollection.Delete(data.Id);
+		return _cardCollection.Delete(dataId);
 	}
 
 	public void Dispose()

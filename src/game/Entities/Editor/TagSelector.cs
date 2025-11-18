@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Godot;
-using MedievalConquerors.DataBinding;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Entities.Editor.ValueEditors;
 
 namespace MedievalConquerors.Entities.Editor;
 
-public partial class TagSelector : GridContainer, IPropertyEditor
+public partial class TagSelector : GridContainer, IValueEditor
 {
 	[Signal]
 	public delegate void TagsChangedEventHandler();
@@ -73,10 +71,5 @@ public partial class TagSelector : GridContainer, IPropertyEditor
 	}
 
 	public Control GetControl() => this;
-
-	public void Load<TOwner>(TOwner owner, PropertyInfo prop)
-	{
-		Columns = 2;
-		this.Bind(owner, prop);
-	}
+	public object GetValue() => SelectedTags;
 }

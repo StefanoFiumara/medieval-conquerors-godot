@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Godot;
-using MedievalConquerors.DataBinding;
 using MedievalConquerors.Entities.Editor.ValueEditors;
 
 namespace MedievalConquerors.Entities.Editor.Options;
 
-public partial class EnumOptions<T> : OptionButton, IPropertyEditor
+public partial class EnumOptions<T> : OptionButton, IValueEditor
     where T : struct, Enum
 {
     private readonly List<T> _options = Enum.GetValues<T>().OrderBy(t => Convert.ToInt32(t)).ToList();
@@ -18,13 +17,12 @@ public partial class EnumOptions<T> : OptionButton, IPropertyEditor
         get => _selectedOption;
         set
         {
-            if (!EqualityComparer<T>.Default.Equals(_selectedOption, value))
-            {
-                _selectedOption = value;
-                if (GetItemCount() > 0)
-                    Select(_options.IndexOf(value));
-            }
+            if (EqualityComparer<T>.Default.Equals(_selectedOption, value))
+                return;
 
+            _selectedOption = value;
+            if (GetItemCount() > 0)
+                Select(_options.IndexOf(value));
         }
     }
 
@@ -39,9 +37,5 @@ public partial class EnumOptions<T> : OptionButton, IPropertyEditor
     }
 
     public Control GetControl() => this;
-
-    public void Load<TOwner>(TOwner owner, PropertyInfo prop)
-    {
-        this.Bind(owner, prop);
-    }
+    public object GetValue() => SelectedOption;
 }

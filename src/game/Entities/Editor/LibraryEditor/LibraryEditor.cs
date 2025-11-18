@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Entities.Editor.ValueEditors;
 
 namespace MedievalConquerors.Entities.Editor;
 
@@ -11,7 +12,7 @@ public partial class LibraryEditor : ScrollContainer
 	[Export] private Button _clearButton;
 	[Export] private LineEdit _searchInput;
 	[Export] private TagSelector _tagFilter;
-	[Export] private Options.CardTypeOptions _typeFilter;
+	[Export] private CardTypeOptions _typeFilter;
 	[Export] private ItemList _resultsContainer;
 
 	public event Action<CardData> SearchResultClicked;

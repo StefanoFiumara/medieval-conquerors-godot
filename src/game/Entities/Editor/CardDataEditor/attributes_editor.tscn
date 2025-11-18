@@ -1,13 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://cqldalr602l5i"]
+[gd_scene load_steps=4 format=3 uid="uid://cqldalr602l5i"]
 
 [ext_resource type="Script" uid="uid://bma7j88rjty3d" path="res://Entities/Editor/Options/AttributeOptions.cs" id="1_afx7b"]
+[ext_resource type="Script" uid="uid://8oblvjdro7a1" path="res://Entities/Editor/CardDataEditor/AttributesEditor.cs" id="1_hrs53"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hrs53"]
 
-[node name="attributes_editor" type="PanelContainer"]
+[node name="attributes_editor" type="PanelContainer" node_paths=PackedStringArray("_newAttributeSelector", "_addAttributeButton", "_attributesContainer")]
 offset_right = 409.0
 offset_bottom = 35.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_hrs53")
+script = ExtResource("1_hrs53")
+_newAttributeSelector = NodePath("margin/vbox/add_attribute/new_attribute_selector")
+_addAttributeButton = NodePath("margin/vbox/add_attribute/add_attribute_btn")
+_attributesContainer = NodePath("margin/vbox/attributes_list")
 
 [node name="margin" type="MarginContainer" parent="."]
 layout_mode = 2

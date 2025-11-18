@@ -1,17 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://bti603u6u2oh"]
+[gd_scene load_steps=3 format=3 uid="uid://bti603u6u2oh"]
 
 [ext_resource type="Script" uid="uid://d1fqgw5g2qjpw" path="res://Entities/Editor/PropertyEditor/PropertyEditor.cs" id="1_oym1g"]
 
-[node name="property_editor" type="CenterContainer"]
-anchors_preset = 10
-anchor_right = 1.0
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_54i2v"]
+
+[node name="property_editor" type="PanelContainer"]
+offset_right = 168.0
 offset_bottom = 33.0
-grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_54i2v")
 script = ExtResource("1_oym1g")
 
 [node name="margin" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="container" type="HBoxContainer" parent="margin"]
 unique_name_in_owner = true

@@ -1,8 +1,8 @@
-﻿using Godot;
+using Godot;
 
 namespace MedievalConquerors.Entities.Editor.ValueEditors;
 
-public partial class IntEditor : CenterContainer, IValueEditor
+public partial class FloatEditor : CenterContainer, IValueEditor
 {
     private SpinBox _editor;
 
@@ -10,8 +10,8 @@ public partial class IntEditor : CenterContainer, IValueEditor
     {
         _editor = new SpinBox {
             Value = 0,
-            Step = 1,
-            CustomArrowStep = 1
+            Step = 0.1,
+            CustomArrowStep = 0.1
         };
 
         AddChild(_editor);

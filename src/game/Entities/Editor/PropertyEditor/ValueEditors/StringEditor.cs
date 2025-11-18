@@ -1,17 +1,17 @@
-﻿using System.Reflection;
-using Godot;
-using MedievalConquerors.DataBinding;
+﻿using Godot;
 
 namespace MedievalConquerors.Entities.Editor.ValueEditors;
 
-public partial class StringEditor : CenterContainer, IPropertyEditor
+public partial class StringEditor : CenterContainer, IValueEditor
 {
-    public void Load<TOwner>(TOwner owner, PropertyInfo prop)
+    private LineEdit _editor;
+
+    public override void _Ready()
     {
-        var editor = new LineEdit();
-        editor.Bind(owner, prop);
-        AddChild(editor);
+        _editor = new LineEdit();
+        AddChild(_editor);
     }
 
+    public object GetValue() => _editor.Text;
     public Control GetControl() => this;
 }

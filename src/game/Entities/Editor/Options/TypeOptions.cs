@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using MedievalConquerors.Entities.Editor.ValueEditors;
 
 namespace MedievalConquerors.Entities.Editor.Options;
 
 /// <summary>
 /// An Option Button populated with the type names of the given type, as well as all its inheritors.
 /// </summary>
-public abstract partial class TypeOptions<T> : OptionButton
+public abstract partial class TypeOptions<T> : OptionButton, IValueEditor
 {
     private OrderedDictionary<string, Type> _typeMap;
 
@@ -47,4 +48,7 @@ public abstract partial class TypeOptions<T> : OptionButton
         AllowReselect = false;
         Select(0);
     }
+
+    public Control GetControl() => this;
+    public object GetValue() => SelectedOption;
 }

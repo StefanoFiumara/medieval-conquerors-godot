@@ -4,14 +4,16 @@ using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.Entities.Editor.Options;
+namespace MedievalConquerors.Entities.Editor.ValueEditors;
 
-public partial class AttributeOptions : OptionButton
+// TODO: turn into TypeOptions? Maybe we need to make ICardAttribute a class instead of an interface.
+public partial class AttributeOptions : OptionButton, IValueEditor
 {
 	private Dictionary<string, Type> _attributeTypeMap;
 
 	public override void _Ready()
 	{
+
 		_attributeTypeMap = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
 			.Where(t => t.IsClass && !t.IsAbstract && t.GetInterfaces().Contains(typeof(ICardAttribute)))
 			.ToDictionary(t => t.Name, t => t);
@@ -23,6 +25,12 @@ public partial class AttributeOptions : OptionButton
 			AddItem(attr);
 	}
 
+	public Type GetSelectedType()
+	{
+		var selected = GetItemText(GetSelectedId());
+		return _attributeTypeMap.GetValueOrDefault(selected);
+	}
+
 	public ICardAttribute CreateSelected()
 	{
 		var selected = GetItemText(GetSelectedId());
@@ -32,4 +40,7 @@ public partial class AttributeOptions : OptionButton
 
 		return null;
 	}
+
+	public Control GetControl() => this;
+	public object GetValue() => GetSelectedType();
 }

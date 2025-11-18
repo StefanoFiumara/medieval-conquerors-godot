@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Entities.Editor.Options;
-using MedievalConquerors.Extensions;
+using AttributeOptions = MedievalConquerors.Entities.Editor.ValueEditors.AttributeOptions;
 
 namespace MedievalConquerors.Entities.Editor;
 
@@ -13,27 +14,21 @@ public partial class AttributesEditor : PanelContainer
 	[Export] private Button _addAttributeButton;
 	[Export] private VBoxContainer _attributesContainer;
 
-	private readonly List<ICardAttribute> _attributes = [];
-
 	private PackedScene _objectEditor;
 
 	public List<ICardAttribute> CreateAttributes()
 	{
 		// TODO: iterate through individual attribute editors and create into a list
-		// or can we just return  _attributes.ToList()?
-		// what about the existing reference / binding for each attribute?
-		// would be best to come up with a new solution here so that references aren't bound to editors.
 		return [];
 	}
 
-	public void Load(List<ICardAttribute> attributes)
+	public void Load(IReadOnlyList<ICardAttribute> attributes)
 	{
 		// TODO: reset and load new attribute list
 	}
 
 	public override void _Ready()
 	{
-		// TODO: Should we use the object editor or the editor registry here?
 		_objectEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
 
 		_newAttributeSelector.Connect(OptionButton.SignalName.ItemSelected, Callable.From<long>(OnNewAttributeSelected));
@@ -43,26 +38,23 @@ public partial class AttributesEditor : PanelContainer
 	private void OnNewAttributeSelected(long itemIndex)
 	{
 		var selectedText = _newAttributeSelector.GetItemText((int)itemIndex);
-		_addAttributeButton.Disabled = selectedText == "None" || _attributes.Any(a => a.GetType().Name == selectedText);
+		// TODO: Check if the selected attribute exists in the list to disable the button - no duplicates!
+		_addAttributeButton.Disabled = selectedText == "None";
 	}
 
 	private void CreateNewAttribute()
 	{
-		var attr = _newAttributeSelector.CreateSelected();
-		_attributes.Add(attr);
+		var attributeType = _newAttributeSelector.GetSelectedType();
 
-		CreateAttributeEditor(attr);
+		CreateAttributeEditor(attributeType);
 
 		_newAttributeSelector.Select(0);
 		OnNewAttributeSelected(0);
 	}
 
-	private void Reset()
+	public void Reset()
 	{
-		// TODO: Reset state
-		_attributes.Clear();
 		var attributeControls = _attributesContainer.GetChildren();
-
 		foreach (var control in attributeControls)
 			control.QueueFree();
 
@@ -70,6 +62,7 @@ public partial class AttributesEditor : PanelContainer
 		OnNewAttributeSelected(0);
 	}
 
+	// TODO: enable/disable attribute editors?
 	public void Enable()
 	{
 		_newAttributeSelector.Disabled = false;
@@ -82,17 +75,15 @@ public partial class AttributesEditor : PanelContainer
 		_addAttributeButton.Disabled = true;
 	}
 
-	private void CreateAttributeEditor(ICardAttribute attr)
+	private void CreateAttributeEditor(Type selectedAttributeType)
 	{
+		// TODO: should there be a registry for this so we can use other editors? e.g. for the ability attribute?
+		//		Should they share the same IValueEditor interface, or another?
 		var editor = _objectEditor.Instantiate<ObjectEditor>();
 		_attributesContainer.AddChild(editor);
+		editor.Load(selectedAttributeType);
 
-		editor.Load(
-			target: attr,
-			customTitle: attr.GetType().Name.PrettyPrint().Replace("Attribute", string.Empty)
-		);
-
-		// TODO: Re-implement RemovePressed functionality for attributes
+		// TODO: Re-implement attribute removal
 		// editor.RemovePressed += () =>
 		// {
 		// 	_attributesContainer.RemoveChild(editor);
