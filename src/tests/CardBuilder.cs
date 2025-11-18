@@ -13,7 +13,6 @@ public class CardBuilder
     }
 
     private readonly Player _owner;
-    private int _id;
     private string? _title;
     private string? _description;
     private string? _imagePath;
@@ -126,7 +125,7 @@ public class CardBuilder
     {
         var data = new CardData
         {
-            Id = _id,
+            Id = 0,
             Title = _title,
             Description = _description,
             ImagePath = _imagePath,
