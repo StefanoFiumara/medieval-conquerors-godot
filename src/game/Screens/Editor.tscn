@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7w7oi0ih5jku"]
+[gd_scene load_steps=3 format=3 uid="uid://c7w7oi0ih5jku"]
 
 [ext_resource type="PackedScene" uid="uid://r8nd3ueedopk" path="res://Entities/Editor/LibraryEditor/library_editor.tscn" id="1_8bdb7"]
-[ext_resource type="Script" uid="uid://qq3km7t2ic3d" path="res://Entities/Editor/DatabaseMigrator.cs" id="1_ubafa"]
 [ext_resource type="PackedScene" uid="uid://b7rdfip0s4fyf" path="res://Entities/Editor/CardDataEditor/card_data_editor.tscn" id="2_n7pbq"]
 
 [node name="editor-container" type="VBoxContainer"]
@@ -11,28 +10,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="migrate_margin" type="MarginContainer" parent="."]
-visible = false
+[node name="margin" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
-[node name="migrate_db_btn" type="Button" parent="migrate_margin"]
-layout_mode = 2
-text = "Migrate Database"
-script = ExtResource("1_ubafa")
-
-[node name="split_container" type="HSplitContainer" parent="."]
+[node name="split_container" type="HSplitContainer" parent="margin"]
 layout_mode = 2
 size_flags_vertical = 3
 split_offset = 960
 dragging_enabled = false
 
-[node name="card_library" parent="split_container" instance=ExtResource("1_8bdb7")]
+[node name="card_library" parent="margin/split_container" instance=ExtResource("1_8bdb7")]
 layout_mode = 2
 
-[node name="card_data_editor" parent="split_container" node_paths=PackedStringArray("_libraryEditor") instance=ExtResource("2_n7pbq")]
+[node name="card_data_editor" parent="margin/split_container" node_paths=PackedStringArray("_libraryEditor") instance=ExtResource("2_n7pbq")]
 layout_mode = 2
 _libraryEditor = NodePath("../card_library")

@@ -36,7 +36,7 @@ public partial class AttributesEditor : PanelContainer
 	{
 		Reset();
 
-		foreach (var attr in attributes)
+		foreach (var attr in attributes.OrderBy(attr => attr.GetType().Name))
 		{
 			var attributeType = attr.GetType();
 			AddAttributeEditor(attributeType, source: attr);

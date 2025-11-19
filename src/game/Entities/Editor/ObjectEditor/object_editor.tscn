@@ -1,6 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://bxlv4w3wwtsro"]
+[gd_scene load_steps=4 format=3 uid="uid://bxlv4w3wwtsro"]
 
 [ext_resource type="Script" uid="uid://x85002jm1pxs" path="res://Entities/Editor/ObjectEditor/ObjectEditor.cs" id="1_qe2mh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n8ylx"]
+bg_color = Color(0.24705882, 0.24705882, 0.24705882, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="LabelSettings" id="LabelSettings_n8ylx"]
+font_size = 18
+font_color = Color(0.9411765, 0.8980392, 0.76862746, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.5176471)
 
 [node name="attribute_editor" type="PanelContainer"]
 anchors_preset = 10
@@ -10,14 +25,11 @@ offset_bottom = 45.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_n8ylx")
 script = ExtResource("1_qe2mh")
 
 [node name="margin" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
 
 [node name="vbox_container" type="VBoxContainer" parent="margin"]
 layout_mode = 2
@@ -25,8 +37,8 @@ layout_mode = 2
 [node name="name_label" type="Label" parent="margin/vbox_container"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.862745, 0.784314, 0.156863, 1)
 text = "Object Name"
+label_settings = SubResource("LabelSettings_n8ylx")
 
 [node name="separator" type="HSeparator" parent="margin/vbox_container"]
 layout_mode = 2
