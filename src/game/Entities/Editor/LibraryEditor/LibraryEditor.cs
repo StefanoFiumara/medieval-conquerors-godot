@@ -7,7 +7,7 @@ using MedievalConquerors.Entities.Editor.Options;
 
 namespace MedievalConquerors.Entities.Editor;
 
-public partial class LibraryEditor : ScrollContainer
+public partial class LibraryEditor : PanelContainer
 {
 	[Export] private Button _clearButton;
 	[Export] private LineEdit _searchInput;

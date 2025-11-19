@@ -15,7 +15,6 @@ public partial class AttributesEditor : PanelContainer
 	[Export] private VBoxContainer _attributesContainer;
 
 	private PackedScene _objectEditor;
-	//private readonly Dictionary<Type, ObjectEditor> _attributeEditors = [];
 
 	public override void _Ready()
 	{
