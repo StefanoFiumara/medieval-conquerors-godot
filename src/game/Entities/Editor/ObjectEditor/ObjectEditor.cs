@@ -4,6 +4,19 @@ using Godot;
 
 namespace MedievalConquerors.Entities.Editor;
 
+// TODO: Extract interface and use a registry to determine which editor type to create in Attributes editor.
+//		This way we can support custom editors depending on the Attribute Type.
+public interface IEditor
+{
+	Type ObjectType { get; }
+	void Load(Type type, string title, object source = null);
+
+	Control GetControl();
+	object Create();
+	void Enable();
+	void Disable();
+}
+
 public partial class ObjectEditor : PanelContainer
 {
 	private PackedScene _propertyEditor;
@@ -46,10 +59,16 @@ public partial class ObjectEditor : PanelContainer
 		return result;
 	}
 
+	// TODO: Can we support this generic version of Load instead?
+	// IDEA: If so, can we do the same with Create()?
+	//		 Or would that require this to be IEditor<T> instead of just IEditor?
+	public void Load<T>(string title, T source = null) where T : class
+		=> Load(typeof(T), title, source);
+
 	public void Load(Type type, string title, object source = null)
 	{
 		ObjectType = type;
-		_titleLabel.Text = title;
+		_titleLabel.Text = title ?? string.Empty;
 
 		var props = ObjectType.GetProperties()
 			.Where(p => p.GetSetMethod() != null)
