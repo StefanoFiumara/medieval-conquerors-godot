@@ -17,9 +17,14 @@ public static class EditorFactory
 		Register(typeof(string), typeof(StringEditor));
 		Register(typeof(int), typeof(IntEditor));
 		Register(typeof(float), typeof(FloatEditor));
-		Register(typeof(Tags), typeof(TagSelector));
 		Register(typeof(CardType), typeof(CardTypeOptions));
 		Register(typeof(ResourceType), typeof(ResourceOptions));
+		Register(typeof(Tags), () =>
+		{
+			var selector = Activator.CreateInstance<TagSelector>();
+			selector.Columns = 2;
+			return selector;
+		});
 		// TODO: Create ValueEditor for ActionDefinition
 	}
 

@@ -8,8 +8,7 @@ using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;
 
-// TODO: Switch to panel container and use inner ScrollContainer instead
-public partial class CardDataEditor : ScrollContainer
+public partial class CardDataEditor : PanelContainer
 {
 	[Export] private LibraryEditor _libraryEditor;
 
