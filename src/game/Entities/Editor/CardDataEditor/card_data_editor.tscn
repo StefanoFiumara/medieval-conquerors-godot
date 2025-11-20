@@ -54,21 +54,21 @@ layout_mode = 2
 alignment = 2
 
 [node name="save_btn" type="Button" parent="margin/vbox_container/save_load"]
-custom_minimum_size = Vector2(150, 0)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme = ExtResource("2_dr5r6")
 disabled = true
 text = "Save"
 
 [node name="delete_btn" type="Button" parent="margin/vbox_container/save_load"]
-custom_minimum_size = Vector2(150, 0)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme = ExtResource("2_wht8j")
 disabled = true
 text = "Delete"
 
 [node name="new_btn" type="Button" parent="margin/vbox_container/save_load"]
-custom_minimum_size = Vector2(155, 0)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme = ExtResource("2_8yi51")
 theme_type_variation = &"PrimaryButton"

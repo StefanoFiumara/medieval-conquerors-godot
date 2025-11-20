@@ -32,14 +32,13 @@ theme_override_constants/margin_bottom = 10
 
 [node name="library_vbox_container" type="VBoxContainer" parent="margin"]
 layout_mode = 2
-theme_override_constants/separation = 5
 
 [node name="clear_margin" type="MarginContainer" parent="margin/library_vbox_container"]
 layout_mode = 2
 theme_override_constants/margin_left = 115
 
 [node name="clear_btn" type="Button" parent="margin/library_vbox_container/clear_margin"]
-custom_minimum_size = Vector2(155, 0)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Clear"
