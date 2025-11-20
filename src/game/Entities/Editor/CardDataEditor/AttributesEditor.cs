@@ -24,11 +24,11 @@ public partial class AttributesEditor : PanelContainer
 		_addAttributeButton.Connect(BaseButton.SignalName.Pressed, Callable.From(CreateNewAttribute));
 	}
 
-	private IEnumerable<ObjectEditor> AttributeEditors => _attributesContainer.GetChildren().OfType<ObjectEditor>();
+	private IEnumerable<IObjectEditor> AttributeEditors => _attributesContainer.GetChildren().OfType<IObjectEditor>();
 	public List<ICardAttribute> CreateAttributes()
 	{
 		return AttributeEditors
-			.Select(editor => (ICardAttribute)editor.CreateObject())
+			.Select(editor => (ICardAttribute)editor.Create())
 			.ToList();
 	}
 
@@ -37,10 +37,7 @@ public partial class AttributesEditor : PanelContainer
 		Reset();
 
 		foreach (var attr in attributes.OrderBy(attr => attr.GetType().Name))
-		{
-			var attributeType = attr.GetType();
-			AddAttributeEditor(attributeType, source: attr);
-		}
+			AddAttributeEditor(attr);
 	}
 
 	private void OnNewAttributeSelected(long itemIndex)
@@ -51,14 +48,15 @@ public partial class AttributesEditor : PanelContainer
 
 	private void CreateNewAttribute()
 	{
-		AddAttributeEditor(_newAttributeSelector.SelectedType);
+		var attribute = (ICardAttribute)Activator.CreateInstance(_newAttributeSelector.SelectedType);
+		AddAttributeEditor(attribute);
 		ClearSelector();
 	}
 
 	public void Reset()
 	{
-		foreach (var control in AttributeEditors)
-			control.QueueFree();
+		foreach (var editor in AttributeEditors)
+			editor.GetControl().QueueFree();
 
 		ClearSelector();
 	}
@@ -89,14 +87,14 @@ public partial class AttributesEditor : PanelContainer
 			editor.Disable();
 	}
 
-	private void AddAttributeEditor(Type selectedAttributeType, ICardAttribute source = null)
+	private void AddAttributeEditor(ICardAttribute source)
 	{
 		// TODO: Add support for custom attribute editors (e.g. ability editor)
 		var editor = _objectEditor.Instantiate<ObjectEditor>();
 		_attributesContainer.AddChild(editor);
 
-		editor.Load(selectedAttributeType,
-			title: $"{selectedAttributeType.Name.Replace("Attribute", string.Empty).PrettyPrint()}",
+		var type = source.GetType();
+		editor.Load(title: $"{type.Name.Replace("Attribute", string.Empty).PrettyPrint()}",
 			source: source,
 			allowClose: true);
 	}

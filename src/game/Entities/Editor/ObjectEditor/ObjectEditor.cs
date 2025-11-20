@@ -4,21 +4,7 @@ using Godot;
 
 namespace MedievalConquerors.Entities.Editor;
 
-// TODO: Extract interface and use a registry to determine which editor type to create in Attributes editor.
-//		This way we can support custom editors depending on the Attribute Type.
-// TODO: How can we support strongly typed editors and generic  editors in the same interface?
-public interface IEditor
-{
-	Type ObjectType { get; }
-	void Load(Type type, string title, object source = null);
-
-	Control GetControl();
-	object Create();
-	void Enable();
-	void Disable();
-}
-
-public partial class ObjectEditor : PanelContainer
+public partial class ObjectEditor : PanelContainer, IObjectEditor
 {
 	private PackedScene _propertyEditor;
 	private GridContainer _propertiesContainer;
@@ -26,13 +12,6 @@ public partial class ObjectEditor : PanelContainer
 	private Label _titleLabel;
 	private Button _closeButton;
 	public Type ObjectType { get; private set; }
-
-	// TODO: Add an option to close this editor with an X button (Calls QueueFree on itself)
-	//		This should allow the editor to add/remove itself from the attribute list in the Attributes Editor without additional logic needed.
-	//		It would work because the Attributes Editor simply looks through its nodes to find which attributes to create.
-	//
-	//		The X button should default to invisible unless specifically enabled by the caller, since we may not want to grant
-	//		all object editors this functionality.
 
 	public override void _Ready()
 	{
@@ -44,7 +23,7 @@ public partial class ObjectEditor : PanelContainer
 		_closeButton.Connect(BaseButton.SignalName.Pressed, Callable.From(QueueFree));
 	}
 
-	public object CreateObject()
+	public object Create()
 	{
 		if (ObjectType == null)
 		{
@@ -64,15 +43,9 @@ public partial class ObjectEditor : PanelContainer
 		return result;
 	}
 
-	// TODO: Can we support this generic version of Load instead?
-	// IDEA: If so, can we do the same with Create()?
-	//		 Or would that require this to be IEditor<T> instead of just IEditor?
-	public void Load<T>(string title, T source = null) where T : class
-		=> Load(typeof(T), title, source);
-
-	public void Load(Type type, string title, object source = null, bool allowClose = false)
+	public void Load<T>(string title, T source, bool allowClose = false) where T : class
 	{
-		ObjectType = type;
+		ObjectType = source.GetType();
 		_titleLabel.Text = title ?? string.Empty;
 		_closeButton.Visible = allowClose;
 
@@ -85,11 +58,9 @@ public partial class ObjectEditor : PanelContainer
 			var editor = _propertyEditor.Instantiate<PropertyEditor>();
 			_propertiesContainer.AddChild(editor);
 			editor.Load(prop);
-			if (source != null)
-			{
-				var propValue = prop.GetValue(source);
-				editor.SetValue(propValue);
-			}
+
+			var propValue = prop.GetValue(source);
+			editor.SetValue(propValue);
 		}
 	}
 
@@ -104,4 +75,6 @@ public partial class ObjectEditor : PanelContainer
 		foreach (var editor in _propertiesContainer.GetChildren().OfType<PropertyEditor>())
 			editor.Disable();
 	}
+
+	public Control GetControl() => this;
 }

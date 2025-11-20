@@ -29,7 +29,7 @@ public partial class PropertyEditor : PanelContainer
 		_property = prop;
 		_propertyLabel.Text = $"{title ?? prop.Name.PrettyPrint()}: ";
 
-		_valueEditor = EditorFactory.CreateEditor(prop.PropertyType);
+		_valueEditor = EditorFactory.CreateValueEditor(prop.PropertyType);
 		if (_valueEditor != null)
 			_container.AddChild(_valueEditor.GetControl());
 	}
