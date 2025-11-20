@@ -6,6 +6,7 @@ namespace MedievalConquerors.Entities.Editor;
 
 // TODO: Extract interface and use a registry to determine which editor type to create in Attributes editor.
 //		This way we can support custom editors depending on the Attribute Type.
+// TODO: How can we support strongly typed editors and generic  editors in the same interface?
 public interface IEditor
 {
 	Type ObjectType { get; }
@@ -23,6 +24,7 @@ public partial class ObjectEditor : PanelContainer
 	private GridContainer _propertiesContainer;
 
 	private Label _titleLabel;
+	private Button _closeButton;
 	public Type ObjectType { get; private set; }
 
 	// TODO: Add an option to close this editor with an X button (Calls QueueFree on itself)
@@ -36,7 +38,10 @@ public partial class ObjectEditor : PanelContainer
 	{
 		_propertyEditor = GD.Load<PackedScene>("uid://bti603u6u2oh");
 		_titleLabel = GetNode<Label>("%name_label");
+		_closeButton = GetNode<Button>("%close_button");
 		_propertiesContainer = GetNode<GridContainer>("%properties_container");
+
+		_closeButton.Connect(BaseButton.SignalName.Pressed, Callable.From(QueueFree));
 	}
 
 	public object CreateObject()
@@ -65,10 +70,11 @@ public partial class ObjectEditor : PanelContainer
 	public void Load<T>(string title, T source = null) where T : class
 		=> Load(typeof(T), title, source);
 
-	public void Load(Type type, string title, object source = null)
+	public void Load(Type type, string title, object source = null, bool allowClose = false)
 	{
 		ObjectType = type;
 		_titleLabel.Text = title ?? string.Empty;
+		_closeButton.Visible = allowClose;
 
 		var props = ObjectType.GetProperties()
 			.Where(p => p.GetSetMethod() != null)
@@ -84,7 +90,6 @@ public partial class ObjectEditor : PanelContainer
 				var propValue = prop.GetValue(source);
 				editor.SetValue(propValue);
 			}
-
 		}
 	}
 

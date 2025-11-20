@@ -97,6 +97,7 @@ public partial class AttributesEditor : PanelContainer
 
 		editor.Load(selectedAttributeType,
 			title: $"{selectedAttributeType.Name.Replace("Attribute", string.Empty).PrettyPrint()}",
-			source: source);
+			source: source,
+			allowClose: true);
 	}
 }

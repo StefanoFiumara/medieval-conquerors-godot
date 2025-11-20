@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxlv4w3wwtsro"]
+[gd_scene load_steps=5 format=3 uid="uid://bxlv4w3wwtsro"]
 
 [ext_resource type="Script" uid="uid://x85002jm1pxs" path="res://Entities/Editor/ObjectEditor/ObjectEditor.cs" id="1_qe2mh"]
+[ext_resource type="Theme" uid="uid://drpmjhbhww74k" path="res://Entities/UI/danger_button.theme" id="2_dsaro"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n8ylx"]
 bg_color = Color(0.24705882, 0.24705882, 0.24705882, 1)
@@ -34,7 +35,17 @@ layout_mode = 2
 [node name="vbox_container" type="VBoxContainer" parent="margin"]
 layout_mode = 2
 
-[node name="name_label" type="Label" parent="margin/vbox_container"]
+[node name="hbox_container" type="HBoxContainer" parent="margin/vbox_container"]
+layout_mode = 2
+
+[node name="close_button" type="Button" parent="margin/vbox_container/hbox_container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+theme = ExtResource("2_dsaro")
+text = "X"
+
+[node name="name_label" type="Label" parent="margin/vbox_container/hbox_container"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Object Name"
