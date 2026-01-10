@@ -22,7 +22,7 @@ public partial class FloatEditor : CenterContainer, IValueEditor
     public void SetValue(object value)
     {
         if (value is int or double)
-            _editor.Value = (double) value;
+            _editor.Value = Convert.ToDouble(value);
     }
 
     public Control GetControl() => this;

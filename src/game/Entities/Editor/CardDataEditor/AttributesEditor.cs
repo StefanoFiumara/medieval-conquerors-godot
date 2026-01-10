@@ -10,26 +10,20 @@ namespace MedievalConquerors.Entities.Editor;
 
 public partial class AttributesEditor : PanelContainer
 {
+	private static readonly PackedScene _objectEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
+
+	// TODO: Wire these up in _Ready instead of relying on [Export]
 	[Export] private AttributeOptions _newAttributeSelector;
 	[Export] private Button _addAttributeButton;
 	[Export] private VBoxContainer _attributesContainer;
 
-	private PackedScene _objectEditor;
+	private IEnumerable<IObjectEditor> AttributeEditors =>
+		_attributesContainer.GetChildren().OfType<IObjectEditor>();
 
 	public override void _Ready()
 	{
-		_objectEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
-
 		_newAttributeSelector.Connect(OptionButton.SignalName.ItemSelected, Callable.From<long>(OnNewAttributeSelected));
 		_addAttributeButton.Connect(BaseButton.SignalName.Pressed, Callable.From(CreateNewAttribute));
-	}
-
-	private IEnumerable<IObjectEditor> AttributeEditors => _attributesContainer.GetChildren().OfType<IObjectEditor>();
-	public List<ICardAttribute> CreateAttributes()
-	{
-		return AttributeEditors
-			.Select(editor => (ICardAttribute)editor.Create())
-			.ToList();
 	}
 
 	public void Load(IReadOnlyList<ICardAttribute> attributes)
@@ -38,6 +32,13 @@ public partial class AttributesEditor : PanelContainer
 
 		foreach (var attr in attributes.OrderBy(attr => attr.GetType().Name))
 			AddAttributeEditor(attr);
+	}
+
+	public List<ICardAttribute> CreateAttributes()
+	{
+		return AttributeEditors
+			.Select(editor => (ICardAttribute)editor.Create())
+			.ToList();
 	}
 
 	private void OnNewAttributeSelected(long itemIndex)
@@ -90,12 +91,13 @@ public partial class AttributesEditor : PanelContainer
 	private void AddAttributeEditor(ICardAttribute source)
 	{
 		// TODO: Add support for custom attribute editors (e.g. ability editor)
+		// IDEA: can this registry be incorporated in EditorFactory?
 		var editor = _objectEditor.Instantiate<ObjectEditor>();
 		_attributesContainer.AddChild(editor);
 
 		var type = source.GetType();
 		editor.Load(title: $"{type.Name.Replace("Attribute", string.Empty).PrettyPrint()}",
 			source: source,
-			allowClose: true);
+			allowDelete: true);
 	}
 }

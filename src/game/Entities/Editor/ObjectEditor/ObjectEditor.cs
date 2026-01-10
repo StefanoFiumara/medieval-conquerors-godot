@@ -10,17 +10,17 @@ public partial class ObjectEditor : PanelContainer, IObjectEditor
 	private GridContainer _propertiesContainer;
 
 	private Label _titleLabel;
-	private Button _closeButton;
+	private Button _removeButton;
 	public Type ObjectType { get; private set; }
 
 	public override void _Ready()
 	{
 		_propertyEditor = GD.Load<PackedScene>("uid://bti603u6u2oh");
 		_titleLabel = GetNode<Label>("%name_label");
-		_closeButton = GetNode<Button>("%close_button");
+		_removeButton = GetNode<Button>("%close_button");
 		_propertiesContainer = GetNode<GridContainer>("%properties_container");
 
-		_closeButton.Connect(BaseButton.SignalName.Pressed, Callable.From(QueueFree));
+		_removeButton.Connect(BaseButton.SignalName.Pressed, Callable.From(QueueFree));
 	}
 
 	public object Create()
@@ -43,11 +43,11 @@ public partial class ObjectEditor : PanelContainer, IObjectEditor
 		return result;
 	}
 
-	public void Load<T>(string title, T source, bool allowClose = false) where T : class
+	public void Load<T>(string title, T source, bool allowDelete = false) where T : class
 	{
 		ObjectType = source.GetType();
 		_titleLabel.Text = title ?? string.Empty;
-		_closeButton.Visible = allowClose;
+		_removeButton.Visible = allowDelete;
 
 		var props = ObjectType.GetProperties()
 			.Where(p => p.GetSetMethod() != null)

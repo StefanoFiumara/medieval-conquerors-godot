@@ -7,6 +7,7 @@ using MedievalConquerors.Engine.Events;
 
 namespace MedievalConquerors.Engine.Actions;
 
+// TODO: Do we need to extract an interface for a game action?
 public class GameAction
 {
     public Guid Id { get; }
