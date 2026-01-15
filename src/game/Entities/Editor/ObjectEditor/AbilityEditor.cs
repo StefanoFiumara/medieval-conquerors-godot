@@ -4,6 +4,7 @@ using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Entities.Editor.Options;
+using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;
 
@@ -27,9 +28,7 @@ public partial class AbilityEditor : PanelContainer, IObjectEditor<AbilityAttrib
     private Label _titleLabel;
     private Button _removeButton;
 
-    // TODO: Maybe the action options ought to go inside each action definition editor instead?
-    //       Depends on the kind of UX we want
-    private GameActionOptions _actionOptions;
+    private AbilityOptions _abilityOptions;
     private Button _addActionButton;
     private VBoxContainer _actionsContainer;
 
@@ -41,7 +40,7 @@ public partial class AbilityEditor : PanelContainer, IObjectEditor<AbilityAttrib
         _titleLabel = GetNode<Label>("%name_label");
         _removeButton = GetNode<Button>("%close_button");
 
-        _actionOptions = GetNode<GameActionOptions>("%action_options");
+        _abilityOptions = GetNode<AbilityOptions>("%ability_options");
         _addActionButton = GetNode<Button>("%add_action_btn");
         _actionsContainer = GetNode<VBoxContainer>("%actions_container");
 
@@ -62,12 +61,17 @@ public partial class AbilityEditor : PanelContainer, IObjectEditor<AbilityAttrib
     private void AddActionEditor(ActionDefinition action)
     {
         var editor = _actionEditor.Instantiate<ActionDefinitionEditor>();
+        editor.Load(action.ActionType.PrettyPrint(), action, allowDelete: true);
         _actionsContainer.AddChild(editor);
     }
 
     public AbilityAttribute Create()
     {
-        throw new NotImplementedException();
+        var attr = (AbilityAttribute) Activator.CreateInstance(_abilityOptions.SelectedType);
+        return attr! with
+        {
+            Actions = ActionEditors.Select(e => e.Create()).ToList()
+        };
     }
 
     private void CreateNewAction()
