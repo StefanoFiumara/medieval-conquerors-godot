@@ -28,9 +28,11 @@ public partial class AbilityEditor : PanelContainer, IObjectEditor<AbilityAttrib
     private Label _titleLabel;
     private Button _removeButton;
 
-    private AbilityOptions _abilityOptions;
+    private GameActionOptions _actionOptions;
     private Button _addActionButton;
     private VBoxContainer _actionsContainer;
+
+    private Type _abilityType;
 
     private IEnumerable<IObjectEditor<ActionDefinition>> ActionEditors =>
         _actionsContainer.GetChildren().OfType<IObjectEditor<ActionDefinition>>();
@@ -40,7 +42,7 @@ public partial class AbilityEditor : PanelContainer, IObjectEditor<AbilityAttrib
         _titleLabel = GetNode<Label>("%name_label");
         _removeButton = GetNode<Button>("%close_button");
 
-        _abilityOptions = GetNode<AbilityOptions>("%ability_options");
+        _actionOptions = GetNode<GameActionOptions>("%action_options");
         _addActionButton = GetNode<Button>("%add_action_btn");
         _actionsContainer = GetNode<VBoxContainer>("%actions_container");
 
@@ -50,6 +52,7 @@ public partial class AbilityEditor : PanelContainer, IObjectEditor<AbilityAttrib
 
     public void Load(string title, AbilityAttribute source, bool allowDelete = false)
     {
+        _abilityType = source.GetType();
         _titleLabel.Text = title ?? string.Empty;
         _removeButton.Visible = allowDelete;
 
@@ -65,31 +68,30 @@ public partial class AbilityEditor : PanelContainer, IObjectEditor<AbilityAttrib
         _actionsContainer.AddChild(editor);
     }
 
+    private void CreateNewAction() => AddActionEditor(new ActionDefinition
+    {
+        ActionType = _actionOptions.SelectedType.FullName
+    });
+
     public AbilityAttribute Create()
     {
-        var attr = (AbilityAttribute) Activator.CreateInstance(_abilityOptions.SelectedType);
+        var attr = (AbilityAttribute) Activator.CreateInstance(_abilityType);
         return attr! with
         {
             Actions = ActionEditors.Select(e => e.Create()).ToList()
         };
     }
 
-    private void CreateNewAction()
-    {
-        // TODO: Create child action definition editor scene based on selected action
-        throw new NotImplementedException();
-    }
-
     public void Enable()
     {
-        // TODO: Loop through all children in container and enable
-        throw new NotImplementedException();
+        foreach (var editor in _actionsContainer.GetChildren().OfType<ActionDefinitionEditor>()) 
+            editor.Enable();
     }
 
     public void Disable()
     {
-        // TODO: Loop through all children in container and disable
-        throw new NotImplementedException();
+        foreach (var editor in _actionsContainer.GetChildren().OfType<ActionDefinitionEditor>()) 
+            editor.Enable();
     }
 
     public Control GetControl() => this;
