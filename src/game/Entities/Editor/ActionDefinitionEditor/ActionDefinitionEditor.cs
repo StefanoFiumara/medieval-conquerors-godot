@@ -1,5 +1,9 @@
+using System;
+using System.Collections.Generic;
 using Godot;
+using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Attributes;
+using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Entities.Editor.Options;
 
 namespace MedievalConquerors.Entities.Editor;
@@ -13,14 +17,55 @@ public partial class ActionDefinitionEditor : PanelContainer, IObjectEditor<Acti
 
 	public void Load(string title, ActionDefinition source, bool allowDelete = false)
 	{
-		// TODO: Determine parameter editors to create based on source.ActionType
-		// TODO: How to figure it out? some kind of mapping?
-		throw new System.NotImplementedException();
+		var t = Type.GetType(source.ActionType);
+		var parameters = GetParameters(t);
+
+		foreach (var parameter in parameters)
+		{
+			// TODO: Create an editor for each parameter
+		}
+		
+	}
+
+	private Dictionary<string, Type> GetParameters(Type actionType)
+	{
+		// TODO: Create a more robust and scalable mapping from Action -> parameters
+		// TODO: Is there a way to determine automatically using reflection?
+		return actionType switch
+		{
+			// TODO: Should we use nameof to ensure these don't go out of sync?
+			_ when actionType == typeof(DrawCardsAction) =>
+				new()
+				{
+					{ "TargetPlayerId", typeof(PlayerTarget) },
+					{ "Amount", typeof(int) }
+				},
+			_ when actionType == typeof(CreateCardAction) =>
+				new()
+				{
+					{ "TargetPlayerId", typeof(PlayerTarget) },
+					{ "CardId", typeof(int) },
+					{ "TargetZone", typeof(Zone) },
+					{ "Amount", typeof(int) }
+					
+				},
+			_ when actionType == typeof(BuildStructureByIdAction) =>
+				new()
+				{
+					{ "CardId", typeof(int) }
+				},
+			_ when actionType == typeof(ShuffleDeckAction) => 
+				new()
+				{
+					{ "TargetPlayerId", typeof(PlayerTarget) },
+				},
+			_ => throw new ArgumentException($"No parameter list defined for {actionType.Name}")
+		};
 	}
 
 	public ActionDefinition Create()
 	{
-		// TODO: Compile list of parameter editors into response
+		// TODO: Serialize parameter editors into comma-delimited list
 		throw new System.NotImplementedException();
 	}
 
