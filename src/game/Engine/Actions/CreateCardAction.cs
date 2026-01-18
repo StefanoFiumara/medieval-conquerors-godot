@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using MedievalConquerors.Engine.Attributes;
@@ -21,6 +22,15 @@ public class CreateCardAction(int cardId, int targetPlayerId, Zone targetZone, i
     {
         return $"CreateCardAction: Player {TargetPlayerId} creates {Amount} card(s) (ID: {CardId}) in {TargetZone}";
     }
+
+    public static Dictionary<string, Type> GetParameters(Type actionType) =>
+        new()
+        {
+            { nameof(TargetPlayerId), typeof(PlayerTarget) },
+            { nameof(CardId), typeof(int) },
+            { nameof(TargetZone), typeof(Zone) },
+            { nameof(Amount), typeof(int) }
+        };
 
     public void Load(IGame game, Card card, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
     {

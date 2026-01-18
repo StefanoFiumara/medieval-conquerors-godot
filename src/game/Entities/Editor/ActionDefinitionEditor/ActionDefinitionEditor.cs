@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Godot;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Attributes;
-using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Entities.Editor.Options;
 
 namespace MedievalConquerors.Entities.Editor;
 
@@ -23,44 +21,18 @@ public partial class ActionDefinitionEditor : PanelContainer, IObjectEditor<Acti
 		foreach (var parameter in parameters)
 		{
 			// TODO: Create an editor for each parameter
+			// TODO: Can we use IValueEditor here? these parameters should all be primitives
 		}
 		
 	}
 
 	private Dictionary<string, Type> GetParameters(Type actionType)
 	{
-		// TODO: Create a more robust and scalable mapping from Action -> parameters
-		// TODO: Is there a way to determine automatically using reflection?
-		return actionType switch
-		{
-			// TODO: Should we use nameof to ensure these don't go out of sync?
-			_ when actionType == typeof(DrawCardsAction) =>
-				new()
-				{
-					{ "TargetPlayerId", typeof(PlayerTarget) },
-					{ "Amount", typeof(int) }
-				},
-			_ when actionType == typeof(CreateCardAction) =>
-				new()
-				{
-					{ "TargetPlayerId", typeof(PlayerTarget) },
-					{ "CardId", typeof(int) },
-					{ "TargetZone", typeof(Zone) },
-					{ "Amount", typeof(int) }
-					
-				},
-			_ when actionType == typeof(BuildStructureByIdAction) =>
-				new()
-				{
-					{ "CardId", typeof(int) }
-				},
-			_ when actionType == typeof(ShuffleDeckAction) => 
-				new()
-				{
-					{ "TargetPlayerId", typeof(PlayerTarget) },
-				},
-			_ => throw new ArgumentException($"No parameter list defined for {actionType.Name}")
-		};
+		if (!actionType.IsAssignableTo(typeof(IAbilityLoader)))
+			throw new ArgumentException($"actionType {actionType.Name} is not assignable to {nameof(IAbilityLoader)}");
+
+		var result = actionType.GetMethod(nameof(IAbilityLoader.GetParameters))?.Invoke(null, null) as Dictionary<string, Type>;
+		return result ?? [];
 	}
 
 	public ActionDefinition Create()

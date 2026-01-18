@@ -20,13 +20,17 @@ public class DrawCardsAction(int targetPlayerId, int amount) : GameAction, IAbil
         return $"DrawCardsAction: Player {TargetPlayerId} Draws {Amount} card(s)";
     }
 
-    public static Dictionary<string, Type> GetParameters(Type actionType)
-    {
-        throw new NotImplementedException();
-    }
+    public static Dictionary<string, Type> GetParameters(Type actionType) =>
+        new()
+        {
+            { nameof(TargetPlayerId), typeof(PlayerTarget) },
+            { nameof(Amount), typeof(int) }
+        };
 
     public void Load(IGame game, Card card, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
     {
+        // TODO: Extension method on Match/Game container to grab player based on player target?
+        //       This logic is repeated across all ability loaders that need a player target.
         var player = card.Owner;
         var enemyPlayer = game.GetComponent<Match>().Players[1 - player.Id];
 

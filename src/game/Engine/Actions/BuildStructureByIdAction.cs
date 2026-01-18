@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Godot;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
@@ -12,6 +14,12 @@ public class BuildStructureByIdAction(int cardId, int ownerId, Vector2I targetTi
     public Vector2I TargetTile { get; set; } = targetTile;
 
     public BuildStructureByIdAction() : this(-1, -1, HexMap.None) { }
+
+    public static Dictionary<string, Type> GetParameters(Type actionType) =>
+        new()
+        {
+            { nameof(CardId), typeof(int) }
+        };
 
     public void Load(IGame game, Card card, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
     {
