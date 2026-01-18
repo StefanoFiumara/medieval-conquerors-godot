@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Godot;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
@@ -17,6 +18,11 @@ public class DrawCardsAction(int targetPlayerId, int amount) : GameAction, IAbil
     public override string ToString()
     {
         return $"DrawCardsAction: Player {TargetPlayerId} Draws {Amount} card(s)";
+    }
+
+    public static Dictionary<string, Type> GetParameters(Type actionType)
+    {
+        throw new NotImplementedException();
     }
 
     public void Load(IGame game, Card card, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)

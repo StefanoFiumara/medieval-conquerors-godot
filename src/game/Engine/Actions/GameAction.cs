@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Godot;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
@@ -71,5 +72,6 @@ public class GameAction
 
 public interface IAbilityLoader
 {
+    static abstract Dictionary<string, Type> GetParameters(Type actionType);
     void Load(IGame game, Card card, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile);
 }
