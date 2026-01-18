@@ -9,6 +9,8 @@ namespace MedievalConquerors.Engine.Attributes;
 public record ActionDefinition
 {
     public string ActionType { get; init; }
+    // TODO: Can we actually just serialize the dictionary into the DB instead of doing this parsing?
+    //       Check LiteDB's ability to serialize Dictionaries
     public string Data { get; init; }
 
     private Lazy<ImmutableDictionary<string, string>> LazyData => new(ParseData);
@@ -16,6 +18,7 @@ public record ActionDefinition
 
     public T GetData<T>(string key)
     {
+        // TODO: Should we throw an error here instead of returning a default value?
         if (!ParsedData.TryGetValue(key, out var value))
             return default;
 
@@ -23,7 +26,6 @@ public record ActionDefinition
             return (T) Enum.Parse(typeof(T), value);
 
         return (T) Convert.ChangeType(value, typeof(T));
-        // TODO: Should we throw an error here instead of returning a default value?
     }
 
     private ImmutableDictionary<string, string> ParseData()
