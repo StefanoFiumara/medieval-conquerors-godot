@@ -29,17 +29,34 @@
               "state": {
                 "file": "tech-tree.canvas",
                 "viewState": {
-                  "x": 811.1311946158469,
-                  "y": 522.6832727449167,
+                  "x": 125.71133318912678,
+                  "y": 71.9594754015892,
                   "zoom": -1.6042538393299166
                 }
               },
               "icon": "lucide-layout-dashboard",
               "title": "tech-tree"
             }
+          },
+          {
+            "id": "02ccf0cd2181e8e0",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "engine-architecture/action-system.canvas",
+                "viewState": {
+                  "x": -683.4870152850717,
+                  "y": -271.4613748098933,
+                  "zoom": -1.0106210762495924
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "action-system"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -173,6 +190,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "bases:Create new base": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -181,15 +199,15 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "b9e2e622305abfdc",
+  "active": "02ccf0cd2181e8e0",
   "lastOpenFiles": [
-    "leonardo-ai-prompts.md",
+    "engine-architecture/game-actions.canvas",
     "game-design-doc.md",
     "game-mechanics.md",
-    "tech-tree.canvas",
-    "engine-architecture/game-actions.canvas",
-    "engine-architecture/action-system.canvas",
+    "leonardo-ai-prompts.md",
     "planned-cards-list.md",
+    "tech-tree.canvas",
+    "engine-architecture/action-system.canvas",
     "card-designs/economic-cards.md",
     "to-do.md",
     "engine-architecture/Action System.canvas",
