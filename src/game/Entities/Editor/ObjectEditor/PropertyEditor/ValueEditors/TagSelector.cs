@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Entities.Editor.ValueEditors;
 
-namespace MedievalConquerors.Entities.Editor;
+namespace MedievalConquerors.Entities.Editor.ValueEditors;
 
 public partial class TagSelector : GridContainer, IValueEditor
 {

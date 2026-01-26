@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://r8nd3ueedopk"]
 
 [ext_resource type="Script" uid="uid://cvjouoabxxh10" path="res://Entities/Editor/LibraryEditor/LibraryEditor.cs" id="1_i0g1s"]
-[ext_resource type="Script" uid="uid://dbl7fs61kt85q" path="res://Entities/Editor/TagSelector.cs" id="2_tgu0f"]
+[ext_resource type="Script" uid="uid://b8d65eblp6du5" path="res://Entities/Editor/ObjectEditor/PropertyEditor/ValueEditors/TagSelector.cs" id="2_tgu0f"]
 [ext_resource type="Script" uid="uid://0xeajluhirkr" path="res://Entities/Editor/Options/CardTypeOptions.cs" id="3_f4rss"]
 
 [node name="library_editor" type="PanelContainer" node_paths=PackedStringArray("_clearButton", "_searchInput", "_tagFilter", "_typeFilter", "_resultsContainer")]

@@ -4,6 +4,7 @@ using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.StateManagement;
 using MedievalConquerors.Entities.Editor.EditorStates;
 using MedievalConquerors.Entities.Editor.Options;
+using MedievalConquerors.Entities.Editor.ValueEditors;
 using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;

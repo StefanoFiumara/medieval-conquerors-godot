@@ -4,6 +4,7 @@ using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Entities.Editor.Options;
+using MedievalConquerors.Entities.Editor.ValueEditors;
 
 namespace MedievalConquerors.Entities.Editor;
 

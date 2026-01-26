@@ -7,6 +7,7 @@ namespace MedievalConquerors.Entities.Editor;
 
 public partial class ImageSelector : HBoxContainer
 {
+	// TODO: Generalize Image selector so it isn't hardcoded to these paths
 	private const string PORTRAITS_PATH = "res://Entities/Cards/Portraits/";
 	private const string TOKENS_PATH = "res://Entities/Tokens/TokenIcons/";
 
