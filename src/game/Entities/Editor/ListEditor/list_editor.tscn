@@ -40,7 +40,7 @@ text = "X"
 [node name="title_label" type="Label" parent="margin/vbox/margin/editor_controls"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Attributes"
+text = "List Title"
 horizontal_alignment = 2
 
 [node name="add_item_btn" type="Button" parent="margin/vbox/margin/editor_controls"]

@@ -31,13 +31,11 @@ public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<Li
         _addButton = GetNode<Button>("%add_item_btn");
         _editorsContainer = GetNode<VBoxContainer>("%editors_container");
 
-        // TODO: Dynamically create type selector and add to scene
-        // IDEA: Maybe we create type selector only when we have a definition for TypeOptions<TEditorValue>
-        //       And we can default to create instances of TEditorValue with Activator.CreateInstance otherwise.
         _typeSelector = CreateTypeSelector();
         if (_typeSelector != null)
         {
             var controls = GetNode<HBoxContainer>("%editor_controls");
+            // TODO: Check if we need to use CallDeferred here
             controls.AddChild(_typeSelector);
             controls.MoveChild(_typeSelector, 2);
             _typeSelector.Connect(OptionButton.SignalName.ItemSelected, Callable.From<long>(OnNewTypeSelected));
@@ -48,9 +46,10 @@ public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<Li
 
     private TypeOptions<TEditorValue> CreateTypeSelector()
     {
-        // TODO: Find all inheritors of type options
-        //       Check if any generic parameters are a match for TEditorValue
-        //       Create that instance
+        // TODO: Dynamically create type selector
+        //         - Find all inheritors of type options
+        //         - Check if any generic parameters are a match for TEditorValue
+        //         - Create that instance
         throw new NotImplementedException();
     }
 
@@ -72,9 +71,7 @@ public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<Li
 
     public void Enable()
     {
-        if(_typeSelector != null)
-            _typeSelector.Disabled = false;
-
+        _typeSelector?.Disabled = false;
         _addButton.Disabled = _typeSelector?.Selected == 0;
 
         foreach (var editor in Editors)
@@ -83,9 +80,7 @@ public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<Li
 
     public void Disable()
     {
-        if(_typeSelector != null)
-            _typeSelector.Disabled = true;
-
+        _typeSelector?.Disabled = true;
         _addButton.Disabled = true;
 
         foreach (var editor in Editors)
