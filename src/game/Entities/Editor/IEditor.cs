@@ -1,6 +1,5 @@
 using System;
 using Godot;
-using MedievalConquerors.Engine.Actions;
 
 namespace MedievalConquerors.Entities.Editor;
 
@@ -11,6 +10,8 @@ public interface IEditor
     void Disable();
 }
 
+// TODO: It may streamline a lot of things if we could merge IValueEditor and IObjectEditor into the same interface
+//       That way our editor registry can create either editor type from one interface.
 public interface IValueEditor : IEditor
 {
     object GetValue();
