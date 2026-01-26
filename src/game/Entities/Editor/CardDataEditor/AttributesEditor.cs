@@ -73,8 +73,7 @@ public partial class AttributesEditor : PanelContainer
 		_newAttributeSelector.Disabled = false;
 		_addAttributeButton.Disabled = _newAttributeSelector.Selected == 0;
 
-		var attrEditors = _attributesContainer.GetChildren().OfType<ObjectEditor>();
-		foreach (var editor in attrEditors)
+		foreach (var editor in AttributeEditors)
 			editor.Enable();
 	}
 
