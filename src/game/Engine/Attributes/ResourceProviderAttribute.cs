@@ -2,7 +2,7 @@
 
 namespace MedievalConquerors.Engine.Attributes;
 
-public record ResourceProviderAttribute : ICardAttribute
+public record ResourceProviderAttribute : CardAttribute
 {
     public ResourceType Resource { get; init; }
     public int Yield { get; init; }

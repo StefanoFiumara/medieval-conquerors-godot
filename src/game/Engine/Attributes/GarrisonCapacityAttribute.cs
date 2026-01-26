@@ -2,7 +2,7 @@
 
 namespace MedievalConquerors.Engine.Attributes;
 
-public record GarrisonCapacityAttribute : ICardAttribute
+public record GarrisonCapacityAttribute : CardAttribute
 {
     public int Limit { get; init; }
 }

@@ -8,7 +8,7 @@ namespace MedievalConquerors.Engine.Data;
 
 public class Card
 {
-    private readonly ImmutableDictionary<Type, ICardAttribute> _attributeMap;
+    private readonly ImmutableDictionary<Type, CardAttribute> _attributeMap;
     private readonly Dictionary<Type, List<Delegate>> _modifiers = new();
 
     public CardData Data { get; }
@@ -26,19 +26,19 @@ public class Card
         _attributeMap = Data.Attributes.ToImmutableDictionary(attr => attr.GetType(), attr => attr);
     }
 
-    public bool HasAttribute<TAttribute>() where TAttribute : class, ICardAttribute => HasAttribute<TAttribute>(out _);
-    public bool HasAttribute<TAttribute>(out TAttribute attribute) where TAttribute : class, ICardAttribute
+    public bool HasAttribute<TAttribute>() where TAttribute : CardAttribute => HasAttribute<TAttribute>(out _);
+    public bool HasAttribute<TAttribute>(out TAttribute attribute) where TAttribute : CardAttribute
     {
         var result = _attributeMap.TryGetValue(typeof(TAttribute), out var data);
         attribute = ApplyModifiers(data as TAttribute);
         return result;
     }
 
-    public TAttribute GetAttribute<TAttribute>() where TAttribute : class, ICardAttribute
+    public TAttribute GetAttribute<TAttribute>() where TAttribute : CardAttribute
         => HasAttribute<TAttribute>(out var attr) ? attr : null;
 
     public void AddModifier<TAttribute>(Func<TAttribute, TAttribute> modifier)
-        where TAttribute : class, ICardAttribute
+        where TAttribute : CardAttribute
     {
         var type = typeof(TAttribute);
 
@@ -48,13 +48,13 @@ public class Card
         _modifiers[type].Add(modifier);
     }
 
-    public void ClearModifiers<TAttribute>() where TAttribute : class, ICardAttribute
+    public void ClearModifiers<TAttribute>() where TAttribute : CardAttribute
     {
         if (_modifiers.TryGetValue(typeof(TAttribute), out var modifierList))
             modifierList.Clear();
     }
 
-    private TAttribute ApplyModifiers<TAttribute>(TAttribute original) where TAttribute : class, ICardAttribute
+    private TAttribute ApplyModifiers<TAttribute>(TAttribute original) where TAttribute : CardAttribute
     {
         if (original == null)
             return null;

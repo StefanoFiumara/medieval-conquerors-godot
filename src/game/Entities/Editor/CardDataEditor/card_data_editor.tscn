@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b7rdfip0s4fyf"]
+[gd_scene load_steps=11 format=3 uid="uid://b7rdfip0s4fyf"]
 
 [ext_resource type="Script" uid="uid://vj4kp50aw2ya" path="res://Entities/Editor/CardDataEditor/CardDataEditor.cs" id="1_sh3r2"]
 [ext_resource type="Theme" uid="uid://d1r0k0noqn4vk" path="res://Entities/UI/primary_button.theme" id="2_8yi51"]
@@ -6,8 +6,9 @@
 [ext_resource type="Theme" uid="uid://beqkmwretppcp" path="res://Entities/UI/success_button.theme" id="2_dr5r6"]
 [ext_resource type="PackedScene" uid="uid://bh6f2471u0ypf" path="res://Entities/Editor/image_selector.tscn" id="2_ildny"]
 [ext_resource type="Theme" uid="uid://drpmjhbhww74k" path="res://Entities/UI/danger_button.theme" id="2_wht8j"]
-[ext_resource type="Script" uid="uid://b8d65eblp6du5" path="res://Entities/Editor/ObjectEditor/PropertyEditor/ValueEditors/TagSelector.cs" id="3_yh4g2"]
-[ext_resource type="PackedScene" uid="uid://cqldalr602l5i" path="res://Entities/Editor/CardDataEditor/attributes_editor.tscn" id="5_8dxsl"]
+[ext_resource type="Script" uid="uid://b8d65eblp6du5" path="res://Entities/Editor/ObjectEditor/ValueEditors/TagSelector.cs" id="3_yh4g2"]
+[ext_resource type="PackedScene" uid="uid://dgv8gpi0yws5m" path="res://Entities/Editor/ListEditor/list_editor.tscn" id="8_7b87l"]
+[ext_resource type="Script" uid="uid://kb2q5kewby62" path="res://Entities/Editor/ListEditor/AttributesEditor.cs" id="9_7b87l"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2uco"]
 
@@ -186,8 +187,7 @@ layout_mode = 2
 columns = 4
 script = ExtResource("3_yh4g2")
 
-[node name="HSeparator" type="HSeparator" parent="margin/vbox_container/scroll_container/margin/vbox_container"]
+[node name="attributes_editor" parent="margin/vbox_container/scroll_container/margin/vbox_container" instance=ExtResource("8_7b87l")]
 layout_mode = 2
-
-[node name="attributes_editor" parent="margin/vbox_container/scroll_container/margin/vbox_container" instance=ExtResource("5_8dxsl")]
-layout_mode = 2
+script = ExtResource("9_7b87l")
+_title = "Attributes:"

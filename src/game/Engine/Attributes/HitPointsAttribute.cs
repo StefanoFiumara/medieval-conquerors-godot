@@ -2,7 +2,7 @@
 
 namespace MedievalConquerors.Engine.Attributes;
 
-public class HitPointsAttribute : ICardAttribute
+public record HitPointsAttribute : CardAttribute
 {
     public int Health { get; set; }
 }

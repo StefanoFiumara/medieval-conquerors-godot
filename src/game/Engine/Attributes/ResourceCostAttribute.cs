@@ -2,7 +2,7 @@
 
 namespace MedievalConquerors.Engine.Attributes;
 
-public record ResourceCostAttribute : ICardAttribute
+public record ResourceCostAttribute : CardAttribute
 {
     public int Food { get; init; }
     public int Wood { get; init; }

@@ -2,7 +2,7 @@
 
 namespace MedievalConquerors.Engine.Data;
 
-public interface ICardAttribute;
+public abstract record CardAttribute;
 
 public record CardData
 {
@@ -13,5 +13,5 @@ public record CardData
     public string TokenImagePath { get; init; }
     public CardType CardType { get; init; }
     public Tags Tags { get; init; }
-    public IReadOnlyList<ICardAttribute> Attributes { get; init; } = [];
+    public IReadOnlyList<CardAttribute> Attributes { get; init; } = [];
 }

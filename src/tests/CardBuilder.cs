@@ -19,7 +19,7 @@ public class CardBuilder
     private string? _tokenImagePath;
     private CardType _cardType;
     private Tags _tags;
-    private readonly List<ICardAttribute> _attributes = new();
+    private readonly List<CardAttribute> _attributes = new();
 
     private CardBuilder(Player  owner)
     {

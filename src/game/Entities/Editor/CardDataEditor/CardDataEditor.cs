@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.StateManagement;
@@ -11,6 +12,7 @@ namespace MedievalConquerors.Entities.Editor;
 
 public partial class CardDataEditor : PanelContainer
 {
+	// TODO: Remove Exports for internal components, wire up in _Ready instead.
 	[Export] private LibraryEditor _libraryEditor;
 
 	[Export] private RichTextLabel _statusLabel;
@@ -24,6 +26,7 @@ public partial class CardDataEditor : PanelContainer
 	[Export] private ImageSelector _portraitSelector;
 	[Export] private CardTypeOptions _cardTypeSelector;
 	[Export] private TagSelector _tagSelector;
+	// TODO: Use ListEditor Interface after removing [Export]
 	[Export] private AttributesEditor _attributesEditor;
 
 	private StateMachine _stateMachine;
@@ -84,7 +87,7 @@ public partial class CardDataEditor : PanelContainer
 			_portraitSelector.SelectedImageUid = data.ImagePath;
 			_cardTypeSelector.SelectedOption = data.CardType;
 			_tagSelector.SelectedTags = data.Tags;
-			_attributesEditor.Load(data.Attributes);
+			_attributesEditor.Load("Attributes:", data.Attributes.ToList(), allowDelete: false);
 		}
 	}
 
@@ -99,7 +102,7 @@ public partial class CardDataEditor : PanelContainer
 			TokenImagePath = _portraitSelector.SelectedTokenUid,
 			CardType = _cardTypeSelector.SelectedOption,
 			Tags = _tagSelector.SelectedTags,
-			Attributes = _attributesEditor.CreateAttributes()
+			Attributes = _attributesEditor.Create()
 		};
 	}
 

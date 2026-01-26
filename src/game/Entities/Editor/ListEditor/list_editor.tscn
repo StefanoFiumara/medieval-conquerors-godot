@@ -54,4 +54,5 @@ text = "Add"
 layout_mode = 2
 
 [node name="editors_container" type="VBoxContainer" parent="margin/vbox"]
+unique_name_in_owner = true
 layout_mode = 2

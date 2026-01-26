@@ -6,16 +6,16 @@ namespace MedievalConquerors.Entities.Editor;
 
 public partial class ObjectEditor : PanelContainer, IObjectEditor
 {
-	private PackedScene _propertyEditor;
-	private GridContainer _propertiesContainer;
+	private static readonly PackedScene _propertyEditor = GD.Load<PackedScene>("uid://bti603u6u2oh");
 
 	private Label _titleLabel;
 	private Button _removeButton;
+	private GridContainer _propertiesContainer;
+
 	public Type ObjectType { get; private set; }
 
 	public override void _Ready()
 	{
-		_propertyEditor = GD.Load<PackedScene>("uid://bti603u6u2oh");
 		_titleLabel = GetNode<Label>("%name_label");
 		_removeButton = GetNode<Button>("%close_button");
 		_propertiesContainer = GetNode<GridContainer>("%properties_container");

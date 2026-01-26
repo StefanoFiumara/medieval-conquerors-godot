@@ -36,7 +36,7 @@ public record ActionDefinition
     }
 }
 
-public abstract record AbilityAttribute : ICardAttribute
+public abstract record AbilityAttribute : CardAttribute
 {
     public IReadOnlyList<ActionDefinition> Actions { get; init; } = [];
 }

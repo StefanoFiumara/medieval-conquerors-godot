@@ -9,6 +9,7 @@ namespace MedievalConquerors.Entities.Editor;
 
 public static class EditorFactory
 {
+	private static readonly PackedScene _objectEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
 	private static readonly Dictionary<Type, Func<IValueEditor>> _valueEditorRegistry = [];
 
 	public static IValueEditor CreateValueEditor(Type type)
@@ -27,8 +28,11 @@ public static class EditorFactory
 	// TODO: Do we need to support registering an editor with a scene UID?
 	public static IObjectEditor CreateObjectEditor(Type type)
 	{
+		GD.Print($"Creating Editor for {type.Name}");
 		// TODO: Create registry for Object Editors
-		return null;
+		// TODO: Add support for custom attribute editors (e.g. ability editor)
+		// IDEA: can this registry be incorporated in EditorFactory?
+		return _objectEditor.Instantiate<ObjectEditor>();
 	}
 
 	static EditorFactory()
