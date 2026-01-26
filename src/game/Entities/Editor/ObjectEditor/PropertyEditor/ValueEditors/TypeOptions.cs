@@ -24,6 +24,7 @@ public abstract partial class TypeOptions<T> : OptionButton, IValueEditor
                 if (value == type)
                 {
                     Select(_typeMap.IndexOf(action));
+                    EmitSignal(OptionButton.SignalName.ItemSelected);
                     return;
                 }
             }
