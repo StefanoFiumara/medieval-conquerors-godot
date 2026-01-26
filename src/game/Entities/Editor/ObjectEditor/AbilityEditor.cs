@@ -10,6 +10,7 @@ namespace MedievalConquerors.Entities.Editor;
 
 // TODO: Convert this to IListEditor<ActionDefinition>
 //      OR use IListEditor<ActionDefinition> internally to create Ability Attribute
+[Obsolete("Remove in favor generic List Editor, when that's ready")]
 public partial class AbilityEditor : PanelContainer, IObjectEditor<AbilityAttribute>
 {
     // TODO: Set up controls for ability attribute editor

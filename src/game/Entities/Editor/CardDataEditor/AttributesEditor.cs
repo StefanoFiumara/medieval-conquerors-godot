@@ -8,6 +8,7 @@ using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;
 
+[Obsolete("Remove in favor of ListEditor<ICardAttribute>, when ready")]
 public partial class AttributesEditor : PanelContainer
 {
 	private static readonly PackedScene _objectEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");

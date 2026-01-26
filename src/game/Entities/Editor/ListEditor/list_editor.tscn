@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgv8gpi0yws5m"]
+
+[ext_resource type="Theme" uid="uid://drpmjhbhww74k" path="res://Entities/UI/danger_button.theme" id="1_lxxip"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hrs53"]
+
+[node name="list_editor" type="PanelContainer"]
+offset_right = 409.0
+offset_bottom = 35.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hrs53")
+
+[node name="margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="vbox" type="VBoxContainer" parent="margin"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="margin" type="MarginContainer" parent="margin/vbox"]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="editor_controls" type="HBoxContainer" parent="margin/vbox/margin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="close_button" type="Button" parent="margin/vbox/margin/editor_controls"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme = ExtResource("1_lxxip")
+text = "X"
+
+[node name="title_label" type="Label" parent="margin/vbox/margin/editor_controls"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Attributes"
+horizontal_alignment = 2
+
+[node name="add_item_btn" type="Button" parent="margin/vbox/margin/editor_controls"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+disabled = true
+text = "Add"
+
+[node name="HSeparator" type="HSeparator" parent="margin/vbox"]
+layout_mode = 2
+
+[node name="editors_container" type="VBoxContainer" parent="margin/vbox"]
+layout_mode = 2

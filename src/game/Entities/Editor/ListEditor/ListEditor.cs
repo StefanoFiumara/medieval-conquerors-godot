@@ -7,7 +7,6 @@ using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;
 
-// TODO: Create scene for this script
 public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<List<TEditorValue>>
     where TEditorValue : class
 {
@@ -35,10 +34,24 @@ public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<Li
         // TODO: Dynamically create type selector and add to scene
         // IDEA: Maybe we create type selector only when we have a definition for TypeOptions<TEditorValue>
         //       And we can default to create instances of TEditorValue with Activator.CreateInstance otherwise.
-        _typeSelector = null;
+        _typeSelector = CreateTypeSelector();
+        if (_typeSelector != null)
+        {
+            var controls = GetNode<HBoxContainer>("%editor_controls");
+            controls.AddChild(_typeSelector);
+            controls.MoveChild(_typeSelector, 2);
+            _typeSelector.Connect(OptionButton.SignalName.ItemSelected, Callable.From<long>(OnNewTypeSelected));
+        }
 
-        _typeSelector.Connect(OptionButton.SignalName.ItemSelected, Callable.From<long>(OnNewTypeSelected));
         _addButton.Connect(BaseButton.SignalName.Pressed, Callable.From(CreateNewEditor));
+    }
+
+    private TypeOptions<TEditorValue> CreateTypeSelector()
+    {
+        // TODO: Find all inheritors of type options
+        //       Check if any generic parameters are a match for TEditorValue
+        //       Create that instance
+        throw new NotImplementedException();
     }
 
     public void Load(string title, List<TEditorValue> source, bool allowDelete = false)
@@ -59,8 +72,10 @@ public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<Li
 
     public void Enable()
     {
-        _typeSelector.Disabled = false;
-        _addButton.Disabled = _typeSelector.Selected == 0;
+        if(_typeSelector != null)
+            _typeSelector.Disabled = false;
+
+        _addButton.Disabled = _typeSelector?.Selected == 0;
 
         foreach (var editor in Editors)
             editor.Enable();
@@ -68,7 +83,9 @@ public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<Li
 
     public void Disable()
     {
-        _typeSelector.Disabled = true;
+        if(_typeSelector != null)
+            _typeSelector.Disabled = true;
+
         _addButton.Disabled = true;
 
         foreach (var editor in Editors)
@@ -80,7 +97,10 @@ public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<Li
 
     private void CreateNewEditor()
     {
-        var instance = (TEditorValue) Activator.CreateInstance(_typeSelector.SelectedType);
+        var instance = _typeSelector == null
+                ? Activator.CreateInstance<TEditorValue>()
+                : (TEditorValue) Activator.CreateInstance(_typeSelector.SelectedType);
+
         AddNewEditor(instance);
         ClearSelector();
     }
@@ -96,12 +116,16 @@ public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<Li
 
     private void ClearSelector()
     {
+        if (_typeSelector == null) return;
+
         _typeSelector.Select(0);
         OnNewTypeSelected(0);
     }
 
     private void OnNewTypeSelected(long itemIndex)
     {
+        if (_typeSelector == null) return;
+
         var selectedText = _typeSelector.GetItemText((int)itemIndex);
         _addButton.Disabled = selectedText == "None" || Editors.Any(e => e.ObjectType.Name == selectedText);
     }

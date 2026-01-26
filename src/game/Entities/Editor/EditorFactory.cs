@@ -51,15 +51,6 @@ public static class EditorFactory
 		_valueEditorRegistry[propertyType] = () => (IValueEditor) Activator.CreateInstance(editorType);
 	}
 
-	private static void RegisterValueEditor<TEditor>(Type propertyType, string sceneUid) where TEditor : class, IValueEditor
-	{
-		_valueEditorRegistry[propertyType] = () =>
-		{
-			var editorScene = GD.Load<PackedScene>(sceneUid);
-			return editorScene.Instantiate<TEditor>();
-		};
-	}
-
 	private static void RegisterValueEditor(Type propertyType, Func<IValueEditor> editorFactory)
 	{
 		_valueEditorRegistry[propertyType] = editorFactory;
