@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 
 namespace MedievalConquerors.Entities.Editor;
@@ -10,8 +11,7 @@ public interface IEditor
     void Disable();
 }
 
-// TODO: It may streamline a lot of things if we could merge IValueEditor and IObjectEditor into the same interface
-//       That way our editor registry can create either editor type from one interface.
+// TODO: Combine Object Editor and Value Editors into the same interface hierarchy.
 public interface IValueEditor : IEditor
 {
     object GetValue();
@@ -33,4 +33,9 @@ public interface IObjectEditor<T> : IObjectEditor where T : class
     void IObjectEditor.Load<TSource>(string title, TSource source, bool allowDelete) => Load(title, source as T, allowDelete);
     void Load(string title, T source, bool allowDelete = false);
     new T Create();
+}
+
+public interface IListEditor<T> : IObjectEditor<List<T>>
+{
+    void Reset();
 }

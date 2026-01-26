@@ -2,26 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using MedievalConquerors.Entities.Editor.Options;
+using MedievalConquerors.Entities.Editor.ValueEditors;
 using MedievalConquerors.Extensions;
 
 namespace MedievalConquerors.Entities.Editor;
 
-public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<List<TEditorValue>>
-    where TEditorValue : class
+public partial class ListEditor<T> : PanelContainer, IListEditor<T>
+    where T : class
 {
     private Label _titleLabel;
     private Button _removeButton;
 
-    // TODO: Will TypeOptions work here since it is abstract? how do we get a reference to the proper type?
-    //       We won't be able to hook this up directly from the scene, it will have to be added dynamically
-    //       So maybe we need a reference to its container instead.
-    private TypeOptions<TEditorValue> _typeSelector;
+    private TypeOptions<T> _typeSelector;
     private VBoxContainer _editorsContainer;
     private Button _addButton;
 
-    private IEnumerable<IObjectEditor<TEditorValue>> Editors =>
-        _editorsContainer.GetChildren() .OfType<IObjectEditor<TEditorValue>>();
+    private IEnumerable<IObjectEditor<T>> Editors =>
+        _editorsContainer.GetChildren() .OfType<IObjectEditor<T>>();
 
     public override void _Ready()
     {
@@ -35,7 +32,6 @@ public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<Li
         if (_typeSelector != null)
         {
             var controls = GetNode<HBoxContainer>("%editor_controls");
-            // TODO: Check if we need to use CallDeferred here
             controls.AddChild(_typeSelector);
             controls.MoveChild(_typeSelector, 2);
             _typeSelector.Connect(OptionButton.SignalName.ItemSelected, Callable.From<long>(OnNewTypeSelected));
@@ -44,7 +40,7 @@ public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<Li
         _addButton.Connect(BaseButton.SignalName.Pressed, Callable.From(CreateNewEditor));
     }
 
-    private TypeOptions<TEditorValue> CreateTypeSelector()
+    private TypeOptions<T> CreateTypeSelector()
     {
         // TODO: Dynamically create type selector
         //         - Find all inheritors of type options
@@ -53,7 +49,7 @@ public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<Li
         throw new NotImplementedException();
     }
 
-    public void Load(string title, List<TEditorValue> source, bool allowDelete = false)
+    public void Load(string title, List<T> source, bool allowDelete = false)
     {
         Reset();
         _titleLabel.Text = title ?? string.Empty;
@@ -87,24 +83,24 @@ public partial class ListEditor<TEditorValue> : PanelContainer, IObjectEditor<Li
             editor.Disable();
     }
 
-    public List<TEditorValue> Create() => Editors.Select(e => e.Create()).ToList();
+    public List<T> Create() => Editors.Select(e => e.Create()).ToList();
     public Control GetControl() => this;
 
     private void CreateNewEditor()
     {
         var instance = _typeSelector == null
-                ? Activator.CreateInstance<TEditorValue>()
-                : (TEditorValue) Activator.CreateInstance(_typeSelector.SelectedType);
+                ? Activator.CreateInstance<T>()
+                : (T) Activator.CreateInstance(_typeSelector.SelectedType);
 
         AddNewEditor(instance);
         ClearSelector();
     }
 
-    private void AddNewEditor(TEditorValue source)
+    private void AddNewEditor(T source)
     {
-        var editor = EditorFactory.CreateObjectEditor(typeof(TEditorValue));
+        var editor = EditorFactory.CreateObjectEditor(typeof(T));
         _editorsContainer.AddChild(editor.GetControl());
-        editor.Load(title: $"{typeof(TEditorValue).Name.Replace("Attribute", string.Empty).PrettyPrint()}",
+        editor.Load(title: $"{typeof(T).Name.Replace("Attribute", string.Empty).PrettyPrint()}",
             source: source,
             allowDelete: true);
     }

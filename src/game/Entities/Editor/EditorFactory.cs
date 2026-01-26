@@ -23,9 +23,11 @@ public static class EditorFactory
 		return editor;
 	}
 
+	// TODO: Combine Object Editor and Value Editors into the same registry.
+	// TODO: Do we need to support registering an editor with a scene UID?
 	public static IObjectEditor CreateObjectEditor(Type type)
 	{
-		// TODO: Create registry for ObjectEditor
+		// TODO: Create registry for Object Editors
 		return null;
 	}
 

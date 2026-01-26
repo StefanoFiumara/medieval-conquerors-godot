@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
-namespace MedievalConquerors.Entities.Editor.Options;
+namespace MedievalConquerors.Entities.Editor.ValueEditors;
 
 /// <summary>
 /// An Option Button populated with the type names of the given type, as well as all its inheritors.

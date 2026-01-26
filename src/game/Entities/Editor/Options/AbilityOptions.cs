@@ -1,5 +1,6 @@
 ﻿using System;
 using MedievalConquerors.Engine.Attributes;
+using MedievalConquerors.Entities.Editor.ValueEditors;
 
 namespace MedievalConquerors.Entities.Editor.Options;
 
