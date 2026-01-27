@@ -153,17 +153,19 @@ layout_mode = 2
 
 [node name="margin" type="MarginContainer" parent="age_container/age_panel" unique_id=1939857296]
 layout_mode = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 20
 
 [node name="age_label" type="Label" parent="age_container/age_panel/margin" unique_id=130893440]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "I - Dark Age"
 label_settings = SubResource("LabelSettings_vx6qn")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="deck_container" type="CenterContainer" parent="." unique_id=289772256]
 layout_mode = 2
