@@ -6,7 +6,7 @@ using MedievalConquerors.Editors.CustomEditors.ValueEditors;
 using MedievalConquerors.Editors.Options;
 using MedievalConquerors.Engine.Data;
 
-namespace MedievalConquerors.Screens.Editor.Scenes.LibraryEditor;
+namespace MedievalConquerors.Screens.Editor;
 
 public partial class LibraryEditor : PanelContainer
 {

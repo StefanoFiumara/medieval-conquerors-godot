@@ -1,6 +1,6 @@
 using MedievalConquerors.Engine.Extensions;
 
-namespace MedievalConquerors.Screens.Editor.Scenes.CardDataEditor.EditorStates;
+namespace MedievalConquerors.Screens.Editor.EditorStates;
 
 public class NoDataState(CardDataEditor editor) : EditorState(editor)
 {

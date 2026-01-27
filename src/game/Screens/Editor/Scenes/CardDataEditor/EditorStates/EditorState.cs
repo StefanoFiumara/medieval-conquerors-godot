@@ -1,6 +1,6 @@
 using MedievalConquerors.Engine.StateManagement;
 
-namespace MedievalConquerors.Screens.Editor.Scenes.CardDataEditor.EditorStates;
+namespace MedievalConquerors.Screens.Editor.EditorStates;
 
 public abstract class EditorState(CardDataEditor editor) : IState
 {

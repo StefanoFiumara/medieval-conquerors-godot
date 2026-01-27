@@ -1,21 +1,21 @@
 using System;
 using System.Linq;
 using Godot;
-using MedievalConquerors.Editors.ListEditor;
 using MedievalConquerors.Editors.CustomEditors;
 using MedievalConquerors.Editors.CustomEditors.ValueEditors;
+using MedievalConquerors.Editors.ListEditor;
 using MedievalConquerors.Editors.Options;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Extensions;
 using MedievalConquerors.Engine.StateManagement;
-using MedievalConquerors.Screens.Editor.Scenes.CardDataEditor.EditorStates;
+using MedievalConquerors.Screens.Editor.EditorStates;
 
-namespace MedievalConquerors.Screens.Editor.Scenes.CardDataEditor;
+namespace MedievalConquerors.Screens.Editor;
 
 public partial class CardDataEditor : PanelContainer
 {
 	// TODO: Remove Exports for internal components, wire up in _Ready instead.
-	[Export] private LibraryEditor.LibraryEditor _libraryEditor;
+	[Export] private LibraryEditor _libraryEditor;
 
 	[Export] private RichTextLabel _statusLabel;
 
