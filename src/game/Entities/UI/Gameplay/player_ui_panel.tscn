@@ -31,41 +31,38 @@ theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 script = ExtResource("1_miglb")
 
-[node name="resources_container" type="CenterContainer" parent="." unique_id=1639357721]
+[node name="resource_panel" type="PanelContainer" parent="." unique_id=1290156934]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 
-[node name="resource_panel" type="PanelContainer" parent="resources_container" unique_id=1290156934]
-layout_mode = 2
-
-[node name="margin" type="MarginContainer" parent="resources_container/resource_panel" unique_id=1575596182]
+[node name="margin" type="MarginContainer" parent="resource_panel" unique_id=1575596182]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="resources_grid" type="GridContainer" parent="resources_container/resource_panel/margin" unique_id=576044633]
+[node name="resources_grid" type="GridContainer" parent="resource_panel/margin" unique_id=576044633]
 layout_mode = 2
 theme_override_constants/h_separation = 15
 theme_override_constants/v_separation = 5
 columns = 2
 
-[node name="food_icon" type="MarginContainer" parent="resources_container/resource_panel/margin/resources_grid" unique_id=135075069]
+[node name="food_icon" type="MarginContainer" parent="resource_panel/margin/resources_grid" unique_id=135075069]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/margin_left = 28
 theme_override_constants/margin_right = 7
 
-[node name="sprite" type="Sprite2D" parent="resources_container/resource_panel/margin/resources_grid/food_icon" unique_id=756605716]
+[node name="sprite" type="Sprite2D" parent="resource_panel/margin/resources_grid/food_icon" unique_id=756605716]
 position = Vector2(14, 21)
 scale = Vector2(0.41, 0.41)
 texture = ExtResource("2_lwx21")
 hframes = 4
 
-[node name="food_label" type="Label" parent="resources_container/resource_panel/margin/resources_grid" unique_id=1786322763]
+[node name="food_label" type="Label" parent="resource_panel/margin/resources_grid" unique_id=1786322763]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.968627, 0.415686, 0.403922, 1)
@@ -74,21 +71,21 @@ theme_override_font_sizes/font_size = 35
 text = "99"
 horizontal_alignment = 2
 
-[node name="wood_icon" type="MarginContainer" parent="resources_container/resource_panel/margin/resources_grid" unique_id=1596695341]
+[node name="wood_icon" type="MarginContainer" parent="resource_panel/margin/resources_grid" unique_id=1596695341]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/margin_left = 28
 theme_override_constants/margin_right = 7
 
-[node name="sprite" type="Sprite2D" parent="resources_container/resource_panel/margin/resources_grid/wood_icon" unique_id=481117288]
+[node name="sprite" type="Sprite2D" parent="resource_panel/margin/resources_grid/wood_icon" unique_id=481117288]
 position = Vector2(14, 21)
 scale = Vector2(0.41, 0.41)
 texture = ExtResource("2_lwx21")
 hframes = 4
 frame = 1
 
-[node name="wood_label" type="Label" parent="resources_container/resource_panel/margin/resources_grid" unique_id=315071002]
+[node name="wood_label" type="Label" parent="resource_panel/margin/resources_grid" unique_id=315071002]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.670588, 0.482353, 0.392157, 1)
@@ -97,21 +94,21 @@ theme_override_font_sizes/font_size = 35
 text = "99"
 horizontal_alignment = 2
 
-[node name="gold_icon" type="MarginContainer" parent="resources_container/resource_panel/margin/resources_grid" unique_id=1151416881]
+[node name="gold_icon" type="MarginContainer" parent="resource_panel/margin/resources_grid" unique_id=1151416881]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/margin_left = 28
 theme_override_constants/margin_right = 7
 
-[node name="sprite" type="Sprite2D" parent="resources_container/resource_panel/margin/resources_grid/gold_icon" unique_id=2057943766]
+[node name="sprite" type="Sprite2D" parent="resource_panel/margin/resources_grid/gold_icon" unique_id=2057943766]
 position = Vector2(14, 21)
 scale = Vector2(0.41, 0.41)
 texture = ExtResource("2_lwx21")
 hframes = 4
 frame = 2
 
-[node name="gold_label" type="Label" parent="resources_container/resource_panel/margin/resources_grid" unique_id=952563130]
+[node name="gold_label" type="Label" parent="resource_panel/margin/resources_grid" unique_id=952563130]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.988235, 0.866667, 0, 1)
@@ -120,21 +117,21 @@ theme_override_font_sizes/font_size = 35
 text = "99"
 horizontal_alignment = 2
 
-[node name="stone_icon" type="MarginContainer" parent="resources_container/resource_panel/margin/resources_grid" unique_id=194198006]
+[node name="stone_icon" type="MarginContainer" parent="resource_panel/margin/resources_grid" unique_id=194198006]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/margin_left = 28
 theme_override_constants/margin_right = 7
 
-[node name="sprite" type="Sprite2D" parent="resources_container/resource_panel/margin/resources_grid/stone_icon" unique_id=970798372]
+[node name="sprite" type="Sprite2D" parent="resource_panel/margin/resources_grid/stone_icon" unique_id=970798372]
 position = Vector2(14, 21)
 scale = Vector2(0.41, 0.41)
 texture = ExtResource("2_lwx21")
 hframes = 4
 frame = 3
 
-[node name="stone_label" type="Label" parent="resources_container/resource_panel/margin/resources_grid" unique_id=901388618]
+[node name="stone_label" type="Label" parent="resource_panel/margin/resources_grid" unique_id=901388618]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.780392, 0.819608, 0.858824, 1)
@@ -143,21 +140,18 @@ theme_override_font_sizes/font_size = 35
 text = "99"
 horizontal_alignment = 2
 
-[node name="age_container" type="CenterContainer" parent="." unique_id=342855365]
+[node name="age_panel" type="PanelContainer" parent="." unique_id=1236594080]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="age_panel" type="PanelContainer" parent="age_container" unique_id=1236594080]
-layout_mode = 2
-
-[node name="margin" type="MarginContainer" parent="age_container/age_panel" unique_id=1939857296]
+[node name="margin" type="MarginContainer" parent="age_panel" unique_id=1939857296]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 20
 
-[node name="age_label" type="Label" parent="age_container/age_panel/margin" unique_id=130893440]
+[node name="age_label" type="Label" parent="age_panel/margin" unique_id=130893440]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
@@ -167,38 +161,35 @@ label_settings = SubResource("LabelSettings_vx6qn")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="deck_container" type="CenterContainer" parent="." unique_id=289772256]
+[node name="deck_panel" type="PanelContainer" parent="." unique_id=516282866]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 
-[node name="deck_panel" type="PanelContainer" parent="deck_container" unique_id=516282866]
-layout_mode = 2
-
-[node name="margin" type="MarginContainer" parent="deck_container/deck_panel" unique_id=1485275015]
+[node name="margin" type="MarginContainer" parent="deck_panel" unique_id=1485275015]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="deck_grid" type="HBoxContainer" parent="deck_container/deck_panel/margin" unique_id=1541409308]
+[node name="deck_grid" type="HBoxContainer" parent="deck_panel/margin" unique_id=1541409308]
 layout_mode = 2
 
-[node name="deck_icon" type="TextureRect" parent="deck_container/deck_panel/margin/deck_grid" unique_id=286715596]
+[node name="deck_icon" type="TextureRect" parent="deck_panel/margin/deck_grid" unique_id=286715596]
 layout_mode = 2
 texture = ExtResource("7_fypch")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="margin" type="MarginContainer" parent="deck_container/deck_panel/margin/deck_grid" unique_id=584696626]
+[node name="margin" type="MarginContainer" parent="deck_panel/margin/deck_grid" unique_id=584696626]
 layout_mode = 2
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="deck_label" type="Label" parent="deck_container/deck_panel/margin/deck_grid/margin" unique_id=1868144662]
+[node name="deck_label" type="Label" parent="deck_panel/margin/deck_grid/margin" unique_id=1868144662]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -215,10 +206,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxEmpty_34lmq")
 
-[node name="margin" type="MarginContainer" parent="end_turn_container" unique_id=2074979528]
-layout_mode = 2
-
-[node name="end_turn_button" type="Button" parent="end_turn_container/margin" unique_id=1408476829]
+[node name="end_turn_button" type="Button" parent="end_turn_container" unique_id=1408476829]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 120)
 layout_mode = 2
