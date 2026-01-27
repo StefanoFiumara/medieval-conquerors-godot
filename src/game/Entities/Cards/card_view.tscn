@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b53wqwu1youqe"]
+[gd_scene format=3 uid="uid://b53wqwu1youqe"]
 
 [ext_resource type="Script" uid="uid://iwsn12lqk8tu" path="res://Entities/Cards/CardView.cs" id="1_r8q4a"]
 [ext_resource type="Texture2D" uid="uid://sbqj2jrisdkc" path="res://Entities/Cards/glow.png" id="2_fo11h"]
@@ -20,7 +20,7 @@ outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Theme" id="Theme_pldyj"]
 
-[node name="card_view" type="Node2D" node_paths=PackedStringArray("_title", "_description", "_type", "_image", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon")]
+[node name="card_view" type="Node2D" unique_id=2019257237 node_paths=PackedStringArray("_title", "_description", "_type", "_image", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon")]
 texture_filter = 1
 script = ExtResource("1_r8q4a")
 _title = NodePath("title_text")
@@ -37,7 +37,7 @@ _woodIcon = NodePath("cost_grid/wood_icon")
 _goldIcon = NodePath("cost_grid/gold_icon")
 _stoneIcon = NodePath("cost_grid/stone_icon")
 
-[node name="glow" type="NinePatchRect" parent="."]
+[node name="glow" type="NinePatchRect" parent="." unique_id=975763036]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -56,19 +56,19 @@ patch_margin_top = 23
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="description_panel" type="Sprite2D" parent="."]
+[node name="description_panel" type="Sprite2D" parent="." unique_id=749386965]
 position = Vector2(-4, 9.65)
 texture = ExtResource("3_xchd5")
 
-[node name="card_portrait" type="Sprite2D" parent="."]
+[node name="card_portrait" type="Sprite2D" parent="." unique_id=1063791827]
 position = Vector2(0, -52.475)
 scale = Vector2(0.616, 0.616)
 texture = ExtResource("4_qyos6")
 
-[node name="frame" type="Sprite2D" parent="."]
+[node name="frame" type="Sprite2D" parent="." unique_id=1001939824]
 texture = ExtResource("5_wi131")
 
-[node name="title_text" type="Label" parent="."]
+[node name="title_text" type="Label" parent="." unique_id=609063501]
 offset_left = -78.0
 offset_top = -149.0
 offset_right = 78.56
@@ -81,7 +81,7 @@ clip_text = true
 text_overrun_behavior = 3
 metadata/_edit_use_anchors_ = true
 
-[node name="type_text" type="Label" parent="."]
+[node name="type_text" type="Label" parent="." unique_id=376771662]
 offset_left = -71.0
 offset_top = 55.5
 offset_right = 59.0
@@ -92,7 +92,7 @@ vertical_alignment = 1
 clip_text = true
 text_overrun_behavior = 3
 
-[node name="description_text" type="RichTextLabel" parent="."]
+[node name="description_text" type="RichTextLabel" parent="." unique_id=694555635]
 clip_contents = false
 offset_left = -71.0
 offset_top = 72.0
@@ -112,14 +112,14 @@ shortcut_keys_enabled = false
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
-[node name="cost_grid" type="HBoxContainer" parent="."]
+[node name="cost_grid" type="HBoxContainer" parent="." unique_id=2034564909]
 offset_left = -70.265
 offset_top = 21.0
 offset_right = 197.735
 offset_bottom = 61.0
 theme_override_constants/separation = 5
 
-[node name="food_icon" type="MarginContainer" parent="cost_grid"]
+[node name="food_icon" type="MarginContainer" parent="cost_grid" unique_id=298594358]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
@@ -127,13 +127,13 @@ theme_override_constants/margin_left = 15
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 5
 
-[node name="sprite" type="Sprite2D" parent="cost_grid/food_icon"]
+[node name="sprite" type="Sprite2D" parent="cost_grid/food_icon" unique_id=1478677277]
 position = Vector2(14, 21)
 scale = Vector2(0.22, 0.22)
 texture = ExtResource("7_356ln")
 hframes = 4
 
-[node name="food_cost" type="Label" parent="cost_grid"]
+[node name="food_cost" type="Label" parent="cost_grid" unique_id=1771861005]
 texture_filter = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
@@ -147,21 +147,21 @@ theme_override_font_sizes/font_size = 17
 text = "99"
 vertical_alignment = 1
 
-[node name="wood_icon" type="MarginContainer" parent="cost_grid"]
+[node name="wood_icon" type="MarginContainer" parent="cost_grid" unique_id=132375294]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_bottom = 5
 
-[node name="sprite" type="Sprite2D" parent="cost_grid/wood_icon"]
+[node name="sprite" type="Sprite2D" parent="cost_grid/wood_icon" unique_id=810391244]
 position = Vector2(14, 21)
 scale = Vector2(0.22, 0.22)
 texture = ExtResource("7_356ln")
 hframes = 4
 frame = 1
 
-[node name="wood_cost" type="Label" parent="cost_grid"]
+[node name="wood_cost" type="Label" parent="cost_grid" unique_id=590233440]
 texture_filter = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
@@ -176,21 +176,21 @@ text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="gold_icon" type="MarginContainer" parent="cost_grid"]
+[node name="gold_icon" type="MarginContainer" parent="cost_grid" unique_id=1143334957]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_bottom = 5
 
-[node name="sprite" type="Sprite2D" parent="cost_grid/gold_icon"]
+[node name="sprite" type="Sprite2D" parent="cost_grid/gold_icon" unique_id=1980282958]
 position = Vector2(14, 21)
 scale = Vector2(0.22, 0.22)
 texture = ExtResource("7_356ln")
 hframes = 4
 frame = 2
 
-[node name="gold_cost" type="Label" parent="cost_grid"]
+[node name="gold_cost" type="Label" parent="cost_grid" unique_id=1102024829]
 texture_filter = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
@@ -205,21 +205,21 @@ text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="stone_icon" type="MarginContainer" parent="cost_grid"]
+[node name="stone_icon" type="MarginContainer" parent="cost_grid" unique_id=1797688862]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_bottom = 5
 
-[node name="sprite" type="Sprite2D" parent="cost_grid/stone_icon"]
+[node name="sprite" type="Sprite2D" parent="cost_grid/stone_icon" unique_id=1702599509]
 position = Vector2(14, 21)
 scale = Vector2(0.22, 0.22)
 texture = ExtResource("7_356ln")
 hframes = 4
 frame = 3
 
-[node name="stone_cost" type="Label" parent="cost_grid"]
+[node name="stone_cost" type="Label" parent="cost_grid" unique_id=972955602]
 texture_filter = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2

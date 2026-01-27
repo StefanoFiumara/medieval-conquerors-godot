@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b7rdfip0s4fyf"]
+[gd_scene format=3 uid="uid://b7rdfip0s4fyf"]
 
 [ext_resource type="Script" uid="uid://vj4kp50aw2ya" path="res://Entities/Editor/CardDataEditor/CardDataEditor.cs" id="1_sh3r2"]
 [ext_resource type="Theme" uid="uid://d1r0k0noqn4vk" path="res://Entities/UI/primary_button.theme" id="2_8yi51"]
@@ -12,7 +12,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2uco"]
 
-[node name="card_data_editor" type="PanelContainer" node_paths=PackedStringArray("_statusLabel", "_newButton", "_saveButton", "_deleteButton", "_cardTitle", "_description", "_portraitSelector", "_cardTypeSelector", "_tagSelector", "_attributesEditor")]
+[node name="card_data_editor" type="PanelContainer" unique_id=1045517091 node_paths=PackedStringArray("_statusLabel", "_newButton", "_saveButton", "_deleteButton", "_cardTitle", "_description", "_portraitSelector", "_cardTypeSelector", "_tagSelector", "_attributesEditor")]
 offset_right = 635.0
 offset_bottom = 700.0
 size_flags_vertical = 3
@@ -28,17 +28,17 @@ _cardTypeSelector = NodePath("margin/vbox_container/scroll_container/margin/vbox
 _tagSelector = NodePath("margin/vbox_container/scroll_container/margin/vbox_container/tags/tags_selector")
 _attributesEditor = NodePath("margin/vbox_container/scroll_container/margin/vbox_container/attributes_editor")
 
-[node name="margin" type="MarginContainer" parent="."]
+[node name="margin" type="MarginContainer" parent="." unique_id=1186613742]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="vbox_container" type="VBoxContainer" parent="margin"]
+[node name="vbox_container" type="VBoxContainer" parent="margin" unique_id=1528092637]
 layout_mode = 2
 
-[node name="status_label" type="RichTextLabel" parent="margin/vbox_container"]
+[node name="status_label" type="RichTextLabel" parent="margin/vbox_container" unique_id=1742579033]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_t2uco")
 bbcode_enabled = true
@@ -50,91 +50,91 @@ horizontal_alignment = 2
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
-[node name="save_load" type="HBoxContainer" parent="margin/vbox_container"]
+[node name="save_load" type="HBoxContainer" parent="margin/vbox_container" unique_id=224102231]
 layout_mode = 2
 alignment = 2
 
-[node name="save_btn" type="Button" parent="margin/vbox_container/save_load"]
+[node name="save_btn" type="Button" parent="margin/vbox_container/save_load" unique_id=970661013]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme = ExtResource("2_dr5r6")
 disabled = true
 text = "Save"
 
-[node name="delete_btn" type="Button" parent="margin/vbox_container/save_load"]
+[node name="delete_btn" type="Button" parent="margin/vbox_container/save_load" unique_id=2138006475]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme = ExtResource("2_wht8j")
 disabled = true
 text = "Delete"
 
-[node name="new_btn" type="Button" parent="margin/vbox_container/save_load"]
+[node name="new_btn" type="Button" parent="margin/vbox_container/save_load" unique_id=1826127457]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme = ExtResource("2_8yi51")
 theme_type_variation = &"PrimaryButton"
 text = "New"
 
-[node name="title" type="HBoxContainer" parent="margin/vbox_container"]
+[node name="title" type="HBoxContainer" parent="margin/vbox_container" unique_id=1037242262]
 layout_mode = 2
 theme_override_constants/separation = 22
 
-[node name="title_label" type="Label" parent="margin/vbox_container/title"]
+[node name="title_label" type="Label" parent="margin/vbox_container/title" unique_id=1671381124]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Title:"
 horizontal_alignment = 2
 
-[node name="title_edit" type="LineEdit" parent="margin/vbox_container/title"]
+[node name="title_edit" type="LineEdit" parent="margin/vbox_container/title" unique_id=1190052306]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 editable = false
 
-[node name="HSeparator" type="HSeparator" parent="margin/vbox_container"]
+[node name="HSeparator" type="HSeparator" parent="margin/vbox_container" unique_id=1037227595]
 layout_mode = 2
 
-[node name="scroll_container" type="ScrollContainer" parent="margin/vbox_container"]
+[node name="scroll_container" type="ScrollContainer" parent="margin/vbox_container" unique_id=216257695]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="margin" type="MarginContainer" parent="margin/vbox_container/scroll_container"]
+[node name="margin" type="MarginContainer" parent="margin/vbox_container/scroll_container" unique_id=1242012197]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
 
-[node name="vbox_container" type="VBoxContainer" parent="margin/vbox_container/scroll_container/margin"]
+[node name="vbox_container" type="VBoxContainer" parent="margin/vbox_container/scroll_container/margin" unique_id=678572939]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="description" type="HBoxContainer" parent="margin/vbox_container/scroll_container/margin/vbox_container"]
+[node name="description" type="HBoxContainer" parent="margin/vbox_container/scroll_container/margin/vbox_container" unique_id=162069348]
 layout_mode = 2
 theme_override_constants/separation = 22
 
-[node name="desc_label" type="Label" parent="margin/vbox_container/scroll_container/margin/vbox_container/description"]
+[node name="desc_label" type="Label" parent="margin/vbox_container/scroll_container/margin/vbox_container/description" unique_id=1260886618]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_vertical = 1
 text = "Description:"
 horizontal_alignment = 2
 
-[node name="desc_edit" type="TextEdit" parent="margin/vbox_container/scroll_container/margin/vbox_container/description"]
+[node name="desc_edit" type="TextEdit" parent="margin/vbox_container/scroll_container/margin/vbox_container/description" unique_id=1989406391]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 size_flags_horizontal = 3
 editable = false
 autowrap_mode = 2
 
-[node name="portrait" type="HBoxContainer" parent="margin/vbox_container/scroll_container/margin/vbox_container"]
+[node name="portrait" type="HBoxContainer" parent="margin/vbox_container/scroll_container/margin/vbox_container" unique_id=739036492]
 layout_mode = 2
 theme_override_constants/separation = 22
 
-[node name="portrait_label" type="Label" parent="margin/vbox_container/scroll_container/margin/vbox_container/portrait"]
+[node name="portrait_label" type="Label" parent="margin/vbox_container/scroll_container/margin/vbox_container/portrait" unique_id=1787444206]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_vertical = 1
@@ -142,21 +142,21 @@ text = "Portrait:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="portrait_selector" parent="margin/vbox_container/scroll_container/margin/vbox_container/portrait" instance=ExtResource("2_ildny")]
+[node name="portrait_selector" parent="margin/vbox_container/scroll_container/margin/vbox_container/portrait" unique_id=2045606947 instance=ExtResource("2_ildny")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="card_type" type="HBoxContainer" parent="margin/vbox_container/scroll_container/margin/vbox_container"]
+[node name="card_type" type="HBoxContainer" parent="margin/vbox_container/scroll_container/margin/vbox_container" unique_id=1009795771]
 layout_mode = 2
 theme_override_constants/separation = 22
 
-[node name="card_type_label" type="Label" parent="margin/vbox_container/scroll_container/margin/vbox_container/card_type"]
+[node name="card_type_label" type="Label" parent="margin/vbox_container/scroll_container/margin/vbox_container/card_type" unique_id=181117785]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Card Type:"
 horizontal_alignment = 2
 
-[node name="card_type_selector" type="OptionButton" parent="margin/vbox_container/scroll_container/margin/vbox_container/card_type"]
+[node name="card_type_selector" type="OptionButton" parent="margin/vbox_container/scroll_container/margin/vbox_container/card_type" unique_id=1990390298]
 custom_minimum_size = Vector2(250, 30)
 layout_mode = 2
 disabled = true
@@ -172,22 +172,22 @@ popup/item_3/text = "Technology"
 popup/item_3/id = 3
 script = ExtResource("2_87lta")
 
-[node name="tags" type="HBoxContainer" parent="margin/vbox_container/scroll_container/margin/vbox_container"]
+[node name="tags" type="HBoxContainer" parent="margin/vbox_container/scroll_container/margin/vbox_container" unique_id=1571980087]
 layout_mode = 2
 
-[node name="tags_label" type="Label" parent="margin/vbox_container/scroll_container/margin/vbox_container/tags"]
+[node name="tags_label" type="Label" parent="margin/vbox_container/scroll_container/margin/vbox_container/tags" unique_id=1917534682]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_vertical = 1
 text = "Tags:"
 horizontal_alignment = 2
 
-[node name="tags_selector" type="GridContainer" parent="margin/vbox_container/scroll_container/margin/vbox_container/tags"]
+[node name="tags_selector" type="GridContainer" parent="margin/vbox_container/scroll_container/margin/vbox_container/tags" unique_id=628246573]
 layout_mode = 2
 columns = 4
 script = ExtResource("3_yh4g2")
 
-[node name="attributes_editor" parent="margin/vbox_container/scroll_container/margin/vbox_container" instance=ExtResource("8_7b87l")]
+[node name="attributes_editor" parent="margin/vbox_container/scroll_container/margin/vbox_container" unique_id=1588689810 instance=ExtResource("8_7b87l")]
 layout_mode = 2
 script = ExtResource("9_7b87l")
 _title = "Attributes:"

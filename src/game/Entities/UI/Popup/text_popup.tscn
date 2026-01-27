@@ -1,13 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://clw487na7ypbg"]
+[gd_scene format=3 uid="uid://clw487na7ypbg"]
 
-[ext_resource type="Script" uid="uid://cl0f6a58i2qn5" path="res://entities/ui/popup/PopupLabel.cs" id="1_o0r17"]
+[ext_resource type="Script" uid="uid://cl0f6a58i2qn5" path="res://Entities/UI/Popup/PopupLabel.cs" id="1_o0r17"]
 
-[node name="text_popup" type="CenterContainer" node_paths=PackedStringArray("Label")]
+[node name="text_popup" type="CenterContainer" unique_id=2069225489 node_paths=PackedStringArray("Label")]
 use_top_left = true
 script = ExtResource("1_o0r17")
 Label = NodePath("label")
 
-[node name="label" type="RichTextLabel" parent="."]
+[node name="label" type="RichTextLabel" parent="." unique_id=642259546]
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/normal_font_size = 55

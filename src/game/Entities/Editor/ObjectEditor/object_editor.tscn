@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bxlv4w3wwtsro"]
+[gd_scene format=3 uid="uid://bxlv4w3wwtsro"]
 
 [ext_resource type="Script" uid="uid://x85002jm1pxs" path="res://Entities/Editor/ObjectEditor/ObjectEditor.cs" id="1_qe2mh"]
 [ext_resource type="Theme" uid="uid://drpmjhbhww74k" path="res://Entities/UI/danger_button.theme" id="2_dsaro"]
@@ -18,7 +18,7 @@ font_color = Color(0.9411765, 0.8980392, 0.76862746, 1)
 shadow_size = 2
 shadow_color = Color(0, 0, 0, 0.5176471)
 
-[node name="attribute_editor" type="PanelContainer"]
+[node name="object_editor" type="PanelContainer" unique_id=135553869]
 anchors_preset = 10
 anchor_right = 1.0
 offset_right = -1320.0
@@ -29,36 +29,36 @@ size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_n8ylx")
 script = ExtResource("1_qe2mh")
 
-[node name="margin" type="MarginContainer" parent="."]
+[node name="margin" type="MarginContainer" parent="." unique_id=1555271693]
 layout_mode = 2
 
-[node name="vbox_container" type="VBoxContainer" parent="margin"]
+[node name="vbox_container" type="VBoxContainer" parent="margin" unique_id=1240116694]
 layout_mode = 2
 
-[node name="hbox_container" type="HBoxContainer" parent="margin/vbox_container"]
+[node name="hbox_container" type="HBoxContainer" parent="margin/vbox_container" unique_id=280672797]
 layout_mode = 2
 
-[node name="close_button" type="Button" parent="margin/vbox_container/hbox_container"]
+[node name="close_button" type="Button" parent="margin/vbox_container/hbox_container" unique_id=1603427052]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 theme = ExtResource("2_dsaro")
 text = "X"
 
-[node name="name_label" type="Label" parent="margin/vbox_container/hbox_container"]
+[node name="name_label" type="Label" parent="margin/vbox_container/hbox_container" unique_id=1993165997]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Object Name"
 label_settings = SubResource("LabelSettings_n8ylx")
 
-[node name="separator" type="HSeparator" parent="margin/vbox_container"]
+[node name="separator" type="HSeparator" parent="margin/vbox_container" unique_id=2095310493]
 layout_mode = 2
 
-[node name="properties_container" type="GridContainer" parent="margin/vbox_container"]
+[node name="properties_container" type="GridContainer" parent="margin/vbox_container" unique_id=54093031]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 4
 
-[node name="custom_editor_container" type="PanelContainer" parent="margin/vbox_container"]
+[node name="custom_editor_container" type="PanelContainer" parent="margin/vbox_container" unique_id=283212018]
 unique_name_in_owner = true
 layout_mode = 2

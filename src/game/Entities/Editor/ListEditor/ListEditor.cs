@@ -111,11 +111,12 @@ public partial class ListEditor<T> : PanelContainer, IListEditor<T>
 	private void AddNewEditor(T source)
 	{
 		var editor = _objectEditor.Instantiate<IObjectEditor>();
+		_editorsContainer.AddChild(editor.GetControl());
 		editor.Load(title: $"{source.GetType().Name.Replace("Attribute", string.Empty).PrettyPrint()}",
 			source: source,
 			allowDelete: true);
 
-		_editorsContainer.AddChild(editor.GetControl());
+
 	}
 
 	private void ClearSelector()

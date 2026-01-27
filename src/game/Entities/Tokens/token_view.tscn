@@ -1,22 +1,22 @@
-[gd_scene load_steps=5 format=3 uid="uid://civascfpgtcfj"]
+[gd_scene format=3 uid="uid://civascfpgtcfj"]
 
 [ext_resource type="Script" uid="uid://b340kxtaahvhy" path="res://Entities/Tokens/TokenView.cs" id="1_vbu4k"]
 [ext_resource type="Texture2D" uid="uid://cnjl66dtkfg3x" path="res://Entities/Tokens/TokenIcons/missing_icon.png" id="2_csv2c"]
 [ext_resource type="PackedScene" uid="uid://cj1p8gfhgt3q8" path="res://Entities/Maps/tile_glow_blue.tscn" id="5_76c6l"]
 [ext_resource type="PackedScene" uid="uid://m38hf45snpq8" path="res://Entities/Maps/tile_glow_red.tscn" id="6_6mhrd"]
 
-[node name="token_view" type="Node2D" node_paths=PackedStringArray("_image")]
+[node name="token_view" type="Node2D" unique_id=144179664 node_paths=PackedStringArray("_image")]
 script = ExtResource("1_vbu4k")
 _image = NodePath("token_sprite")
 
-[node name="token_sprite" type="Sprite2D" parent="."]
+[node name="token_sprite" type="Sprite2D" parent="." unique_id=547653733]
 texture = ExtResource("2_csv2c")
 hframes = 2
 frame = 1
 region_rect = Rect2(480, 280, 120, 140)
 
-[node name="glow_ally" parent="." instance=ExtResource("5_76c6l")]
+[node name="glow_ally" parent="." unique_id=1328632198 instance=ExtResource("5_76c6l")]
 visible = false
 
-[node name="glow_enemy" parent="." instance=ExtResource("6_6mhrd")]
+[node name="glow_enemy" parent="." unique_id=1378863881 instance=ExtResource("6_6mhrd")]
 visible = false

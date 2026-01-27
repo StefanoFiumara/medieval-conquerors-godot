@@ -1,14 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjocqbvli4dlx"]
+[gd_scene format=3 uid="uid://cjocqbvli4dlx"]
 
 [ext_resource type="Script" uid="uid://b6dg1rqpebp4j" path="res://Entities/UI/TurnBanner/TurnBanner.cs" id="1_t2j4n"]
 [ext_resource type="FontFile" uid="uid://bnndeil6c3twa" path="res://Fonts/QUILLPN.TTF" id="2_h3oap"]
 
-[node name="turn_banner" type="Control"]
+[node name="turn_banner" type="Control" unique_id=2066553136]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_t2j4n")
 
-[node name="background" type="ColorRect" parent="."]
+[node name="background" type="ColorRect" parent="." unique_id=2014905786]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 14
@@ -23,13 +23,13 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.698039)
 
-[node name="center_container" type="CenterContainer" parent="."]
+[node name="center_container" type="CenterContainer" parent="." unique_id=352036075]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 mouse_filter = 2
 
-[node name="turn_text" type="RichTextLabel" parent="center_container"]
+[node name="turn_text" type="RichTextLabel" parent="center_container" unique_id=279904045]
 unique_name_in_owner = true
 clip_contents = false
 layout_mode = 2

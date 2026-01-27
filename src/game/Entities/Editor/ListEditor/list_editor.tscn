@@ -1,58 +1,58 @@
-[gd_scene load_steps=3 format=3 uid="uid://dgv8gpi0yws5m"]
+[gd_scene format=3 uid="uid://dgv8gpi0yws5m"]
 
 [ext_resource type="Theme" uid="uid://drpmjhbhww74k" path="res://Entities/UI/danger_button.theme" id="1_lxxip"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hrs53"]
 
-[node name="list_editor" type="PanelContainer"]
+[node name="list_editor" type="PanelContainer" unique_id=809270628]
 offset_right = 409.0
 offset_bottom = 35.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_hrs53")
 
-[node name="margin" type="MarginContainer" parent="."]
+[node name="margin" type="MarginContainer" parent="." unique_id=680339481]
 layout_mode = 2
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 5
 
-[node name="vbox" type="VBoxContainer" parent="margin"]
+[node name="vbox" type="VBoxContainer" parent="margin" unique_id=1611764970]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="margin" type="MarginContainer" parent="margin/vbox"]
+[node name="margin" type="MarginContainer" parent="margin/vbox" unique_id=1828371892]
 layout_mode = 2
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 5
 
-[node name="editor_controls" type="HBoxContainer" parent="margin/vbox/margin"]
+[node name="editor_controls" type="HBoxContainer" parent="margin/vbox/margin" unique_id=590667808]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 22
 
-[node name="close_button" type="Button" parent="margin/vbox/margin/editor_controls"]
+[node name="close_button" type="Button" parent="margin/vbox/margin/editor_controls" unique_id=2083137133]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 theme = ExtResource("1_lxxip")
 text = "X"
 
-[node name="title_label" type="Label" parent="margin/vbox/margin/editor_controls"]
+[node name="title_label" type="Label" parent="margin/vbox/margin/editor_controls" unique_id=259211888]
 unique_name_in_owner = true
 layout_mode = 2
 text = "List Title"
 horizontal_alignment = 2
 
-[node name="add_item_btn" type="Button" parent="margin/vbox/margin/editor_controls"]
+[node name="add_item_btn" type="Button" parent="margin/vbox/margin/editor_controls" unique_id=2006409899]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 disabled = true
 text = "Add"
 
-[node name="HSeparator" type="HSeparator" parent="margin/vbox"]
+[node name="HSeparator" type="HSeparator" parent="margin/vbox" unique_id=533606510]
 layout_mode = 2
 
-[node name="editors_container" type="VBoxContainer" parent="margin/vbox"]
+[node name="editors_container" type="VBoxContainer" parent="margin/vbox" unique_id=1945904553]
 unique_name_in_owner = true
 layout_mode = 2

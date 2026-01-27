@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://bh6f2471u0ypf"]
+[gd_scene format=3 uid="uid://bh6f2471u0ypf"]
 
 [ext_resource type="Script" uid="uid://bgh7ch87f3kte" path="res://Entities/Editor/ImageSelector.cs" id="1_2gbvt"]
 [ext_resource type="Texture2D" uid="uid://t8kfbb2udl4b" path="res://Entities/Cards/Portraits/knight_icon.png" id="2_55wk2"]
 [ext_resource type="Texture2D" uid="uid://b8d053ianc1ck" path="res://Entities/Cards/Portraits/lumber_camp_icon.png" id="3_bmkd0"]
 
-[node name="image_selector" type="HBoxContainer" node_paths=PackedStringArray("_imageOptions", "_refreshButton")]
+[node name="image_selector" type="HBoxContainer" unique_id=1495159977 node_paths=PackedStringArray("_imageOptions", "_refreshButton")]
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
@@ -17,12 +17,12 @@ script = ExtResource("1_2gbvt")
 _imageOptions = NodePath("image_options")
 _refreshButton = NodePath("refresh_btn")
 
-[node name="image_options" type="OptionButton" parent="."]
+[node name="image_options" type="OptionButton" parent="." unique_id=937156683]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
-item_count = 6
 selected = 0
+item_count = 6
 popup/item_0/text = "None"
 popup/item_0/id = 0
 popup/item_1/text = "knight.png"
@@ -40,7 +40,7 @@ popup/item_5/text = "lumbercamp.png"
 popup/item_5/icon = ExtResource("3_bmkd0")
 popup/item_5/id = 5
 
-[node name="refresh_btn" type="Button" parent="."]
+[node name="refresh_btn" type="Button" parent="." unique_id=1252641890]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 text = "Refresh"

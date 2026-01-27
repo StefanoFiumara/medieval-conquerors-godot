@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://ckaet07qewjtq"]
+[gd_scene format=3 uid="uid://ckaet07qewjtq"]
 
-[ext_resource type="Texture2D" uid="uid://ctrpqu56cavdf" path="res://entities/maps/hex_tile_spritesheet.png" id="1_wp4v5"]
+[ext_resource type="Texture2D" uid="uid://ctrpqu56cavdf" path="res://Entities/Maps/hex_tile_spritesheet.png" id="1_wp4v5"]
 
 [sub_resource type="Animation" id="Animation_iilee"]
 resource_name = "glow"
@@ -23,14 +23,12 @@ _data = {
 &"glow": SubResource("Animation_iilee")
 }
 
-[node name="tile_glow" type="Sprite2D"]
+[node name="tile_glow" type="Sprite2D" unique_id=348747889]
 modulate = Color(1, 1, 1, 0.97306)
 texture = ExtResource("1_wp4v5")
 region_enabled = true
 region_rect = Rect2(720, 0, 120, 140)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_ne3wb")
-}
-autoplay = "glow"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=484917841]
+libraries/ = SubResource("AnimationLibrary_ne3wb")
+autoplay = &"glow"

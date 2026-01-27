@@ -1,12 +1,9 @@
-[gd_resource type="Resource" script_class="GameSettings" load_steps=2 format=3 uid="uid://ejs7dyka7per"]
+[gd_resource type="Resource" script_class="GameSettings" format=3 uid="uid://ejs7dyka7per"]
 
 [ext_resource type="Script" uid="uid://cg5q35wlptmhs" path="res://Engine/Data/GameSettings.cs" id="1_o32wb"]
 
 [resource]
 script = ExtResource("1_o32wb")
-StartingHandCount = 6
-DebugMode = false
 StartingFoodCount = 50
 StartingWoodCount = 50
 StartingGoldCount = 10
-StartingStoneCount = 0

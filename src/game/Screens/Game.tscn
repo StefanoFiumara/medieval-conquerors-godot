@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7sn0comtrj6j"]
+[gd_scene format=3 uid="uid://b7sn0comtrj6j"]
 
 [ext_resource type="Script" uid="uid://dydfva8fgyoik" path="res://Screens/GameController.cs" id="1_vplxf"]
 [ext_resource type="Resource" uid="uid://ejs7dyka7per" path="res://GameData/GameSettings.tres" id="2_8slby"]
@@ -7,24 +7,24 @@
 [ext_resource type="PackedScene" uid="uid://dpol2wnv6wd" path="res://Entities/UI/Gameplay/player_ui_panel.tscn" id="5_o2ecv"]
 [ext_resource type="PackedScene" uid="uid://cjocqbvli4dlx" path="res://Entities/UI/TurnBanner/turn_banner.tscn" id="6_yiqty"]
 
-[node name="game_controller" type="Node" node_paths=PackedStringArray("_mapView")]
+[node name="game_controller" type="Node" unique_id=808171217 node_paths=PackedStringArray("_mapView")]
 script = ExtResource("1_vplxf")
 _logLevel = 1
 _settings = ExtResource("2_8slby")
 _mapView = NodePath("map_view")
 
-[node name="map_view" parent="." instance=ExtResource("3_y6ti3")]
+[node name="map_view" parent="." unique_id=350990305 instance=ExtResource("3_y6ti3")]
 position = Vector2(947, 573)
 
-[node name="hand_view" parent="." node_paths=PackedStringArray("_mapView") instance=ExtResource("4_tgpsp")]
+[node name="hand_view" parent="." unique_id=317654498 node_paths=PackedStringArray("_mapView") instance=ExtResource("4_tgpsp")]
 z_index = 1000
 _mapView = NodePath("../map_view")
 
-[node name="ui_layer" type="CanvasLayer" parent="."]
+[node name="ui_layer" type="CanvasLayer" parent="." unique_id=1529957060]
 follow_viewport_enabled = true
 
-[node name="ui_panel" parent="ui_layer" node_paths=PackedStringArray("_gameController") instance=ExtResource("5_o2ecv")]
+[node name="ui_panel" parent="ui_layer" unique_id=1462808440 node_paths=PackedStringArray("_gameController") instance=ExtResource("5_o2ecv")]
 _gameController = NodePath("../..")
 
-[node name="turn_banner" parent="ui_layer" node_paths=PackedStringArray("_gameController") instance=ExtResource("6_yiqty")]
+[node name="turn_banner" parent="ui_layer" unique_id=452334110 node_paths=PackedStringArray("_gameController") instance=ExtResource("6_yiqty")]
 _gameController = NodePath("../..")
