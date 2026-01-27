@@ -8,9 +8,6 @@ namespace MedievalConquerors.Entities.Editor;
 
 public partial class ActionDefinitionEditor : PanelContainer, IObjectEditor<ActionDefinition>
 {
-	
-	private static PackedScene _paramEditorScene = GD.Load<PackedScene>("uid://bhmiifttu4eln");
-
 	public Control GetControl() => this;
 
 	public void Load(string title, ActionDefinition source, bool allowDelete = false)
@@ -23,7 +20,7 @@ public partial class ActionDefinitionEditor : PanelContainer, IObjectEditor<Acti
 			// TODO: Create an editor for each parameter
 			// TODO: Can we use IValueEditor here? these parameters should all be primitives
 		}
-		
+
 	}
 
 	private Dictionary<string, Type> GetParameters(Type actionType)

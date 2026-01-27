@@ -9,8 +9,19 @@ namespace MedievalConquerors.Entities.Editor;
 
 public static class EditorFactory
 {
-	private static readonly PackedScene _objectEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
 	private static readonly Dictionary<Type, Func<IValueEditor>> _valueEditorRegistry = [];
+
+	static EditorFactory()
+	{
+		// TODO: Object editors?
+		// Value editors
+		RegisterValueEditor(typeof(string), typeof(StringEditor));
+		RegisterValueEditor(typeof(int), typeof(IntEditor));
+		RegisterValueEditor(typeof(float), typeof(FloatEditor));
+		RegisterValueEditor(typeof(CardType), typeof(CardTypeOptions));
+		RegisterValueEditor(typeof(ResourceType), typeof(ResourceOptions));
+		RegisterValueEditor(typeof(Tags), () => new TagSelector { Columns = 2 });
+	}
 
 	public static IValueEditor CreateValueEditor(Type type)
 	{
@@ -24,28 +35,20 @@ public static class EditorFactory
 		return editor;
 	}
 
-	// TODO: Combine Object Editor and Value Editors into the same registry.
-	// TODO: Do we need to support registering an editor with a scene UID?
-	public static IObjectEditor CreateObjectEditor(Type type)
+	public static IObjectEditor CreateCustomEditor(Type type)
 	{
-		GD.Print($"Creating Editor for {type.Name}");
-		// TODO: Create registry for Object Editors
-		// TODO: Add support for custom attribute editors (e.g. ability editor)
-		// IDEA: can this registry be incorporated in EditorFactory?
-		return _objectEditor.Instantiate<ObjectEditor>();
+		// TODO: Register custom editors
+		return null;
 	}
 
-	static EditorFactory()
-	{
-		// TODO: Object editors?
-		// Value editors
-		RegisterValueEditor(typeof(string), typeof(StringEditor));
-		RegisterValueEditor(typeof(int), typeof(IntEditor));
-		RegisterValueEditor(typeof(float), typeof(FloatEditor));
-		RegisterValueEditor(typeof(CardType), typeof(CardTypeOptions));
-		RegisterValueEditor(typeof(ResourceType), typeof(ResourceOptions));
-		RegisterValueEditor(typeof(Tags), () => new TagSelector { Columns = 2 });
-	}
+	/*
+	 * IDEA: Custom Object Editor Registry
+	 *		- Generic Object Editor is parent object
+	 *		- Register custom IObjectEditor<T> with a scene UID
+	 *		- In Generic object editor creation, check if we have a registered editor for type T
+	 *		- If so, instantiate that scene instead of using properties container.
+	 */
+
 
 	private static bool IsRegistered(Type type) => _valueEditorRegistry.ContainsKey(type);
 

@@ -11,7 +11,6 @@ public interface IEditor
     void Disable();
 }
 
-// TODO: Combine Object Editor and Value Editors into the same interface hierarchy.
 public interface IValueEditor : IEditor
 {
     object GetValue();

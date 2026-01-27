@@ -10,6 +10,8 @@ namespace MedievalConquerors.Entities.Editor;
 public partial class ListEditor<T> : PanelContainer, IListEditor<T>
 	where T : class
 {
+	private static readonly PackedScene _objectEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
+
 	[Export] private string _title;
 	[Export] private bool _allowDelete;
 
@@ -108,11 +110,12 @@ public partial class ListEditor<T> : PanelContainer, IListEditor<T>
 
 	private void AddNewEditor(T source)
 	{
-		var editor = EditorFactory.CreateObjectEditor(source.GetType());
-		_editorsContainer.AddChild(editor.GetControl());
+		var editor = _objectEditor.Instantiate<IObjectEditor>();
 		editor.Load(title: $"{source.GetType().Name.Replace("Attribute", string.Empty).PrettyPrint()}",
 			source: source,
 			allowDelete: true);
+
+		_editorsContainer.AddChild(editor.GetControl());
 	}
 
 	private void ClearSelector()

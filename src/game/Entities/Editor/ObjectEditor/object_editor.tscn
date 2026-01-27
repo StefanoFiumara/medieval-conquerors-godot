@@ -58,3 +58,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 columns = 4
+
+[node name="custom_editor_container" type="PanelContainer" parent="margin/vbox_container"]
+unique_name_in_owner = true
+layout_mode = 2

@@ -11,6 +11,8 @@ public partial class ObjectEditor : PanelContainer, IObjectEditor
 	private Label _titleLabel;
 	private Button _removeButton;
 	private GridContainer _propertiesContainer;
+	private PanelContainer _customEditorContainer;
+	private IObjectEditor _customEditor;
 
 	public Type ObjectType { get; private set; }
 
@@ -19,6 +21,7 @@ public partial class ObjectEditor : PanelContainer, IObjectEditor
 		_titleLabel = GetNode<Label>("%name_label");
 		_removeButton = GetNode<Button>("%close_button");
 		_propertiesContainer = GetNode<GridContainer>("%properties_container");
+		_customEditorContainer = GetNode<PanelContainer>("%custom_editor_container");
 
 		_removeButton.Connect(BaseButton.SignalName.Pressed, Callable.From(QueueFree));
 	}
@@ -30,6 +33,9 @@ public partial class ObjectEditor : PanelContainer, IObjectEditor
 			GD.PrintErr($"Attempted to create Object from ObjectEditor without calling Load()");
 			return null;
 		}
+
+		if (_customEditor != null)
+			return _customEditor.Create();
 
 		var result = Activator.CreateInstance(ObjectType);
 
@@ -49,18 +55,32 @@ public partial class ObjectEditor : PanelContainer, IObjectEditor
 		_titleLabel.Text = title ?? string.Empty;
 		_removeButton.Visible = allowDelete;
 
-		var props = ObjectType.GetProperties()
-			.Where(p => p.GetSetMethod() != null)
-			.ToList();
-
-		foreach (var prop in props)
+		_customEditor = EditorFactory.CreateCustomEditor(ObjectType);
+		if (_customEditor != null)
 		{
-			var editor = _propertyEditor.Instantiate<PropertyEditor>();
-			_propertiesContainer.AddChild(editor);
-			editor.Load(prop);
+			_propertiesContainer.Visible = false;
+			_customEditorContainer.Visible = true;
+			_customEditor.Load(string.Empty, source, allowDelete: false);
+			_customEditorContainer.AddChild(_customEditor.GetControl());
+		}
+		else
+		{
+			_propertiesContainer.Visible = true;
+			_customEditorContainer.Visible = false;
 
-			var propValue = prop.GetValue(source);
-			editor.SetValue(propValue);
+			var props = ObjectType.GetProperties()
+				.Where(p => p.GetSetMethod() != null)
+				.ToList();
+
+			foreach (var prop in props)
+			{
+				var editor = _propertyEditor.Instantiate<PropertyEditor>();
+				_propertiesContainer.AddChild(editor);
+				editor.Load(prop);
+
+				var propValue = prop.GetValue(source);
+				editor.SetValue(propValue);
+			}
 		}
 	}
 
@@ -68,12 +88,16 @@ public partial class ObjectEditor : PanelContainer, IObjectEditor
 	{
 		foreach (var editor in _propertiesContainer.GetChildren().OfType<PropertyEditor>())
 			editor.Enable();
+
+		_customEditor?.Enable();
 	}
 
 	public void Disable()
 	{
 		foreach (var editor in _propertiesContainer.GetChildren().OfType<PropertyEditor>())
 			editor.Disable();
+
+		_customEditor?.Disable();
 	}
 
 	public Control GetControl() => this;

@@ -1,3 +1,4 @@
+using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Entities.Editor;
