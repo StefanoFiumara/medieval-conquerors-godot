@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://c7w7oi0ih5jku"]
+
+[ext_resource type="PackedScene" uid="uid://r8nd3ueedopk" path="res://Screens/Editor/Scenes/LibraryEditor/library_editor.tscn" id="1_ojog6"]
+[ext_resource type="PackedScene" uid="uid://b7rdfip0s4fyf" path="res://Screens/Editor/Scenes/CardDataEditor/card_data_editor.tscn" id="2_8rjn7"]
+
+[node name="editor-container" type="VBoxContainer" unique_id=75646481]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="margin" type="MarginContainer" parent="." unique_id=1806745504]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="split_container" type="HSplitContainer" parent="margin" unique_id=227729684]
+layout_mode = 2
+size_flags_vertical = 3
+split_offsets = PackedInt32Array(700)
+dragging_enabled = false
+split_offset = 700
+
+[node name="card_library" parent="margin/split_container" unique_id=660874579 instance=ExtResource("1_ojog6")]
+layout_mode = 2
+
+[node name="card_data_editor" parent="margin/split_container" unique_id=1949881826 node_paths=PackedStringArray("_libraryEditor") instance=ExtResource("2_8rjn7")]
+layout_mode = 2
+_libraryEditor = NodePath("../card_library")

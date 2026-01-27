@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://r8nd3ueedopk"]
+
+[ext_resource type="Script" uid="uid://cvjouoabxxh10" path="res://Screens/Editor/Scenes/LibraryEditor/LibraryEditor.cs" id="1_i0g1s"]
+[ext_resource type="Script" uid="uid://b8d65eblp6du5" path="res://Editors/ObjectEditor/CustomEditors/ValueEditors/TagSelector.cs" id="2_tgu0f"]
+[ext_resource type="Script" uid="uid://0xeajluhirkr" path="res://Editors/Options/CardTypeOptions.cs" id="3_f4rss"]
+
+[node name="library_editor" type="PanelContainer" unique_id=1473913273 node_paths=PackedStringArray("_clearButton", "_searchInput", "_tagFilter", "_typeFilter", "_resultsContainer")]
+custom_minimum_size = Vector2(300, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1285.0
+offset_bottom = -380.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+script = ExtResource("1_i0g1s")
+_clearButton = NodePath("margin/library_vbox_container/clear_margin/clear_btn")
+_searchInput = NodePath("margin/library_vbox_container/search_container/search_input")
+_tagFilter = NodePath("margin/library_vbox_container/tag_filter_container/tag_filter")
+_typeFilter = NodePath("margin/library_vbox_container/type_filter_container/type_filter")
+_resultsContainer = NodePath("margin/library_vbox_container/results_container")
+
+[node name="margin" type="MarginContainer" parent="." unique_id=1897498452]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="library_vbox_container" type="VBoxContainer" parent="margin" unique_id=2039650393]
+layout_mode = 2
+
+[node name="clear_margin" type="MarginContainer" parent="margin/library_vbox_container" unique_id=2127820102]
+layout_mode = 2
+theme_override_constants/margin_left = 115
+
+[node name="clear_btn" type="Button" parent="margin/library_vbox_container/clear_margin" unique_id=871109210]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Clear"
+
+[node name="search_container" type="HBoxContainer" parent="margin/library_vbox_container" unique_id=800155059]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="search_label" type="Label" parent="margin/library_vbox_container/search_container" unique_id=1568662055]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Search: "
+horizontal_alignment = 2
+
+[node name="search_input" type="LineEdit" parent="margin/library_vbox_container/search_container" unique_id=1579288057]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="tag_filter_container" type="HBoxContainer" parent="margin/library_vbox_container" unique_id=492381608]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="tag_label" type="Label" parent="margin/library_vbox_container/tag_filter_container" unique_id=1707807552]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Tags:"
+horizontal_alignment = 2
+
+[node name="tag_filter" type="GridContainer" parent="margin/library_vbox_container/tag_filter_container" unique_id=535693973]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 4
+script = ExtResource("2_tgu0f")
+
+[node name="type_filter_container" type="HBoxContainer" parent="margin/library_vbox_container" unique_id=763931261]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="tag_label" type="Label" parent="margin/library_vbox_container/type_filter_container" unique_id=1263451593]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Type:"
+horizontal_alignment = 2
+
+[node name="type_filter" type="OptionButton" parent="margin/library_vbox_container/type_filter_container" unique_id=457298264]
+custom_minimum_size = Vector2(250, 30)
+layout_mode = 2
+selected = 0
+item_count = 4
+popup/item_0/text = "None"
+popup/item_0/id = 0
+popup/item_1/text = "Building"
+popup/item_1/id = 1
+popup/item_2/text = "Unit"
+popup/item_2/id = 2
+popup/item_3/text = "Technology"
+popup/item_3/id = 3
+script = ExtResource("3_f4rss")
+
+[node name="separator" type="HSeparator" parent="margin/library_vbox_container" unique_id=582741004]
+layout_mode = 2
+
+[node name="results_container" type="ItemList" parent="margin/library_vbox_container" unique_id=1464859476]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+fixed_icon_size = Vector2i(64, 64)

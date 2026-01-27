@@ -2,7 +2,20 @@
 
 [ext_resource type="Script" uid="uid://c5ftsyqphp4r" path="res://Entities/UI/Gameplay/PlayerUiPanel.cs" id="1_miglb"]
 [ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://Entities/UI/Gameplay/resource_icons.png" id="2_lwx21"]
+[ext_resource type="FontFile" uid="uid://bnndeil6c3twa" path="res://Fonts/QUILLPN.TTF" id="3_wjjp0"]
+[ext_resource type="Theme" uid="uid://d1r0k0noqn4vk" path="res://Entities/UI/primary_button.theme" id="5_vx6qn"]
 [ext_resource type="Texture2D" uid="uid://cus8a0bckc5rh" path="res://Entities/UI/Gameplay/deck.png" id="7_fypch"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_vx6qn"]
+font = ExtResource("3_wjjp0")
+font_size = 18
+font_color = Color(1, 0.850752, 0.5591886, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wjjp0"]
+font = ExtResource("3_wjjp0")
+font_size = 24
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_34lmq"]
 
 [node name="ui_panel" type="MarginContainer" unique_id=2043956323]
 anchors_preset = 15
@@ -150,6 +163,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "I - Dark Age"
+label_settings = SubResource("LabelSettings_vx6qn")
 
 [node name="deck_container" type="CenterContainer" parent="." unique_id=289772256]
 layout_mode = 2
@@ -166,11 +180,8 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="deck_grid" type="GridContainer" parent="deck_container/deck_panel/margin" unique_id=921596898]
+[node name="deck_grid" type="HBoxContainer" parent="deck_container/deck_panel/margin" unique_id=1541409308]
 layout_mode = 2
-theme_override_constants/h_separation = 15
-theme_override_constants/v_separation = 5
-columns = 2
 
 [node name="deck_icon" type="TextureRect" parent="deck_container/deck_panel/margin/deck_grid" unique_id=286715596]
 layout_mode = 2
@@ -178,19 +189,29 @@ texture = ExtResource("7_fypch")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="deck_label" type="Label" parent="deck_container/deck_panel/margin/deck_grid" unique_id=1868144662]
+[node name="margin" type="MarginContainer" parent="deck_container/deck_panel/margin/deck_grid" unique_id=584696626]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="deck_label" type="Label" parent="deck_container/deck_panel/margin/deck_grid/margin" unique_id=1868144662]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 45
 text = "30"
-horizontal_alignment = 2
+label_settings = SubResource("LabelSettings_wjjp0")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="end_turn_container" type="PanelContainer" parent="." unique_id=1089249947]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_34lmq")
 
 [node name="margin" type="MarginContainer" parent="end_turn_container" unique_id=2074979528]
 layout_mode = 2
@@ -200,5 +221,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 120)
 layout_mode = 2
 focus_mode = 0
+theme = ExtResource("5_vx6qn")
 theme_override_font_sizes/font_size = 35
 text = "End Turn"

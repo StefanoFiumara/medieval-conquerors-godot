@@ -3,7 +3,7 @@ using System.Linq;
 using Fano.ASCIITableUtil;
 using Godot;
 using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Extensions;
+using MedievalConquerors.Engine.Extensions;
 using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Engine;
