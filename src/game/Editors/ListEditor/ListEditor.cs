@@ -10,6 +10,7 @@ namespace MedievalConquerors.Editors.ListEditor;
 public partial class ListEditor<T> : PanelContainer, IListEditor<T>
 	where T : class
 {
+	// TODO: Extract all PackedScene references to an external static class?
 	private static readonly PackedScene _objectEditor = GD.Load<PackedScene>("uid://bxlv4w3wwtsro");
 
 	[Export] private string _title;
@@ -33,8 +34,6 @@ public partial class ListEditor<T> : PanelContainer, IListEditor<T>
 		_addButton = GetNode<Button>("%add_item_btn");
 		_editorsContainer = GetNode<VBoxContainer>("%editors_container");
 
-		// TODO: If custom EditorScene is set, see if we can validate the script of
-		//		 the scene's root node implements IObjectEditor (without using Instantiate<T> ?)
 		_titleLabel.Text = _title ?? string.Empty;
 		_removeButton.Visible = _allowDelete;
 

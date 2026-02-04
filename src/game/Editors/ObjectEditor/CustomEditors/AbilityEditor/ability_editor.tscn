@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://0mtj5brwuwu4" path="res://Editors/ObjectEditor/CustomEditors/AbilityEditor/AbilityEditor.cs" id="1_6a6eb"]
 [ext_resource type="Script" uid="uid://cpi4a62ruj4mw" path="res://Editors/ObjectEditor/CustomEditors/AbilityEditor/ActionDefinitionsEditor.cs" id="2_6a6eb"]
+[ext_resource type="PackedScene" uid="uid://byvjgctld2qh5" path="res://Editors/ObjectEditor/object_editor_compact.tscn" id="3_0qdav"]
 [ext_resource type="Theme" uid="uid://drpmjhbhww74k" path="res://Entities/UI/danger_button.theme" id="3_6a6eb"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hrs53"]
@@ -20,6 +21,7 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_hrs53")
 script = ExtResource("2_6a6eb")
 _title = "Actions"
+_customEditorScene = ExtResource("3_0qdav")
 
 [node name="margin" type="MarginContainer" parent="action_definitions_editor" unique_id=680339481]
 layout_mode = 2
