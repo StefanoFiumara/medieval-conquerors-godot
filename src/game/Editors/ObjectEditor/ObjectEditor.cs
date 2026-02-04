@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using Godot;
 using MedievalConquerors.Editors.CustomEditors;
+using MedievalConquerors.Editors.CustomEditors.AbilityEditor;
+using MedievalConquerors.Engine.Extensions;
 
 namespace MedievalConquerors.Editors;
 
@@ -61,8 +63,11 @@ public partial class ObjectEditor : PanelContainer, IObjectEditor
 		{
 			_propertiesContainer.Visible = false;
 			_customEditorContainer.Visible = true;
-			_customEditor.Load(string.Empty, source, allowDelete: false);
 			_customEditorContainer.AddChild(_customEditor.GetControl());
+			_customEditor.Load(string.Empty, source, allowDelete: false);
+			// TODO: Not sure I love this approach - but it works for now.
+			if (_customEditor is ITitleOverride t)
+				_titleLabel.Text = t.Title;
 		}
 		else
 		{

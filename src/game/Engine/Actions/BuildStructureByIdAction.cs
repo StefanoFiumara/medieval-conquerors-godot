@@ -15,7 +15,7 @@ public class BuildStructureByIdAction(int cardId, int ownerId, Vector2I targetTi
 
     public BuildStructureByIdAction() : this(-1, -1, HexMap.None) { }
 
-    public static Dictionary<string, Type> GetParameters(Type actionType) =>
+    public static Dictionary<string, Type> GetParameters() =>
         new()
         {
             { nameof(CardId), typeof(int) }

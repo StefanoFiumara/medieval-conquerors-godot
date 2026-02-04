@@ -72,6 +72,6 @@ public class GameAction
 
 public interface IAbilityLoader
 {
-    static abstract Dictionary<string, Type> GetParameters(Type actionType);
+    static abstract Dictionary<string, Type> GetParameters();
     void Load(IGame game, Card card, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile);
 }

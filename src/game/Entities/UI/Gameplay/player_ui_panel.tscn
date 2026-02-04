@@ -208,7 +208,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_34lmq")
 
 [node name="end_turn_button" type="Button" parent="end_turn_container" unique_id=1408476829]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(250, 120)
+custom_minimum_size = Vector2(225, 75)
 layout_mode = 2
 focus_mode = 0
 theme = ExtResource("5_vx6qn")

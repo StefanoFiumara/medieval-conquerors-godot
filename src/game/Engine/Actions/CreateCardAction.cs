@@ -23,7 +23,7 @@ public class CreateCardAction(int cardId, int targetPlayerId, Zone targetZone, i
         return $"CreateCardAction: Player {TargetPlayerId} creates {Amount} card(s) (ID: {CardId}) in {TargetZone}";
     }
 
-    public static Dictionary<string, Type> GetParameters(Type actionType) =>
+    public static Dictionary<string, Type> GetParameters() =>
         new()
         {
             { nameof(TargetPlayerId), typeof(PlayerTarget) },

@@ -20,7 +20,7 @@ public class DrawCardsAction(int targetPlayerId, int amount) : GameAction, IAbil
         return $"DrawCardsAction: Player {TargetPlayerId} Draws {Amount} card(s)";
     }
 
-    public static Dictionary<string, Type> GetParameters(Type actionType) =>
+    public static Dictionary<string, Type> GetParameters() =>
         new()
         {
             { nameof(TargetPlayerId), typeof(PlayerTarget) },

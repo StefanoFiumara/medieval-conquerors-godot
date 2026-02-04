@@ -14,6 +14,7 @@ public partial class ListEditor<T> : PanelContainer, IListEditor<T>
 
 	[Export] private string _title;
 	[Export] private bool _allowDelete;
+	[Export] private PackedScene _customEditorScene;
 
 	private Label _titleLabel;
 	private Button _removeButton;
@@ -32,6 +33,8 @@ public partial class ListEditor<T> : PanelContainer, IListEditor<T>
 		_addButton = GetNode<Button>("%add_item_btn");
 		_editorsContainer = GetNode<VBoxContainer>("%editors_container");
 
+		// TODO: If custom EditorScene is set, see if we can validate the script of
+		//		 the scene's root node implements IObjectEditor (without using Instantiate<T> ?)
 		_titleLabel.Text = _title ?? string.Empty;
 		_removeButton.Visible = _allowDelete;
 
@@ -66,6 +69,7 @@ public partial class ListEditor<T> : PanelContainer, IListEditor<T>
 		Reset();
 		_titleLabel.Text = _title ?? title ?? string.Empty;
 		_removeButton.Visible = _allowDelete || allowDelete;
+		source ??= [];
 
 		foreach (var item in source.OrderBy(t => t.GetType().Name))
 			AddNewEditor(item);
@@ -110,7 +114,8 @@ public partial class ListEditor<T> : PanelContainer, IListEditor<T>
 
 	private void AddNewEditor(T source)
 	{
-		var editor = _objectEditor.Instantiate<IObjectEditor>();
+		var editorScene = _customEditorScene ?? _objectEditor;
+		var editor = editorScene.Instantiate<IObjectEditor>();
 		_editorsContainer.AddChild(editor.GetControl());
 		editor.Load(title: $"{source.GetType().Name.Replace("Attribute", string.Empty).PrettyPrint()}",
 			source: source,

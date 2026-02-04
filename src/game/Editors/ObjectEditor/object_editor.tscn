@@ -18,6 +18,8 @@ font_color = Color(0.9411765, 0.8980392, 0.76862746, 1)
 shadow_size = 2
 shadow_color = Color(0, 0, 0, 0.5176471)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mfytl"]
+
 [node name="object_editor" type="PanelContainer" unique_id=135553869]
 anchors_preset = 10
 anchor_right = 1.0
@@ -62,3 +64,4 @@ columns = 4
 [node name="custom_editor_container" type="PanelContainer" parent="margin/vbox_container" unique_id=283212018]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mfytl")

@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using Godot;
 using MedievalConquerors.Engine.Extensions;
@@ -17,7 +18,7 @@ public partial class PropertyEditor : PanelContainer
 		_propertyLabel = GetNode<Label>("%property_label");
 	}
 
-	public void Load(PropertyInfo prop, string title = null)
+	public void Load(Type propertyType, string title = "", object source = null)
 	{
 		if (_valueEditor != null)
 		{
@@ -25,16 +26,25 @@ public partial class PropertyEditor : PanelContainer
 			_valueEditor = null;
 		}
 
-		_property = prop;
-		_propertyLabel.Text = $"{title ?? prop.Name.PrettyPrint()}: ";
+		_propertyLabel.Text = $"{title}: ";
+		_valueEditor = EditorFactory.CreateValueEditor(propertyType);
+		if (_valueEditor == null) return;
 
-		_valueEditor = EditorFactory.CreateValueEditor(prop.PropertyType);
-		if (_valueEditor != null)
-			_container.AddChild(_valueEditor.GetControl());
+		_container.AddChild(_valueEditor.GetControl());
+		if(source != null)
+			_valueEditor.SetValue(source);
 	}
 
-	public void ApplyTo<TOwner>(TOwner owner) => _property.SetValue(owner, _valueEditor?.GetValue());
+	public void Load(PropertyInfo prop, string title = null)
+	{
+		_property = prop;
+		title ??= prop.Name.PrettyPrint();
+		Load(prop.PropertyType, title);
+	}
+
+	public void ApplyTo<TOwner>(TOwner owner) => _property?.SetValue(owner, _valueEditor?.GetValue());
 	public void SetValue(object value) => _valueEditor?.SetValue(value);
+	public object GetValue() => _valueEditor?.GetValue();
 
 	public void Enable() => _valueEditor?.Enable();
 	public void Disable() => _valueEditor?.Disable();

@@ -24,7 +24,7 @@ theme_override_constants/separation = 5
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 10
+theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
 [node name="property_label" type="Label" parent="margin/container/label_margin" unique_id=180519114]

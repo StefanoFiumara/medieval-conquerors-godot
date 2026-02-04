@@ -16,16 +16,14 @@ public record ActionDefinition
     private Lazy<ImmutableDictionary<string, string>> LazyData => new(ParseData);
     private ImmutableDictionary<string, string> ParsedData => LazyData.Value;
 
-    public T GetData<T>(string key)
+    public T GetData<T>(string key) => (T) GetData(key, typeof(T));
+    public object GetData(string key, Type type)
     {
-        // TODO: Should we throw an error here instead of returning a default value?
-        if (!ParsedData.TryGetValue(key, out var value))
-            return default;
+        var result = ParsedData.GetValueOrDefault(key);
 
-        if (typeof(T).IsEnum)
-            return (T) Enum.Parse(typeof(T), value);
-
-        return (T) Convert.ChangeType(value, typeof(T));
+        return type.IsEnum
+            ? Enum.Parse(type, result)
+            : Convert.ChangeType(result, type);
     }
 
     private ImmutableDictionary<string, string> ParseData()

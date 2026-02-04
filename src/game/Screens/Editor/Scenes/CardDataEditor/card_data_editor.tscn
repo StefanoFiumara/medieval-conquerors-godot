@@ -8,7 +8,7 @@
 [ext_resource type="Theme" uid="uid://drpmjhbhww74k" path="res://Entities/UI/danger_button.theme" id="2_wht8j"]
 [ext_resource type="Script" uid="uid://b8d65eblp6du5" path="res://Editors/ObjectEditor/CustomEditors/ValueEditors/TagSelector.cs" id="3_yh4g2"]
 [ext_resource type="PackedScene" uid="uid://dgv8gpi0yws5m" path="res://Editors/ListEditor/list_editor.tscn" id="8_7b87l"]
-[ext_resource type="Script" uid="uid://kb2q5kewby62" path="res://Editors/ListEditor/AttributesEditor.cs" id="9_7b87l"]
+[ext_resource type="Script" uid="uid://kb2q5kewby62" path="res://Screens/Editor/Scenes/CardDataEditor/AttributesEditor.cs" id="9_7b87l"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2uco"]
 
