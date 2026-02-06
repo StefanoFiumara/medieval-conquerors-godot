@@ -12,12 +12,6 @@ corner_radius_bottom_left = 10
 shadow_size = 3
 shadow_offset = Vector2(3, 3)
 
-[sub_resource type="LabelSettings" id="LabelSettings_n8ylx"]
-font_size = 18
-font_color = Color(0.9411765, 0.8980392, 0.76862746, 1)
-shadow_size = 2
-shadow_color = Color(0, 0, 0, 0.5176471)
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mfytl"]
 
 [node name="object_editor" type="PanelContainer" unique_id=135553869]
@@ -34,34 +28,35 @@ script = ExtResource("1_qe2mh")
 [node name="margin" type="MarginContainer" parent="." unique_id=1555271693]
 layout_mode = 2
 
-[node name="vbox_container" type="VBoxContainer" parent="margin" unique_id=1240116694]
+[node name="hbox" type="HBoxContainer" parent="margin" unique_id=584636938]
 layout_mode = 2
 
-[node name="hbox_container" type="HBoxContainer" parent="margin/vbox_container" unique_id=280672797]
-layout_mode = 2
-
-[node name="close_button" type="Button" parent="margin/vbox_container/hbox_container" unique_id=1603427052]
+[node name="close_button" type="Button" parent="margin/hbox" unique_id=1603427052]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
+size_flags_vertical = 0
 theme = ExtResource("2_dsaro")
 text = "X"
 
-[node name="name_label" type="Label" parent="margin/vbox_container/hbox_container" unique_id=1993165997]
+[node name="collapsible_container" type="FoldableContainer" parent="margin/hbox" unique_id=1577967271]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Object Name"
-label_settings = SubResource("LabelSettings_n8ylx")
+size_flags_horizontal = 3
+title = "Object Name"
 
-[node name="separator" type="HSeparator" parent="margin/vbox_container" unique_id=2095310493]
+[node name="vbox" type="VBoxContainer" parent="margin/hbox/collapsible_container" unique_id=1240116694]
 layout_mode = 2
 
-[node name="properties_container" type="GridContainer" parent="margin/vbox_container" unique_id=54093031]
+[node name="separator" type="HSeparator" parent="margin/hbox/collapsible_container/vbox" unique_id=2095310493]
+layout_mode = 2
+
+[node name="properties_container" type="GridContainer" parent="margin/hbox/collapsible_container/vbox" unique_id=54093031]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 4
 
-[node name="custom_editor_container" type="PanelContainer" parent="margin/vbox_container" unique_id=283212018]
+[node name="custom_editor_container" type="PanelContainer" parent="margin/hbox/collapsible_container/vbox" unique_id=283212018]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mfytl")

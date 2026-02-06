@@ -18,5 +18,4 @@ unique_name_in_owner = true
 layout_mode = 2
 script = ExtResource("2_6a6eb")
 _title = "Actions"
-_allowDelete = true
 _customEditorScene = ExtResource("3_0qdav")

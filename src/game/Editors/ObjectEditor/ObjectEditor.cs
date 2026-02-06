@@ -2,8 +2,6 @@ using System;
 using System.Linq;
 using Godot;
 using MedievalConquerors.Editors.CustomEditors;
-using MedievalConquerors.Editors.CustomEditors.AbilityEditor;
-using MedievalConquerors.Engine.Extensions;
 
 namespace MedievalConquerors.Editors;
 
@@ -11,19 +9,19 @@ public partial class ObjectEditor : PanelContainer, IObjectEditor
 {
 	private static readonly PackedScene _propertyEditor = GD.Load<PackedScene>("uid://bti603u6u2oh");
 
-	private Label _titleLabel;
 	private Button _removeButton;
 	private GridContainer _propertiesContainer;
 	private PanelContainer _customEditorContainer;
 	private IObjectEditor _customEditor;
+	private FoldableContainer _collapsibleContainer;
 
 	public Type ObjectType { get; private set; }
 
 	public override void _Ready()
 	{
-		_titleLabel = GetNode<Label>("%name_label");
 		_removeButton = GetNode<Button>("%close_button");
 		_propertiesContainer = GetNode<GridContainer>("%properties_container");
+		_collapsibleContainer = GetNode<FoldableContainer>("%collapsible_container");
 		_customEditorContainer = GetNode<PanelContainer>("%custom_editor_container");
 
 		_removeButton.Connect(BaseButton.SignalName.Pressed, Callable.From(QueueFree));
@@ -55,7 +53,9 @@ public partial class ObjectEditor : PanelContainer, IObjectEditor
 	public void Load<T>(string title, T source, bool allowDelete = false) where T : class
 	{
 		ObjectType = source.GetType();
-		_titleLabel.Text = title ?? string.Empty;
+
+		_collapsibleContainer.Title = title ?? string.Empty;
+		_collapsibleContainer.Folded = true;
 		_removeButton.Visible = allowDelete;
 
 		_customEditor = EditorFactory.CreateCustomEditor(ObjectType);
