@@ -18,7 +18,7 @@ public partial class PropertyEditor : PanelContainer
 		_propertyLabel = GetNode<Label>("%property_label");
 	}
 
-	public void Load(Type propertyType, string title = "", object source = null)
+	public void Load(Type propertyType, string title = "", object source = null, IValueEditor customEditor = null)
 	{
 		if (_valueEditor != null)
 		{
@@ -27,7 +27,7 @@ public partial class PropertyEditor : PanelContainer
 		}
 
 		_propertyLabel.Text = $"{title}: ";
-		_valueEditor = EditorFactory.CreateValueEditor(propertyType);
+		_valueEditor = customEditor ?? EditorFactory.CreateValueEditor(propertyType);
 		if (_valueEditor == null) return;
 
 		_container.AddChild(_valueEditor.GetControl());

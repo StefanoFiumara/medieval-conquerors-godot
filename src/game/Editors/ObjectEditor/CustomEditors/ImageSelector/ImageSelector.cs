@@ -7,6 +7,9 @@ namespace MedievalConquerors.Editors.CustomEditors;
 
 public partial class ImageSelector : HBoxContainer
 {
+	// TODO: turn this component into a generic card selector that exposes the CardData properties of the selected card
+	//		That way, it can be used across the application, not just to select images
+
 	// TODO: Generalize Image selector so it isn't hardcoded to these paths
 	private const string PORTRAITS_PATH = "res://Entities/Cards/Portraits/";
 	private const string TOKENS_PATH = "res://Entities/Tokens/TokenIcons/";
@@ -99,6 +102,7 @@ public partial class ImageSelector : HBoxContainer
 
 	private IEnumerable<(string iconUid, string imagePath)> GetImageList()
 	{
+		// TODO: Refactor to use the _imageOptions Popup node to set the max width of icons
 		var files =  DirAccess.Open(PORTRAITS_PATH).GetFiles()
 			.GroupBy(p => p.Replace("_icon", string.Empty).Replace(".import", string.Empty))
 			.ToDictionary(g => g.Key, g => g.ToList())

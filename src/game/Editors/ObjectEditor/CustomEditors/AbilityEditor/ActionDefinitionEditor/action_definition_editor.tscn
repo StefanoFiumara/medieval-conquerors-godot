@@ -27,13 +27,21 @@ theme_override_constants/margin_bottom = 5
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 
-[node name="action_options" type="OptionButton" parent="margin/vbox" unique_id=1922407948]
+[node name="margin" type="MarginContainer" parent="margin/vbox" unique_id=160690744]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="action_options" type="OptionButton" parent="margin/vbox/margin" unique_id=1922407948]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 0
 script = ExtResource("2_p2mdv")
 
 [node name="editors_container" type="GridContainer" parent="margin/vbox" unique_id=1886349987]
 unique_name_in_owner = true
 layout_mode = 2
-columns = 4
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 10
+columns = 2

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Godot;
-using MedievalConquerors.Editors.CustomEditors.AbilityEditor;
 using MedievalConquerors.Editors.CustomEditors.ValueEditors;
 using MedievalConquerors.Editors.Options;
 using MedievalConquerors.Engine.Attributes;

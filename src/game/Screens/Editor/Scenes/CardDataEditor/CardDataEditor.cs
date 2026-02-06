@@ -3,7 +3,6 @@ using System.Linq;
 using Godot;
 using MedievalConquerors.Editors.CustomEditors;
 using MedievalConquerors.Editors.CustomEditors.ValueEditors;
-using MedievalConquerors.Editors.ListEditor;
 using MedievalConquerors.Editors.Options;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Extensions;

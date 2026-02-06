@@ -14,7 +14,7 @@ public sealed class CardDatabase : IDisposable
 	public CardDatabase()
 	{
 		var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "GameData", "CardLibrary.db");
-		_database = new LiteDatabase(dbPath);
+		_database = new LiteDatabase($"Filename={dbPath};Connection=shared");
 		BsonMapper.Global.EnumAsInteger = true;
 
 		_cardCollection = _database.GetCollection<CardData>();

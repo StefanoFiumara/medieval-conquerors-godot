@@ -21,9 +21,10 @@ theme_override_constants/margin_bottom = 20
 [node name="split_container" type="HSplitContainer" parent="margin" unique_id=227729684]
 layout_mode = 2
 size_flags_vertical = 3
-split_offsets = PackedInt32Array(500)
+split_offsets = PackedInt32Array(550)
+collapsed = true
 dragging_enabled = false
-split_offset = 500
+split_offset = 550
 
 [node name="card_library" parent="margin/split_container" unique_id=660874579 instance=ExtResource("1_ojog6")]
 layout_mode = 2
