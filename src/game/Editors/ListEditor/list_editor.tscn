@@ -47,7 +47,6 @@ horizontal_alignment = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
-disabled = true
 text = "Add"
 
 [node name="HSeparator" type="HSeparator" parent="margin/vbox" unique_id=533606510]

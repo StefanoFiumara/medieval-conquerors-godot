@@ -21,6 +21,9 @@ public record ActionDefinition
     {
         var result = ParsedData.GetValueOrDefault(key);
 
+        if (result == null)
+            return null;
+
         return type.IsEnum
             ? Enum.Parse(type, result)
             : Convert.ChangeType(result, type);
@@ -28,9 +31,10 @@ public record ActionDefinition
 
     private ImmutableDictionary<string, string> ParseData()
     {
-        return Data.Split(',')
+        return Data?.Split(',')
             .Select(pair => pair.Split('='))
-            .ToImmutableDictionary(parts => parts[0], parts => parts[1]);
+            .ToImmutableDictionary(parts => parts[0], parts => parts[1])
+            ?? [];
     }
 }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using MedievalConquerors.Engine.Extensions;
 
 namespace MedievalConquerors.Editors.CustomEditors.ValueEditors;
 
@@ -19,12 +20,16 @@ public abstract partial class TypeOptions<T> : OptionButton, IValueEditor
         get => _typeMap[GetItemText(GetSelectedId())];
         set
         {
+            if (value == _typeMap[GetItemText(GetSelectedId())])
+                return;
+
             foreach (var (action, type) in _typeMap)
             {
                 if (value == type)
                 {
-                    Select(_typeMap.IndexOf(action));
-                    EmitSignal(OptionButton.SignalName.ItemSelected);
+                    var idx = _typeMap.IndexOf(action);
+                    Select(idx);
+                    EmitSignal(OptionButton.SignalName.ItemSelected, idx);
                     return;
                 }
             }
@@ -44,7 +49,7 @@ public abstract partial class TypeOptions<T> : OptionButton, IValueEditor
         };
 
         foreach (var option in options)
-            _typeMap.Add(option.Name, option);
+            _typeMap.Add(option.Name.PrettyPrint(), option);
 
         Clear();
         foreach (var attr in _typeMap.Keys)

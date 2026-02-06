@@ -119,8 +119,6 @@ public partial class ListEditor<T> : PanelContainer, IListEditor<T>
 		editor.Load(title: $"{source.GetType().Name.Replace("Attribute", string.Empty).PrettyPrint()}",
 			source: source,
 			allowDelete: true);
-
-
 	}
 
 	private void ClearSelector()

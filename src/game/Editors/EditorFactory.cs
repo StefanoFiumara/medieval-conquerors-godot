@@ -18,7 +18,7 @@ public static class EditorFactory
 	{
 		RegisterCustomEditor(typeof(OnCardPlayedAbility), "uid://by3pryhhju02i");
 		RegisterCustomEditor(typeof(OnCardActivatedAbility), "uid://by3pryhhju02i");
-		RegisterCustomEditor(typeof(ActionDefinition), typeof(ActionDefinitionEditor));
+		RegisterCustomEditor(typeof(ActionDefinition), "uid://mv2vddr2gycb");
 
 		// Value editors
 		RegisterValueEditor(typeof(string), typeof(StringEditor));

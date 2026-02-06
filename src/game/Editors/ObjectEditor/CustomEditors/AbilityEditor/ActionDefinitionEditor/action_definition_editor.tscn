@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://mv2vddr2gycb"]
+
+[ext_resource type="Script" uid="uid://c52fc7bu8yihr" path="res://Editors/ObjectEditor/CustomEditors/AbilityEditor/ActionDefinitionEditor/ActionDefinitionEditor.cs" id="1_227ou"]
+[ext_resource type="Script" uid="uid://bme0pqnh2xfm5" path="res://Editors/Options/GameActionOptions.cs" id="2_p2mdv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_227ou"]
+
+[node name="action_definition_editor" type="PanelContainer" unique_id=1583541055]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1720.0
+offset_bottom = -1030.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_227ou")
+script = ExtResource("1_227ou")
+
+[node name="margin" type="MarginContainer" parent="." unique_id=1000387903]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="vbox" type="HBoxContainer" parent="margin" unique_id=307581192]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="action_options" type="OptionButton" parent="margin/vbox" unique_id=1922407948]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("2_p2mdv")
+
+[node name="editors_container" type="GridContainer" parent="margin/vbox" unique_id=1886349987]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 4

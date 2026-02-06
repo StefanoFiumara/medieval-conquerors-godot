@@ -2,10 +2,8 @@
 
 [ext_resource type="Script" uid="uid://0mtj5brwuwu4" path="res://Editors/ObjectEditor/CustomEditors/AbilityEditor/AbilityEditor.cs" id="1_6a6eb"]
 [ext_resource type="Script" uid="uid://cpi4a62ruj4mw" path="res://Editors/ObjectEditor/CustomEditors/AbilityEditor/ActionDefinitionsEditor.cs" id="2_6a6eb"]
+[ext_resource type="PackedScene" uid="uid://dgv8gpi0yws5m" path="res://Editors/ListEditor/list_editor.tscn" id="2_iihld"]
 [ext_resource type="PackedScene" uid="uid://byvjgctld2qh5" path="res://Editors/ObjectEditor/object_editor_compact.tscn" id="3_0qdav"]
-[ext_resource type="Theme" uid="uid://drpmjhbhww74k" path="res://Entities/UI/danger_button.theme" id="3_6a6eb"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hrs53"]
 
 [node name="ability_editor" type="PanelContainer" unique_id=766139113]
 anchors_preset = 15
@@ -15,58 +13,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6a6eb")
 
-[node name="action_definitions_editor" type="PanelContainer" parent="." unique_id=809270628]
+[node name="action_definitions_editor" parent="." unique_id=809270628 instance=ExtResource("2_iihld")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_hrs53")
 script = ExtResource("2_6a6eb")
 _title = "Actions"
+_allowDelete = true
 _customEditorScene = ExtResource("3_0qdav")
-
-[node name="margin" type="MarginContainer" parent="action_definitions_editor" unique_id=680339481]
-layout_mode = 2
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 5
-
-[node name="vbox" type="VBoxContainer" parent="action_definitions_editor/margin" unique_id=1611764970]
-layout_mode = 2
-theme_override_constants/separation = 5
-
-[node name="margin" type="MarginContainer" parent="action_definitions_editor/margin/vbox" unique_id=1828371892]
-layout_mode = 2
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 5
-
-[node name="editor_controls" type="HBoxContainer" parent="action_definitions_editor/margin/vbox/margin" unique_id=590667808]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 22
-
-[node name="close_button" type="Button" parent="action_definitions_editor/margin/vbox/margin/editor_controls" unique_id=2083137133]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-theme = ExtResource("3_6a6eb")
-text = "X"
-
-[node name="title_label" type="Label" parent="action_definitions_editor/margin/vbox/margin/editor_controls" unique_id=259211888]
-unique_name_in_owner = true
-layout_mode = 2
-text = "List Title"
-horizontal_alignment = 2
-
-[node name="add_item_btn" type="Button" parent="action_definitions_editor/margin/vbox/margin/editor_controls" unique_id=2006409899]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(75, 0)
-layout_mode = 2
-disabled = true
-text = "Add"
-
-[node name="HSeparator" type="HSeparator" parent="action_definitions_editor/margin/vbox" unique_id=533606510]
-layout_mode = 2
-
-[node name="editors_container" type="VBoxContainer" parent="action_definitions_editor/margin/vbox" unique_id=1945904553]
-unique_name_in_owner = true
-layout_mode = 2

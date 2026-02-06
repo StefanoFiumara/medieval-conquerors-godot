@@ -2,43 +2,54 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using MedievalConquerors.Editors.Options;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Extensions;
 
 namespace MedievalConquerors.Editors.CustomEditors.AbilityEditor;
 
-public interface ITitleOverride
-{
-	string Title { get; }
-}
-
-public partial class ActionDefinitionEditor : PanelContainer, IObjectEditor<ActionDefinition>, ITitleOverride
+public partial class ActionDefinitionEditor : PanelContainer, IObjectEditor<ActionDefinition>
 {
 	private static readonly PackedScene _propertyEditor = GD.Load<PackedScene>("uid://bti603u6u2oh");
 
-	private Type _actionType;
+	private GameActionOptions _actionOptions;
+
+	private GridContainer _editorsContainer;
 	private readonly Dictionary<string, PropertyEditor> _editors = [];
 
-	public string Title { get; private set; }
+	public override void _Ready()
+	{
+		_actionOptions = GetNode<GameActionOptions>("%action_options");
+		_editorsContainer = GetNode<GridContainer>("%editors_container");
 
+		_actionOptions.Connect(OptionButton.SignalName.ItemSelected, Callable.From<long>(OnActionTypeChanged));
+	}
+
+	private void OnActionTypeChanged(long itemIndex)
+	{
+		Load(_actionOptions.SelectedType);
+	}
+
+	private void Load(Type actionType) => Load("", new ActionDefinition { ActionType = actionType?.FullName }, allowDelete: true);
 	public void Load(string title, ActionDefinition source, bool allowDelete = false)
 	{
-		_actionType = Type.GetType(source.ActionType);
-		var parameters = GetParameters(_actionType);
-		Title = $"{_actionType?.Name.PrettyPrint()}";
+		if (!string.IsNullOrEmpty(source.ActionType))
+		{
+			_actionOptions.SelectedType = Type.GetType(source.ActionType);
+		}
 
-		var margin = new MarginContainer();
-		AddChild(margin);
+		var parameters = _actionOptions.SelectedType != null ? GetParameters(_actionOptions.SelectedType) : [];
 
-		var editorsGrid = new GridContainer { Columns = 4 };
-		margin.AddChild(editorsGrid);
+		_editors.Clear();
+		foreach (var editor in _editorsContainer.GetChildren())
+			editor.QueueFree();
 
 		foreach (var (name, type) in parameters)
 		{
 			var editor = _propertyEditor.Instantiate<PropertyEditor>();
-			editorsGrid.AddChild(editor);
-			editor.Load(type, name, source.GetData(name, type));
+			_editorsContainer.AddChild(editor);
+			editor.Load(type, name.PrettyPrint(), source.GetData(name, type));
 			_editors.Add(name, editor);
 		}
 	}
@@ -56,7 +67,7 @@ public partial class ActionDefinitionEditor : PanelContainer, IObjectEditor<Acti
 	{
 		return new ActionDefinition
 		{
-			ActionType = _actionType.FullName,
+			ActionType = _actionOptions.SelectedType.FullName,
 			Data = string.Join(",", _editors.Select(((kvp) => $"{kvp.Key}={kvp.Value.GetValue()}")))
 		};
 	}
@@ -74,5 +85,4 @@ public partial class ActionDefinitionEditor : PanelContainer, IObjectEditor<Acti
 	}
 
 	public Control GetControl() => this;
-
 }

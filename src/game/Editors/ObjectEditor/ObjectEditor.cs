@@ -65,9 +65,6 @@ public partial class ObjectEditor : PanelContainer, IObjectEditor
 			_customEditorContainer.Visible = true;
 			_customEditorContainer.AddChild(_customEditor.GetControl());
 			_customEditor.Load(string.Empty, source, allowDelete: false);
-			// TODO: Not sure I love this approach - but it works for now.
-			if (_customEditor is ITitleOverride t)
-				_titleLabel.Text = t.Title;
 		}
 		else
 		{

@@ -17,8 +17,12 @@ public partial class EnumOptions<T> : OptionButton, IValueEditor
         {
             if (GetItemCount() > 0)
             {
-                Select(_options.IndexOf(value));
-                EmitSignal(OptionButton.SignalName.ItemSelected);
+                var idx = _options.IndexOf(value);
+                if (idx != GetSelectedId())
+                {
+                    Select(idx);
+                    EmitSignal(OptionButton.SignalName.ItemSelected, idx);
+                }
             }
         }
     }
