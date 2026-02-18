@@ -7,7 +7,7 @@ public partial class CardIdSelector : CenterContainer, IValueEditor
 {
     public Control GetControl() => this;
 
-    // TODO: May want to turn this into its CardOptions button later, if we need it in multiple places.
+    // TODO: May want to turn this into CardOptions button later, if we need it in multiple places.
     private OptionButton _options;
 
     public override void _Ready()
