@@ -51,8 +51,12 @@ public partial class ActionDefinitionEditor : PanelContainer, IObjectEditor<Acti
 			var editor = _propertyEditor.Instantiate<PropertyEditor>();
 			_editorsContainer.AddChild(editor);
 
-			// TODO: Do we need to support custom editors for other parameter values?
-			IValueEditor customValueEditor = name == "CardId" ? new CardIdSelector() : null;
+			// TODO: Do we need to support custom editors for other parameter names?
+			IValueEditor customValueEditor = name switch
+			{
+				"CardId" => new CardIdSelector(),
+				_ => null
+			};
 			editor.Load(type, name.PrettyPrint(), source.GetData(name, type), customValueEditor);
 			_editors.Add(name, editor);
 		}
