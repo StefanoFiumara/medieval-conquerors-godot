@@ -8,14 +8,12 @@ public enum TileTerrain
     Water = 1,
     Grass = 2,
     Forest = 3,
-    DeepWater = 4,
-    StartingTownCenterBlue = 5, // NOTE: Only Used to dictate a player's starting TC
-    ShoreFish = 6,
-    Berries = 7,
-    Deer = 8,
-    Gold = 9,
-    Stone = 10,
-    StartingTownCenterRed = 11, // NOTE: Only Used to dictate a player's starting TC
+    Berries = 4,
+    Deer = 5,
+    Gold = 6,
+    Stone = 7,
+    StartingTownCenterBlue = 8, // NOTE: Only Used to dictate a player's starting TC
+    StartingTownCenterRed = 9, // NOTE: Only Used to dictate a player's starting TC
 }
 
 public enum CardType

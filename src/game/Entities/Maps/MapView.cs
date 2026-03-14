@@ -19,6 +19,7 @@ namespace MedievalConquerors.Entities.Maps;
 public partial class MapView : Node2D, IGameComponent
 {
 	private const int HIGHLIGHT_TILE_SET_ID = 1;
+	private const int HIGHLIGHT_TILE = 1;
 	private readonly Vector2 MIN_ZOOM = Vector2.One * 0.5f;
 	private readonly Vector2 MAX_ZOOM = Vector2.One * 1.0f;
 
@@ -161,7 +162,7 @@ public partial class MapView : Node2D, IGameComponent
 			{
 				HighlightTile(mapCoord, MapLayerType.MouseHover);
 
-				if(_settings.DebugMode)
+				if(_settings.DebugShowTileCoords)
 					CreateTileCoordsPopup(mapCoord);
 
 				_hovered = mapCoord;
@@ -307,25 +308,8 @@ public partial class MapView : Node2D, IGameComponent
 		if(layer == MapLayerType.Terrain)
 			_logger.Warn("Attempting to highlight on the terrain layer!");
 
-		// NOTE: The layer ID also matches up with the scene collection ID for the glow color for that layer
 		if (coord != HexMap.None)
-			this[layer].SetCell(coord, HIGHLIGHT_TILE_SET_ID, Vector2I.Zero, (int)layer);
-	}
-
-	public bool IsHighlighted(Vector2I coord, MapLayerType layer)
-	{
-		if(layer == MapLayerType.Terrain)
-			_logger.Warn("Attempting to check highlight on the terrain layer!");
-
-		if (coord != HexMap.None)
-		{
-			// NOTE: Since we are looking at highlight layers, it is ok to simple check if a cell is being used.
-			//		 This indicates that it is highlighted, since there is no other reason for a tile to be
-			//		 active on this layer.
-			return this[layer].GetUsedCells().Contains(coord);
-		}
-
-		return false;
+			this[layer].SetCell(coord, HIGHLIGHT_TILE_SET_ID, Vector2I.Zero, HIGHLIGHT_TILE);
 	}
 
 	public void RemoveHighlight(Vector2I coord, MapLayerType layer)

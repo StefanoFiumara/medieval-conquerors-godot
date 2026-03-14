@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Fano.ASCIITableUtil;
@@ -11,8 +12,6 @@ namespace MedievalConquerors.Engine;
 public static class CustomTileData
 {
 	public const string TERRAIN_TYPE = "TerrainType";
-	public const string RESOURCE_TYPE = "ResourceType";
-	public const string RESOURCE_YIELD = "ResourceYield";
 }
 
 public static class GameMapFactory
@@ -33,11 +32,28 @@ public static class GameMapFactory
 
 		foreach (var pos in cells)
 		{
-			// TODO: Resource yields should probably go somewhere else so that they are not tied to the tile set and are easier to edit (Game Settings?)
-			// TODO: Resource type for the yield should be derived from the terrain type, rather than stored as separate data.
+
 			var terrain = tileMap.GetCellTileData(pos).GetCustomData(CustomTileData.TERRAIN_TYPE).As<TileTerrain>();
-			var resourceType = tileMap.GetCellTileData(pos).GetCustomData(CustomTileData.RESOURCE_TYPE).As<ResourceType>();
-			var resourceYield = tileMap.GetCellTileData(pos).GetCustomData(CustomTileData.RESOURCE_YIELD).As<int>();
+			var resourceType = terrain switch
+			{
+				TileTerrain.Forest => ResourceType.Wood,
+				TileTerrain.Berries => ResourceType.Food,
+				TileTerrain.Deer => ResourceType.Food,
+				TileTerrain.Gold => ResourceType.Gold,
+				TileTerrain.Stone => ResourceType.Stone,
+				_ => ResourceType.None
+			};
+
+			// TODO: Make resource yields configurable (from game settings)
+			var resourceYield = terrain switch
+			{
+				TileTerrain.Forest => 2,
+				TileTerrain.Berries => 2,
+				TileTerrain.Deer => 4,
+				TileTerrain.Gold => 2,
+				TileTerrain.Stone => 2,
+				_ => 0
+			};
 
 			var tile = new TileData(pos, terrain, resourceType, resourceYield);
 			tiles.Add(pos, tile);

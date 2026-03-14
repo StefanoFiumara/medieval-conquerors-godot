@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_o32wb")
+DebugShowTileCoords = true
 StartingFoodCount = 50
 StartingWoodCount = 50
 StartingGoldCount = 10
