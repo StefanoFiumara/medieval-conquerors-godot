@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0lq3yse41yw6"
-path="res://.godot/imported/tilesheet.png-5c0f671f10beb3d9499719153933a679.ctex"
+uid="uid://bxo0vn0mp4ukb"
+path="res://.godot/imported/token_badge.png-ec2748c8f5d7d4a74b7bcc69a947f45a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Entities/Maps/new_tiles/tilesheet.png"
-dest_files=["res://.godot/imported/tilesheet.png-5c0f671f10beb3d9499719153933a679.ctex"]
+source_file="res://Entities/Tokens/TokenIcons/new_tokens/token_badge.png"
+dest_files=["res://.godot/imported/token_badge.png-ec2748c8f5d7d4a74b7bcc69a947f45a.ctex"]
 
 [params]
 

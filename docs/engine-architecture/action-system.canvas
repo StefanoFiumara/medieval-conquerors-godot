@@ -7,14 +7,14 @@
 		{"id":"ef56f46b922023d3","type":"text","text":"# Action System","x":-1780,"y":-650,"width":580,"height":70},
 		{"id":"b74f3492cc1cbd4c","type":"text","text":"### User Action\n_e.g._ Card is played from the hand","x":-1140,"y":-860,"width":260,"height":120,"color":"5"},
 		{"id":"35b4c50f0aae6ccc","type":"text","text":"### Game Action\nData container for an action to be performed on the game state","x":-1160,"y":-555,"width":300,"height":149,"color":"2"},
+		{"id":"1d50caa5171ce9cd","type":"text","text":"# Action System\nResponsible for communicating game actions to other gameplay systems\n- `Perform(action)`\n\t- Queues up an action to process\n- `AddReaction(action)`\n\t- Reacts to an in-progress Game Action","x":-696,"y":-623,"width":398,"height":285,"color":"4"},
+		{"id":"a53b6e058d37f151","type":"text","text":"# Game State\nHolds all data related to the current game state. The game state should be accessible from any/all gameplay systems.","x":-1160,"y":-116,"width":340,"height":180,"color":"#4354d0"},
 		{"id":"8b6fffe5e700ebbc","type":"text","text":"`PrepareAction`","x":0,"y":-500,"width":250,"height":60,"color":"1"},
 		{"id":"207767e9c5263db5","type":"text","text":"`PerformAction`","x":0,"y":-420,"width":250,"height":60,"color":"1"},
 		{"id":"9f8f5eae30f44425","type":"text","text":"`EndAction`","x":0,"y":-340,"width":250,"height":60,"color":"1"},
 		{"id":"470b9dd8dd3ad5d3","type":"text","text":"`CompleteAction`","x":0,"y":-260,"width":250,"height":60,"color":"1"},
 		{"id":"91a24fd55bb53965","type":"text","text":"`BeginAction`","x":0,"y":-660,"width":250,"height":60,"color":"1"},
-		{"id":"6ea6effa4e50bc1a","type":"text","text":"`ValidateAction`","x":0,"y":-580,"width":250,"height":60,"color":"1"},
-		{"id":"1d50caa5171ce9cd","type":"text","text":"# Action System\nResponsible for communicating game actions to other gameplay systems\n- `Perform(action)`\n\t- Queues up an action to process\n- `AddReaction(action)`\n\t- Reacts to an in-progress Game Action","x":-696,"y":-623,"width":398,"height":285,"color":"4"},
-		{"id":"a53b6e058d37f151","type":"text","text":"# Game State\nHolds all data related to the current game state. The game state should be accessible from any/all gameplay systems.","x":-1160,"y":-116,"width":340,"height":180,"color":"#4354d0"}
+		{"id":"6ea6effa4e50bc1a","type":"text","text":"`ValidateAction`","x":0,"y":-580,"width":250,"height":60,"color":"1"}
 	],
 	"edges":[
 		{

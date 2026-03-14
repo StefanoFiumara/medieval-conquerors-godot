@@ -14,7 +14,6 @@ _settings = ExtResource("2_8slby")
 _mapView = NodePath("map_view")
 
 [node name="map_view" parent="." unique_id=350990305 instance=ExtResource("3_y6ti3")]
-position = Vector2(947, 573)
 
 [node name="hand_view" parent="." unique_id=317654498 node_paths=PackedStringArray("_mapView") instance=ExtResource("4_tgpsp")]
 z_index = 1000

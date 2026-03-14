@@ -19,6 +19,8 @@ namespace MedievalConquerors.Entities.Maps;
 public partial class MapView : Node2D, IGameComponent
 {
 	private const int HIGHLIGHT_TILE_SET_ID = 1;
+	private readonly Vector2 MIN_ZOOM = Vector2.One * 0.5f;
+	private readonly Vector2 MAX_ZOOM = Vector2.One * 1.0f;
 
 	public IGame Game { get; set; }
 
@@ -26,16 +28,12 @@ public partial class MapView : Node2D, IGameComponent
 
 	[Export] private TileMapLayer TerrainLayer { get; set; }
 	[Export] private TileMapLayer MouseHoverLayer { get; set; }
-	[Export] private TileMapLayer BlueTeamLayer { get; set; }
-	[Export] private TileMapLayer RedTeamLayer { get; set; }
 	[Export] private TileMapLayer SelectionHintLayer { get; set; }
 
 	public TileMapLayer this[MapLayerType layer] => layer switch
 	{
 		MapLayerType.Terrain => TerrainLayer,
 		MapLayerType.MouseHover => MouseHoverLayer,
-		MapLayerType.BlueTeam => BlueTeamLayer,
-		MapLayerType.RedTeam => RedTeamLayer,
 		MapLayerType.SelectionHint => SelectionHintLayer,
 		_ => throw new ArgumentOutOfRangeException(nameof(layer), layer, "Invalid map layer type")
 	};
@@ -121,11 +119,11 @@ public partial class MapView : Node2D, IGameComponent
 				return true;
 			case MouseButton.WheelUp:
 				_zoomTarget *= 1.05f;
-				if (_zoomTarget > Vector2.One) _zoomTarget = Vector2.One;
+				if (_zoomTarget > MAX_ZOOM) _zoomTarget = MAX_ZOOM;
 				return true;
 			case MouseButton.WheelDown:
 				_zoomTarget *= 0.95f;
-				if (_zoomTarget < Vector2.One * 0.6f) _zoomTarget = Vector2.One * 0.6f;
+				if (_zoomTarget < MIN_ZOOM) _zoomTarget = MIN_ZOOM;
 				return true;
 			default:
 				return false;

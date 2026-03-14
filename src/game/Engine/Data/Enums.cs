@@ -73,9 +73,7 @@ public enum MapLayerType
 {
     Terrain = 0,
     MouseHover = 1,
-    BlueTeam = 2,
-    RedTeam = 3,
-    SelectionHint = 4
+    SelectionHint = 2
 }
 
 public enum PlayerTarget

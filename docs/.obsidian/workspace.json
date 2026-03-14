@@ -15,9 +15,9 @@
               "state": {
                 "file": "tech-tree.canvas",
                 "viewState": {
-                  "x": 1090.8937740125202,
-                  "y": 1416.6910714742562,
-                  "zoom": -2.333333375161155
+                  "x": 1081.6152427749478,
+                  "y": 618.2685100888635,
+                  "zoom": -1.258757508955147
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -169,14 +169,14 @@
   },
   "active": "b84f13ac068a2648",
   "lastOpenFiles": [
+    "planned-cards-list.md",
+    "leonardo-ai-prompts.md",
+    "game-mechanics.md",
     "card-designs/economic-cards.md",
-    "tech-tree.canvas",
     "engine-architecture/action-system.canvas",
     "engine-architecture/game-actions.canvas",
+    "tech-tree.canvas",
     "game-design-doc.md",
-    "game-mechanics.md",
-    "leonardo-ai-prompts.md",
-    "planned-cards-list.md",
     "to-do.md",
     "engine-architecture/Action System.canvas",
     "engine-architecture/Game State.canvas",
