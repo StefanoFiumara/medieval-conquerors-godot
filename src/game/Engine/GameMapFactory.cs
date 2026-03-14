@@ -46,11 +46,11 @@ public static class GameMapFactory
 			// TODO: Make resource yields configurable (from game settings)
 			var resourceYield = terrain switch
 			{
-				TileTerrain.Forest => 2,
-				TileTerrain.Berries => 2,
-				TileTerrain.Deer => 4,
-				TileTerrain.Gold => 2,
-				TileTerrain.Stone => 2,
+				TileTerrain.Forest => 10,
+				TileTerrain.Berries => 10,
+				TileTerrain.Deer => 15,
+				TileTerrain.Gold => 10,
+				TileTerrain.Stone => 10,
 				_ => 0
 			};
 
