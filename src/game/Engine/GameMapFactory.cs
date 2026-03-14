@@ -32,7 +32,6 @@ public static class GameMapFactory
 
 		foreach (var pos in cells)
 		{
-
 			var terrain = tileMap.GetCellTileData(pos).GetCustomData(CustomTileData.TERRAIN_TYPE).As<TileTerrain>();
 			var resourceType = terrain switch
 			{
