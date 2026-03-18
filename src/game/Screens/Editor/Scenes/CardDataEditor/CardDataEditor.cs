@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using Godot;
-using MedievalConquerors.Editors.CustomEditors;
 using MedievalConquerors.Editors.CustomEditors.ValueEditors;
 using MedievalConquerors.Editors.Options;
 using MedievalConquerors.Engine.Data;
@@ -25,6 +24,7 @@ public partial class CardDataEditor : PanelContainer
 	[Export] private LineEdit _cardTitle;
 	[Export] private TextEdit _description;
 	[Export] private ImageSelector _portraitSelector;
+	// TODO: Add TilesheetSelector for token selection
 	[Export] private CardTypeOptions _cardTypeSelector;
 	[Export] private TagSelector _tagSelector;
 	// TODO: Use ListEditor Interface after removing [Export]
@@ -85,7 +85,7 @@ public partial class CardDataEditor : PanelContainer
 			CurrentCardId = data.Id;
 			_cardTitle.Text = data.Title ?? string.Empty;
 			_description.Text = data.Description ?? string.Empty;
-			_portraitSelector.SelectedImageUid = data.ImagePath;
+			_portraitSelector.SetValue(data.ImagePath);
 			_cardTypeSelector.SelectedOption = data.CardType;
 			_tagSelector.SelectedTags = data.Tags;
 			_attributesEditor.Load("Attributes:", data.Attributes.ToList(), allowDelete: false);
@@ -99,8 +99,8 @@ public partial class CardDataEditor : PanelContainer
 			Id = CurrentCardId,
 			Title = _cardTitle.Text?.Trim() ?? string.Empty,
 			Description = _description.Text?.Trim() ?? string.Empty,
-			ImagePath = _portraitSelector.SelectedImageUid,
-			TokenImagePath = _portraitSelector.SelectedTokenUid,
+			ImagePath = (string)_portraitSelector.GetValue(),
+			TokenImagePath = string.Empty, // TODO: Wire up TilesheetSelector for token selection
 			CardType = _cardTypeSelector.SelectedOption,
 			Tags = _tagSelector.SelectedTags,
 			Attributes = _attributesEditor.Create()
@@ -116,7 +116,7 @@ public partial class CardDataEditor : PanelContainer
 		_description.Editable = true;
 		_cardTypeSelector.Disabled = false;
 		_tagSelector.Enable();
-		_portraitSelector.Disabled = false;
+		_portraitSelector.Enable();
 		_attributesEditor.Enable();
 	}
 
@@ -127,7 +127,7 @@ public partial class CardDataEditor : PanelContainer
 		_description.Editable = false;
 		_cardTypeSelector.Disabled = true;
 		_tagSelector.Disable();
-		_portraitSelector.Disabled = true;
+		_portraitSelector.Disable();
 		_attributesEditor.Disable();
 	}
 
@@ -136,7 +136,7 @@ public partial class CardDataEditor : PanelContainer
 		// Clear UI controls
 		_cardTitle.Text = string.Empty;
 		_description.Text = string.Empty;
-		_portraitSelector.SelectedImageUid = ImageSelector.None;
+		_portraitSelector.SetValue(ImageSelector.None);
 		_cardTypeSelector.SelectedOption = CardType.None;
 		_tagSelector.SelectedTags = Tags.None;
 		_attributesEditor.Reset();
