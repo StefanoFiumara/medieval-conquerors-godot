@@ -11,13 +11,8 @@ public static class ViewScalingExtensions
 {
 	public static Vector2 CalculateScaleFactor(this Rect2 visibleRect)
 	{
-		var proportion = visibleRect.CalculateScaleProportion();
+		var proportion = visibleRect.Size / ViewConstants.ReferenceResolution;
 		var newScaleFactor = Mathf.Min(proportion.X, proportion.Y);
 		return new Vector2(newScaleFactor, newScaleFactor);
-	}
-
-	public static Vector2 CalculateScaleProportion(this Rect2 visibleRect)
-	{
-		return visibleRect.Size / ViewConstants.ReferenceResolution;
 	}
 }

@@ -10,5 +10,4 @@ _image = NodePath("token_sprite")
 [node name="token_sprite" type="Sprite2D" parent="." unique_id=547653733]
 texture = ExtResource("2_csv2c")
 hframes = 2
-frame = 1
 region_rect = Rect2(480, 280, 120, 140)

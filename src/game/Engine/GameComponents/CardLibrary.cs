@@ -26,11 +26,6 @@ public class CardLibrary : GameComponent, IAwake
 		if (_cardData is null || _cardData.Count == 0)
 		{
 			using var db = new CardDatabase();
-
-			// ?? Are these TODOs still relevant? I think we have already done all this.
-			// TODO(High Priority): update database to use new paths for card portraits, token icons, and attribute type names
-			// TODO: Update card view and token view code to load from a specified path so that we do not need to include full paths in the database
-			// TODO: Should we store uids instead of paths?
 			_cardData = db.Query.ToList().ToImmutableDictionary(c => c.Id);
 		}
 	}
@@ -39,8 +34,6 @@ public class CardLibrary : GameComponent, IAwake
 	{
 		if (_cardData.TryGetValue(id, out var data))
 		{
-			// TODO: Do we need to clone the card data here in case the data gets mutated during gameplay?
-			// It should not be a problem because the card attributes already get cloned, and the other values should not change.
 			return new Card(data, owner);
 		}
 

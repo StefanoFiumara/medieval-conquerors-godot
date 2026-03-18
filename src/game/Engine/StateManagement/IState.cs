@@ -8,13 +8,6 @@ public interface IState
 
 public class NullState : IState
 {
-    public void Enter()
-    {
-
-    }
-
-    public void Exit()
-    {
-
-    }
+    public void Enter() { }
+    public void Exit() { }
 }

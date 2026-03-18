@@ -27,7 +27,7 @@ public class TargetSystem : GameComponent, IAwake
 
     private void OnValidatePlayCard(PlayCardAction action, ActionValidatorResult validator)
     {
-        // TODO: Is this valid for technology cards, or is this validation only relevant for units/buildings?
+        // TODO: support cards without target tile
         var tile = _map.GetTile(action.TargetTile);
         var validTiles = GetTargetCandidates(action.CardToPlay);
 
@@ -50,17 +50,16 @@ public class TargetSystem : GameComponent, IAwake
         var buildings = player.Map.Where(c => c.Data.CardType == CardType.Building);
         foreach (var building in buildings)
         {
-            if (building.Data.Tags.HasFlag(spawnPoint.SpawnTags))
+            if (!building.Data.Tags.HasFlag(spawnPoint.SpawnTags)) continue;
+
+            if (spawnPoint.SpawnRange == 0 && _garrisonSystem.CanGarrison(building, card))
             {
-                if (spawnPoint.SpawnRange == 0 && _garrisonSystem.CanGarrison(building, card))
-                {
-                    targetCandidates.Add(building.MapPosition);
-                }
-                else
-                {
-                    var surroundingNeighbors = _map.GetReachable(building.MapPosition, spawnPoint.SpawnRange);
-                    targetCandidates.AddRange(surroundingNeighbors);
-                }
+                targetCandidates.Add(building.MapPosition);
+            }
+            else
+            {
+                var surroundingNeighbors = _map.GetReachable(building.MapPosition, spawnPoint.SpawnRange);
+                targetCandidates.AddRange(surroundingNeighbors);
             }
         }
 
