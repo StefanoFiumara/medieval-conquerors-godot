@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dqc1l4x1bhauk" path="res://Entities/Cards/Portraits/agriculture.png" id="4_qyos6"]
 [ext_resource type="Texture2D" uid="uid://0uy1cqn42is3" path="res://Entities/Cards/frame_border.png" id="5_wi131"]
 [ext_resource type="FontFile" uid="uid://d3j846ppsvp5i" path="res://Fonts/EagleLake-Regular.ttf" id="6_6fqni"]
+[ext_resource type="Texture2D" uid="uid://y81exu5tsfw" path="res://Entities/Cards/card_banners.png" id="6_7vl60"]
 [ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://Entities/UI/Gameplay/resource_icons.png" id="7_356ln"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_hu4f0"]
@@ -20,11 +21,12 @@ outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Theme" id="Theme_pldyj"]
 
-[node name="card_view" type="Node2D" unique_id=2019257237 node_paths=PackedStringArray("_title", "_description", "_type", "_image", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon")]
+[node name="card_view" type="Node2D" unique_id=2019257237 node_paths=PackedStringArray("_title", "_description", "_banner", "_type", "_image", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon")]
 texture_filter = 1
 script = ExtResource("1_r8q4a")
 _title = NodePath("title_text")
 _description = NodePath("description_text")
+_banner = NodePath("banner")
 _type = NodePath("type_text")
 _image = NodePath("card_portrait")
 _glow = NodePath("glow")
@@ -67,6 +69,12 @@ texture = ExtResource("4_qyos6")
 
 [node name="frame" type="Sprite2D" parent="." unique_id=1001939824]
 texture = ExtResource("5_wi131")
+
+[node name="banner" type="Sprite2D" parent="." unique_id=1455809754]
+position = Vector2(-2, -123)
+texture = ExtResource("6_7vl60")
+vframes = 4
+region_rect = Rect2(0, 46, 185, 46)
 
 [node name="title_text" type="Label" parent="." unique_id=609063501]
 offset_left = -78.0

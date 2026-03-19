@@ -9,8 +9,10 @@ namespace MedievalConquerors.Entities.Cards;
 
 public partial class CardView : Node2D, IClickable
 {
+	// TODO: Reference via unique node names in _Ready instead of using export variables
 	[Export] private Label _title;
 	[Export] private RichTextLabel _description;
+	[Export] private Sprite2D _banner;
 	[Export] private Label _type;
 	[Export] private Sprite2D _image;
 	[Export] private NinePatchRect _glow;
@@ -62,9 +64,16 @@ public partial class CardView : Node2D, IClickable
 		Card = card;
 		_cardSystem = game.GetComponent<CardSystem>();
 
-		// TODO: Update title color based on card type?
 		_title.Text = Card.Data.Title;
 		_type.Text = Card.Data.CardType.ToString();
+		_banner.Frame = Card.Data.CardType switch
+		{
+			CardType.Unit => 0,
+			CardType.Building => 1,
+			CardType.Technology => 2,
+			CardType.Action => 3,
+			_ => 0
+		};
 
 		// TODO: Append tags and card type to description
 		_description.Text = Card.Data.Description;
