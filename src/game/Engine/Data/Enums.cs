@@ -35,7 +35,6 @@ public enum Tags
     Melee = 1 << 3,
     Ranged = 1 << 4,
     Mounted = 1 << 5,
-    TownCenter = 1 << 6 // NOTE: Special case for spawn point attributes
 }
 
 [Flags]

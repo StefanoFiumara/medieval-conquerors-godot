@@ -164,7 +164,7 @@ public static class DeckBuilder
             .WithTags(Tags.Military | Tags.Mounted | Tags.Melee)
             .WithResourceCost(food: 4, gold: 2)
             .WithMovement(distance: 2)
-            .WithSpawnPoint(Tags.TownCenter)
+            .WithSpawnPoint()
             .Create());
 
         cards.Add(CardBuilder.Build(owner)
@@ -174,7 +174,7 @@ public static class DeckBuilder
             .WithTags(Tags.Military | Tags.Infantry | Tags.Melee)
             .WithResourceCost(food: 4, gold: 2)
             .WithMovement(distance: 1)
-            .WithSpawnPoint(Tags.TownCenter)
+            .WithSpawnPoint()
             .Create());
 
         cards.Add(CardBuilder.Build(owner)
@@ -185,7 +185,7 @@ public static class DeckBuilder
             .WithResourceCost(wood: 2)
             .WithResourceCollector(ResourceType.Wood)
             .WithGarrisonCapacity(capacity: 3)
-            .WithSpawnPoint(Tags.TownCenter)
+            .WithSpawnPoint()
             .Create());
 
         cards.Add(CardBuilder.Build(owner)
@@ -196,7 +196,7 @@ public static class DeckBuilder
             .WithResourceCost(wood: 2)
             .WithResourceCollector(ResourceType.Mining)
             .WithGarrisonCapacity(capacity: 3)
-            .WithSpawnPoint(Tags.TownCenter)
+            .WithSpawnPoint()
             .Create());
 
         cards.Add(CardBuilder.Build(owner)
@@ -207,7 +207,7 @@ public static class DeckBuilder
             .WithResourceCost(wood: 2)
             .WithResourceCollector(ResourceType.Food)
             .WithGarrisonCapacity(capacity: 3)
-            .WithSpawnPoint(Tags.TownCenter)
+            .WithSpawnPoint()
             .Create());
 
         return cards;

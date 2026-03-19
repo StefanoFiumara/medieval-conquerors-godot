@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Godot;
 using MedievalConquerors.Editors.CustomEditors.ValueEditors;
 using MedievalConquerors.Editors.Options;
@@ -42,6 +43,15 @@ public static class EditorFactory
 
 		var editor = _valueEditorRegistry[type]();
 		return editor;
+	}
+
+	public static IValueEditor CreateValueEditor(PropertyInfo property)
+	{
+		var attr = property.GetCustomAttribute<UseValueEditorAttribute>();
+		if (attr != null)
+			return (IValueEditor)Activator.CreateInstance(attr.EditorType);
+
+		return CreateValueEditor(property.PropertyType);
 	}
 
 	public static IObjectEditor CreateCustomEditor(Type type)

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using MedievalConquerors.Editors;
+using MedievalConquerors.Editors.CustomEditors.ValueEditors;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
@@ -9,6 +11,7 @@ namespace MedievalConquerors.Engine.Actions;
 
 public class CreateCardAction(int cardId, int targetPlayerId, Zone targetZone, int amount = 1) : GameAction, IAbilityLoader
 {
+    [UseValueEditor(typeof(CardIdSelector))]
     public int CardId { get; private set; } = cardId;
     public int TargetPlayerId { get; private set; } = targetPlayerId;
     public Zone TargetZone { get; private set; } = targetZone;

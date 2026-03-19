@@ -5,6 +5,9 @@ namespace MedievalConquerors.Editors.CustomEditors.ValueEditors;
 
 public partial class CardIdSelector : CenterContainer, IValueEditor
 {
+    private const int IconMaxWidth = 32;
+    private const string MissingIcon = "uid://dnofkwp8xw7ys";
+
     public Control GetControl() => this;
 
     // TODO: May want to turn this into CardOptions button later, if we need it in multiple places.
@@ -18,6 +21,9 @@ public partial class CardIdSelector : CenterContainer, IValueEditor
         };
         var popup = _options.GetPopup();
 
+        _options.AddIconItem(GD.Load<Texture2D>(MissingIcon), "None");
+        popup.SetItemIconMaxWidth(0, IconMaxWidth);
+
         using var database = new CardDatabase();
         var cards = database.Query.OrderBy(c => c.Id).Select(c => new { c.Id, c.Title, c.ImagePath }).ToList();
 
@@ -25,11 +31,11 @@ public partial class CardIdSelector : CenterContainer, IValueEditor
         {
             var card = cards[i];
             var iconPath = ResourceUid.TextToId(card.ImagePath) == ResourceUid.InvalidId
-                ? "uid://dnofkwp8xw7ys" // Missing Icon
+                ? MissingIcon
                 : card.ImagePath;
             var tex = GD.Load<Texture2D>(iconPath);
             _options.AddIconItem(tex, card.Title, card.Id);
-            popup.SetItemIconMaxWidth(i, 32);
+            popup.SetItemIconMaxWidth(i + 1, IconMaxWidth);
         }
 
         AddChild(_options);

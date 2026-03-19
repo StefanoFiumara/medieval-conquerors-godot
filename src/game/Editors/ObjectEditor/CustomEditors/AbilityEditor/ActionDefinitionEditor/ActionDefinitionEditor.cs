@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using MedievalConquerors.Editors.CustomEditors.ValueEditors;
 using MedievalConquerors.Editors.Options;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Attributes;
@@ -51,12 +50,9 @@ public partial class ActionDefinitionEditor : PanelContainer, IObjectEditor<Acti
 			var editor = _propertyEditor.Instantiate<PropertyEditor>();
 			_editorsContainer.AddChild(editor);
 
-			// TODO: Do we need to support custom editors for other parameter names?
-			IValueEditor customValueEditor = name switch
-			{
-				"CardId" => new CardIdSelector(),
-				_ => null
-			};
+			var propertyInfo = _actionOptions.SelectedType?.GetProperty(name);
+			var customValueEditor = propertyInfo != null ? EditorFactory.CreateValueEditor(propertyInfo) : null;
+
 			editor.Load(type, name.PrettyPrint(), source.GetData(name, type), customValueEditor);
 			_editors.Add(name, editor);
 		}

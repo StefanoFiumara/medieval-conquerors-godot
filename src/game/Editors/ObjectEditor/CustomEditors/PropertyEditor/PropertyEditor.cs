@@ -39,7 +39,7 @@ public partial class PropertyEditor : PanelContainer
 	{
 		_property = prop;
 		title ??= prop.Name.PrettyPrint();
-		Load(prop.PropertyType, title);
+		Load(prop.PropertyType, title, customEditor: EditorFactory.CreateValueEditor(prop));
 	}
 
 	public void ApplyTo<TOwner>(TOwner owner) => _property?.SetValue(owner, _valueEditor?.GetValue());
