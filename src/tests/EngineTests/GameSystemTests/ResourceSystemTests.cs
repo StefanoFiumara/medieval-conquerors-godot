@@ -19,14 +19,14 @@ public class ResourceSystemTests : GameSystemTestFixture
             .Build(_player)
             .WithCardType(CardType.Unit)
             .WithResourceCost(food: 1)
-            .WithSpawnPoint(Tags.TownCenter, 3)
+            .WithSpawnPoint()
             .Create();
 
         _costlyCard = CardBuilder
             .Build(_player)
             .WithCardType(CardType.Unit)
             .WithResourceCost(food: 999)
-            .WithSpawnPoint(Tags.TownCenter, 3)
+            .WithSpawnPoint()
             .Create();
 
         _player.Deck.Add(_affordableCard);

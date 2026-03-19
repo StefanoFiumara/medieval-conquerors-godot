@@ -87,12 +87,14 @@ public class CardBuilder
         return this;
     }
 
-    public CardBuilder WithSpawnPoint(Tags spawnTags, int spawnRange = 0)
+    public CardBuilder WithSpawnPoint(Tags spawnTags = Tags.None, ResourceType resource = ResourceType.None, bool garrison = false, int specificCardId = 0)
     {
         _attributes.Add(new SpawnPointAttribute
         {
-            // SpawnRange = spawnRange,
-            SpawnTags = spawnTags
+            SpawnTags = spawnTags,
+            Resource = resource,
+            Garrison = garrison,
+            SpecificCardId = specificCardId
         });
 
         return this;

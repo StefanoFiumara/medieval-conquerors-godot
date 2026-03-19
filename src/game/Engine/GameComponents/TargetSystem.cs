@@ -54,7 +54,8 @@ public class TargetSystem : GameComponent, IAwake
         {
             return player.Map
                 .Where(c => c.Data.CardType == CardType.Building)
-                .Where(c => c.Data.Tags.HasFlag(spawnPoint.SpawnTags))
+                .Where(b => b.Data.Tags.HasFlag(spawnPoint.SpawnTags))
+                .Where(b => _garrisonSystem.CanGarrison(b, card))
                 .Select(b => b.MapPosition)
                 .ToList();
         }
