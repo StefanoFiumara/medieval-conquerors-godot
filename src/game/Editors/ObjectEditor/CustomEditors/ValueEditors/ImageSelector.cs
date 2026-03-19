@@ -8,6 +8,8 @@ namespace MedievalConquerors.Editors.CustomEditors.ValueEditors;
 public partial class ImageSelector : OptionButton, IValueEditor
 {
 	private const int IconMaxWidth = 32;
+	private const string MissingIcon = "uid://dnofkwp8xw7ys";
+
 	public static readonly string None = string.Empty;
 
 	private readonly List<string> _filePaths = [];
@@ -25,8 +27,6 @@ public partial class ImageSelector : OptionButton, IValueEditor
 		Clear();
 		_filePaths.Clear();
 
-		AddItem("None");
-
 		var dir = DirAccess.Open(SourcePath);
 		if (dir == null)
 		{
@@ -36,6 +36,10 @@ public partial class ImageSelector : OptionButton, IValueEditor
 		}
 
 		var popup = GetPopup();
+
+		AddIconItem(GD.Load<Texture2D>(MissingIcon), "None");
+		popup.SetItemIconMaxWidth(0, IconMaxWidth);
+
 		var files = dir.GetFiles()
 			.Where(f => !f.EndsWith(".import") && !f.EndsWith(".uid"))
 			.OrderBy(f => f)

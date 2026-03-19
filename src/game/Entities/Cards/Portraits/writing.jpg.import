@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c38lrbipggvm6"
-path="res://.godot/imported/town_center_icon.png-3cd0704df805109341686786b8dea988.ctex"
+uid="uid://bnkfiryce61fw"
+path="res://.godot/imported/writing.jpg-b4ed9335ea4bf095b74bcaf6aad3d62c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Entities/Cards/Portraits/town_center_icon.png"
-dest_files=["res://.godot/imported/town_center_icon.png-3cd0704df805109341686786b8dea988.ctex"]
+source_file="res://Entities/Cards/Portraits/writing.jpg"
+dest_files=["res://.godot/imported/writing.jpg-b4ed9335ea4bf095b74bcaf6aad3d62c.ctex"]
 
 [params]
 

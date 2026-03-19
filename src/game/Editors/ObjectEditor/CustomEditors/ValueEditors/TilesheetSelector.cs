@@ -10,6 +10,7 @@ namespace MedievalConquerors.Editors.CustomEditors.ValueEditors;
 public partial class TilesheetSelector : OptionButton, IValueEditor
 {
 	private const int IconMaxWidth = 32;
+	private const string MissingIcon = "uid://dnofkwp8xw7ys";
 
 	[Export] public Texture2D Tilesheet { get; set; }
 
@@ -27,8 +28,6 @@ public partial class TilesheetSelector : OptionButton, IValueEditor
 	private void LoadTiles()
 	{
 		Clear();
-
-		AddItem("None", -1);
 
 		if (Tilesheet == null)
 		{
@@ -48,6 +47,9 @@ public partial class TilesheetSelector : OptionButton, IValueEditor
 		var cellW = texSize.X / Columns;
 		var cellH = texSize.Y / Rows;
 		var popup = GetPopup();
+
+		AddIconItem(GD.Load<Texture2D>(MissingIcon), "None");
+		popup.SetItemIconMaxWidth(0, IconMaxWidth);
 
 		var tilesAdded = 0;
 

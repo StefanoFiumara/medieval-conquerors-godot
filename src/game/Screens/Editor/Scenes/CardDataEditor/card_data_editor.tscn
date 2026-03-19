@@ -166,6 +166,7 @@ vertical_alignment = 1
 [node name="token_selector" type="OptionButton" parent="margin/vbox_container/scroll_container/margin/vbox_container/token" unique_id=1395386075]
 layout_mode = 2
 size_flags_horizontal = 3
+disabled = true
 script = ExtResource("6_w2vkn")
 Tilesheet = ExtResource("7_lfskp")
 Columns = 7

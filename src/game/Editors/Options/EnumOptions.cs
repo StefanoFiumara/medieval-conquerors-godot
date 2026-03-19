@@ -12,13 +12,13 @@ public partial class EnumOptions<T> : OptionButton, IValueEditor
 
     public T SelectedOption
     {
-        get => Enum.Parse<T>(GetItemText(GetSelectedId()));
+        get => Enum.Parse<T>(GetItemText(Selected));
         set
         {
             if (GetItemCount() > 0)
             {
                 var idx = _options.IndexOf(value);
-                if (idx != GetSelectedId())
+                if (idx != Selected)
                 {
                     Select(idx);
                     EmitSignal(OptionButton.SignalName.ItemSelected, idx);

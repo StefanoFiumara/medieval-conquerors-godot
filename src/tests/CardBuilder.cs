@@ -91,7 +91,7 @@ public class CardBuilder
     {
         _attributes.Add(new SpawnPointAttribute
         {
-            SpawnRange = spawnRange,
+            // SpawnRange = spawnRange,
             SpawnTags = spawnTags
         });
 

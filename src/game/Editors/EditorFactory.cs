@@ -23,6 +23,7 @@ public static class EditorFactory
 		RegisterValueEditor(typeof(string), typeof(StringEditor));
 		RegisterValueEditor(typeof(int), typeof(IntEditor));
 		RegisterValueEditor(typeof(float), typeof(FloatEditor));
+		RegisterValueEditor(typeof(bool), typeof(BoolEditor));
 		// Enums
 		RegisterValueEditor(typeof(CardType), typeof(CardTypeOptions));
 		RegisterValueEditor(typeof(ResourceType), typeof(ResourceOptions));

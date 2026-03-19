@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0vi8x3fusflu"
-path="res://.godot/imported/agriculture_icon.png-a171e41bb8ac8e6e1d2da0386f3b5952.ctex"
+uid="uid://m1qt5pnaekbh"
+path="res://.godot/imported/knight_2.jpg-385fbf1a1383806d9de31236f7c6b14a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Entities/Cards/Portraits/agriculture_icon.png"
-dest_files=["res://.godot/imported/agriculture_icon.png-a171e41bb8ac8e6e1d2da0386f3b5952.ctex"]
+source_file="res://Entities/Cards/Portraits/knight_2.jpg"
+dest_files=["res://.godot/imported/knight_2.jpg-385fbf1a1383806d9de31236f7c6b14a.ctex"]
 
 [params]
 

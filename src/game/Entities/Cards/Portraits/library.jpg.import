@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cx7cskfxam6st"
-path="res://.godot/imported/Lucid_Origin_Vibrant_oil_painting_on_canvas_titled_The_Great_L_3.jpg-7795a33aa7e70c51766842ce5d8975bf.ctex"
+path="res://.godot/imported/library.jpg-c9f211ea4182a97ec6fd12afdf8e00de.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Entities/Cards/Portraits/Lucid_Origin_Vibrant_oil_painting_on_canvas_titled_The_Great_L_3.jpg"
-dest_files=["res://.godot/imported/Lucid_Origin_Vibrant_oil_painting_on_canvas_titled_The_Great_L_3.jpg-7795a33aa7e70c51766842ce5d8975bf.ctex"]
+source_file="res://Entities/Cards/Portraits/library.jpg"
+dest_files=["res://.godot/imported/library.jpg-c9f211ea4182a97ec6fd12afdf8e00de.ctex"]
 
 [params]
 

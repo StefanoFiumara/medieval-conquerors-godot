@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5r0angc2vmx"
-path="res://.godot/imported/villager_icon.png-d4643b52a89f66ac99043a566fe824af.ctex"
+uid="uid://dnofkwp8xw7ys"
+path="res://.godot/imported/missing_icon.png-dcf9b71f69c8104f979ddafa0c6edc2a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Entities/Cards/Portraits/villager_icon.png"
-dest_files=["res://.godot/imported/villager_icon.png-d4643b52a89f66ac99043a566fe824af.ctex"]
+source_file="res://Entities/UI/missing_icon.png"
+dest_files=["res://.godot/imported/missing_icon.png-dcf9b71f69c8104f979ddafa0c6edc2a.ctex"]
 
 [params]
 

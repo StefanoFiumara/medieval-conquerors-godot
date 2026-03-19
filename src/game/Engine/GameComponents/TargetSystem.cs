@@ -43,26 +43,36 @@ public class TargetSystem : GameComponent, IAwake
         if(spawnPoint == null)
             return [];
 
-        if (spawnPoint.SpawnTags == Tags.TownCenter)
-            return _map.GetReachable(player.TownCenter.Position, spawnPoint.SpawnRange == 0 ? player.InfluenceRange : spawnPoint.SpawnRange).ToList();
-
-        var targetCandidates = new List<Vector2I>();
-        var buildings = player.Map.Where(c => c.Data.CardType == CardType.Building);
-        foreach (var building in buildings)
+        if (spawnPoint.SpecificCardId != 0)
         {
-            if (!building.Data.Tags.HasFlag(spawnPoint.SpawnTags)) continue;
-
-            if (spawnPoint.SpawnRange == 0 && _garrisonSystem.CanGarrison(building, card))
-            {
-                targetCandidates.Add(building.MapPosition);
-            }
-            else
-            {
-                var surroundingNeighbors = _map.GetReachable(building.MapPosition, spawnPoint.SpawnRange);
-                targetCandidates.AddRange(surroundingNeighbors);
-            }
+            return player.Map.Where(c => c.Data.Id == spawnPoint.SpecificCardId)
+                .Select(c => c.MapPosition)
+                .ToList();
         }
 
-        return targetCandidates;
+        if (spawnPoint.Garrison && spawnPoint.SpawnTags != Tags.None)
+        {
+            return player.Map
+                .Where(c => c.Data.CardType == CardType.Building)
+                .Where(c => c.Data.Tags.HasFlag(spawnPoint.SpawnTags))
+                .Select(b => b.MapPosition)
+                .ToList();
+        }
+
+        var availableTiles = _map.GetReachable(player.TownCenter.Position, player.InfluenceRange);
+
+        if (spawnPoint.SpawnTags != Tags.None)
+        {
+            var buildings = player.Map.Where(c => c.Data.Tags.HasFlag(spawnPoint.SpawnTags)).Select(b => b.MapPosition).ToList();
+            availableTiles = availableTiles.Where(t => _map.GetNeighbors(t).Any(n => buildings.Contains(n.Position)));
+        }
+
+        if (spawnPoint.Resource != ResourceType.None)
+        {
+            availableTiles = availableTiles.Where(t => _map.GetNeighbors(t).Any(n =>
+                n.ResourceType != ResourceType.None && spawnPoint.Resource.HasFlag(n.ResourceType)));
+        }
+
+        return availableTiles.ToList();
     }
 }

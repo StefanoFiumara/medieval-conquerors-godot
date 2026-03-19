@@ -81,10 +81,10 @@ public partial class CardDataEditor : PanelContainer
 		}
 		else
 		{
-			// Populate UI controls from CardData
 			CurrentCardId = data.Id;
 			_cardTitle.Text = data.Title ?? string.Empty;
 			_description.Text = data.Description ?? string.Empty;
+			// TODO: Set value for token selector
 			_portraitSelector.SetValue(data.ImagePath);
 			_cardTypeSelector.SelectedOption = data.CardType;
 			_tagSelector.SelectedTags = data.Tags;
@@ -100,7 +100,9 @@ public partial class CardDataEditor : PanelContainer
 			Title = _cardTitle.Text?.Trim() ?? string.Empty,
 			Description = _description.Text?.Trim() ?? string.Empty,
 			ImagePath = (string)_portraitSelector.GetValue(),
-			TokenImagePath = string.Empty, // TODO: Wire up TilesheetSelector for token selection
+			// TODO: Get value from token selection
+			// TODO: Migration script to set token image to sprite frame index instead of uid
+			TokenImagePath = string.Empty,
 			CardType = _cardTypeSelector.SelectedOption,
 			Tags = _tagSelector.SelectedTags,
 			Attributes = _attributesEditor.Create()

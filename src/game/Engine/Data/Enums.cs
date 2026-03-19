@@ -18,10 +18,11 @@ public enum TileTerrain
 
 public enum CardType
 {
-    None,
-    Building,
-    Unit,
-    Technology
+    None = 0,
+    Building = 1,
+    Unit = 2,
+    Technology = 3,
+    Action = 4
 }
 
 [Flags]
