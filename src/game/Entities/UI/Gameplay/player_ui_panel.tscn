@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://c5ftsyqphp4r" path="res://Entities/UI/Gameplay/PlayerUiPanel.cs" id="1_miglb"]
 [ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://Entities/UI/Gameplay/resource_icons.png" id="2_lwx21"]
 [ext_resource type="FontFile" uid="uid://bnndeil6c3twa" path="res://Fonts/QUILLPN.TTF" id="3_wjjp0"]
-[ext_resource type="Theme" uid="uid://d1r0k0noqn4vk" path="res://Entities/UI/primary_button.theme" id="5_vx6qn"]
 [ext_resource type="Texture2D" uid="uid://cus8a0bckc5rh" path="res://Entities/UI/Gameplay/deck.png" id="7_fypch"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vx6qn"]
@@ -211,6 +210,5 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(225, 75)
 layout_mode = 2
 focus_mode = 0
-theme = ExtResource("5_vx6qn")
 theme_override_font_sizes/font_size = 35
 text = "End Turn"
