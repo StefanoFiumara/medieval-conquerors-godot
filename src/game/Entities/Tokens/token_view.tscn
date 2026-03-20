@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://civascfpgtcfj"]
 
 [ext_resource type="Script" uid="uid://b340kxtaahvhy" path="res://Entities/Tokens/TokenView.cs" id="1_vbu4k"]
-[ext_resource type="Texture2D" uid="uid://cnjl66dtkfg3x" path="res://Entities/Tokens/TokenIcons/missing_icon.png" id="2_csv2c"]
+[ext_resource type="Texture2D" uid="uid://bxo0vn0mp4ukb" path="res://Entities/Tokens/TokenIcons/new_tokens/token_badge.png" id="2_xje58"]
 
 [node name="token_view" type="Node2D" unique_id=144179664 node_paths=PackedStringArray("_image")]
 script = ExtResource("1_vbu4k")
 _image = NodePath("token_sprite")
 
 [node name="token_sprite" type="Sprite2D" parent="." unique_id=547653733]
-texture = ExtResource("2_csv2c")
+texture = ExtResource("2_xje58")
 hframes = 2
 region_rect = Rect2(480, 280, 120, 140)

@@ -231,6 +231,7 @@ public partial class HandView : Node2D, IGameComponent
 		cardView.Position = position;
 
 		Cards.Add(cardView);
+		cardView.ZIndex = Cards.Count + 10;
 		AddChild(cardView);
 
 		cardView.Load(Game, card);
@@ -239,11 +240,15 @@ public partial class HandView : Node2D, IGameComponent
 	}
 
 	// TODO: Could it be possible to return only one tween here?
-	public List<Tween> ArrangeHandTween(double duration = 0.25)
+	//   ANSWER: Yes, but we need separate tweens for the tween tracker.
+	public List<Tween> ArrangeHandTween(int? max = null)
 	{
+		const double TWEEN_DURATION = 0.2;
 		var tweens = new List<Tween>();
 
-		for (var i = 0; i < Cards.Count; i++)
+		var limit = Mathf.Min(max ?? Cards.Count, Cards.Count);
+
+		for (var i = 0; i < limit; i++)
 		{
 			// Do not animate hovered/selected card.
 			if (i == _hoveredIndex)  continue;
@@ -254,13 +259,14 @@ public partial class HandView : Node2D, IGameComponent
 
 			var tween = CreateTween()
 				.SetTrans(Tween.TransitionType.Sine)
+				.SetEase(Tween.EaseType.Out)
 				.SetParallel();
 
 			var (targetPosition, targetRotation) = GetCardPosition(card);
 
-			tween.TweenProperty(card, "position", targetPosition, duration);
-			tween.TweenProperty(card, "rotation", targetRotation, duration);
-			tween.TweenProperty(card, "scale", Vector2.One, duration);
+			tween.TweenProperty(card, "position", targetPosition, TWEEN_DURATION);
+			tween.TweenProperty(card, "rotation", targetRotation, TWEEN_DURATION);
+			tween.TweenProperty(card, "scale", Vector2.One, TWEEN_DURATION);
 
 			tweens.Add(tween);
 			_tweenTracker.TrackTween(tween, card);
@@ -272,7 +278,7 @@ public partial class HandView : Node2D, IGameComponent
 		return tweens;
 	}
 
-	private (Vector2 position, float rotation) GetCardPosition(CardView card)
+	public (Vector2 position, float rotation) GetCardPosition(CardView card)
 	{
 		var ratio = 0.5f;
 		if (Cards.Count > 1)

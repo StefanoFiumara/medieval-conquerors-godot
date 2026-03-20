@@ -38,7 +38,7 @@ public partial class CardCreationView : Node2D, IGameComponent
 
 	private IEnumerator CreateCardAnimation(IGame game, GameAction action)
 	{
-		const double TWEEN_DURATION = 0.6;
+		const double TWEEN_DURATION = 0.45;
 		yield return true;
 
 		var createAction = (CreateCardAction) action;
@@ -66,7 +66,8 @@ public partial class CardCreationView : Node2D, IGameComponent
 			{
 				_hand.Cards.Remove(cardView);
 
-				var subTween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
+				var subTween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In).SetParallel();
+
 				var targetPosition = createAction.TargetZone == Zone.Deck
 					? HandView.DeckPosition
 					: HandView.DiscardPosition;
@@ -75,9 +76,9 @@ public partial class CardCreationView : Node2D, IGameComponent
 					? Mathf.Pi / 4
 					: -Mathf.Pi / 4;
 
-				subTween.TweenInterval(TWEEN_DURATION * i);
-				subTween.Chain().TweenProperty(cardView, "position", targetPosition, TWEEN_DURATION / 2);
-				subTween.TweenProperty(cardView, "rotation", targetRotation, TWEEN_DURATION / 2);
+				subTween.TweenInterval(0.3f * TWEEN_DURATION * i);
+				subTween.Chain().TweenProperty(cardView, "position", targetPosition, TWEEN_DURATION);
+				subTween.TweenProperty(cardView, "rotation", targetRotation, TWEEN_DURATION);
 				subTween.Chain().TweenCallback(Callable.From(() =>
 				{
 					cardView.QueueFree();

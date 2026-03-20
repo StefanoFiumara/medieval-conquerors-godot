@@ -36,6 +36,7 @@ theme/default_font_antialiasing=2
 theme/default_font_generate_mipmaps=true
 theme/lcd_subpixel_layout=3
 theme/custom="uid://dcq6255dbio08"
+theme/custom_font="uid://oqgmq65h4014"
 
 [rendering]
 

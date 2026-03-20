@@ -8,16 +8,16 @@
 [ext_resource type="FontFile" uid="uid://d3j846ppsvp5i" path="res://Fonts/EagleLake-Regular.ttf" id="6_6fqni"]
 [ext_resource type="Texture2D" uid="uid://y81exu5tsfw" path="res://Entities/Cards/card_banners.png" id="6_7vl60"]
 [ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://Entities/UI/Gameplay/resource_icons.png" id="7_356ln"]
+[ext_resource type="FontFile" uid="uid://bqb3xfq11no6d" path="res://Fonts/Segoe UI Bold.ttf" id="8_grpod"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_hu4f0"]
 font = ExtResource("6_6fqni")
 shadow_color = Color(0, 0, 0, 0.882353)
 
 [sub_resource type="LabelSettings" id="LabelSettings_6q0cx"]
+font = ExtResource("8_grpod")
 font_size = 13
 font_color = Color(0, 0, 0, 1)
-outline_size = 1
-outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Theme" id="Theme_pldyj"]
 
@@ -108,9 +108,7 @@ offset_right = 73.0
 offset_bottom = 118.0
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/normal_font_size = 11
 bbcode_enabled = true
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 scroll_active = false

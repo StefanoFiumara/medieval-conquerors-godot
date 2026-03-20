@@ -58,7 +58,7 @@ public class PlayerSystem : GameComponent, IAwake
                 // TEMP: mocked deck info data using IDs from our DB, to test deck loading from disk
                 // (2, 2), // 2 Knights
                 (6, 2), // Lumber Camp
-                (10, 2), // Mining Camp
+                (10, 1), // Mining Camp
                 (13, 2), // Mill
                 (15, 1) // Agriculture
             };

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Actions;
@@ -38,35 +39,70 @@ public partial class DrawView : Node2D, IGameComponent
 
 	private IEnumerator DrawCardsAnimation(IGame game, GameAction action)
 	{
-		yield return true;
-		var drawAction = (DrawCardsAction) action;
+		const double TWEEN_DURATION = 0.4;
 
+		int prevHandCount = _hand.Cards.Count;
+		yield return true;
+
+		var drawAction = (DrawCardsAction) action;
 		// TODO: Draw animation for opposite player?
 		if (drawAction.TargetPlayerId != Match.LOCAL_PLAYER_ID) yield break;
 
 		foreach (var card in drawAction.DrawnCards)
-		{
 			_hand.CreateCardView(card, HandView.DeckPosition);
-			var tweens = _hand.ArrangeHandTween();
-			while (tweens.Any(t => t.IsRunning())) yield return null;
+
+		if (prevHandCount > 0)
+		{
+			var arrangeTween = _hand.ArrangeHandTween(max: prevHandCount);
+			//while (arrangeTween.Any(t => t.IsRunning())) yield return null;
 		}
+
+		List<Tween> tweens = [];
+		for (var i = 0; i < drawAction.DrawnCards.Count; i++)
+		{
+			var card = drawAction.DrawnCards[i];
+			var cardView = _hand.Cards.SingleOrDefault(c => c.Card == card);
+
+			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out).SetParallel();
+
+			var delay = i * TWEEN_DURATION * 0.25f;
+			var (targetPosition, targetRotation) = _hand.GetCardPosition(cardView);
+
+			tween.TweenInterval(delay);
+			tween.Chain().TweenProperty(cardView, "position", targetPosition, TWEEN_DURATION);
+			tween.TweenProperty(cardView, "rotation", targetRotation, TWEEN_DURATION);
+			tween.TweenProperty(cardView, "scale", Vector2.One, TWEEN_DURATION);
+
+			tweens.Add(tween);
+		}
+
+		if(tweens.Count > 0)
+			while (tweens[^1].IsRunning()) yield return null;
+
+		// TODO: may need to run this before and after the draw animation, depending on how it looks
+		var handTweens = _hand.ArrangeHandTween();
+		while (handTweens.Any(t => t.IsRunning())) yield return null;
+
 	}
 
 	private IEnumerator DiscardCardsAnimation(IGame game, GameAction action)
 	{
-		const double TWEEN_DURATION = 0.25;
+		const double TWEEN_DURATION = 0.4;
 		var discardAction = (DiscardCardsAction) action;
 
 		yield return true;
 
 		var discardedViews = _hand.Cards.Where(v => discardAction.CardsToDiscard.Contains(v.Card)).Reverse().ToList();
-		foreach (var cardView in discardedViews)
+		List<Tween> tweens = [];
+		for (var i = 0; i < discardedViews.Count; i++)
 		{
+			var cardView = discardedViews[i];
 			cardView.RemoveHighlight();
+			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In).SetParallel();
 
-			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
-
-			tween.TweenProperty(cardView, "position", HandView.DiscardPosition, TWEEN_DURATION);
+			var delay = i * TWEEN_DURATION * 0.25f;
+			tween.TweenInterval(delay);
+			tween.Chain().TweenProperty(cardView, "position", HandView.DiscardPosition, TWEEN_DURATION);
 			tween.TweenProperty(cardView, "rotation", Mathf.Pi / 4, TWEEN_DURATION);
 			tween.TweenProperty(cardView, "scale", Vector2.One * 1.3f, TWEEN_DURATION);
 			tween.TweenProperty(cardView, "modulate:a", 0f, TWEEN_DURATION);
@@ -76,9 +112,11 @@ public partial class DrawView : Node2D, IGameComponent
 				cardView.QueueFree();
 			}));
 
-			// TODO: convert this into a tween with an interval so we can overlap the card animations a little bit
-			while (tween.IsRunning()) yield return null;
+			tweens.Add(tween);
 		}
+
+		if(tweens.Count > 0)
+			while (tweens[^1].IsRunning()) yield return null;
 
 		var arrangeTweens = _hand.ArrangeHandTween();
 		while (arrangeTweens.Any(t => t.IsRunning())) yield return null;
