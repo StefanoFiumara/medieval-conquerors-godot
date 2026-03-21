@@ -12,12 +12,14 @@ public partial class TilesheetSelector : OptionButton, IValueEditor
 	private const int IconMaxWidth = 32;
 	private const string MissingIcon = "uid://dnofkwp8xw7ys";
 
+	public const int None = 0;
+
 	[Export] public Texture2D Tilesheet { get; set; }
 
 	[Export] public int Columns { get; set; } = 1;
 	[Export] public int Rows { get; set; } = 1;
 
-	[Export] public int NumTilesToShow { get; set; } = -1;
+	[Export] public int NumTilesToShow { get; set; } = None;
 
 	public override void _Ready()
 	{
@@ -90,7 +92,7 @@ public partial class TilesheetSelector : OptionButton, IValueEditor
 
 	public void SetValue(object value)
 	{
-		if (value is int frameIndex && frameIndex >= 0)
+		if (value is int frameIndex and >= 0)
 		{
 			var itemIndex = GetItemIndex(frameIndex);
 			if (itemIndex >= 0)

@@ -67,4 +67,9 @@ public class Card
         return modifierList.Cast<Func<TAttribute, TAttribute>>()
             .Aggregate(original, (current, modifier) => modifier(current));
     }
+
+    // TODO: GetDescription would go here, it will iterate through all the attributes, apply modifiers, and generate a description from those who have an IDescriptionProvider
+    // Then - Description is part of the **State** of the card, rather than CardData
+    // CardData can still have flavor text or additional text that doesn't rely on attributes to generate
+    // But by deriving from attributes, we can do things like show real-time values when things are discounted or boosted.
 }

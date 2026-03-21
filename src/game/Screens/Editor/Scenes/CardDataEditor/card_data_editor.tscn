@@ -11,7 +11,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2uco"]
 
-[node name="card_data_editor" type="PanelContainer" unique_id=1045517091 node_paths=PackedStringArray("_statusLabel", "_newButton", "_saveButton", "_deleteButton", "_cardTitle", "_description", "_portraitSelector", "_cardTypeSelector", "_tagSelector", "_attributesEditor")]
+[node name="card_data_editor" type="PanelContainer" unique_id=1045517091 node_paths=PackedStringArray("_statusLabel", "_newButton", "_saveButton", "_deleteButton", "_cardTitle", "_description", "_portraitSelector", "_tokenSelector", "_cardTypeSelector", "_tagSelector", "_attributesEditor")]
 offset_right = 635.0
 offset_bottom = 700.0
 size_flags_vertical = 3
@@ -23,6 +23,7 @@ _deleteButton = NodePath("margin/vbox_container/save_load/delete_btn")
 _cardTitle = NodePath("margin/vbox_container/title/title_edit")
 _description = NodePath("margin/vbox_container/scroll_container/margin/vbox_container/description/desc_edit")
 _portraitSelector = NodePath("margin/vbox_container/scroll_container/margin/vbox_container/portrait/portrait_selector")
+_tokenSelector = NodePath("margin/vbox_container/scroll_container/margin/vbox_container/token/token_selector")
 _cardTypeSelector = NodePath("margin/vbox_container/scroll_container/margin/vbox_container/card_type/card_type_selector")
 _tagSelector = NodePath("margin/vbox_container/scroll_container/margin/vbox_container/tags/tags_selector")
 _attributesEditor = NodePath("margin/vbox_container/scroll_container/margin/vbox_container/attributes_editor")

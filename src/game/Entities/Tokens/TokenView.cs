@@ -17,17 +17,14 @@ public partial class TokenView : Node2D, IClickable
 	{
 		Card = card;
 
-		// TODO: Update CardData with token frame ID instead of UID
-		//		 Set token frame ID in _icon sprite
-		//		Set up Garrison View
-		// if (ResourceUid.TextToId(card.Data.TokenFrameId) != ResourceUid.InvalidId)
-		// 	_badge.Texture = GD.Load<Texture2D>(Card.Data.TokenFrameId);
-
 		// NOTE: The Match Player ID matches up to the frame we want to display for the badge:
 		//		0 == Local Player
 		//		1 == Enemy Player
 		_badge.Frame = card.Owner.Id;
+		_icon.Frame = card.Data.TokenFrameId;
 
+		// TODO: Set up Garrison View
+		// IDEA: Calculate builder token position in code?
 		SetGarrisonView(0);
 	}
 

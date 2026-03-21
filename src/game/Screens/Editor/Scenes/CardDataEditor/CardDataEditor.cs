@@ -24,9 +24,10 @@ public partial class CardDataEditor : PanelContainer
 	[Export] private LineEdit _cardTitle;
 	[Export] private TextEdit _description;
 	[Export] private ImageSelector _portraitSelector;
-	// TODO: Add TilesheetSelector for token selection
+	[Export] private TilesheetSelector _tokenSelector;
 	[Export] private CardTypeOptions _cardTypeSelector;
 	[Export] private TagSelector _tagSelector;
+
 	// TODO: Use ListEditor Interface after removing [Export]
 	[Export] private AttributesEditor _attributesEditor;
 
@@ -84,8 +85,8 @@ public partial class CardDataEditor : PanelContainer
 			CurrentCardId = data.Id;
 			_cardTitle.Text = data.Title ?? string.Empty;
 			_description.Text = data.Description ?? string.Empty;
-			// TODO: Set value for token selector
 			_portraitSelector.SetValue(data.CardPortraitUid);
+			_tokenSelector.SetValue(data.TokenFrameId);
 			_cardTypeSelector.SelectedOption = data.CardType;
 			_tagSelector.SelectedTags = data.Tags;
 			_attributesEditor.Load("Attributes:", data.Attributes.ToList(), allowDelete: false);
@@ -100,7 +101,7 @@ public partial class CardDataEditor : PanelContainer
 			Title = _cardTitle.Text?.Trim() ?? string.Empty,
 			Description = _description.Text?.Trim() ?? string.Empty,
 			CardPortraitUid = (string)_portraitSelector.GetValue(),
-			TokenFrameId = 0, // TODO: Get value from token selection
+			TokenFrameId = (int) _tokenSelector.GetValue(),
 			CardType = _cardTypeSelector.SelectedOption,
 			Tags = _tagSelector.SelectedTags,
 			Attributes = _attributesEditor.Create()
@@ -117,6 +118,7 @@ public partial class CardDataEditor : PanelContainer
 		_cardTypeSelector.Disabled = false;
 		_tagSelector.Enable();
 		_portraitSelector.Enable();
+		_tokenSelector.Enable();
 		_attributesEditor.Enable();
 	}
 
@@ -128,6 +130,7 @@ public partial class CardDataEditor : PanelContainer
 		_cardTypeSelector.Disabled = true;
 		_tagSelector.Disable();
 		_portraitSelector.Disable();
+		_tokenSelector.Disable();
 		_attributesEditor.Disable();
 	}
 
@@ -137,6 +140,7 @@ public partial class CardDataEditor : PanelContainer
 		_cardTitle.Text = string.Empty;
 		_description.Text = string.Empty;
 		_portraitSelector.SetValue(ImageSelector.None);
+		_tokenSelector.SetValue(TilesheetSelector.None);
 		_cardTypeSelector.SelectedOption = CardType.None;
 		_tagSelector.SelectedTags = Tags.None;
 		_attributesEditor.Reset();
