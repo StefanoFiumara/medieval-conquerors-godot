@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://byvjgctld2qh5"]
 
 [ext_resource type="Script" uid="uid://x85002jm1pxs" path="res://Editors/ObjectEditor/ObjectEditor.cs" id="1_fbwh6"]
-[ext_resource type="Theme" uid="uid://drpmjhbhww74k" path="res://Entities/UI/danger_button.theme" id="2_d4hqn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n8ylx"]
 bg_color = Color(0.24705882, 0.24705882, 0.24705882, 1)

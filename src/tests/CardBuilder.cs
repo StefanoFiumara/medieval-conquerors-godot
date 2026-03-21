@@ -15,8 +15,6 @@ public class CardBuilder
     private readonly Player _owner;
     private string? _title;
     private string? _description;
-    private string? _imagePath;
-    private string? _tokenImagePath;
     private CardType _cardType;
     private Tags _tags;
     private readonly List<CardAttribute> _attributes = new();
@@ -35,18 +33,6 @@ public class CardBuilder
     public CardBuilder WithDescription(string description)
     {
         _description = description;
-        return this;
-    }
-
-    public CardBuilder WithImagePath(string imagePath)
-    {
-        _imagePath = imagePath;
-        return this;
-    }
-
-    public CardBuilder WithTokenImagePath(string imagePath)
-    {
-        _tokenImagePath = imagePath;
         return this;
     }
 
@@ -130,8 +116,6 @@ public class CardBuilder
             Id = 0,
             Title = _title,
             Description = _description,
-            ImagePath = _imagePath,
-            TokenImagePath = _tokenImagePath,
             CardType = _cardType,
             Tags = _tags,
             Attributes = _attributes

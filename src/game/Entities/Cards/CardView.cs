@@ -81,8 +81,8 @@ public partial class CardView : Node2D, IClickable
 
 		// _background.Frame = _cardFrameMap.GetValueOrDefault(Card.CardData.CardType, 0);
 
-		if (ResourceUid.TextToId(card.Data.ImagePath) != ResourceUid.InvalidId)
-			_image.Texture = GD.Load<Texture2D>(Card.Data.ImagePath);
+		if (ResourceUid.TextToId(card.Data.CardPortraitUid) != ResourceUid.InvalidId)
+			_image.Texture = GD.Load<Texture2D>(Card.Data.CardPortraitUid);
 
 		if (Card.HasAttribute<ResourceCostAttribute>(out var cost))
 		{

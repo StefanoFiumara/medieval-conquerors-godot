@@ -1,11 +1,8 @@
 [gd_scene format=3 uid="uid://b7rdfip0s4fyf"]
 
 [ext_resource type="Script" uid="uid://vj4kp50aw2ya" path="res://Screens/Editor/Scenes/CardDataEditor/CardDataEditor.cs" id="1_sh3r2"]
-[ext_resource type="Theme" uid="uid://d1r0k0noqn4vk" path="res://Entities/UI/primary_button.theme" id="2_8yi51"]
 [ext_resource type="Script" uid="uid://0xeajluhirkr" path="res://Editors/Options/CardTypeOptions.cs" id="2_87lta"]
-[ext_resource type="Theme" uid="uid://beqkmwretppcp" path="res://Entities/UI/success_button.theme" id="2_dr5r6"]
 [ext_resource type="Script" uid="uid://5anf4gyb3y3t" path="res://Editors/ObjectEditor/CustomEditors/ValueEditors/ImageSelector.cs" id="2_ildny"]
-[ext_resource type="Theme" uid="uid://drpmjhbhww74k" path="res://Entities/UI/danger_button.theme" id="2_wht8j"]
 [ext_resource type="Script" uid="uid://b8d65eblp6du5" path="res://Editors/ObjectEditor/CustomEditors/ValueEditors/TagSelector.cs" id="3_yh4g2"]
 [ext_resource type="Script" uid="uid://cxwy0dyebkcy3" path="res://Editors/ObjectEditor/CustomEditors/ValueEditors/TilesheetSelector.cs" id="6_w2vkn"]
 [ext_resource type="Texture2D" uid="uid://dyyu70818feu4" path="res://Entities/Tokens/TokenIcons/new_tokens/tokens_tilesheet.png" id="7_lfskp"]
@@ -59,21 +56,18 @@ alignment = 2
 [node name="save_btn" type="Button" parent="margin/vbox_container/save_load" unique_id=970661013]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-theme = ExtResource("2_dr5r6")
 disabled = true
 text = "Save"
 
 [node name="delete_btn" type="Button" parent="margin/vbox_container/save_load" unique_id=2138006475]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-theme = ExtResource("2_wht8j")
 disabled = true
 text = "Delete"
 
 [node name="new_btn" type="Button" parent="margin/vbox_container/save_load" unique_id=1826127457]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-theme = ExtResource("2_8yi51")
 theme_type_variation = &"PrimaryButton"
 text = "New"
 

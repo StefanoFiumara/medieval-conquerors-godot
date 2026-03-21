@@ -1,24 +1,34 @@
 [gd_scene format=3 uid="uid://c7w7oi0ih5jku"]
 
+[ext_resource type="Script" uid="uid://chcpkp6aj12xc" path="res://Editors/UpdateDatabase.cs" id="1_8rjn7"]
 [ext_resource type="PackedScene" uid="uid://r8nd3ueedopk" path="res://Screens/Editor/Scenes/LibraryEditor/library_editor.tscn" id="1_ojog6"]
 [ext_resource type="PackedScene" uid="uid://b7rdfip0s4fyf" path="res://Screens/Editor/Scenes/CardDataEditor/card_data_editor.tscn" id="2_8rjn7"]
 
-[node name="editor-container" type="VBoxContainer" unique_id=75646481]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="margin" type="MarginContainer" parent="." unique_id=1806745504]
-layout_mode = 2
+[node name="Editor" type="MarginContainer" unique_id=1806745504]
+offset_right = 1920.0
+offset_bottom = 1080.0
 size_flags_vertical = 3
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="split_container" type="HSplitContainer" parent="margin" unique_id=227729684]
+[node name="vbox_container" type="VBoxContainer" parent="." unique_id=75646481]
+layout_mode = 2
+
+[node name="migrate_panel" type="PanelContainer" parent="vbox_container" unique_id=1345358610]
+visible = false
+layout_mode = 2
+
+[node name="margin" type="MarginContainer" parent="vbox_container/migrate_panel" unique_id=698297660]
+layout_mode = 2
+
+[node name="migration_button" type="Button" parent="vbox_container/migrate_panel/margin" unique_id=277054354]
+layout_mode = 2
+text = "Update Database"
+script = ExtResource("1_8rjn7")
+
+[node name="split_container" type="HSplitContainer" parent="vbox_container" unique_id=227729684]
 layout_mode = 2
 size_flags_vertical = 3
 split_offsets = PackedInt32Array(550)
@@ -26,9 +36,9 @@ collapsed = true
 dragging_enabled = false
 split_offset = 550
 
-[node name="card_library" parent="margin/split_container" unique_id=660874579 instance=ExtResource("1_ojog6")]
+[node name="card_library" parent="vbox_container/split_container" unique_id=660874579 instance=ExtResource("1_ojog6")]
 layout_mode = 2
 
-[node name="card_data_editor" parent="margin/split_container" unique_id=1949881826 node_paths=PackedStringArray("_libraryEditor") instance=ExtResource("2_8rjn7")]
+[node name="card_data_editor" parent="vbox_container/split_container" unique_id=1949881826 node_paths=PackedStringArray("_libraryEditor") instance=ExtResource("2_8rjn7")]
 layout_mode = 2
 _libraryEditor = NodePath("../card_library")

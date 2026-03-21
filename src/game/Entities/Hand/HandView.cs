@@ -243,7 +243,7 @@ public partial class HandView : Node2D, IGameComponent
 	//   ANSWER: Yes, but we need separate tweens for the tween tracker.
 	public List<Tween> ArrangeHandTween(int? max = null)
 	{
-		const double TWEEN_DURATION = 0.2;
+		const double TWEEN_DURATION = 0.3;
 		var tweens = new List<Tween>();
 
 		var limit = Mathf.Min(max ?? Cards.Count, Cards.Count);

@@ -78,9 +78,9 @@ public partial class LibraryEditor : PanelContainer
 		{
 			_searchResults.Add(card);
 
-			var iconPath = ResourceUid.TextToId(card.ImagePath) == ResourceUid.InvalidId
+			var iconPath = ResourceUid.TextToId(card.CardPortraitUid) == ResourceUid.InvalidId
 				? "uid://dnofkwp8xw7ys" // Missing Icon
-				: card.ImagePath;
+				: card.CardPortraitUid;
 
 			var icon = GD.Load<Texture2D>(iconPath);
 			_resultsContainer.AddItem(card.Title, icon);

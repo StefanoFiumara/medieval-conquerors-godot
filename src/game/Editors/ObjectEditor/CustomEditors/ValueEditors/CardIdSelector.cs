@@ -25,14 +25,20 @@ public partial class CardIdSelector : CenterContainer, IValueEditor
         popup.SetItemIconMaxWidth(0, IconMaxWidth);
 
         using var database = new CardDatabase();
-        var cards = database.Query.OrderBy(c => c.Id).Select(c => new { c.Id, c.Title, c.ImagePath }).ToList();
+        var cards = database.Query.OrderBy(c => c.Id)
+            .Select(c => new
+            {
+                c.Id,
+                c.Title,
+                PortraitUid = c.CardPortraitUid
+            }).ToList();
 
         for(int i = 0; i < cards.Count; i++)
         {
             var card = cards[i];
-            var iconPath = ResourceUid.TextToId(card.ImagePath) == ResourceUid.InvalidId
+            var iconPath = ResourceUid.TextToId(card.PortraitUid) == ResourceUid.InvalidId
                 ? MissingIcon
-                : card.ImagePath;
+                : card.PortraitUid;
             var tex = GD.Load<Texture2D>(iconPath);
             _options.AddIconItem(tex, card.Title, card.Id);
             popup.SetItemIconMaxWidth(i + 1, IconMaxWidth);

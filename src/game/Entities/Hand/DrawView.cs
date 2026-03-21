@@ -39,7 +39,7 @@ public partial class DrawView : Node2D, IGameComponent
 
 	private IEnumerator DrawCardsAnimation(IGame game, GameAction action)
 	{
-		const double TWEEN_DURATION = 0.4;
+		const double TWEEN_DURATION = 0.6;
 
 		int prevHandCount = _hand.Cards.Count;
 		yield return true;
@@ -53,8 +53,7 @@ public partial class DrawView : Node2D, IGameComponent
 
 		if (prevHandCount > 0)
 		{
-			var arrangeTween = _hand.ArrangeHandTween(max: prevHandCount);
-			//while (arrangeTween.Any(t => t.IsRunning())) yield return null;
+			_hand.ArrangeHandTween(max: prevHandCount);
 		}
 
 		List<Tween> tweens = [];
@@ -63,7 +62,7 @@ public partial class DrawView : Node2D, IGameComponent
 			var card = drawAction.DrawnCards[i];
 			var cardView = _hand.Cards.SingleOrDefault(c => c.Card == card);
 
-			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out).SetParallel();
+			var tween = CreateTween().SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out).SetParallel();
 
 			var delay = i * TWEEN_DURATION * 0.25f;
 			var (targetPosition, targetRotation) = _hand.GetCardPosition(cardView);

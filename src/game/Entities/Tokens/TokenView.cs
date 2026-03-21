@@ -8,7 +8,8 @@ namespace MedievalConquerors.Entities.Tokens;
 
 public partial class TokenView : Node2D, IClickable
 {
-	[Export] private Sprite2D _image;
+	[Export] private Sprite2D _badge;
+	[Export] private Sprite2D _icon;
 
 	public Card Card { get; private set; }
 
@@ -16,23 +17,23 @@ public partial class TokenView : Node2D, IClickable
 	{
 		Card = card;
 
-		if (ResourceUid.TextToId(card.Data.TokenImagePath) != ResourceUid.InvalidId)
-			_image.Texture = GD.Load<Texture2D>(Card.Data.TokenImagePath);
+		// TODO: Update CardData with token frame ID instead of UID
+		//		 Set token frame ID in _icon sprite
+		//		Set up Garrison View
+		// if (ResourceUid.TextToId(card.Data.TokenFrameId) != ResourceUid.InvalidId)
+		// 	_badge.Texture = GD.Load<Texture2D>(Card.Data.TokenFrameId);
 
-		// NOTE: The Match Player ID matches up to the frame we want to display for this token:
+		// NOTE: The Match Player ID matches up to the frame we want to display for the badge:
 		//		0 == Local Player
 		//		1 == Enemy Player
-		_image.Frame = card.Owner.Id;
+		_badge.Frame = card.Owner.Id;
 
-		// TODO: Set up glow tile based on alliance?
-		// TODO: Disable glow tile entirely and just focus on tooltip?
-
-		// TODO: Put this info in a tooltip
-		UpdateGarrisonInfo();
+		SetGarrisonView(0);
 	}
 
-	public void UpdateGarrisonInfo()
+	public void SetGarrisonView(int garrisonCount)
 	{
+		// TODO: set up radial view around the badge with garrisoned villager icons
 		var garrison = Card.GetAttribute<GarrisonCapacityAttribute>();
 		if (garrison == null)
 		{

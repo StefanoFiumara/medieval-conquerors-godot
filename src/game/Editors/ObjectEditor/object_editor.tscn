@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://bxlv4w3wwtsro"]
 
 [ext_resource type="Script" uid="uid://x85002jm1pxs" path="res://Editors/ObjectEditor/ObjectEditor.cs" id="1_qe2mh"]
-[ext_resource type="Theme" uid="uid://drpmjhbhww74k" path="res://Entities/UI/danger_button.theme" id="2_dsaro"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n8ylx"]
 bg_color = Color(0.24705882, 0.24705882, 0.24705882, 1)
@@ -36,7 +35,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 size_flags_vertical = 0
-theme = ExtResource("2_dsaro")
 text = "X"
 
 [node name="collapsible_container" type="FoldableContainer" parent="margin/hbox" unique_id=1577967271]
