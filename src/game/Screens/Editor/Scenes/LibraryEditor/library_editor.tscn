@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://b8d65eblp6du5" path="res://Editors/ObjectEditor/CustomEditors/ValueEditors/TagSelector.cs" id="2_tgu0f"]
 [ext_resource type="Script" uid="uid://0xeajluhirkr" path="res://Editors/Options/CardTypeOptions.cs" id="3_f4rss"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nd501"]
+
 [node name="library_editor" type="PanelContainer" unique_id=1473913273 node_paths=PackedStringArray("_clearButton", "_searchInput", "_tagFilter", "_typeFilter", "_resultsContainer")]
 custom_minimum_size = Vector2(300, 0)
 anchors_preset = 15
@@ -33,9 +35,9 @@ theme_override_constants/margin_bottom = 10
 [node name="library_vbox_container" type="VBoxContainer" parent="margin" unique_id=2039650393]
 layout_mode = 2
 
-[node name="clear_margin" type="MarginContainer" parent="margin/library_vbox_container" unique_id=2127820102]
+[node name="clear_margin" type="PanelContainer" parent="margin/library_vbox_container" unique_id=334286522]
 layout_mode = 2
-theme_override_constants/margin_left = 115
+theme_override_styles/panel = SubResource("StyleBoxEmpty_nd501")
 
 [node name="clear_btn" type="Button" parent="margin/library_vbox_container/clear_margin" unique_id=871109210]
 custom_minimum_size = Vector2(100, 0)
