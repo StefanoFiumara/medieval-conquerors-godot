@@ -36,9 +36,10 @@ layout_mode = 2
 
 [node name="close_button" type="Button" parent="margin/hbox" unique_id=1603427052]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(25, 25)
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_vertical = 0
+theme_type_variation = &"DangerButton"
 text = "X"
 
 [node name="collapsible_container" type="FoldableContainer" parent="margin/hbox" unique_id=335176544]

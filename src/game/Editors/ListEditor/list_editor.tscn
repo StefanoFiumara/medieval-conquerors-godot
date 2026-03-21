@@ -32,6 +32,7 @@ theme_override_constants/separation = 22
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+theme_type_variation = &"DangerButton"
 text = "X"
 
 [node name="title_label" type="Label" parent="margin/vbox/margin/editor_controls" unique_id=259211888]

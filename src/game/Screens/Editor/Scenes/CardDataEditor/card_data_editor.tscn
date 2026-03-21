@@ -56,12 +56,14 @@ alignment = 2
 [node name="save_btn" type="Button" parent="margin/vbox_container/save_load" unique_id=970661013]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_type_variation = &"SuccessButton"
 disabled = true
 text = "Save"
 
 [node name="delete_btn" type="Button" parent="margin/vbox_container/save_load" unique_id=2138006475]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_type_variation = &"DangerButton"
 disabled = true
 text = "Delete"
 
