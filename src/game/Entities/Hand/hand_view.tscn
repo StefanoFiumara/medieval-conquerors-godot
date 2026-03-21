@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://cf2f05aqcc23" path="res://Entities/Hand/DrawView.cs" id="2_l7t5f"]
 [ext_resource type="Script" uid="uid://ja4ae05oao6" path="res://Entities/Hand/PlayCardsView.cs" id="3_veqgi"]
 [ext_resource type="Script" uid="uid://b2klv5aka30yl" path="res://Entities/Hand/CardCreationView.cs" id="4_ysnsg"]
+[ext_resource type="Texture2D" uid="uid://25jeqc1kr4i3" path="res://Entities/Cards/tiny_cardback.png" id="5_bvpkx"]
+[ext_resource type="Script" uid="uid://c68yp5u4v0y8t" path="res://Entities/Hand/DeckCycleView.cs" id="6_svh7g"]
 
 [sub_resource type="Curve" id="Curve_syyef"]
 _limits = [-1.0, 1.0, 0.0, 1.0]
@@ -26,6 +28,32 @@ script = ExtResource("1_psvbr")
 _spreadCurve = SubResource("Curve_syyef")
 _heightCurve = SubResource("Curve_rdm8g")
 _rotationCurve = SubResource("Curve_nqi6x")
+
+[node name="deck_cycle_view" type="CPUParticles2D" parent="." unique_id=604149055]
+top_level = true
+z_index = 1000
+position = Vector2(1962, 1135)
+emitting = false
+amount = 10
+texture = ExtResource("5_bvpkx")
+lifetime = 1.1
+one_shot = true
+explosiveness = 0.4
+local_coords = true
+draw_order = 1
+emission_shape = 2
+emission_sphere_radius = 75.0
+particle_flag_align_y = true
+direction = Vector2(-60, -60)
+spread = 0.0
+gravity = Vector2(0, 3500)
+initial_velocity_min = 2600.0
+initial_velocity_max = 2650.0
+linear_accel_min = -10.5
+linear_accel_max = 35.55
+damping_min = 5.0
+damping_max = 10.0
+script = ExtResource("6_svh7g")
 
 [node name="draw_view" type="Node2D" parent="." unique_id=271949368]
 script = ExtResource("2_l7t5f")

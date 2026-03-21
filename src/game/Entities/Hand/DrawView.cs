@@ -80,7 +80,8 @@ public partial class DrawView : Node2D, IGameComponent
 
 		// TODO: may need to run this before and after the draw animation, depending on how it looks
 		var handTweens = _hand.ArrangeHandTween();
-		while (handTweens.Any(t => t.IsRunning())) yield return null;
+		//while (handTweens.Any(t => t.IsRunning())) yield return null;
+
 
 	}
 

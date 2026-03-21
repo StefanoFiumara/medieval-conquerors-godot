@@ -72,6 +72,8 @@ public partial class HandView : Node2D, IGameComponent
 
 	public override void _Process(double elapsed)
 	{
+		// TODO: if we switch to hover system that relies less on the "hover sections", we can probably remove this check from here
+		// and make the game feel snappier.
 		if (!Game.IsIdle()) return;
 
 		var mousePos = ToLocal(_viewport.GetMousePosition());
@@ -185,7 +187,7 @@ public partial class HandView : Node2D, IGameComponent
 		return -1;
 	}
 
-	private void UpdateHoverSections()
+	public void UpdateHoverSections()
 	{
 		if (Cards.Count > 0)
 		{

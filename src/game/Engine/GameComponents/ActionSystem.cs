@@ -31,6 +31,7 @@ public class ActionSystem : GameComponent, IAwake, IUpdate
 
 	public void Perform(GameAction action)
 	{
+		// TODO: Check if we can queue up GameActions if we try to add a root game action while another is running.
 		if (IsActive)
 		{
 			_logger.Error("Error: Attempted to perform GameAction while sequence in progress.");
@@ -46,7 +47,7 @@ public class ActionSystem : GameComponent, IAwake, IUpdate
 	{
 		if (_rootSequence == null) return;
 
-		if (_rootSequence.MoveNext() == false)
+		if (!_rootSequence.MoveNext())
 		{
 			_rootAction = null;
 			_rootSequence = null;
