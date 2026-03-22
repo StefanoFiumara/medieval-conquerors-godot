@@ -17,6 +17,7 @@ using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Entities.Maps;
 
+// TODO: Split animations into helper classes, similar to HandView
 public partial class MapView : Node2D, IGameComponent
 {
 	private const int HIGHLIGHT_TILE_SET_ID = 1;
@@ -48,6 +49,7 @@ public partial class MapView : Node2D, IGameComponent
 	private Vector2 _zoomTarget;
 
 	private HexMap _map;
+	private Match _match;
 	private ILogger _logger;
 	private EventAggregator _events;
 	private IGameSettings _settings;
@@ -63,6 +65,7 @@ public partial class MapView : Node2D, IGameComponent
 		_viewport = GetViewport();
 		_logger = Game.GetComponent<ILogger>();
 		_map = Game.GetComponent<HexMap>();
+		_match = Game.GetComponent<Match>();
 		_events = Game.GetComponent<EventAggregator>();
 		_settings = Game.GetComponent<IGameSettings>();
 	}
@@ -74,12 +77,16 @@ public partial class MapView : Node2D, IGameComponent
 		_zoomTarget = Scale;
 
 		_map.OnTileChanged += OnTileMapChanged;
+		_events.Subscribe<ResetSpentVillagersAction>(GameEvent.Prepare<ResetSpentVillagersAction>(), OnPrepareResetSpentVillagers);
+		_events.Subscribe<CollectResourcesAction>(GameEvent.Prepare<CollectResourcesAction>(), OnPrepareCollectResource);
 		_events.Subscribe<MoveUnitAction>(GameEvent.Prepare<MoveUnitAction>(), OnPrepareMoveUnit);
 		_events.Subscribe<GarrisonAction>(GameEvent.Prepare<GarrisonAction>(), OnPrepareGarrison);
 		_events.Subscribe<BuildStructureAction>(GameEvent.Prepare<BuildStructureAction>(), OnPrepareBuildStructure);
 		_events.Subscribe<SpawnUnitAction>(GameEvent.Prepare<SpawnUnitAction>(), OnPrepareSpawnUnit);
 	}
 
+	private void OnPrepareResetSpentVillagers(ResetSpentVillagersAction action) => action.PerformPhase.Viewer = ResetSpentTokensAnimation;
+	private void OnPrepareCollectResource(CollectResourcesAction action) => action.PerformPhase.Viewer = SpendVillagerTokenAnimation;
 	private void OnPrepareBuildStructure(BuildStructureAction action) => action.PerformPhase.Viewer = BuildStructureAnimation;
 	private void OnPrepareSpawnUnit(SpawnUnitAction action) => action.PerformPhase.Viewer = SpawnUnitAnimation;
 	private void OnPrepareMoveUnit(MoveUnitAction action) => action.PerformPhase.Viewer = MoveTokenAnimation;
@@ -238,10 +245,29 @@ public partial class MapView : Node2D, IGameComponent
 		buildingToken.SetGarrisonView(unitCount);
 	}
 
+	private IEnumerator ResetSpentTokensAnimation(IGame game, GameAction action)
+	{
+		var resetAction = (ResetSpentVillagersAction) action;
+		foreach (var token in _tokens.Where(t => t.Card.Owner.Id == resetAction.PlayerId))
+		{
+			token.ResetSpentGarrison();
+		}
+		yield return true;
+	}
+
+	private IEnumerator SpendVillagerTokenAnimation(IGame game, GameAction action)
+	{
+		var spendAction = (CollectResourcesAction)action;
+
+		var token = _tokens.Single(t => t.Card.MapPosition == spendAction.TargetTile);
+		token.MarkGarrisonedAsSpent();
+		yield return true;
+	}
+
 	private void CreateTileCoordsPopup(Vector2I pos)
 	{
 		var position = this[MapLayerType.Terrain].MapToLocal(pos);
-		this.CreatePopup(position, $"{pos}", duration: 5f, textScale: 0.5f);
+		this.CreatePopup(position, $"{pos}", duration: 1.5f, textScale: 0.6f);
 	}
 
 	public Vector2 GetTileGlobalPosition(Vector2I coords)

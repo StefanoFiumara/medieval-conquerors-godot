@@ -8,7 +8,6 @@ using MedievalConquerors.Engine.Logging;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
-// TODO: Unit tests for this system once the logic is solidified
 public class ResourceGatheringSystem : GameComponent, IAwake
 {
     private EventAggregator _events;
@@ -17,9 +16,9 @@ public class ResourceGatheringSystem : GameComponent, IAwake
     private GarrisonSystem _garrisonSystem;
     private ILogger _logger;
 
-    private readonly Dictionary<int, List<Card>> _usedVillagers = [];
+    private readonly Dictionary<int, List<Card>> _spentVillagers = [];
 
-    public IReadOnlyList<Card> GetUsedVillagers(int playerId) => _usedVillagers[playerId].AsReadOnly();
+    public IReadOnlyList<Card> GetSpentVillagers(int playerId) => _spentVillagers[playerId].AsReadOnly();
 
     public void Awake()
     {
@@ -30,19 +29,21 @@ public class ResourceGatheringSystem : GameComponent, IAwake
 
         _garrisonSystem = Game.GetComponent<GarrisonSystem>();
 
-        _usedVillagers.Clear();
-        _usedVillagers.Add(_match.LocalPlayer.Id, []);
-        _usedVillagers.Add(_match.EnemyPlayer.Id, []);
+        _spentVillagers.Clear();
+        _spentVillagers.Add(_match.LocalPlayer.Id, []);
+        _spentVillagers.Add(_match.EnemyPlayer.Id, []);
 
         _events.Subscribe<BeginTurnAction>(GameEvent.Perform<BeginTurnAction>(), OnPerformBeginTurn);
+        _events.Subscribe<ResetSpentVillagersAction>(GameEvent.Perform<ResetSpentVillagersAction>(), OnPerformResetSpentVillagers);
+
+        // TODO: Target selector validates that this action is always valid
+        // BUT we probably need to add a proper validation for this action in case it can be triggered in the future
+        // outside of the input system.
         _events.Subscribe<CollectResourcesAction>(GameEvent.Perform<CollectResourcesAction>(), OnPerformCollectResource);
     }
 
-    private void OnPerformBeginTurn(BeginTurnAction action)
-    {
-        _usedVillagers[action.PlayerId].Clear();
-    }
-
+    private void OnPerformBeginTurn(BeginTurnAction action) => Game.AddReaction(new ResetSpentVillagersAction(action.PlayerId));
+    private void OnPerformResetSpentVillagers(ResetSpentVillagersAction action) => _spentVillagers[action.PlayerId].Clear();
     private void OnPerformCollectResource(CollectResourcesAction action)
     {
         var player = _match.Players[action.TargetPlayerId];
@@ -50,10 +51,9 @@ public class ResourceGatheringSystem : GameComponent, IAwake
 
         var building = _map.GetTile(action.TargetTile).Building;
         var villager = _garrisonSystem.GetGarrisonedUnits(building)
-            .Except(_usedVillagers[action.TargetPlayerId])
+            .Except(_spentVillagers[action.TargetPlayerId])
             .First();
 
-        // TODO: UI Indicator to show this villager token was spent.
-        _usedVillagers[action.TargetPlayerId].Add(villager);
+        _spentVillagers[action.TargetPlayerId].Add(villager);
     }
 }

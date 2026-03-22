@@ -28,7 +28,7 @@ public record SpecificCardWithGarrisonSelector : TargetSelector
         if (UnspentOnly)
             tilesWithGarrison = tilesWithGarrison
                 .Where(b => garrisonSystem.GetGarrisonedUnits(b)
-                    .Except(resourceGatheringSystem.GetUsedVillagers(card.Owner.Id)).Any());
+                    .Except(resourceGatheringSystem.GetSpentVillagers(card.Owner.Id)).Any());
 
         return tilesWithGarrison
             .Select(c => c.MapPosition)

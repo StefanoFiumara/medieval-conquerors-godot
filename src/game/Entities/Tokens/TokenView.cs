@@ -10,11 +10,14 @@ namespace MedievalConquerors.Entities.Tokens;
 public partial class TokenView : Node2D, IClickable
 {
 	private static readonly Texture2D BUILDER_TOKEN = GD.Load<Texture2D>("uid://dagmpcs02rwxr");
+	private static readonly Color SPENT_COLOR = new(Colors.White, 0.4f);
+
 	private const float BUILDER_TOKEN_RADIUS = 65f;
 
 	private Sprite2D _badge;
 	private Sprite2D _icon;
 
+	private int _spentTokens = 0;
 	private readonly List<Sprite2D> _builderTokens = [];
 
 	public Card Card { get; private set; }
@@ -34,9 +37,6 @@ public partial class TokenView : Node2D, IClickable
 		//		1 == Enemy Player
 		_badge.Frame = card.Owner.Id;
 		_icon.Frame = card.Data.TokenFrameId;
-
-		// TODO: Set up Garrison View
-		// IDEA: Calculate builder token position in code?
 		SetGarrisonView(0);
 	}
 
@@ -94,6 +94,31 @@ public partial class TokenView : Node2D, IClickable
 				}));
 			}
 		}
+	}
+
+	public void MarkGarrisonedAsSpent()
+	{
+		if (_spentTokens < _builderTokens.Count)
+		{
+			var tokenToSpend = _builderTokens[_spentTokens++];
+
+			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In);
+			tween.TweenProperty(tokenToSpend, "modulate", SPENT_COLOR, 0.15);
+		}
+	}
+
+	public void ResetSpentGarrison()
+	{
+		for (var i = 0; i < _builderTokens.Count; i++)
+		{
+			var token = _builderTokens[i];
+			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In).SetParallel();
+
+			tween.TweenInterval(i * 0.15);
+			tween.Chain().TweenProperty(token, "modulate", Colors.White, 0.15);
+		}
+
+		_spentTokens = 0;
 	}
 
 	private Vector2 GetRadialPosition(int idx, int totalCount)

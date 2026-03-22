@@ -2,7 +2,7 @@
 
 public class BeginTurnAction(int playerId) : GameAction
 {
-    public int PlayerId { get; private set; } = playerId;
+    public int PlayerId { get; } = playerId;
 
     public override string ToString()
     {
