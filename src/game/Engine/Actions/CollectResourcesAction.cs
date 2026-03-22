@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using MedievalConquerors.Editors;
-using MedievalConquerors.Editors.CustomEditors.ValueEditors;
 using MedievalConquerors.Editors.Options;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
@@ -10,38 +9,27 @@ using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Engine.Actions;
 
-public class CreateCardAction(int cardId, int targetPlayerId, Zone targetZone, int amount = 1) : GameAction, IAbilityLoader
+public class CollectResourcesAction(int targetPlayerId, ResourceType resource, int amount) : GameAction, IAbilityLoader
 {
-    [UseValueEditor(typeof(CardIdSelector))]
-    public int CardId { get; private set; } = cardId;
     [UseValueEditor(typeof(PlayerTargetOptions))]
     public int TargetPlayerId { get; private set; } = targetPlayerId;
-    public Zone TargetZone { get; private set; } = targetZone;
+    public ResourceType Resource { get; private set; } = resource;
     public int Amount { get; private set; } = amount;
 
-    public List<Card> CreatedCards { get; set; } = new();
-
-    public CreateCardAction() : this(-1, -1, Zone.None) { }
-
-    public override string ToString()
-    {
-        return $"CreateCardAction: Player {TargetPlayerId} creates {Amount} card(s) (ID: {CardId}) in {TargetZone}";
-    }
+    public CollectResourcesAction() : this(-1, ResourceType.None, 0) { }
 
     public static Dictionary<string, Type> GetParameters() =>
         new()
         {
             { nameof(TargetPlayerId), typeof(PlayerTarget) },
-            { nameof(CardId), typeof(int) },
-            { nameof(TargetZone), typeof(Zone) },
+            { nameof(Resource), typeof(ResourceType) },
             { nameof(Amount), typeof(int) }
         };
 
     public void Load(IGame game, Card card, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
     {
         TargetPlayerId = this.ResolvePlayerTarget(game, card, data.GetData<PlayerTarget>(nameof(TargetPlayerId)));
-        CardId = data.GetData<int>(nameof(CardId));
-        TargetZone = data.GetData<Zone>(nameof(TargetZone));
+        Resource = data.GetData<ResourceType>(nameof(Resource));
         Amount = data.GetData<int>(nameof(Amount));
     }
 }

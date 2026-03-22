@@ -75,3 +75,19 @@ public interface IAbilityLoader
     static abstract Dictionary<string, Type> GetParameters();
     void Load(IGame game, Card card, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile);
 }
+
+public static class AbilityExtensions
+{
+    public static int ResolvePlayerTarget(this IAbilityLoader loader, IGame game, Card card, PlayerTarget target)
+    {
+        var player = card.Owner;
+        var enemyPlayer = game.GetComponent<Match>().Players[1 - player.Id];
+
+        return target switch
+        {
+            PlayerTarget.Owner => player.Id,
+            PlayerTarget.Enemy => enemyPlayer.Id,
+            _ => throw new ArgumentException("Player target is not set correctly")
+        };
+    }
+}

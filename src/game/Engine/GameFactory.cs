@@ -45,6 +45,7 @@ public static class GameFactory
         game.AddComponent<ResourceGatheringSystem>();
         game.AddComponent<ResourceCostSystem>();
         game.AddComponent<TechnologySystem>();
+        game.AddComponent<ActionCardSystem>();
         game.AddComponent<BuildingSystem>();
         game.AddComponent<MovementSystem>();
         game.AddComponent<GarrisonSystem>();

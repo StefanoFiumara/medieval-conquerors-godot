@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Godot;
+using MedievalConquerors.Editors;
+using MedievalConquerors.Editors.Options;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
@@ -9,6 +11,7 @@ namespace MedievalConquerors.Engine.Actions;
 
 public class ShuffleDeckAction(int targetPlayerId) : GameAction, IAbilityLoader
 {
+    [UseValueEditor(typeof(PlayerTargetOptions))]
     public int TargetPlayerId { get; private set; } = targetPlayerId;
 
     public ShuffleDeckAction() : this(-1) { }
@@ -26,10 +29,6 @@ public class ShuffleDeckAction(int targetPlayerId) : GameAction, IAbilityLoader
 
     public void Load(IGame game, Card card, AbilityAttribute ability, ActionDefinition data, Vector2I targetTile)
     {
-        var player = card.Owner;
-        var enemyPlayer = game.GetComponent<Match>().Players[1 - player.Id];
-
-        var target = data.GetData<PlayerTarget>(nameof(TargetPlayerId));
-        TargetPlayerId = target == PlayerTarget.Owner ? player.Id : enemyPlayer.Id;
+        TargetPlayerId = this.ResolvePlayerTarget(game, card, data.GetData<PlayerTarget>(nameof(TargetPlayerId)));
     }
 }

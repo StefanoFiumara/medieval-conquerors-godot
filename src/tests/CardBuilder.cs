@@ -74,12 +74,6 @@ public class CardBuilder
         return this;
     }
 
-    public CardBuilder WithTargetSelector(TargetSelector selector)
-    {
-        _attributes.Add(new TargetSelectorAttribute { Selector = selector });
-        return this;
-    }
-
     public CardBuilder WithTileWithinInfluenceSelector()
         => WithTargetSelector(new TileWithinInfluenceSelector());
 
@@ -94,6 +88,12 @@ public class CardBuilder
 
     public CardBuilder WithSpecificCardSelector(int specificCardId, int range = 0)
         => WithTargetSelector(new SpecificCardSelector { SpecificCardId = specificCardId, Range = range });
+
+    private CardBuilder WithTargetSelector(TargetSelector selector)
+    {
+        _attributes.Add(new TargetSelectorAttribute { Selector = selector });
+        return this;
+    }
 
     public CardBuilder WithAbility<TAbility, TAction>(string data = "")
     where TAbility : AbilityAttribute, new()
