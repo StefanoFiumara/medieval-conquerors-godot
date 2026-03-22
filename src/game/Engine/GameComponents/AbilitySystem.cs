@@ -23,8 +23,6 @@ public class AbilitySystem : GameComponent, IAwake
 
     private void OnPerformAbility(AbilityAction action)
     {
-        // TODO: Should this priority value be hard coded?
-        // TODO: Unit tests
         int actionPriority = 99;
         foreach (var actionDef in action.Ability.Actions)
         {

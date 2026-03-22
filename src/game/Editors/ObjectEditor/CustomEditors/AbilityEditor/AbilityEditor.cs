@@ -3,7 +3,7 @@ using Godot;
 using MedievalConquerors.Editors.ListEditor;
 using MedievalConquerors.Engine.Attributes;
 
-namespace MedievalConquerors.Editors.CustomEditors.AbilityEditor;
+namespace MedievalConquerors.Editors.CustomEditors;
 
 public partial class AbilityEditor : PanelContainer, IObjectEditor<AbilityAttribute>
 {

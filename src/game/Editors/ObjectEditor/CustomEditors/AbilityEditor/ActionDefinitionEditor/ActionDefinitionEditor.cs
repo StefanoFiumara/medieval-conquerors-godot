@@ -7,7 +7,7 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Extensions;
 
-namespace MedievalConquerors.Editors.CustomEditors.AbilityEditor;
+namespace MedievalConquerors.Editors.CustomEditors;
 
 public partial class ActionDefinitionEditor : PanelContainer, IObjectEditor<ActionDefinition>
 {
@@ -26,10 +26,7 @@ public partial class ActionDefinitionEditor : PanelContainer, IObjectEditor<Acti
 		_actionOptions.Connect(OptionButton.SignalName.ItemSelected, Callable.From<long>(OnActionTypeChanged));
 	}
 
-	private void OnActionTypeChanged(long itemIndex)
-	{
-		Load(_actionOptions.SelectedType);
-	}
+	private void OnActionTypeChanged(long itemIndex) => Load(_actionOptions.SelectedType);
 
 	private void Load(Type actionType) => Load("", new ActionDefinition { ActionType = actionType?.FullName }, allowDelete: true);
 	public void Load(string title, ActionDefinition source, bool allowDelete = false)
