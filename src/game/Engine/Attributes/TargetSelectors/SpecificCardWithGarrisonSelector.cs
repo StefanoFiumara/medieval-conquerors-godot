@@ -14,13 +14,23 @@ public record SpecificCardWithGarrisonSelector : TargetSelector
     [UseValueEditor(typeof(CardIdSelector))]
     public int SpecificCardId { get; init; }
 
+    public bool UnspentOnly { get; init; }
+
     public override List<Vector2I> SelectTargets(IGame game, Card card)
     {
         var player = card.Owner;
         var garrisonSystem = game.GetComponent<GarrisonSystem>();
+        var resourceGatheringSystem = game.GetComponent<ResourceGatheringSystem>();
 
-        return player.Map.Where(c => c.Data.Id == SpecificCardId)
-            .Where(b => garrisonSystem.GetGarrisonedUnits(b).Count > 0)
+        var tilesWithGarrison = player.Map.Where(c => c.Data.Id == SpecificCardId)
+            .Where(b => garrisonSystem.GetGarrisonedUnits(b).Count > 0);
+
+        if (UnspentOnly)
+            tilesWithGarrison = tilesWithGarrison
+                .Where(b => garrisonSystem.GetGarrisonedUnits(b)
+                    .Except(resourceGatheringSystem.GetUsedVillagers(card.Owner.Id)).Any());
+
+        return tilesWithGarrison
             .Select(c => c.MapPosition)
             .ToList();
     }
