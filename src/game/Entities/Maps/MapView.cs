@@ -8,6 +8,7 @@ using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.Extensions;
+using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Input;
 using MedievalConquerors.Engine.Logging;
 using MedievalConquerors.Entities.Tokens;
@@ -173,12 +174,12 @@ public partial class MapView : Node2D, IGameComponent
 	private TokenView CreateTokenView(Card card, Vector2I tile)
 	{
 		var token = _tokenScene.Instantiate<TokenView>();
-		token.Initialize(Game, card);
 		token.Position = this[MapLayerType.Terrain].MapToLocal(tile);
 
 		_tokens.Add(token);
 		this[MapLayerType.Terrain].AddChild(token);
 
+		token.Initialize(Game, card);
 		return token;
 	}
 
@@ -233,21 +234,11 @@ public partial class MapView : Node2D, IGameComponent
 
 		var garrisonAction = (GarrisonAction)action;
 
-		var unitToken = CreateTokenView(garrisonAction.Unit, garrisonAction.Building.MapPosition);
-
-		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine);
-		tween.TweenProperty(unitToken, "modulate", Colors.White, TWEEN_DURATION).From(Colors.Transparent);
-		tween.TweenProperty(unitToken, "modulate", Colors.Transparent, TWEEN_DURATION);
-		tween.TweenCallback(Callable.From(() =>
-		{
-			_tokens.Remove(unitToken);
-			unitToken.QueueFree();
-		}));
-
 		yield return true;
-
-		while (tween.IsRunning())
-			yield return null;
+		var buildingToken = _tokens.Single(t => t.Card == garrisonAction.Building);
+		var garrisonSystem = Game.GetComponent<GarrisonSystem>();
+		var unitCount = garrisonSystem.GetGarrisonedUnits(garrisonAction.Building).Count;
+		buildingToken.SetGarrisonView(unitCount);
 	}
 
 	private IEnumerator CollectResourcesAnimation(IGame game, GameAction action)

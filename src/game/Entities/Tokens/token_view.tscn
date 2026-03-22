@@ -4,17 +4,17 @@
 [ext_resource type="Texture2D" uid="uid://bxo0vn0mp4ukb" path="res://Entities/Tokens/TokenIcons/new_tokens/token_badge.png" id="2_xje58"]
 [ext_resource type="Texture2D" uid="uid://dyyu70818feu4" path="res://Entities/Tokens/TokenIcons/new_tokens/tokens_tilesheet.png" id="3_qup2e"]
 
-[node name="token_view" type="Node2D" unique_id=144179664 node_paths=PackedStringArray("_badge", "_icon")]
+[node name="token_view" type="Node2D" unique_id=144179664]
 script = ExtResource("1_vbu4k")
-_badge = NodePath("team_badge")
-_icon = NodePath("token_icon")
 
 [node name="team_badge" type="Sprite2D" parent="." unique_id=547653733]
+unique_name_in_owner = true
 texture = ExtResource("2_xje58")
 hframes = 2
 region_rect = Rect2(480, 280, 120, 140)
 
 [node name="token_icon" type="Sprite2D" parent="." unique_id=603444341]
+unique_name_in_owner = true
 texture = ExtResource("3_qup2e")
 hframes = 7
 vframes = 4
