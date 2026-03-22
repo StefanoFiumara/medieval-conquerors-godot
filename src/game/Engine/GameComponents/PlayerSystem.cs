@@ -60,7 +60,8 @@ public class PlayerSystem : GameComponent, IAwake
                 (6, 2), // Lumber Camp
                 (10, 1), // Mining Camp
                 (13, 2), // Mill
-                (15, 1) // Agriculture
+                (15, 1), // Agriculture
+                (16, 4) // Chop
             };
 
             var loadedPlayerDeck = _cardDb.LoadDeck(_match.LocalPlayer, deckInfo);

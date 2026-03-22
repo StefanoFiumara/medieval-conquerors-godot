@@ -42,7 +42,8 @@ public static class GameFactory
         // game.AddComponent<VictorySystem>();
 
         game.AddComponent<VillagerSystem>();
-        game.AddComponent<ResourceSystem>();
+        game.AddComponent<ResourceGatheringSystem>();
+        game.AddComponent<ResourceCostSystem>();
         game.AddComponent<TechnologySystem>();
         game.AddComponent<BuildingSystem>();
         game.AddComponent<MovementSystem>();

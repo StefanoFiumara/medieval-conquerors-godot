@@ -10,8 +10,8 @@ using TileData = MedievalConquerors.Engine.Data.TileData;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
-// TODO: Unit tests for this system
-public class ResourceSystem : GameComponent, IAwake
+// TODO: Unit tests for this system once the logic is solidified
+public class ResourceGatheringSystem : GameComponent, IAwake
 {
     private EventAggregator _events;
     private Match _match;
@@ -23,10 +23,8 @@ public class ResourceSystem : GameComponent, IAwake
         _match = Game.GetComponent<Match>();
         _map = Game.GetComponent<HexMap>();
         _events = Game.GetComponent<EventAggregator>();
-        _garrisonSystem = Game.GetComponent<GarrisonSystem>();
 
-        _events.Subscribe<PlayCardAction, ActionValidatorResult>(GameEvent.Validate<PlayCardAction>(), OnValidatePlayCard);
-        _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
+        _garrisonSystem = Game.GetComponent<GarrisonSystem>();
 
         _events.Subscribe<CollectResourcesAction>(GameEvent.Perform<CollectResourcesAction>(), OnPerformCollectResources);
     }
@@ -108,26 +106,5 @@ public class ResourceSystem : GameComponent, IAwake
             efficiency *= DECAY_FACTOR;
 
         return efficiency;
-    }
-
-    private void OnValidatePlayCard(PlayCardAction action, ActionValidatorResult validator)
-    {
-        var resourceCost = action.CardToPlay.GetAttribute<ResourceCostAttribute>();
-        if (resourceCost == null)
-            return;
-
-        var player = action.CardToPlay.Owner;
-        if(!player.Resources.CanAfford(resourceCost))
-            validator.Invalidate("Not enough resource to play card.");
-    }
-
-    private void OnPerformPlayCard(PlayCardAction action)
-    {
-        var resourceCost = action.CardToPlay.GetAttribute<ResourceCostAttribute>();
-        if (resourceCost != null)
-        {
-            var player = action.CardToPlay.Owner;
-            player.Resources.Subtract(resourceCost);
-        }
     }
 }

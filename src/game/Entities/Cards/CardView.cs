@@ -101,6 +101,18 @@ public partial class CardView : Node2D, IClickable
 			_goldCost.Visible = cost.Gold > 0;
 			_stoneCost.Visible = cost.Stone > 0;
 		}
+		else
+		{
+			_foodIcon.Visible = false ;
+			_woodIcon.Visible = false ;
+			_goldIcon.Visible = false ;
+			_stoneIcon.Visible =false ;
+
+			_foodCost.Visible = false ;
+			_woodCost.Visible = false ;
+			_goldCost.Visible = false ;
+			_stoneCost.Visible =false ;
+		}
 	}
 
 	public void Highlight()

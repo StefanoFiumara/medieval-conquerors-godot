@@ -6,13 +6,13 @@ using Shouldly;
 
 namespace MedievalConquerors.Tests.EngineTests.GameSystemTests;
 
-public class ResourceSystemTests : GameSystemTestFixture
+public class ResourceCostSystemTests : GameSystemTestFixture
 {
     private readonly Player _player;
     private readonly Card _affordableCard;
     private readonly Card _costlyCard;
 
-    public ResourceSystemTests(ITestOutputHelper output, CardLibraryFixture libraryFixture) : base(output, libraryFixture)
+    public ResourceCostSystemTests(ITestOutputHelper output, CardLibraryFixture libraryFixture) : base(output, libraryFixture)
     {
         _player = Game.GetComponent<Match>().LocalPlayer;
         _affordableCard = CardBuilder
@@ -40,7 +40,7 @@ public class ResourceSystemTests : GameSystemTestFixture
     }
 
     [Fact]
-    public void GameFactory_Creates_ResourceSystem() => Game.GetComponent<ResourceSystem>().ShouldNotBeNull();
+    public void GameFactory_Creates_ResourceSystem() => Game.GetComponent<ResourceGatheringSystem>().ShouldNotBeNull();
 
     [Fact]
     public void ResourceSystem_Validates_Action_When_Player_Has_Enough_Resources()
