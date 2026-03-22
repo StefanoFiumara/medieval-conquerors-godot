@@ -78,14 +78,12 @@ public partial class MapView : Node2D, IGameComponent
 		_events.Subscribe<GarrisonAction>(GameEvent.Prepare<GarrisonAction>(), OnPrepareGarrison);
 		_events.Subscribe<BuildStructureAction>(GameEvent.Prepare<BuildStructureAction>(), OnPrepareBuildStructure);
 		_events.Subscribe<SpawnUnitAction>(GameEvent.Prepare<SpawnUnitAction>(), OnPrepareSpawnUnit);
-		_events.Subscribe<CollectResourcesAction>(GameEvent.Prepare<CollectResourcesAction>(), OnPrepareCollectResources);
 	}
 
 	private void OnPrepareBuildStructure(BuildStructureAction action) => action.PerformPhase.Viewer = BuildStructureAnimation;
 	private void OnPrepareSpawnUnit(SpawnUnitAction action) => action.PerformPhase.Viewer = SpawnUnitAnimation;
 	private void OnPrepareMoveUnit(MoveUnitAction action) => action.PerformPhase.Viewer = MoveTokenAnimation;
 	private void OnPrepareGarrison(GarrisonAction action) => action.PerformPhase.Viewer = GarrisonAnimation;
-	private void OnPrepareCollectResources(CollectResourcesAction action) => action.PerformPhase.Viewer = CollectResourcesAnimation;
 
 	public override void _ExitTree()
 	{
@@ -230,32 +228,14 @@ public partial class MapView : Node2D, IGameComponent
 
 	private IEnumerator GarrisonAnimation(IGame game, GameAction action)
 	{
-		const double TWEEN_DURATION = 0.5;
-
 		var garrisonAction = (GarrisonAction)action;
-
 		yield return true;
+
 		var buildingToken = _tokens.Single(t => t.Card == garrisonAction.Building);
 		var garrisonSystem = Game.GetComponent<GarrisonSystem>();
+
 		var unitCount = garrisonSystem.GetGarrisonedUnits(garrisonAction.Building).Count;
 		buildingToken.SetGarrisonView(unitCount);
-	}
-
-	private IEnumerator CollectResourcesAnimation(IGame game, GameAction action)
-	{
-		const double STEP_DURATION = 0.45;
-		var collectAction = (CollectResourcesAction)action;
-
-		yield return true;
-
-		foreach (var collected in collectAction.ResourcesCollected)
-		{
-			var position = this[MapLayerType.Terrain].MapToLocal(collected.position);
-			var tween = this.CreateResourcePopup(position, collected.resource, collected.amount, STEP_DURATION);
-
-			while (tween.IsRunning())
-				yield return null;
-		}
 	}
 
 	private void CreateTileCoordsPopup(Vector2I pos)
