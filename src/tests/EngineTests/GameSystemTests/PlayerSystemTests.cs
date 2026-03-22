@@ -18,7 +18,7 @@ public class PlayerSystemTests : GameSystemTestFixture
             .Build(_player)
             .WithCardType(CardType.Unit)
             .WithMovement(1)
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .CreateMany(2);
 
         _player.Deck.AddRange(cards);

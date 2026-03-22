@@ -10,7 +10,7 @@ public record AdjacentResourceSelector : TargetSelector
 {
     public ResourceType Resource { get; init; }
 
-    protected override List<Vector2I> SelectTargets(IGame game, Card card)
+    public override List<Vector2I> SelectTargets(IGame game, Card card)
     {
         var map = game.GetComponent<HexMap>();
         var player = card.Owner;

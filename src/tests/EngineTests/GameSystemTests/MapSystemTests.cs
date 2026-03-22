@@ -22,7 +22,7 @@ public class MapSystemTests : GameSystemTestFixture
             .Build(_player)
             .WithCardType(CardType.Unit)
             .WithMovement(1)
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .Create();
 
         _player.Deck.Add(_moveableCard);

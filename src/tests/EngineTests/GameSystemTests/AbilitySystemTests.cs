@@ -24,26 +24,26 @@ public class AbilitySystemTests : GameSystemTestFixture
             .Build(_player)
             .WithCardType(CardType.Technology)
             .WithAbility<OnCardPlayedAbility, DrawCardsAction>("Amount=2,TargetPlayerId=Owner")
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .Create();
 
         _cardTargetingEnemy = CardBuilder
             .Build(_player)
             .WithCardType(CardType.Technology)
             .WithAbility<OnCardPlayedAbility, DrawCardsAction>("Amount=2,TargetPlayerId=Enemy")
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .Create();
 
         var otherCards = CardBuilder
             .Build(_player)
             .WithCardType(CardType.Unit)
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .CreateMany(10);
 
         var enemyCards = CardBuilder
             .Build(_enemyPlayer)
             .WithCardType(CardType.Unit)
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .CreateMany(10);
 
         _player.Deck.AddRange(otherCards);

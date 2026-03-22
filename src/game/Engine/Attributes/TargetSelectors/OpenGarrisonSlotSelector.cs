@@ -10,7 +10,7 @@ namespace MedievalConquerors.Engine.Attributes.TargetSelectors;
 public record OpenGarrisonSlotSelector : TargetSelector
 {
 
-    protected override List<Vector2I> SelectTargets(IGame game, Card card)
+    public override List<Vector2I> SelectTargets(IGame game, Card card)
     {
         var garrisonSystem = game.GetComponent<GarrisonSystem>();
         return card.Owner.Map

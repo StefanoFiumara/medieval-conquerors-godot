@@ -1,5 +1,6 @@
 ﻿using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Attributes;
+using MedievalConquerors.Engine.Attributes.TargetSelectors;
 using MedievalConquerors.Engine.Data;
 
 
@@ -73,18 +74,26 @@ public class CardBuilder
         return this;
     }
 
-    public CardBuilder WithSpawnPoint(Tags spawnTags = Tags.None, ResourceType resource = ResourceType.None, bool garrison = false, int specificCardId = 0)
+    public CardBuilder WithTargetSelector(TargetSelector selector)
     {
-        _attributes.Add(new SpawnPointAttribute
-        {
-            SpawnTags = spawnTags,
-            Resource = resource,
-            Garrison = garrison,
-            SpecificCardId = specificCardId
-        });
-
+        _attributes.Add(new TargetSelectorAttribute { Selector = selector });
         return this;
     }
+
+    public CardBuilder WithTileWithinInfluenceSelector()
+        => WithTargetSelector(new TileWithinInfluenceSelector());
+
+    public CardBuilder WithAdjacentResourceSelector(ResourceType resource)
+        => WithTargetSelector(new AdjacentResourceSelector { Resource = resource });
+
+    public CardBuilder WithGarrisonedBuildingSelector()
+        => WithTargetSelector(new GarrisonedBuildingSelector());
+
+    public CardBuilder WithOpenGarrisonSlotSelector()
+        => WithTargetSelector(new OpenGarrisonSlotSelector());
+
+    public CardBuilder WithSpecificCardSelector(int specificCardId, int range = 0)
+        => WithTargetSelector(new SpecificCardSelector { SpecificCardId = specificCardId, Range = range });
 
     public CardBuilder WithAbility<TAbility, TAction>(string data = "")
     where TAbility : AbilityAttribute, new()
@@ -138,7 +147,7 @@ public static class DeckBuilder
                 .WithCardType(CardType.Unit)
                 .WithTags(Tags.Economic)
                 .WithResourceCost(food: 2)
-                .WithSpawnPoint(Tags.Economic)
+                .WithTileWithinInfluenceSelector()
                 .Create()));
 
         cards.Add(CardBuilder.Build(owner)
@@ -148,7 +157,7 @@ public static class DeckBuilder
             .WithTags(Tags.Military | Tags.Mounted | Tags.Melee)
             .WithResourceCost(food: 4, gold: 2)
             .WithMovement(distance: 2)
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .Create());
 
         cards.Add(CardBuilder.Build(owner)
@@ -158,7 +167,7 @@ public static class DeckBuilder
             .WithTags(Tags.Military | Tags.Infantry | Tags.Melee)
             .WithResourceCost(food: 4, gold: 2)
             .WithMovement(distance: 1)
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .Create());
 
         cards.Add(CardBuilder.Build(owner)
@@ -169,7 +178,7 @@ public static class DeckBuilder
             .WithResourceCost(wood: 2)
             .WithResourceCollector(ResourceType.Wood)
             .WithGarrisonCapacity(capacity: 3)
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .Create());
 
         cards.Add(CardBuilder.Build(owner)
@@ -180,7 +189,7 @@ public static class DeckBuilder
             .WithResourceCost(wood: 2)
             .WithResourceCollector(ResourceType.Mining)
             .WithGarrisonCapacity(capacity: 3)
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .Create());
 
         cards.Add(CardBuilder.Build(owner)
@@ -191,7 +200,7 @@ public static class DeckBuilder
             .WithResourceCost(wood: 2)
             .WithResourceCollector(ResourceType.Food)
             .WithGarrisonCapacity(capacity: 3)
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .Create());
 
         return cards;

@@ -26,7 +26,7 @@ public class CardSystemTests : GameSystemTestFixture
     public void CardSystem_Marks_Cards_As_Playable()
     {
         var card = CardBuilder.Build(_player)
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .Create();
         _player.Deck.Add(card);
 
@@ -41,7 +41,7 @@ public class CardSystemTests : GameSystemTestFixture
     public void CardSystem_Marks_Card_Unplayable_When_PlayCondition_Is_Unmet()
     {
         var card = CardBuilder.Build(_player)
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .WithResourceCost(food: 99)
             .Create();
         _player.Deck.Add(card);

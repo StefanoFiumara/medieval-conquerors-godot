@@ -8,7 +8,7 @@ namespace MedievalConquerors.Engine.Attributes.TargetSelectors;
 
 public record TileWithinInfluenceSelector : TargetSelector
 {
-    protected override List<Vector2I> SelectTargets(IGame game, Card card)
+    public override List<Vector2I> SelectTargets(IGame game, Card card)
     {
         var player = card.Owner;
         var map = game.GetComponent<HexMap>();

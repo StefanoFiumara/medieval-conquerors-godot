@@ -8,9 +8,11 @@ namespace MedievalConquerors.Engine.Attributes;
 public record TargetSelectorAttribute : CardAttribute
 {
     public TargetSelector Selector { get; init; }
+
+    public List<Vector2I> SelectTargets(IGame game, Card card) => Selector.SelectTargets(game, card);
 }
 
 public abstract record TargetSelector
 {
-    protected abstract List<Vector2I> SelectTargets(IGame game, Card card);
+    public abstract List<Vector2I> SelectTargets(IGame game, Card card);
 }

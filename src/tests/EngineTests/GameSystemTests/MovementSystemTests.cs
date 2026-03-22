@@ -24,13 +24,13 @@ public class MovementSystemTests : GameSystemTestFixture
             .Build(_player)
             .WithCardType(CardType.Unit)
             .WithMovement(1)
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .Create();
 
         _immoveableCard = CardBuilder
             .Build(_player)
             .WithCardType(CardType.Unit)
-            .WithSpawnPoint()
+            .WithTileWithinInfluenceSelector()
             .Create();
 
         _player.Deck.Add(_moveableCard);
