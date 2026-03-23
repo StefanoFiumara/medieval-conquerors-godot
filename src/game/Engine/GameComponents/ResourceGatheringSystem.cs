@@ -47,7 +47,14 @@ public class ResourceGatheringSystem : GameComponent, IAwake
     private void OnPerformCollectResource(CollectResourcesAction action)
     {
         var player = _match.Players[action.TargetPlayerId];
-        player.Resources[action.Resource] += action.Amount;
+
+        var resource = action.Resource switch
+        {
+            ResourceType.Mining => DetermineMiningResource(action),
+            _ => action.Resource
+        };
+
+        player.Resources[resource] += action.Amount;
 
         var building = _map.GetTile(action.TargetTile).Building;
         var villager = _garrisonSystem.GetGarrisonedUnits(building)
@@ -55,5 +62,23 @@ public class ResourceGatheringSystem : GameComponent, IAwake
             .First();
 
         _spentVillagers[action.TargetPlayerId].Add(villager);
+    }
+
+    private ResourceType DetermineMiningResource(CollectResourcesAction action)
+    {
+        var neighbors = _map.GetNeighbors(action.TargetTile).ToList();
+
+        if (neighbors.Any(t => t.ResourceType == ResourceType.Gold))
+            return ResourceType.Gold;
+
+        if (neighbors.Any(t => t.ResourceType == ResourceType.Stone))
+            return ResourceType.Stone;
+
+        // TODO: What if we have both gold and stone neighbors?
+        // var goldDeposits = neighbors.Count(n => n.ResourceType == ResourceType.Gold);
+        // var stoneDeposits = neighbors.Count(n => n.ResourceType == ResourceType.Stone);
+
+        return ResourceType.None;
+
     }
 }

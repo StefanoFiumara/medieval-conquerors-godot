@@ -31,6 +31,7 @@ theme_override_constants/margin_bottom = 25
 script = ExtResource("1_miglb")
 
 [node name="resource_panel" type="PanelContainer" parent="." unique_id=1290156934]
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -63,6 +64,7 @@ hframes = 4
 
 [node name="food_label" type="Label" parent="resource_panel/margin/resources_grid" unique_id=1786322763]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.968627, 0.415686, 0.403922, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -86,6 +88,7 @@ frame = 1
 
 [node name="wood_label" type="Label" parent="resource_panel/margin/resources_grid" unique_id=315071002]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.67, 0.37240836, 0.23450002, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -109,6 +112,7 @@ frame = 2
 
 [node name="gold_label" type="Label" parent="resource_panel/margin/resources_grid" unique_id=952563130]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.988235, 0.866667, 0, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -132,6 +136,7 @@ frame = 3
 
 [node name="stone_label" type="Label" parent="resource_panel/margin/resources_grid" unique_id=901388618]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.780392, 0.819608, 0.858824, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)

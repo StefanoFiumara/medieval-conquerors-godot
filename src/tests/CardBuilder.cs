@@ -80,6 +80,9 @@ public class CardBuilder
     public CardBuilder WithAdjacentResourceSelector(ResourceType resource)
         => WithTargetSelector(new AdjacentResourceSelector { Resource = resource });
 
+    public CardBuilder WithAdjacentTerrainSelector(TileTerrain terrain)
+        => WithTargetSelector(new AdjacentTerrainSelector { Terrain = terrain });
+
     public CardBuilder WithGarrisonedBuildingSelector()
         => WithTargetSelector(new GarrisonedBuildingSelector());
 

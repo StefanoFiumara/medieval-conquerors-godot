@@ -27,6 +27,7 @@ public static class EditorFactory
 		RegisterValueEditor(typeof(float), typeof(FloatEditor));
 		RegisterValueEditor(typeof(bool), typeof(BoolEditor));
 		// Enums
+		RegisterValueEditor(typeof(TileTerrain), typeof(TileTerrainOptions));
 		RegisterValueEditor(typeof(CardType), typeof(CardTypeOptions));
 		RegisterValueEditor(typeof(ResourceType), typeof(ResourceOptions));
 		RegisterValueEditor(typeof(PlayerTarget), typeof(PlayerTargetOptions));

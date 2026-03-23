@@ -57,12 +57,19 @@ public class PlayerSystem : GameComponent, IAwake
             {
                 // TEMP: mocked deck info data using IDs from our DB, to test deck loading from disk
                 // (2, 2), // 2 Knights
-                (6, 2), // Lumber Camp
+                (6, 1), // Lumber Camp
                 (10, 1), // Mining Camp
-                (13, 2), // Mill
-                (15, 1), // Agriculture
+                (13, 1), // Mill
+                (20, 1), // Hunting Cabin
+                (15, 0), // Agriculture
                 (16, 2), // Chop
-                (17, 2) // Harvest
+                (17, 2), // Harvest
+
+                (18, 2), // Forage
+                (19, 2), // Hunt
+                (21, 2), // Mine
+                (16, 2), // Chop
+
             };
 
             var loadedPlayerDeck = _cardDb.LoadDeck(_match.LocalPlayer, deckInfo);

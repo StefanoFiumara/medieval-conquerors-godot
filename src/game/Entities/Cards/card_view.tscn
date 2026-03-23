@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://iwsn12lqk8tu" path="res://Entities/Cards/CardView.cs" id="1_r8q4a"]
 [ext_resource type="Texture2D" uid="uid://sbqj2jrisdkc" path="res://Entities/Cards/glow.png" id="2_fo11h"]
+[ext_resource type="Texture2D" uid="uid://dqtbduepecs8a" path="res://Entities/Cards/Portraits/forage.png" id="3_7vl60"]
 [ext_resource type="Texture2D" uid="uid://fcgvd1b24pub" path="res://Entities/Cards/card_frame.png" id="4_7vl60"]
-[ext_resource type="Texture2D" uid="uid://dqc1l4x1bhauk" path="res://Entities/Cards/Portraits/agriculture.png" id="4_qyos6"]
 [ext_resource type="Texture2D" uid="uid://y81exu5tsfw" path="res://Entities/Cards/card_banners.png" id="6_7vl60"]
 [ext_resource type="FontFile" uid="uid://b5iia1lbr6r6m" path="res://Fonts/Magic Medieval.ttf" id="6_grpod"]
 [ext_resource type="Texture2D" uid="uid://b17foe6tw6sx3" path="res://Entities/Cards/cost_badges.png" id="8_7vl60"]
@@ -54,12 +54,12 @@ patch_margin_right = 24
 patch_margin_bottom = 24
 
 [node name="card_portrait" type="TextureRect" parent="." unique_id=1983682487]
-offset_left = -79.0
-offset_top = -158.0
-offset_right = 84.32886
-offset_bottom = -2.0
-texture = ExtResource("4_qyos6")
-expand_mode = 3
+offset_left = -78.0
+offset_top = -134.0
+offset_right = 234.0
+offset_bottom = 108.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_7vl60")
 stretch_mode = 4
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=294349133]
