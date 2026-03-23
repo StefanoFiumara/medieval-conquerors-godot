@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_o32wb")
-StartingFoodCount = 50
-StartingWoodCount = 50
-StartingGoldCount = 10
+StartingFoodCount = 10
+StartingWoodCount = 10
+StartingGoldCount = 5
