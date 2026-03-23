@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://5anf4gyb3y3t" path="res://Editors/ObjectEditor/CustomEditors/ValueEditors/ImageSelector.cs" id="2_ildny"]
 [ext_resource type="Script" uid="uid://b8d65eblp6du5" path="res://Editors/ObjectEditor/CustomEditors/ValueEditors/TagSelector.cs" id="3_yh4g2"]
 [ext_resource type="Script" uid="uid://cxwy0dyebkcy3" path="res://Editors/ObjectEditor/CustomEditors/ValueEditors/TilesheetSelector.cs" id="6_w2vkn"]
-[ext_resource type="Texture2D" uid="uid://dyyu70818feu4" path="res://Entities/Tokens/TokenIcons/new_tokens/tokens_tilesheet.png" id="7_lfskp"]
+[ext_resource type="Texture2D" uid="uid://dyyu70818feu4" path="res://Entities/Tokens/icons/tokens_tilesheet.png" id="7_lfskp"]
 [ext_resource type="PackedScene" uid="uid://dgv8gpi0yws5m" path="res://Editors/ListEditor/list_editor.tscn" id="8_7b87l"]
 [ext_resource type="Script" uid="uid://kb2q5kewby62" path="res://Screens/Editor/Scenes/CardDataEditor/AttributesEditor.cs" id="9_7b87l"]
 

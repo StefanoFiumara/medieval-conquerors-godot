@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://civascfpgtcfj"]
 
 [ext_resource type="Script" uid="uid://b340kxtaahvhy" path="res://Entities/Tokens/TokenView.cs" id="1_vbu4k"]
-[ext_resource type="Texture2D" uid="uid://bxo0vn0mp4ukb" path="res://Entities/Tokens/TokenIcons/new_tokens/token_badge.png" id="2_xje58"]
-[ext_resource type="Texture2D" uid="uid://dyyu70818feu4" path="res://Entities/Tokens/TokenIcons/new_tokens/tokens_tilesheet.png" id="3_qup2e"]
+[ext_resource type="Texture2D" uid="uid://bxo0vn0mp4ukb" path="res://Entities/Tokens/icons/token_badge.png" id="2_xje58"]
+[ext_resource type="Texture2D" uid="uid://dyyu70818feu4" path="res://Entities/Tokens/icons/tokens_tilesheet.png" id="3_qup2e"]
 
 [node name="token_view" type="Node2D" unique_id=144179664]
 script = ExtResource("1_vbu4k")

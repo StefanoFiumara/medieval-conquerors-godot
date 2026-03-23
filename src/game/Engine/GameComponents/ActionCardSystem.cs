@@ -7,6 +7,15 @@ using MedievalConquerors.Engine.Logging;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
+/*
+ * TODO: There is similar logic in ActionCardSystem and TechnologySystem
+ *      - Both listen for PlayCardAction and respond with more strongly typed actions
+ *      - e.g. PlayCardAction -> ResearchTechnologyAction -> AbilityAction
+ *             PlayCardAction -> PlayActionCardAction -> AbilityAction
+ *      We want to support triggering the ability action for all card types, not just these two.
+ *      But we don't want to have to create a separate system per card type to support abilities.
+ *      How can we consolidate this while keeping the correct order of operations with custom actions?
+ */
 public class ActionCardSystem : GameComponent, IAwake
 {
     private EventAggregator _events;

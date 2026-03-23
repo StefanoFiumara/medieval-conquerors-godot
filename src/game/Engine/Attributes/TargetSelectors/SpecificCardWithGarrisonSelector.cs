@@ -9,12 +9,14 @@ using MedievalConquerors.Engine.GameComponents;
 
 namespace MedievalConquerors.Engine.Attributes.TargetSelectors;
 
+// TODO: Create a Multi-Criteria Selector with AND / OR filtering
+//       Then, this can be SpecificCard + Garrison Selector
 public record SpecificCardWithGarrisonSelector : TargetSelector
 {
+    public bool UnspentOnly { get; init; }
+
     [UseValueEditor(typeof(CardIdSelector))]
     public int SpecificCardId { get; init; }
-
-    public bool UnspentOnly { get; init; }
 
     public override List<Vector2I> SelectTargets(IGame game, Card card)
     {

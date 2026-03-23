@@ -2,10 +2,9 @@
 
 [ext_resource type="Script" uid="uid://iwsn12lqk8tu" path="res://Entities/Cards/CardView.cs" id="1_r8q4a"]
 [ext_resource type="Texture2D" uid="uid://sbqj2jrisdkc" path="res://Entities/Cards/glow.png" id="2_fo11h"]
-[ext_resource type="Texture2D" uid="uid://dqtbduepecs8a" path="res://Entities/Cards/Portraits/forage.png" id="3_7vl60"]
 [ext_resource type="Texture2D" uid="uid://fcgvd1b24pub" path="res://Entities/Cards/card_frame.png" id="4_7vl60"]
+[ext_resource type="FontFile" uid="uid://cliwh0bckvo13" path="res://Fonts/Amarante-Regular.ttf" id="5_6fqni"]
 [ext_resource type="Texture2D" uid="uid://y81exu5tsfw" path="res://Entities/Cards/card_banners.png" id="6_7vl60"]
-[ext_resource type="FontFile" uid="uid://b5iia1lbr6r6m" path="res://Fonts/Magic Medieval.ttf" id="6_grpod"]
 [ext_resource type="Texture2D" uid="uid://b17foe6tw6sx3" path="res://Entities/Cards/cost_badges.png" id="8_7vl60"]
 [ext_resource type="FontFile" uid="uid://bqb3xfq11no6d" path="res://Fonts/Segoe UI Bold.ttf" id="8_grpod"]
 
@@ -53,22 +52,21 @@ patch_margin_top = 23
 patch_margin_right = 24
 patch_margin_bottom = 24
 
+[node name="ColorRect" type="ColorRect" parent="." unique_id=294349133]
+offset_left = -78.0
+offset_top = -134.0
+offset_right = 78.0
+offset_bottom = -13.0
+color = Color(1, 0, 0.9666667, 1)
+
 [node name="card_portrait" type="TextureRect" parent="." unique_id=1983682487]
 offset_left = -78.0
 offset_top = -134.0
 offset_right = 234.0
 offset_bottom = 108.0
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("3_7vl60")
+expand_mode = 1
 stretch_mode = 4
-
-[node name="ColorRect" type="ColorRect" parent="." unique_id=294349133]
-visible = false
-offset_left = -78.0
-offset_top = -134.0
-offset_right = 78.0
-offset_bottom = -13.0
-color = Color(1, 1, 1, 0.42352942)
 
 [node name="frame" type="Sprite2D" parent="." unique_id=1001939824]
 scale = Vector2(0.5, 0.5)
@@ -90,15 +88,15 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -91.0
-offset_top = -7.0
+offset_top = -9.0
 offset_right = 89.0
-offset_bottom = 30.0
+offset_bottom = 28.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/normal_font = ExtResource("6_grpod")
+theme_override_fonts/normal_font = ExtResource("5_6fqni")
 theme_override_font_sizes/normal_font_size = 24
 bbcode_enabled = true
 text = "[wave amp=90.0 freq=0 connected=0]Card Title[/wave]"

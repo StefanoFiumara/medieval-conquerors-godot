@@ -9,21 +9,19 @@ using MedievalConquerors.Engine.Data;
 
 namespace MedievalConquerors.Engine.Actions;
 
-public class CollectResourcesAction(int targetPlayerId, ResourceType resource, int amount, Vector2I targetTile) : GameAction, IAbilityLoader
+public class CollectResourcesAction(int targetPlayerId, int amount, Vector2I targetTile) : GameAction, IAbilityLoader
 {
     [UseValueEditor(typeof(PlayerTargetOptions))]
     public int TargetPlayerId { get; private set; } = targetPlayerId;
-    public ResourceType Resource { get; private set; } = resource;
     public int Amount { get; private set; } = amount;
     public Vector2I TargetTile { get; private set; } = targetTile;
 
-    public CollectResourcesAction() : this(-1, ResourceType.None, 0, HexMap.None) { }
+    public CollectResourcesAction() : this(-1, 0, HexMap.None) { }
 
     public static Dictionary<string, Type> GetParameters() =>
         new()
         {
             { nameof(TargetPlayerId), typeof(PlayerTarget) },
-            { nameof(Resource), typeof(ResourceType) },
             { nameof(Amount), typeof(int) }
         };
 
@@ -31,7 +29,6 @@ public class CollectResourcesAction(int targetPlayerId, ResourceType resource, i
     {
         TargetTile = targetTile;
         TargetPlayerId = this.ResolvePlayerTarget(game, card, data.GetData<PlayerTarget>(nameof(TargetPlayerId)));
-        Resource = data.GetData<ResourceType>(nameof(Resource));
         Amount = data.GetData<int>(nameof(Amount));
     }
 }

@@ -9,14 +9,23 @@ namespace MedievalConquerors.Engine.Attributes.TargetSelectors;
 
 public record GarrisonedBuildingSelector : TargetSelector
 {
+    public bool UnspentOnly { get; init; }
+
     public override List<Vector2I> SelectTargets(IGame game, Card card)
     {
+        var player = card.Owner;
         var garrisonSystem = game.GetComponent<GarrisonSystem>();
+        var resourceGatheringSystem = game.GetComponent<ResourceGatheringSystem>();
 
-        return card.Owner.Map
-            .Where(c => c.Data.CardType == CardType.Building)
-            .Where(b => garrisonSystem.GetGarrisonedUnits(b).Count > 0)
-            .Select(b => b.MapPosition)
+        var tilesWithGarrison = player.Map.Where(b => garrisonSystem.GetGarrisonedUnits(b).Count > 0);
+
+        if (UnspentOnly)
+            tilesWithGarrison = tilesWithGarrison
+                .Where(b => garrisonSystem.GetGarrisonedUnits(b)
+                    .Except(resourceGatheringSystem.GetSpentVillagers(card.Owner.Id)).Any());
+
+        return tilesWithGarrison
+            .Select(c => c.MapPosition)
             .ToList();
     }
 }
