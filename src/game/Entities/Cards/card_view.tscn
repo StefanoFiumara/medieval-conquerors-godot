@@ -10,10 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://Entities/UI/Gameplay/resource_icons.png" id="7_356ln"]
 [ext_resource type="FontFile" uid="uid://bqb3xfq11no6d" path="res://Fonts/Segoe UI Bold.ttf" id="8_grpod"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_hu4f0"]
-font = ExtResource("6_6fqni")
-shadow_color = Color(0, 0, 0, 0.882353)
-
 [sub_resource type="LabelSettings" id="LabelSettings_6q0cx"]
 font = ExtResource("8_grpod")
 font_size = 13
@@ -71,22 +67,29 @@ texture = ExtResource("4_qyos6")
 texture = ExtResource("5_wi131")
 
 [node name="banner" type="Sprite2D" parent="." unique_id=1455809754]
-position = Vector2(-2, -123)
+position = Vector2(-2, -114)
 texture = ExtResource("6_7vl60")
 vframes = 4
+frame = 3
 region_rect = Rect2(0, 46, 185, 46)
 
-[node name="title_text" type="Label" parent="." unique_id=609063501]
-offset_left = -78.0
-offset_top = -149.0
-offset_right = 78.56
-offset_bottom = -112.0
-text = "Card Title"
-label_settings = SubResource("LabelSettings_hu4f0")
+[node name="title_text" type="RichTextLabel" parent="." unique_id=88102595]
+clip_contents = false
+offset_left = -80.0
+offset_top = -140.0
+offset_right = 76.56
+offset_bottom = -103.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/normal_font = ExtResource("6_6fqni")
+bbcode_enabled = true
+text = "[wave amp=-170.0 freq=0 connected=0]Villager[/wave]"
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
 horizontal_alignment = 1
 vertical_alignment = 1
-clip_text = true
-text_overrun_behavior = 3
 metadata/_edit_use_anchors_ = true
 
 [node name="type_text" type="Label" parent="." unique_id=376771662]

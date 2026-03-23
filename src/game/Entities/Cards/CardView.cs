@@ -10,7 +10,7 @@ namespace MedievalConquerors.Entities.Cards;
 public partial class CardView : Node2D, IClickable
 {
 	// TODO: Reference via unique node names in _Ready instead of using export variables
-	[Export] private Label _title;
+	[Export] private RichTextLabel _title;
 	[Export] private RichTextLabel _description;
 	[Export] private Sprite2D _banner;
 	[Export] private Label _type;
@@ -64,7 +64,7 @@ public partial class CardView : Node2D, IClickable
 		Card = card;
 		_cardSystem = game.GetComponent<CardSystem>();
 
-		_title.Text = Card.Data.Title;
+		_title.Text = $"[wave amp=-160.0 freq=0 connected=0]{Card.Data.Title}[/wave]";
 		_type.Text = Card.Data.CardType.ToString();
 		_banner.Frame = Card.Data.CardType switch
 		{
