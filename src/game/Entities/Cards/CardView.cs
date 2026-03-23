@@ -22,10 +22,10 @@ public partial class CardView : Node2D, IClickable
 	[Export] private Label _goldCost;
 	[Export] private Label _stoneCost;
 
-	[Export] private MarginContainer _foodIcon;
-	[Export] private MarginContainer _woodIcon;
-	[Export] private MarginContainer _goldIcon;
-	[Export] private MarginContainer _stoneIcon;
+	[Export] private CenterContainer _foodIcon;
+	[Export] private CenterContainer _woodIcon;
+	[Export] private CenterContainer _goldIcon;
+	[Export] private CenterContainer _stoneIcon;
 
 	private CardSystem _cardSystem;
 
@@ -64,7 +64,7 @@ public partial class CardView : Node2D, IClickable
 		Card = card;
 		_cardSystem = game.GetComponent<CardSystem>();
 
-		_title.Text = $"[wave amp=-160.0 freq=0 connected=0]{Card.Data.Title}[/wave]";
+		_title.Text = $"[wave amp=90.0 freq=0 connected=0]{Card.Data.Title}[/wave]";
 		_type.Text = Card.Data.CardType.ToString();
 		_banner.Frame = Card.Data.CardType switch
 		{
@@ -103,21 +103,21 @@ public partial class CardView : Node2D, IClickable
 		}
 		else
 		{
-			_foodIcon.Visible = false ;
-			_woodIcon.Visible = false ;
-			_goldIcon.Visible = false ;
-			_stoneIcon.Visible =false ;
+			_foodIcon.Visible = false;
+			_woodIcon.Visible = false;
+			_goldIcon.Visible = false;
+			_stoneIcon.Visible =false;
 
-			_foodCost.Visible = false ;
-			_woodCost.Visible = false ;
-			_goldCost.Visible = false ;
-			_stoneCost.Visible =false ;
+			_foodCost.Visible = false;
+			_woodCost.Visible = false;
+			_goldCost.Visible = false;
+			_stoneCost.Visible =false;
 		}
 	}
 
 	public void Highlight()
 	{
-		var color = _cardSystem.IsPlayable(Card) ? Colors.Yellow : Colors.IndianRed;
+		var color = _cardSystem.IsPlayable(Card) ? Colors.PaleGreen : Colors.PaleVioletRed;
 		TargetHighlightColor = color;
 	}
 

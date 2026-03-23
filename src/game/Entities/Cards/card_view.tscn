@@ -2,18 +2,17 @@
 
 [ext_resource type="Script" uid="uid://iwsn12lqk8tu" path="res://Entities/Cards/CardView.cs" id="1_r8q4a"]
 [ext_resource type="Texture2D" uid="uid://sbqj2jrisdkc" path="res://Entities/Cards/glow.png" id="2_fo11h"]
-[ext_resource type="Texture2D" uid="uid://dmxr1faglyqof" path="res://Entities/Cards/frame_bg.png" id="3_xchd5"]
+[ext_resource type="Texture2D" uid="uid://fcgvd1b24pub" path="res://Entities/Cards/card_frame.png" id="4_7vl60"]
 [ext_resource type="Texture2D" uid="uid://dqc1l4x1bhauk" path="res://Entities/Cards/Portraits/agriculture.png" id="4_qyos6"]
-[ext_resource type="Texture2D" uid="uid://0uy1cqn42is3" path="res://Entities/Cards/frame_border.png" id="5_wi131"]
-[ext_resource type="FontFile" uid="uid://d3j846ppsvp5i" path="res://Fonts/EagleLake-Regular.ttf" id="6_6fqni"]
 [ext_resource type="Texture2D" uid="uid://y81exu5tsfw" path="res://Entities/Cards/card_banners.png" id="6_7vl60"]
-[ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://Entities/UI/Gameplay/resource_icons.png" id="7_356ln"]
+[ext_resource type="FontFile" uid="uid://b5iia1lbr6r6m" path="res://Fonts/Magic Medieval.ttf" id="6_grpod"]
+[ext_resource type="Texture2D" uid="uid://b17foe6tw6sx3" path="res://Entities/Cards/cost_badges.png" id="8_7vl60"]
 [ext_resource type="FontFile" uid="uid://bqb3xfq11no6d" path="res://Fonts/Segoe UI Bold.ttf" id="8_grpod"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_6q0cx"]
 font = ExtResource("8_grpod")
 font_size = 13
-font_color = Color(0, 0, 0, 1)
+font_color = Color(0.947203, 0.947203, 0.947203, 1)
 
 [sub_resource type="Theme" id="Theme_pldyj"]
 
@@ -26,10 +25,10 @@ _banner = NodePath("banner")
 _type = NodePath("type_text")
 _image = NodePath("card_portrait")
 _glow = NodePath("glow")
-_foodCost = NodePath("cost_grid/food_cost")
-_woodCost = NodePath("cost_grid/wood_cost")
-_goldCost = NodePath("cost_grid/gold_cost")
-_stoneCost = NodePath("cost_grid/stone_cost")
+_foodCost = NodePath("cost_grid/food_icon/food_cost")
+_woodCost = NodePath("cost_grid/wood_icon/wood_cost")
+_goldCost = NodePath("cost_grid/gold_icon/gold_cost")
+_stoneCost = NodePath("cost_grid/stone_icon/stone_cost")
 _foodIcon = NodePath("cost_grid/food_icon")
 _woodIcon = NodePath("cost_grid/wood_icon")
 _goldIcon = NodePath("cost_grid/gold_icon")
@@ -41,10 +40,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -133.0
-offset_top = -191.0
-offset_right = 130.0
-offset_bottom = 189.0
+offset_left = -135.0
+offset_top = -178.0
+offset_right = 133.0
+offset_bottom = 179.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_fo11h")
@@ -54,49 +53,56 @@ patch_margin_top = 23
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="description_panel" type="Sprite2D" parent="." unique_id=749386965]
-position = Vector2(-4, 9.65)
-texture = ExtResource("3_xchd5")
-
 [node name="card_portrait" type="Sprite2D" parent="." unique_id=1063791827]
-position = Vector2(0, -52.475)
-scale = Vector2(0.616, 0.616)
+position = Vector2(1.9999998, -59.000004)
+scale = Vector2(0.6149375, 0.6149375)
 texture = ExtResource("4_qyos6")
 
 [node name="frame" type="Sprite2D" parent="." unique_id=1001939824]
-texture = ExtResource("5_wi131")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_7vl60")
 
 [node name="banner" type="Sprite2D" parent="." unique_id=1455809754]
-position = Vector2(-2, -114)
+position = Vector2(0, 5)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("6_7vl60")
 vframes = 4
-frame = 3
+frame = 1
 region_rect = Rect2(0, 46, 185, 46)
 
 [node name="title_text" type="RichTextLabel" parent="." unique_id=88102595]
 clip_contents = false
-offset_left = -80.0
-offset_top = -140.0
-offset_right = 76.56
-offset_bottom = -103.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -91.0
+offset_top = -7.0
+offset_right = 89.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/normal_font = ExtResource("6_6fqni")
+theme_override_fonts/normal_font = ExtResource("6_grpod")
+theme_override_font_sizes/normal_font_size = 24
 bbcode_enabled = true
-text = "[wave amp=-170.0 freq=0 connected=0]Villager[/wave]"
+text = "[wave amp=90.0 freq=0 connected=0]Card Title[/wave]"
 scroll_active = false
 autowrap_mode = 0
 shortcut_keys_enabled = false
 horizontal_alignment = 1
 vertical_alignment = 1
+justification_flags = 161
 metadata/_edit_use_anchors_ = true
 
 [node name="type_text" type="Label" parent="." unique_id=376771662]
-offset_left = -71.0
-offset_top = 55.5
-offset_right = 59.0
-offset_bottom = 73.5
+offset_left = -92.0
+offset_top = 47.0
+offset_right = 38.0
+offset_bottom = 65.0
 text = "Card Type"
 label_settings = SubResource("LabelSettings_6q0cx")
 vertical_alignment = 1
@@ -105,13 +111,13 @@ text_overrun_behavior = 3
 
 [node name="description_text" type="RichTextLabel" parent="." unique_id=694555635]
 clip_contents = false
-offset_left = -71.0
-offset_top = 72.0
-offset_right = 73.0
-offset_bottom = 118.0
+offset_left = -90.0
+offset_top = 64.0
+offset_right = 96.0
+offset_bottom = 131.0
 size_flags_vertical = 3
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/normal_font_size = 11
+theme_override_colors/default_color = Color(0.9490196, 0.9490196, 0.9490196, 1)
+theme_override_font_sizes/normal_font_size = 14
 bbcode_enabled = true
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 scroll_active = false
@@ -121,124 +127,122 @@ shortcut_keys_enabled = false
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
-[node name="cost_grid" type="HBoxContainer" parent="." unique_id=2034564909]
-offset_left = -70.265
-offset_top = 21.0
-offset_right = 197.735
-offset_bottom = 61.0
-theme_override_constants/separation = 5
+[node name="cost_grid" type="VBoxContainer" parent="." unique_id=754806873]
+offset_left = -135.0
+offset_top = -175.0
+offset_right = -87.0
+offset_bottom = 9.0
+theme_override_constants/separation = 0
 
-[node name="food_icon" type="MarginContainer" parent="cost_grid" unique_id=298594358]
+[node name="food_icon" type="CenterContainer" parent="cost_grid" unique_id=447406665]
 texture_filter = 1
+custom_minimum_size = Vector2(48, 46)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 5
 
-[node name="sprite" type="Sprite2D" parent="cost_grid/food_icon" unique_id=1478677277]
-position = Vector2(14, 21)
-scale = Vector2(0.22, 0.22)
-texture = ExtResource("7_356ln")
-hframes = 4
+[node name="sprite" type="Sprite2D" parent="cost_grid/food_icon" unique_id=116702205]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_7vl60")
+centered = false
+vframes = 4
 
-[node name="food_cost" type="Label" parent="cost_grid" unique_id=1771861005]
+[node name="food_cost" type="Label" parent="cost_grid/food_icon" unique_id=1771861005]
 texture_filter = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = SubResource("Theme_pldyj")
-theme_override_colors/font_color = Color(0.968627, 0.415686, 0.403922, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_constants/shadow_outline_size = 2
-theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(1, 0.6066667, 0.6, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5882353)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("8_grpod")
+theme_override_font_sizes/font_size = 20
 text = "99"
 vertical_alignment = 1
 
-[node name="wood_icon" type="MarginContainer" parent="cost_grid" unique_id=132375294]
+[node name="wood_icon" type="CenterContainer" parent="cost_grid" unique_id=676913412]
 texture_filter = 1
+custom_minimum_size = Vector2(48, 46)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_bottom = 5
 
-[node name="sprite" type="Sprite2D" parent="cost_grid/wood_icon" unique_id=810391244]
-position = Vector2(14, 21)
-scale = Vector2(0.22, 0.22)
-texture = ExtResource("7_356ln")
-hframes = 4
+[node name="sprite" type="Sprite2D" parent="cost_grid/wood_icon" unique_id=1916137956]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_7vl60")
+centered = false
+vframes = 4
 frame = 1
 
-[node name="wood_cost" type="Label" parent="cost_grid" unique_id=590233440]
+[node name="wood_cost" type="Label" parent="cost_grid/wood_icon" unique_id=590233440]
 texture_filter = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = SubResource("Theme_pldyj")
-theme_override_colors/font_color = Color(0.670588, 0.482353, 0.392157, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_constants/shadow_outline_size = 2
-theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(1, 0.6583333, 0.5, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5882353)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("8_grpod")
+theme_override_font_sizes/font_size = 20
 text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="gold_icon" type="MarginContainer" parent="cost_grid" unique_id=1143334957]
+[node name="gold_icon" type="CenterContainer" parent="cost_grid" unique_id=1555761345]
 texture_filter = 1
+custom_minimum_size = Vector2(48, 46)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_bottom = 5
 
-[node name="sprite" type="Sprite2D" parent="cost_grid/gold_icon" unique_id=1980282958]
-position = Vector2(14, 21)
-scale = Vector2(0.22, 0.22)
-texture = ExtResource("7_356ln")
-hframes = 4
+[node name="sprite" type="Sprite2D" parent="cost_grid/gold_icon" unique_id=1309965103]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_7vl60")
+centered = false
+vframes = 4
 frame = 2
 
-[node name="gold_cost" type="Label" parent="cost_grid" unique_id=1102024829]
+[node name="gold_cost" type="Label" parent="cost_grid/gold_icon" unique_id=1102024829]
 texture_filter = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = SubResource("Theme_pldyj")
-theme_override_colors/font_color = Color(0.988235, 0.866667, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_constants/shadow_outline_size = 2
-theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.99, 0.88357496, 0.5643, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5882353)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("8_grpod")
+theme_override_font_sizes/font_size = 20
 text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="stone_icon" type="MarginContainer" parent="cost_grid" unique_id=1797688862]
+[node name="stone_icon" type="CenterContainer" parent="cost_grid" unique_id=149422021]
 texture_filter = 1
+custom_minimum_size = Vector2(48, 46)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_bottom = 5
 
-[node name="sprite" type="Sprite2D" parent="cost_grid/stone_icon" unique_id=1702599509]
-position = Vector2(14, 21)
-scale = Vector2(0.22, 0.22)
-texture = ExtResource("7_356ln")
-hframes = 4
+[node name="sprite" type="Sprite2D" parent="cost_grid/stone_icon" unique_id=709833865]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_7vl60")
+centered = false
+vframes = 4
 frame = 3
 
-[node name="stone_cost" type="Label" parent="cost_grid" unique_id=972955602]
+[node name="stone_cost" type="Label" parent="cost_grid/stone_icon" unique_id=972955602]
 texture_filter = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme = SubResource("Theme_pldyj")
-theme_override_colors/font_color = Color(0.780392, 0.819608, 0.858824, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_constants/shadow_outline_size = 2
-theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.9021253, 0.9419072, 0.9866621, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5882353)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("8_grpod")
+theme_override_font_sizes/font_size = 20
 text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1

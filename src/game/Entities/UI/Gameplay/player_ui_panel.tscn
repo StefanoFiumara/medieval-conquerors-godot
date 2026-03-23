@@ -87,7 +87,7 @@ frame = 1
 [node name="wood_label" type="Label" parent="resource_panel/margin/resources_grid" unique_id=315071002]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.670588, 0.482353, 0.392157, 1)
+theme_override_colors/font_color = Color(0.67, 0.37240836, 0.23450002, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 35
 text = "99"

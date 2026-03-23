@@ -43,12 +43,10 @@ public partial class CardCreationView : Node2D, IGameComponent
 
 		var createAction = (CreateCardAction) action;
 
-		const float SPACING = 230f;
+		const float SPACING = 250f;
 		var center = _viewport.GetVisibleRect().GetCenter();
 
-		List<Tween> tweens = [];
-		// var cardViews = createAction.CreatedCards.Select(c => CreateCardView(c)).ToList();
-		// var displayTween = DisplayCardsTween(cardViews);
+		List<Tween> subTweens = [];
 
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
 		for (var i = 0; i < createAction.CreatedCards.Count; i++)
@@ -84,15 +82,15 @@ public partial class CardCreationView : Node2D, IGameComponent
 					cardView.QueueFree();
 				}));
 				subTween.Pause();
-				tweens.Add(subTween);
+				subTweens.Add(subTween);
 			}
 		}
 
 		tween.Chain().TweenInterval(0.5);
 		while (tween.IsRunning()) yield return null;
 
-		foreach (var subTween in tweens) subTween.Play();
-		while (tweens.Any(t => t.IsRunning())) yield return null;
+		foreach (var subTween in subTweens) subTween.Play();
+		while (subTweens.Any(t => t.IsRunning())) yield return null;
 		if (createAction.TargetZone == Zone.Hand)
 		{
 			var handTweens = _hand.ArrangeHandTween();
