@@ -16,14 +16,14 @@ font_color = Color(0.947203, 0.947203, 0.947203, 1)
 
 [sub_resource type="Theme" id="Theme_pldyj"]
 
-[node name="card_view" type="Node2D" unique_id=2019257237 node_paths=PackedStringArray("_title", "_description", "_banner", "_type", "_image", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon")]
+[node name="card_view" type="Node2D" unique_id=2019257237 node_paths=PackedStringArray("_title", "_description", "_banner", "_type", "_portrait", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon")]
 texture_filter = 1
 script = ExtResource("1_r8q4a")
 _title = NodePath("title_text")
 _description = NodePath("description_text")
 _banner = NodePath("banner")
 _type = NodePath("type_text")
-_image = NodePath("card_portrait")
+_portrait = NodePath("card_portrait")
 _glow = NodePath("glow")
 _foodCost = NodePath("cost_grid/food_icon/food_cost")
 _woodCost = NodePath("cost_grid/wood_icon/wood_cost")
@@ -53,10 +53,22 @@ patch_margin_top = 23
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="card_portrait" type="Sprite2D" parent="." unique_id=1063791827]
-position = Vector2(1.9999998, -59.000004)
-scale = Vector2(0.6149375, 0.6149375)
+[node name="card_portrait" type="TextureRect" parent="." unique_id=1983682487]
+offset_left = -79.0
+offset_top = -158.0
+offset_right = 84.32886
+offset_bottom = -2.0
 texture = ExtResource("4_qyos6")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=294349133]
+visible = false
+offset_left = -78.0
+offset_top = -134.0
+offset_right = 78.0
+offset_bottom = -13.0
+color = Color(1, 1, 1, 0.42352942)
 
 [node name="frame" type="Sprite2D" parent="." unique_id=1001939824]
 scale = Vector2(0.5, 0.5)

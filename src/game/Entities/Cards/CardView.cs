@@ -14,7 +14,7 @@ public partial class CardView : Node2D, IClickable
 	[Export] private RichTextLabel _description;
 	[Export] private Sprite2D _banner;
 	[Export] private Label _type;
-	[Export] private Sprite2D _image;
+	[Export] private TextureRect _portrait;
 	[Export] private NinePatchRect _glow;
 
 	[Export] private Label _foodCost;
@@ -82,7 +82,7 @@ public partial class CardView : Node2D, IClickable
 		// _background.Frame = _cardFrameMap.GetValueOrDefault(Card.CardData.CardType, 0);
 
 		if (ResourceUid.TextToId(card.Data.CardPortraitUid) != ResourceUid.InvalidId)
-			_image.Texture = GD.Load<Texture2D>(Card.Data.CardPortraitUid);
+			_portrait.Texture = GD.Load<Texture2D>(Card.Data.CardPortraitUid);
 
 		if (Card.HasAttribute<ResourceCostAttribute>(out var cost))
 		{
