@@ -33,6 +33,7 @@ public static class GameFactory
 
         game.AddComponent<TurnSystem>();
         game.AddComponent<InputSystem>();
+        game.AddComponent<TargetSystem>();
 
         game.AddComponent<DeckCycleSystem>();
         game.AddComponent<CardSystem>();
@@ -44,22 +45,13 @@ public static class GameFactory
         game.AddComponent<VillagerSystem>();
         game.AddComponent<ResourceGatheringSystem>();
         game.AddComponent<ResourceCostSystem>();
-        game.AddComponent<TechnologySystem>();
-        game.AddComponent<ActionCardSystem>();
         game.AddComponent<BuildingSystem>();
         game.AddComponent<MovementSystem>();
         game.AddComponent<GarrisonSystem>();
-        // game.AddComponent<AgeSystem>();
 
         // TODO: Only add AISystem when in Single Player Mode, otherwise, add "NetworkSystem" for multiplayer
         game.AddComponent<AISystem>();
 
-        game.AddComponent<TargetSystem>();
-
-        // game.AddComponent<DiscardSystem>();
-        // game.AddComponent<CombatSystem>();
-        // game.AddComponent<UniquenessSystem>();
-        // game.AddComponent<AbilitySystem>();
 
         return game;
     }

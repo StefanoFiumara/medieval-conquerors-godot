@@ -56,18 +56,17 @@ public class PlayerSystem : GameComponent, IAwake
             var deckInfo = new List<(int id, int amount)>
             {
                 // TEMP: mocked deck info data using IDs from our DB, to test deck loading from disk
-                // (2, 2), // 2 Knights
                 (6, 1), // Lumber Camp
                 (10, 1), // Mining Camp
                 (13, 1), // Mill
                 (20, 1), // Hunting Cabin
                 (15, 1), // Agriculture
 
-                (16, 2), // Chop
+                // (16, 2), // Chop
                 (17, 2), // Harvest
-                (18, 2), // Forage
-                (19, 2), // Hunt
-                (21, 2), // Mine
+                // (18, 2), // Forage
+                // (19, 2), // Hunt
+                // (21, 2), // Mine
 
             };
 
@@ -87,6 +86,7 @@ public class PlayerSystem : GameComponent, IAwake
 
             // TODO: Should the list of cards being banished be data driven? Perhaps this can be checked by a tag
             //       on the card itself rather than a hardcoded list of IDs
+            // TODO: Split up between BanishCardsAction and DiscardCardsAction
             var targetZone = card.Data.Id == CardLibrary.VILLAGER_ID ? Zone.Banished : Zone.Discard;
             player.MoveCard(card, targetZone);
         }

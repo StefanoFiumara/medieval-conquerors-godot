@@ -18,8 +18,66 @@ public class AbilitySystem : GameComponent, IAwake
     {
         _events = Game.GetComponent<EventAggregator>();
         _logger = Game.GetComponent<ILogger>();
+
         _events.Subscribe<AbilityAction>(GameEvent.Perform<AbilityAction>(), OnPerformAbility);
+
+        _events.Subscribe<PlayCardAction, ActionValidatorResult>(GameEvent.Validate<PlayCardAction>(), OnValidatePlayCard);
+        _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
+
+        _events.Subscribe<PlayActionCardAction>(GameEvent.Prepare<PlayActionCardAction>(), OnPreparePlayActionCard);
+        _events.Subscribe<PlayActionCardAction>(GameEvent.Perform<PlayActionCardAction>(), OnPerformPlayActionCard);
+        _events.Subscribe<ResearchTechnologyAction>(GameEvent.Prepare<ResearchTechnologyAction>(), OnPrepareResearchTechnology);
+        _events.Subscribe<ResearchTechnologyAction>(GameEvent.Perform<ResearchTechnologyAction>(), OnPerformResearchTechnology);
     }
+
+    private void OnValidatePlayCard(PlayCardAction action, ActionValidatorResult validator)
+    {
+        if (action.CardToPlay.Data.CardType is CardType.Action or CardType.Technology
+            && !action.CardToPlay.HasAttribute<OnCardPlayedAbility>())
+        {
+            _logger.Warn($"Attempted to validate {action.CardToPlay.Data.CardType} Card without ability.");
+            validator.Invalidate($"{action.CardToPlay.Data.CardType} Card does not have ability attribute.");
+        }
+    }
+
+    private void OnPerformPlayCard(PlayCardAction action)
+    {
+        if (action.CardToPlay.HasAttribute<OnCardPlayedAbility>())
+        {
+
+            switch (action.CardToPlay.Data.CardType)
+            {
+                case CardType.Action:
+                {
+                    var actionCardAction = new PlayActionCardAction(action.CardToPlay, action.TargetTile);
+                    Game.AddReaction(actionCardAction);
+                    break;
+                }
+                case CardType.Technology:
+                {
+                    var researchAction = new ResearchTechnologyAction(action.CardToPlay, action.TargetTile);
+                    Game.AddReaction(researchAction);
+                    break;
+                }
+                default:
+                    TriggerAbility<OnCardPlayedAbility>(action.CardToPlay, action.TargetTile);
+                    break;
+            }
+        }
+
+    }
+
+    private void OnPreparePlayActionCard(PlayActionCardAction action)
+        => TriggerAbility<OnCardPlayedAbility>(action.Card, action.TargetTile);
+
+    private void OnPrepareResearchTechnology(ResearchTechnologyAction action)
+        => TriggerAbility<OnCardPlayedAbility>(action.Card, action.TargetTile);
+
+    private void OnPerformPlayActionCard(PlayActionCardAction action)
+        => action.Card.Owner.MoveCard(action.Card, Zone.Discard);
+
+    private void OnPerformResearchTechnology(ResearchTechnologyAction action)
+        => action.Card.Owner.MoveCard(action.Card, Zone.Banished);
 
     private void OnPerformAbility(AbilityAction action)
     {
@@ -64,9 +122,9 @@ public class AbilitySystem : GameComponent, IAwake
         return action;
     }
 
-    // TODO: Should target tile be optional? Or are all abilities triggered with a target tile?
-    public void TriggerAbility(Card card, AbilityAttribute ability, Vector2I targetTile)
+    private void TriggerAbility<TAbility>(Card card, Vector2I targetTile) where TAbility : AbilityAttribute
     {
+        var ability = card.GetAttribute<TAbility>();
         var action = new AbilityAction(card, ability, targetTile);
 
         if (Game.GetComponent<ActionSystem>().IsActive)

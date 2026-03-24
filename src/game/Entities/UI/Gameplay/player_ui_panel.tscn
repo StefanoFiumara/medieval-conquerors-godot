@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c5ftsyqphp4r" path="res://Entities/UI/Gameplay/PlayerUiPanel.cs" id="1_miglb"]
 [ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://Entities/UI/Gameplay/resource_icons.png" id="2_lwx21"]
 [ext_resource type="FontFile" uid="uid://bnndeil6c3twa" path="res://Fonts/QUILLPN.TTF" id="3_wjjp0"]
+[ext_resource type="FontFile" uid="uid://b5iia1lbr6r6m" path="res://Fonts/Magic Medieval.ttf" id="5_vx6qn"]
 [ext_resource type="Texture2D" uid="uid://cus8a0bckc5rh" path="res://Entities/UI/Gameplay/deck.png" id="7_fypch"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vx6qn"]
@@ -11,8 +12,9 @@ font_size = 18
 font_color = Color(1, 0.850752, 0.5591886, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_wjjp0"]
-font = ExtResource("3_wjjp0")
-font_size = 24
+font = ExtResource("5_vx6qn")
+font_size = 50
+shadow_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_34lmq"]
 
@@ -183,25 +185,13 @@ layout_mode = 2
 [node name="deck_icon" type="TextureRect" parent="deck_panel/margin/deck_grid" unique_id=286715596]
 layout_mode = 2
 texture = ExtResource("7_fypch")
-expand_mode = 3
-stretch_mode = 5
+stretch_mode = 4
 
-[node name="margin" type="MarginContainer" parent="deck_panel/margin/deck_grid" unique_id=584696626]
-layout_mode = 2
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 0
-
-[node name="deck_label" type="Label" parent="deck_panel/margin/deck_grid/margin" unique_id=1868144662]
+[node name="deck_label" type="Label" parent="deck_panel/margin/deck_grid" unique_id=1868144662]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 45
 text = "30"
 label_settings = SubResource("LabelSettings_wjjp0")
-horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="end_turn_container" type="PanelContainer" parent="." unique_id=1089249947]
