@@ -19,9 +19,16 @@ public partial class PlayerUiPanel : MarginContainer
 	private Label _stoneLabel;
 	private Label _ageLabel;
 	private Label _deckLabel;
+	private Label _discardLabel;
 
 	private EventAggregator _events;
 	private Match _match;
+
+	private int _currentDeckCount = 0;
+	private bool _isDeckCountAnimating = false;
+
+	private int _currentDiscardCount = 0;
+	private bool _isDiscardCountAnimating = false;
 
 	public override void _Ready()
 	{
@@ -32,6 +39,7 @@ public partial class PlayerUiPanel : MarginContainer
 		_stoneLabel = GetNode<Label>("%stone_label");
 		_ageLabel = GetNode<Label>("%age_label");
 		_deckLabel = GetNode<Label>("%deck_label");
+		_discardLabel = GetNode<Label>("%discard_label");
 
 		_events = _gameController.Game.GetComponent<EventAggregator>();
 		_match = _gameController.Game.GetComponent<Match>();
@@ -56,7 +64,44 @@ public partial class PlayerUiPanel : MarginContainer
 		_goldLabel.Text = _match.LocalPlayer.Resources.Gold.ToString();
 		_stoneLabel.Text = _match.LocalPlayer.Resources.Stone.ToString();
 		_ageLabel.Text = _match.LocalPlayer.Age.PrettyPrint();
-		_deckLabel.Text = _match.LocalPlayer.Deck.Count.ToString();
+
+		if (_match.LocalPlayer.Deck.Count != _currentDeckCount && !_isDeckCountAnimating)
+		{
+			_isDeckCountAnimating = true;
+
+			var tween = CreateTween();
+			tween.TweenMethod(
+				Callable.From((int next) => _deckLabel.Text = $"{next}"),
+				from: _currentDeckCount,
+				to: _match.LocalPlayer.Deck.Count,
+				// TODO: set duration based on difference between from / to?
+				duration: 0.3f);
+
+			tween.TweenCallback(Callable.From(() =>
+			{
+				_currentDeckCount = _match.LocalPlayer.Deck.Count;
+				_isDeckCountAnimating = false;
+			}));
+		}
+
+		if (_match.LocalPlayer.Discard.Count != _currentDiscardCount && !_isDiscardCountAnimating)
+		{
+			_isDiscardCountAnimating = true;
+
+			var tween = CreateTween();
+			tween.TweenMethod(
+				Callable.From((int next) => _discardLabel.Text = $"{next}"),
+				from: _currentDiscardCount,
+				to: _match.LocalPlayer.Discard.Count,
+				// TODO: set duration based on difference between from / to?
+				duration: 0.3f);
+
+			tween.TweenCallback(Callable.From(() =>
+			{
+				_currentDiscardCount = _match.LocalPlayer.Discard.Count;
+				_isDiscardCountAnimating = false;
+			}));
+		}
 	}
 
 	public override void _ExitTree()

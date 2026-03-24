@@ -50,19 +50,13 @@ public partial class PlayCardsView : Node2D, IGameComponent
 			var cardView = _hand.Cards.Single(c => c.Card == playAction.CardToPlay);
 			var playCardTween = PlayCardTween(cardView, playAction.TargetTile);
 			playCardTween.Chain().TweenCallback(Callable.From((Action)(() => _hand.ArrangeHandTween())));
+
+			while (playCardTween.IsRunning()) yield return null;
 		}
 	}
 
 	private Tween PlayCardTween(CardView cardView, Vector2I targetTile)
 	{
-		// TODO: verify we no longer need this
-		// if (cardView == null)
-		// {
-		//     var nullTween = CreateTween();
-		//     nullTween.TweenCallback(Callable.From(() => { }));
-		//     return nullTween;
-		// }
-
 		return cardView.Card.Data.CardType == CardType.Technology
 			? CenterAndFadeAwayTween(cardView)
 			: PlayOnTileTween(cardView, targetTile);

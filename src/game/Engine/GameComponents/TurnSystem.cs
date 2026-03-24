@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using MedievalConquerors.Engine.Actions;
+using MedievalConquerors.Engine.Attributes;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
@@ -62,8 +63,15 @@ public class TurnSystem : GameComponent, IAwake
 
     private void OnPerformEndTurn(EndTurnAction action)
     {
-        if(_match.CurrentPlayer.Hand.Count > 0)
-            Game.AddReaction(new DiscardCardsAction(_match.Players[action.PlayerId].Hand.ToList()));
+        var player = _match.Players[action.PlayerId];
+        var banishedCards = player.Hand.Where(c => c.HasAttribute<BanishOnDiscardAttribute>()).ToList();
+        var discardedCards = player.Hand.Except(banishedCards).ToList();
+
+        if (discardedCards.Count > 0)
+            Game.AddReaction(new DiscardCardsAction(discardedCards));
+
+        if(banishedCards.Count > 0)
+            Game.AddReaction(new BanishCardsAction(banishedCards));
     }
 
     private void OnPerformBeginTurn(BeginTurnAction action)

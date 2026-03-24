@@ -30,6 +30,8 @@ public partial class DeckCycleView : CpuParticles2D, IGameComponent
 
 	private IEnumerator DeckCycleAnimation(IGame game, GameAction action)
 	{
+		yield return true;
+
 		var deckCycleAction = (CycleDeckAction) action;
 		var match = Game.GetComponent<Match>();
 		var player = match.Players[deckCycleAction.TargetPlayerId];
@@ -40,13 +42,5 @@ public partial class DeckCycleView : CpuParticles2D, IGameComponent
 		Restart();
 
 		while (Emitting) yield return null;
-
-		// var additionalWait = Lifetime * 0.3f;
-		// double elapsed = 0;
-		// while(elapsed < additionalWait)
-		// {
-		// 	elapsed += GetProcessDeltaTime();
-		// 	yield return null;
-		// }
 	}
 }

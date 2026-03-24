@@ -48,17 +48,16 @@ public class MapSystem : GameComponent, IAwake
     {
         foreach (var card in action.CardsToDiscard)
         {
-            if (card.MapPosition != HexMap.None)
-            {
-                var tile = _map.GetTile(card.MapPosition);
+            if (card.MapPosition == HexMap.None) continue;
 
-                if (card == tile.Building)
-                    tile.Building = null;
-                else
-                    tile.Unit = null;
+            var tile = _map.GetTile(card.MapPosition);
 
-                card.MapPosition = HexMap.None;
-            }
+            if (card == tile.Building)
+                tile.Building = null;
+            else if (card == tile.Unit)
+                tile.Unit = null;
+
+            card.MapPosition = HexMap.None;
         }
     }
 

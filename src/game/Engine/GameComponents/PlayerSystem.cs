@@ -27,6 +27,7 @@ public class PlayerSystem : GameComponent, IAwake
 
         _events.Subscribe<BeginGameAction>(GameEvent.Prepare<BeginGameAction>(), OnPrepareBeginGame);
         _events.Subscribe<DiscardCardsAction>(GameEvent.Perform<DiscardCardsAction>(), OnPerformDiscardCards);
+        _events.Subscribe<BanishCardsAction>(GameEvent.Perform<BanishCardsAction>(), OnPerformBanishCards);
         _events.Subscribe<ShuffleDeckAction>(GameEvent.Perform<ShuffleDeckAction>(), OnPerformShuffleDeck);
     }
 
@@ -83,12 +84,16 @@ public class PlayerSystem : GameComponent, IAwake
         foreach (var card in action.CardsToDiscard)
         {
             var player = card.Owner;
+            player.MoveCard(card, Zone.Discard);
+        }
+    }
 
-            // TODO: Should the list of cards being banished be data driven? Perhaps this can be checked by a tag
-            //       on the card itself rather than a hardcoded list of IDs
-            // TODO: Split up between BanishCardsAction and DiscardCardsAction
-            var targetZone = card.Data.Id == CardLibrary.VILLAGER_ID ? Zone.Banished : Zone.Discard;
-            player.MoveCard(card, targetZone);
+    private void OnPerformBanishCards(BanishCardsAction action)
+    {
+        foreach (var card in action.CardsToBanish)
+        {
+            var player = card.Owner;
+            player.MoveCard(card, Zone.Banished);
         }
     }
 

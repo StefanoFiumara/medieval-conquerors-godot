@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c5ftsyqphp4r" path="res://Entities/UI/Gameplay/PlayerUiPanel.cs" id="1_miglb"]
 [ext_resource type="Texture2D" uid="uid://u5xvqy7mf2m1" path="res://Entities/UI/Gameplay/resource_icons.png" id="2_lwx21"]
 [ext_resource type="FontFile" uid="uid://bnndeil6c3twa" path="res://Fonts/QUILLPN.TTF" id="3_wjjp0"]
-[ext_resource type="FontFile" uid="uid://b5iia1lbr6r6m" path="res://Fonts/Magic Medieval.ttf" id="5_vx6qn"]
+[ext_resource type="FontFile" uid="uid://cliwh0bckvo13" path="res://Fonts/Amarante-Regular.ttf" id="5_vx6qn"]
 [ext_resource type="Texture2D" uid="uid://cus8a0bckc5rh" path="res://Entities/UI/Gameplay/deck.png" id="7_fypch"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vx6qn"]
@@ -13,7 +13,7 @@ font_color = Color(1, 0.850752, 0.5591886, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_wjjp0"]
 font = ExtResource("5_vx6qn")
-font_size = 50
+font_size = 42
 shadow_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_34lmq"]
@@ -185,13 +185,16 @@ layout_mode = 2
 [node name="deck_icon" type="TextureRect" parent="deck_panel/margin/deck_grid" unique_id=286715596]
 layout_mode = 2
 texture = ExtResource("7_fypch")
+expand_mode = 3
 stretch_mode = 4
 
 [node name="deck_label" type="Label" parent="deck_panel/margin/deck_grid" unique_id=1868144662]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 text = "30"
 label_settings = SubResource("LabelSettings_wjjp0")
+horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="end_turn_container" type="PanelContainer" parent="." unique_id=1089249947]
@@ -200,10 +203,43 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxEmpty_34lmq")
 
-[node name="end_turn_button" type="Button" parent="end_turn_container" unique_id=1408476829]
+[node name="vbox" type="VBoxContainer" parent="end_turn_container" unique_id=1121338094]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="end_turn_button" type="Button" parent="end_turn_container/vbox" unique_id=1408476829]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(225, 75)
 layout_mode = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 35
 text = "End Turn"
+
+[node name="discard_panel" type="PanelContainer" parent="end_turn_container/vbox" unique_id=148420022]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="margin" type="MarginContainer" parent="end_turn_container/vbox/discard_panel" unique_id=490593185]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="discard_grid" type="HBoxContainer" parent="end_turn_container/vbox/discard_panel/margin" unique_id=1899240905]
+layout_mode = 2
+
+[node name="discard_icon" type="TextureRect" parent="end_turn_container/vbox/discard_panel/margin/discard_grid" unique_id=986938451]
+layout_mode = 2
+texture = ExtResource("7_fypch")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="discard_label" type="Label" parent="end_turn_container/vbox/discard_panel/margin/discard_grid" unique_id=370121949]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_wjjp0")
+horizontal_alignment = 2
+vertical_alignment = 1

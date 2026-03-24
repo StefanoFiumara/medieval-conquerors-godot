@@ -24,7 +24,6 @@ public class AbilitySystem : GameComponent, IAwake
         _events.Subscribe<PlayCardAction, ActionValidatorResult>(GameEvent.Validate<PlayCardAction>(), OnValidatePlayCard);
         _events.Subscribe<PlayCardAction>(GameEvent.Perform<PlayCardAction>(), OnPerformPlayCard);
 
-        _events.Subscribe<PlayActionCardAction>(GameEvent.Prepare<PlayActionCardAction>(), OnPreparePlayActionCard);
         _events.Subscribe<PlayActionCardAction>(GameEvent.Perform<PlayActionCardAction>(), OnPerformPlayActionCard);
         _events.Subscribe<ResearchTechnologyAction>(GameEvent.Prepare<ResearchTechnologyAction>(), OnPrepareResearchTechnology);
         _events.Subscribe<ResearchTechnologyAction>(GameEvent.Perform<ResearchTechnologyAction>(), OnPerformResearchTechnology);
@@ -64,17 +63,21 @@ public class AbilitySystem : GameComponent, IAwake
                     break;
             }
         }
-
     }
 
-    private void OnPreparePlayActionCard(PlayActionCardAction action)
-        => TriggerAbility<OnCardPlayedAbility>(action.Card, action.TargetTile);
+    // TODO: Trigger ability in perform, the react with discard/banish card actions
 
     private void OnPrepareResearchTechnology(ResearchTechnologyAction action)
-        => TriggerAbility<OnCardPlayedAbility>(action.Card, action.TargetTile);
+    {
+        TriggerAbility<OnCardPlayedAbility>(action.Card, action.TargetTile);
+        Game.AddReaction(new BanishCardsAction([action.Card]));
+    }
 
     private void OnPerformPlayActionCard(PlayActionCardAction action)
-        => action.Card.Owner.MoveCard(action.Card, Zone.Discard);
+    {
+        TriggerAbility<OnCardPlayedAbility>(action.Card, action.TargetTile);
+        Game.AddReaction(new DiscardCardsAction([action.Card]));
+    }
 
     private void OnPerformResearchTechnology(ResearchTechnologyAction action)
         => action.Card.Owner.MoveCard(action.Card, Zone.Banished);
