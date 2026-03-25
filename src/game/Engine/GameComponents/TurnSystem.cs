@@ -78,5 +78,6 @@ public class TurnSystem : GameComponent, IAwake
     {
         _match.CurrentPlayerId = action.PlayerId;
         Game.AddReaction(new DrawCardsAction(action.PlayerId, _match.Players[action.PlayerId].TurnStartDrawCount));
+        Game.AddReaction(new PassiveResourceCollectionAction(action.PlayerId));
     }
 }

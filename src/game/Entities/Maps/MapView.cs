@@ -78,7 +78,7 @@ public partial class MapView : Node2D, IGameComponent
 
 		_map.OnTileChanged += OnTileMapChanged;
 		_events.Subscribe<ResetSpentVillagersAction>(GameEvent.Prepare<ResetSpentVillagersAction>(), OnPrepareResetSpentVillagers);
-		_events.Subscribe<CollectResourcesAction>(GameEvent.Prepare<CollectResourcesAction>(), OnPrepareCollectResource);
+		_events.Subscribe<HarvestAction>(GameEvent.Prepare<HarvestAction>(), OnPrepareCollectResource);
 		_events.Subscribe<MoveUnitAction>(GameEvent.Prepare<MoveUnitAction>(), OnPrepareMoveUnit);
 		_events.Subscribe<GarrisonAction>(GameEvent.Prepare<GarrisonAction>(), OnPrepareGarrison);
 		_events.Subscribe<BuildStructureAction>(GameEvent.Prepare<BuildStructureAction>(), OnPrepareBuildStructure);
@@ -86,7 +86,7 @@ public partial class MapView : Node2D, IGameComponent
 	}
 
 	private void OnPrepareResetSpentVillagers(ResetSpentVillagersAction action) => action.PerformPhase.Viewer = ResetSpentTokensAnimation;
-	private void OnPrepareCollectResource(CollectResourcesAction action) => action.PerformPhase.Viewer = SpendVillagerTokenAnimation;
+	private void OnPrepareCollectResource(HarvestAction action) => action.PerformPhase.Viewer = SpendVillagerTokenAnimation;
 	private void OnPrepareBuildStructure(BuildStructureAction action) => action.PerformPhase.Viewer = BuildStructureAnimation;
 	private void OnPrepareSpawnUnit(SpawnUnitAction action) => action.PerformPhase.Viewer = SpawnUnitAnimation;
 	private void OnPrepareMoveUnit(MoveUnitAction action) => action.PerformPhase.Viewer = MoveTokenAnimation;
@@ -257,7 +257,7 @@ public partial class MapView : Node2D, IGameComponent
 
 	private IEnumerator SpendVillagerTokenAnimation(IGame game, GameAction action)
 	{
-		var spendAction = (CollectResourcesAction)action;
+		var spendAction = (HarvestAction)action;
 
 		var token = _tokens.Single(t => t.Card.MapPosition == spendAction.TargetTile);
 		token.MarkGarrisonedAsSpent();

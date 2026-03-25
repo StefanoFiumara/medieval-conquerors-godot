@@ -49,12 +49,6 @@ public class CardBuilder
         return this;
     }
 
-    public CardBuilder WithResourceCollector(ResourceType resource)
-    {
-        _attributes.Add(new ResourceCollectorAttribute { Resource = resource });
-        return this;
-    }
-
     public CardBuilder WithResourceCost(int food = 0, int wood = 0, int gold = 0, int stone = 0)
     {
         _attributes.Add(new ResourceCostAttribute
@@ -121,6 +115,17 @@ public class CardBuilder
         return this;
     }
 
+    public CardBuilder WithResourceProvider(ResourceType resource, int harvest, int passive)
+    {
+        _attributes.Add(new ResourceProviderAttribute
+        {
+            Resource = resource,
+            HarvestYield = harvest,
+            PassiveYield = passive
+        });
+        return this;
+    }
+
     public Card Create()
     {
         var data = new CardData
@@ -136,6 +141,8 @@ public class CardBuilder
     }
 
     public List<Card> CreateMany(int count) => Enumerable.Range(0, count).Select(_ => Create()).ToList();
+
+
 }
 
 public static class DeckBuilder
@@ -179,7 +186,7 @@ public static class DeckBuilder
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
             .WithResourceCost(wood: 2)
-            .WithResourceCollector(ResourceType.Wood)
+            .WithResourceProvider(ResourceType.Wood, harvest: 2, passive: 1)
             .WithGarrisonCapacity(capacity: 3)
             .WithTileWithinInfluenceSelector()
             .Create());
@@ -189,8 +196,8 @@ public static class DeckBuilder
             .WithDescription("Assigned villagers collect adjacent resources")
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
+            .WithResourceProvider(ResourceType.Mining, harvest: 2, passive: 1)
             .WithResourceCost(wood: 2)
-            .WithResourceCollector(ResourceType.Mining)
             .WithGarrisonCapacity(capacity: 3)
             .WithTileWithinInfluenceSelector()
             .Create());
@@ -201,7 +208,7 @@ public static class DeckBuilder
             .WithCardType(CardType.Building)
             .WithTags(Tags.Economic)
             .WithResourceCost(wood: 2)
-            .WithResourceCollector(ResourceType.Food)
+            .WithResourceProvider(ResourceType.Food, harvest: 2, passive: 1)
             .WithGarrisonCapacity(capacity: 3)
             .WithTileWithinInfluenceSelector()
             .Create());

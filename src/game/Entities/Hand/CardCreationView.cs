@@ -46,6 +46,9 @@ public partial class CardCreationView : Node2D, IGameComponent
 		const float SPACING = 250f;
 		var center = _viewport.GetVisibleRect().GetCenter();
 
+		// TODO: Different animation per player
+
+		// TODO: use single tween with tween.TweenSubtween
 		List<Tween> subTweens = [];
 
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();

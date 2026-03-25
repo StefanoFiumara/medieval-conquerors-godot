@@ -5,5 +5,7 @@ namespace MedievalConquerors.Engine.Attributes;
 public record ResourceProviderAttribute : CardAttribute
 {
     public ResourceType Resource { get; init; }
-    public int Yield { get; init; }
+
+    public int PassiveYield { get; init; }
+    public int HarvestYield { get; init; }
 }

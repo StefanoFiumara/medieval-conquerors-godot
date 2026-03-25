@@ -35,17 +35,31 @@ public class ResourceGatheringSystem : GameComponent, IAwake
 		_events.Subscribe<BeginTurnAction>(GameEvent.Perform<BeginTurnAction>(), OnPerformBeginTurn);
 		_events.Subscribe<ResetSpentVillagersAction>(GameEvent.Perform<ResetSpentVillagersAction>(), OnPerformResetSpentVillagers);
 
-		// TODO: Target selector validates that this action is always valid
-		// BUT we probably need to add a proper validation for this action in case it can be triggered in the future
-		// outside of the input system.
-		// VALIDATION: Target tile has building
-		//             Target building has unspent garrison slots
-		//             Target building has Resource Provider attribute
-		_events.Subscribe<CollectResourcesAction, ActionValidatorResult>(GameEvent.Validate<CollectResourcesAction>(), OnValidateCollectResources);
-		_events.Subscribe<CollectResourcesAction>(GameEvent.Perform<CollectResourcesAction>(), OnPerformCollectResource);
+		_events.Subscribe<PassiveResourceCollectionAction>(GameEvent.Perform<PassiveResourceCollectionAction>(), OnPerformCollectResources);
+		_events.Subscribe<HarvestAction, ActionValidatorResult>(GameEvent.Validate<HarvestAction>(), OnValidateCollectResources);
+		_events.Subscribe<HarvestAction>(GameEvent.Perform<HarvestAction>(), OnPerformCollectResource);
 	}
 
-	private void OnValidateCollectResources(CollectResourcesAction action, ActionValidatorResult validator)
+	private void OnPerformCollectResources(PassiveResourceCollectionAction action)
+	{
+		// TODO: Animation for this step (use popup labels like before)
+		var player = _match.Players[action.PlayerId];
+
+		var villagers = player.Map
+			.SelectMany(c => _garrisonSystem.GetGarrisonedUnits(c))
+			.Distinct()
+			.Select(c => (villager: c, building: _map.GetTile(c.MapPosition).Building));
+
+		foreach (var (villager, building) in villagers)
+		{
+			var resourceProvider = building.GetAttribute<ResourceProviderAttribute>();
+			var resource = DetermineResource(resourceProvider.Resource, building);
+
+			player.Resources[resource] += resourceProvider.PassiveYield;
+		}
+	}
+
+	private void OnValidateCollectResources(HarvestAction action, ActionValidatorResult validator)
 	{
 		var tile = _map.GetTile(action.TargetTile);
 		if (tile.Building == null)
@@ -78,29 +92,37 @@ public class ResourceGatheringSystem : GameComponent, IAwake
 	private void OnPerformResetSpentVillagers(ResetSpentVillagersAction action)
 		=> _spentVillagers[action.PlayerId].Clear();
 
-	private void OnPerformCollectResource(CollectResourcesAction action)
+	private void OnPerformCollectResource(HarvestAction action)
 	{
 		var player = _match.Players[action.TargetPlayerId];
 		var building = _map.GetTile(action.TargetTile).Building;
 
-		var resource = building.GetAttribute<ResourceProviderAttribute>().Resource;
-		if (resource == ResourceType.Mining)
-		{
-			// determine mining type based on adjacent tile
-			// TODO: what happens if we have both?
-			var neighbors = _map.GetNeighbors(building.MapPosition).ToList();
-			if (neighbors.Any(t => t.ResourceType == ResourceType.Gold))
-				resource = ResourceType.Gold;
-			else if (neighbors.Any(t => t.ResourceType == ResourceType.Stone))
-				resource = ResourceType.Stone;
-		}
+		var resourceProvider = building.GetAttribute<ResourceProviderAttribute>();
+		var resource = DetermineResource(resourceProvider.Resource, building);
 
-		player.Resources[resource] += action.Amount;
+		player.Resources[resource] += resourceProvider.HarvestYield;
 
 		var villager = _garrisonSystem.GetGarrisonedUnits(building)
 			.Except(_spentVillagers[action.TargetPlayerId])
 			.First();
 
 		_spentVillagers[action.TargetPlayerId].Add(villager);
+	}
+
+	private ResourceType DetermineResource(ResourceType resource, Card building)
+	{
+		var result = resource;
+		if (resource == ResourceType.Mining)
+		{
+			// determine mining type based on adjacent tile
+			// TODO: what happens if we have both?
+			var neighbors = _map.GetNeighbors(building.MapPosition).ToList();
+			if (neighbors.Any(t => t.ResourceType == ResourceType.Gold))
+				result = ResourceType.Gold;
+			else if (neighbors.Any(t => t.ResourceType == ResourceType.Stone))
+				result = ResourceType.Stone;
+		}
+
+		return result;
 	}
 }

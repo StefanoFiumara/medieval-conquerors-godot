@@ -76,7 +76,7 @@ public partial class CardView : Node2D, IClickable
 		};
 
 		// TODO: Append tags and card type to description
-		_description.Text = Card.Data.Description;
+		_description.ParseBbcode(Card.Data.Description);
 		RemoveHighlight();
 
 		// _background.Frame = _cardFrameMap.GetValueOrDefault(Card.CardData.CardType, 0);

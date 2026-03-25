@@ -87,31 +87,37 @@ public class AISystem : GameComponent, IAwake
         //       We need to adjust this logic to also account for any economic buildings with a resource provider attribute.
 
         // the value of placing an economic building on this tile depends on whether the tile is adjacent to the resource it collects.
-        var resource = card.GetAttribute<ResourceCollectorAttribute>()?.Resource;
+        var resource = card.GetAttribute<ResourceProviderAttribute>()?.Resource;
         if (resource == null) return 0;
 
-        // score of the tile depends on how many resources of the type the card collects are adjacent to this tile.
-        var adjacentResourceCount = _map.GetNeighbors(tilePos).Where(t => t.ResourceType != ResourceType.None).Count(t => resource.Value.HasFlag(t.ResourceType));
-        return adjacentResourceCount;
+        return resource switch
+        {
+            ResourceType.Food => 4,
+            ResourceType.Wood => 4,
+            ResourceType.Gold => 3,
+            ResourceType.Stone => 2
+        };
     }
 
     private int CalculateEconomicUnitScore(Card card, Vector2I tilePos)
     {
-        // the value of placing an economic unit in this tile depends on whether the building in this tile has enough adjacent resource tiles to gather further resources.
-        // TODO: See if building's gather rate can be used to further determine best placement
-        // TODO: Determine if some resources are higher priority than others (e.g. we may want the AI to prioritize food over wood, or vice versa, this can also change depending on early/mid/late game.
         var building = _map.GetTile(tilePos).Building;
 
-        var resourceCollected = building?.GetAttribute<ResourceCollectorAttribute>()?.Resource;
-        if (resourceCollected == null) return 0;
+        var resource = building?.GetAttribute<ResourceProviderAttribute>()?.Resource;
+        if (resource == null) return 0;
 
         var unitsGarrisoned = _garrisonSystem.GetGarrisonedUnits(building).Count;
 
-        // TODO: Test this logic with mining resources
-        var adjacentResourceCount = _map.GetNeighbors(tilePos).Where(t => t.ResourceType != ResourceType.None).Count(t => resourceCollected.Value.HasFlag(t.ResourceType));
-        if (adjacentResourceCount == 0) return 0;
+        var resourceValue = resource switch
+        {
+            ResourceType.Food => 4,
+            ResourceType.Wood => 4,
+            ResourceType.Gold => 3,
+            ResourceType.Stone => 2
+        };
 
-        return adjacentResourceCount - unitsGarrisoned;
+        // TODO: Test this logic with mining resources
+        return resourceValue - unitsGarrisoned;
     }
 
     private int CalculateMilitaryUnitScore(Card card, Vector2I tilePos)

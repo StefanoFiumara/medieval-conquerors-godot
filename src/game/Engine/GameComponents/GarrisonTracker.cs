@@ -35,6 +35,7 @@ public class GarrisonTracker
             _garrisonedUnits[building] = [];
 
         _garrisonedUnits[building].Add(unit);
+        unit.MapPosition = building.MapPosition;
     }
 
     public void Ungarrison(Card building, Card unit)
