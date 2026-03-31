@@ -31,6 +31,8 @@ public class AISystem : GameComponent, IAwake
 
     public void UseAction()
     {
+        _logger.Info("*** AI DECIDING ACTION ***");
+        _logger.Debug($"AI's Hand: {string.Join(", ", _match.CurrentPlayer.Hand.Select(c => c.Data.Title))}");
         var nextAction = DecideAction();
         if (nextAction == null)
         {
@@ -92,10 +94,13 @@ public class AISystem : GameComponent, IAwake
 
         return resource switch
         {
-            ResourceType.Food => 4,
-            ResourceType.Wood => 4,
-            ResourceType.Gold => 3,
-            ResourceType.Stone => 2
+            ResourceType.Food => 5,
+            ResourceType.Wood => 5,
+            ResourceType.Gold => 4,
+            // TODO: determine mining resource based on tilePos adjacent resources
+            ResourceType.Mining => 3,
+            ResourceType.Stone => 2,
+            _ => 0
         };
     }
 
@@ -110,10 +115,13 @@ public class AISystem : GameComponent, IAwake
 
         var resourceValue = resource switch
         {
-            ResourceType.Food => 4,
-            ResourceType.Wood => 4,
-            ResourceType.Gold => 3,
-            ResourceType.Stone => 2
+            ResourceType.Food => 5,
+            ResourceType.Wood => 5,
+            ResourceType.Gold => 4,
+            // TODO: determine mining resource based on tilePos adjacent resources
+            ResourceType.Mining => 3,
+            ResourceType.Stone => 2,
+            _ => 0
         };
 
         // TODO: Test this logic with mining resources

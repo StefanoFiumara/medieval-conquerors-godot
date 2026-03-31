@@ -42,7 +42,11 @@ public class GarrisonSystem : GameComponent, IAwake
             validator.Invalidate($"Garrison capacity reached ({garrisonAttribute.Limit}).");
     }
 
-    private void OnPerformGarrison(GarrisonAction action) => _tracker.Garrison(action.Building, action.Unit);
+    private void OnPerformGarrison(GarrisonAction action)
+    {
+        _tracker.Garrison(action.Building, action.Unit);
+        action.Unit.Owner.MoveCard(action.Unit, Zone.Map);
+    }
 
     public bool CanGarrison(Card building, Card unit) => _tracker.CanGarrison(building, unit);
     public IReadOnlyList<Card> GetGarrisonedUnits(Card building) => _tracker.GetGarrisonedUnits(building);
