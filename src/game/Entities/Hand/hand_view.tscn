@@ -26,9 +26,6 @@ metadata/_snap_count = 7
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_svh7g"]
 size = Vector2(1920, 760)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lrbm8"]
-size = Vector2(1920, 20)
-
 [node name="hand_view" type="Node2D" unique_id=1876730023]
 script = ExtResource("1_psvbr")
 _spreadCurve = SubResource("Curve_syyef")
@@ -77,10 +74,3 @@ unique_name_in_owner = true
 [node name="shape" type="CollisionShape2D" parent="map_target_area" unique_id=856585147]
 position = Vector2(960, 383)
 shape = SubResource("RectangleShape2D_svh7g")
-
-[node name="cancel_area" type="Area2D" parent="." unique_id=759372380]
-unique_name_in_owner = true
-
-[node name="shape" type="CollisionShape2D" parent="cancel_area" unique_id=192012600]
-position = Vector2(960, 1070)
-shape = SubResource("RectangleShape2D_lrbm8")

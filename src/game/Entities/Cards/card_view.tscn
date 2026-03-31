@@ -56,7 +56,7 @@ patch_margin_top = 23
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=294349133]
+[node name="portrait_background" type="ColorRect" parent="." unique_id=294349133]
 offset_left = -78.0
 offset_top = -134.0
 offset_right = 78.0

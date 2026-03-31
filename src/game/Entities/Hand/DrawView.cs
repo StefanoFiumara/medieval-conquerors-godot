@@ -122,7 +122,7 @@ public partial class DrawView : Node2D, IGameComponent
 			while (tweens[^1].IsRunning()) yield return null;
 
 			var arrangeTween = _hand.ArrangeHandTween();
-			while (arrangeTween.IsRunning()) yield return null;
+			while (arrangeTween?.IsRunning() == true) yield return null;
 		}
 	}
 
@@ -160,7 +160,7 @@ public partial class DrawView : Node2D, IGameComponent
 			while (tweens[^1].IsRunning()) yield return null;
 
 			var arrangeTween = _hand.ArrangeHandTween();
-			while (arrangeTween.IsRunning()) yield return null;
+			while (arrangeTween?.IsRunning() == true) yield return null;
 		}
 	}
 }

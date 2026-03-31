@@ -97,7 +97,7 @@ public partial class CardCreationView : Node2D, IGameComponent
 		if (createAction.TargetZone == Zone.Hand)
 		{
 			var arrangeTween = _hand.ArrangeHandTween();
-			while (arrangeTween.IsRunning()) yield return null;
+			while (arrangeTween?.IsRunning() == true) yield return null;
 		}
 	}
 

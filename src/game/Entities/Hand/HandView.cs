@@ -46,7 +46,6 @@ public partial class HandView : Node2D, IGameComponent
 	[Export] private Curve _rotationCurve;
 
 	private Area2D _targetArea;
-	private Area2D _cancelArea;
 
 	public IGame Game { get; set; }
 
@@ -58,12 +57,10 @@ public partial class HandView : Node2D, IGameComponent
 		// TODO: Maybe instead of a generic target area we should check if we are hovering over a certain tile in the tilemap
 		//		 And when we do, switch to targeting mode.
 		_targetArea = GetNode<Area2D>("map_target_area");
-		_cancelArea = GetNode<Area2D>("cancel_area");
 
 		_viewport = GetViewport();
+		_viewport.SetPhysicsObjectPickingFirstOnly(true);
 		_viewport.Connect(Viewport.SignalName.SizeChanged, Callable.From(CenterView));
-
-		_cancelArea.Connect(CollisionObject2D.SignalName.MouseEntered, Callable.From(ResetSelection));
 
 		CenterView();
 	}
@@ -74,20 +71,22 @@ public partial class HandView : Node2D, IGameComponent
 		Scale = visibleRect.CalculateScaleFactor();
 		Position = new Vector2(visibleRect.Size.X * 0.5f, visibleRect.Size.Y - (165f * Scale.Y));
 		_targetArea.GlobalPosition = Vector2.Zero;
-		_cancelArea.GlobalPosition = Vector2.Zero;
 	}
 
 	public override void _Process(double elapsed)
 	{
 		var mousePos = ToLocal(_viewport.GetMousePosition());
+
 		if (_selectedIndex != -1)
 		{
-			// TODO: Drag selected card
+			// TODO: Check if dragged over map zone -> enter map targeting mode (highlight target tiles, move card away so player can see)
 			var card  = Cards[_selectedIndex];
 			card.Position = card.Position.Lerp(mousePos, (float)elapsed * DRAG_SPEED);
 
-			// TODO: Check if dragged over map zone -> highlight proper targets
-			//		NOTE: This can be done in the mouse_entered event of the "targeting zone"
+			// TODO: Sts only cancels when in targeting mode, do we care to mimic that?
+			var viewportRect = _viewport.GetVisibleRect();
+			if (ToGlobal(mousePos).Y >= viewportRect.Position.Y + viewportRect.Size.Y)
+				ResetSelection();
 		}
 	}
 
@@ -163,14 +162,15 @@ public partial class HandView : Node2D, IGameComponent
 		}
 	}
 
-	// TODO: Could it be possible to return only one tween here?
-	//   ANSWER: Yes, but we need separate tweens for the tween tracker.
 	public Tween ArrangeHandTween(int? max = null)
 	{
 		const double TWEEN_DURATION = 0.3;
 
-		var sequence = CreateTween().SetParallel();
 		var limit = Mathf.Min(max ?? Cards.Count, Cards.Count);
+
+		// TODO: Should we return a "completed" tween instead so that callers don't have to null check?
+		if(limit  == 0) return null;
+		var sequence = CreateTween().SetParallel();
 
 		for (var i = 0; i < limit; i++)
 		{
