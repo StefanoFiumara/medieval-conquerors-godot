@@ -17,7 +17,7 @@ public class HandSystemTests : GameSystemTestFixture
 
         Game.Awake();
         Game.Perform(new BeginGameAction(_player.Id));
-        Game.Update();
+        Game.Update(0.16);
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class HandSystemTests : GameSystemTestFixture
 
         var action = new DrawCardsAction(_player.Id, amountToDraw);
         Game.Perform(action);
-        Game.Update();
+        Game.Update(0.16);
 
         action.DrawnCards.ShouldBeEquivalentTo(_player.Hand.Except(initialHand).ToList());
 

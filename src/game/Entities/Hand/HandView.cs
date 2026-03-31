@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using Godot;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
-using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.GameComponents;
-using MedievalConquerors.Engine.Input;
 using MedievalConquerors.Engine.Utils;
 using MedievalConquerors.Entities.Cards;
 using MedievalConquerors.Entities.Maps;
@@ -17,212 +15,103 @@ namespace MedievalConquerors.Entities.Hand;
 /// </summary>
 public partial class HandView : Node2D, IGameComponent
 {
+	private static readonly PackedScene _cardScene = GD.Load<PackedScene>("uid://b53wqwu1youqe");
 	public static readonly Vector2 DeckPosition = new(-1200, 400);
 	public static readonly Vector2 DiscardPosition = new(1200, 400);
 
-	private const float HAND_WIDTH = 600;
-	private const float HAND_HEIGHT = 95f;
-	private const int PREVIEW_SECTION_HEIGHT = 350;
+	// TODO: maybe formalize into select/cancel actions
+	private const string LEFT_CLICK = "left_click";
+	private const string RIGHT_CLICK = "right_click";
+
+	private const float DRAG_SPEED = 20f;
+	private const float HAND_WIDTH = 700;
+	private const float HAND_HEIGHT = 250;
 
 	private int _hoverXMin;
 	private int _hoverXMax;
-	private int _hoverSectionSize = 150;
+	private int _hoverSectionWidth;
 
 	private int _hoveredIndex = -1;
 	private int _selectedIndex = -1;
 
 	private Viewport _viewport;
-	private IGameSettings _settings;
-	private EventAggregator _events;
-
-	private PackedScene _cardScene;
+	private CardSystem _cardSystem;
 
 	public List<CardView> Cards { get; } = [];
 	private readonly TweenTracker<CardView> _tweenTracker = new();
 
-	// TODO: Set map view via Game container? maybe in _Ready?
 	[Export] private MapView _mapView;
 	[Export] private Curve _spreadCurve;
 	[Export] private Curve _heightCurve;
 	[Export] private Curve _rotationCurve;
 
+	private Area2D _targetArea;
+	private Area2D _cancelArea;
+
 	public IGame Game { get; set; }
 
+	// TODO: can this be _Ready instead of EnterTree?
 	public override void _EnterTree()
 	{
-		_cardScene = ResourceLoader.Load<PackedScene>("uid://b53wqwu1youqe");
 		GetParent<GameController>().Game.AddComponent(this);
-
-		_events = Game.GetComponent<EventAggregator>();
-		_settings = Game.GetComponent<IGameSettings>();
+		_cardSystem = Game.GetComponent<CardSystem>();
+		// TODO: Maybe instead of a generic target area we should check if we are hovering over a certain tile in the tilemap
+		//		 And when we do, switch to targeting mode.
+		_targetArea = GetNode<Area2D>("map_target_area");
+		_cancelArea = GetNode<Area2D>("cancel_area");
 
 		_viewport = GetViewport();
-		CenterView();
-		_viewport.SizeChanged += CenterView;
-	}
+		_viewport.Connect(Viewport.SignalName.SizeChanged, Callable.From(CenterView));
 
-	public override void _ExitTree() => _viewport.SizeChanged -= CenterView;
+		_cancelArea.Connect(CollisionObject2D.SignalName.MouseEntered, Callable.From(ResetSelection));
+
+		CenterView();
+	}
 
 	private void CenterView()
 	{
 		var visibleRect = _viewport.GetVisibleRect();
 		Scale = visibleRect.CalculateScaleFactor();
 		Position = new Vector2(visibleRect.Size.X * 0.5f, visibleRect.Size.Y - (165f * Scale.Y));
+		_targetArea.GlobalPosition = Vector2.Zero;
+		_cancelArea.GlobalPosition = Vector2.Zero;
 	}
 
 	public override void _Process(double elapsed)
 	{
-		// TODO: if we switch to hover system that relies less on the "hover sections", we can probably remove this check from here
-		// and make the game feel snappier.
-		if (!Game.IsIdle()) return;
-
 		var mousePos = ToLocal(_viewport.GetMousePosition());
-		var hovered = CalculateHoveredIndex(mousePos);
-
-		if (hovered != _hoveredIndex)
+		if (_selectedIndex != -1)
 		{
-			if (hovered != -1 && hovered != _selectedIndex)
-			{
-				HoverCardTween(hovered);
-			}
+			// TODO: Drag selected card
+			var card  = Cards[_selectedIndex];
+			card.Position = card.Position.Lerp(mousePos, (float)elapsed * DRAG_SPEED);
 
-			_hoveredIndex = hovered;
-			ArrangeHandTween();
-
-			for (int i = 0; i < Cards.Count; i++)
-			{
-				if(i == _selectedIndex)
-					continue;
-
-				if(i == _hoveredIndex)
-					Cards[_hoveredIndex].Highlight();
-				else
-					Cards[i].RemoveHighlight();
-			}
+			// TODO: Check if dragged over map zone -> highlight proper targets
+			//		NOTE: This can be done in the mouse_entered event of the "targeting zone"
 		}
 	}
 
 	public override void _UnhandledInput(InputEvent input)
 	{
-		if (input is InputEventMouseButton mouseEvent && mouseEvent.IsReleased())
+		if (input.IsActionPressed(LEFT_CLICK) && _hoveredIndex != -1)
 		{
-			if (mouseEvent.ButtonIndex == MouseButton.Right)
-			{
-				 _events.Publish(InputSystem.CLICKED_EVENT, (IClickable)null, mouseEvent);
-			}
-			if (mouseEvent.ButtonIndex == MouseButton.Left && _hoveredIndex != -1)
-			{
-				_events.Publish(InputSystem.CLICKED_EVENT, Cards[_hoveredIndex], mouseEvent);
-				_viewport.SetInputAsHandled();
-			}
+			if(_cardSystem.IsPlayable(Cards[_hoveredIndex].Card))
+				_selectedIndex = _hoveredIndex;
 		}
+		// TODO: Should we check for is action released?
+		// TODO: Should we set input as handled?
+		if (input.IsActionPressed(RIGHT_CLICK))
+			ResetSelection();
 	}
 
-	public override void _Draw()
+	private void ResetSelection()
 	{
-		// TODO: Set the HandView's z index to a high value in order to display the debug rects over the cards in hand
-		if (!_settings.DebugMode)
-			return;
+		if (_selectedIndex == -1) return;
 
-		for (int i = 0; i < Cards.Count; i++)
-		{
-			var sectionRect = new Rect2(
-				x: _hoverXMin + i * _hoverSectionSize,
-				y: -150,
-				width: _hoverSectionSize,
-				height: PREVIEW_SECTION_HEIGHT
-			);
-
-			DrawRect(sectionRect, Colors.Magenta, false, 2);
-		}
-	}
-
-	/* CARD SELECTION */
-	private void SetSelected(CardView card)
-	{
-		_selectedIndex = Cards.IndexOf(card);
-	}
-
-	public void ResetSelection()
-	{
+		Cards[_selectedIndex].RemoveHighlight();
 		_selectedIndex = -1;
 		_hoveredIndex = -1;
 		ArrangeHandTween();
-	}
-
-	public Tween SelectCardTween(CardView card)
-	{
-		const float SELECTED_SCALE = 0.7f;
-		const double TWEEN_DURATION = 0.3;
-		// TODO: Formalize highlight colors in one file (Game settings?)
-		SetSelected(card);
-		card.Highlight(Colors.Cyan);
-
-		var tween = card.CreateTween().SetParallel().SetTrans(Tween.TransitionType.Sine);
-
-		// TODO: Store the card's width/height as constants in the CardView class
-		//		 Figure out if it's possible to derive these values from the card scene itself
-		tween.TweenProperty(card, "global_position", Vector2.Right * 135 * SELECTED_SCALE + Vector2.Down * 185 * SELECTED_SCALE, TWEEN_DURATION);
-		tween.TweenProperty(card, "scale", Vector2.One * SELECTED_SCALE, TWEEN_DURATION);
-
-		return tween;
-	}
-
-	/* CARD HOVER */
-	private int CalculateHoveredIndex(Vector2 mousePos)
-	{
-		for (int i = 0; i < Cards.Count; i++)
-		{
-			var sectionRect = new Rect2(
-				x: _hoverXMin + i * _hoverSectionSize,
-				y: -150,
-				width: _hoverSectionSize,
-				height: PREVIEW_SECTION_HEIGHT
-			);
-
-			if (sectionRect.HasPoint(mousePos))
-				return i;
-		}
-
-		return -1;
-	}
-
-	public void UpdateHoverSections()
-	{
-		if (Cards.Count > 0)
-		{
-			// TODO: is the 100 related to the card's width? formalize this constant
-			_hoverXMin = (int)(Cards[0].Position.X - 100);
-			_hoverXMax = (int)(Cards[^1].Position.X + 100);
-			_hoverSectionSize = (_hoverXMax - _hoverXMin) / Cards.Count;
-		}
-		else
-		{
-			_hoverXMin = 0;
-			_hoverXMax = 0;
-			_hoverSectionSize = 0;
-		}
-
-		QueueRedraw();
-	}
-
-	private Tween HoverCardTween(int index)
-	{
-		const double TWEEN_DURATION = 0.2;
-
-		var card = Cards[index];
-		card.ZIndex = 100;
-
-		var tween = CreateTween()
-			.SetTrans(Tween.TransitionType.Sine)
-			.SetParallel();
-
-		var (handPos, _) = GetCardPosition(card);
-		tween.TweenProperty(card, "position", handPos + Vector2.Up * (30 + handPos.Y), TWEEN_DURATION);
-		tween.TweenProperty(card, "rotation", 0, TWEEN_DURATION);
-
-		_tweenTracker.TrackTween(tween, card);
-		return tween;
 	}
 
 	/* CARD MANAGEMENT */
@@ -238,46 +127,92 @@ public partial class HandView : Node2D, IGameComponent
 
 		cardView.Load(Game, card);
 
+		cardView.HoverArea.Connect(CollisionObject2D.SignalName.MouseEntered, Callable.From(() => OnCardHoverEnter(cardView)));
+		cardView.HoverArea.Connect(CollisionObject2D.SignalName.MouseExited, Callable.From(() => OnCardHoverExit(cardView)));
+
 		return cardView;
+	}
+
+	private void OnCardHoverEnter(CardView card)
+	{
+		if (_selectedIndex != -1) return;
+
+		_hoveredIndex = Cards.IndexOf(card);
+		card.Highlight();
+		card.ZIndex = 100;
+
+		for (int i = 0; i < Cards.Count; i++)
+		{
+			if (i == _hoveredIndex) continue;
+
+			Cards[i].RemoveHighlight();
+		}
+
+		ArrangeHandTween();
+	}
+
+	void OnCardHoverExit(CardView card)
+	{
+		if (_selectedIndex != -1) return;
+
+		if (_hoveredIndex == Cards.IndexOf(card))
+		{
+			_hoveredIndex = -1;
+			card.RemoveHighlight();
+			ArrangeHandTween();
+		}
 	}
 
 	// TODO: Could it be possible to return only one tween here?
 	//   ANSWER: Yes, but we need separate tweens for the tween tracker.
-	public List<Tween> ArrangeHandTween(int? max = null)
+	public Tween ArrangeHandTween(int? max = null)
 	{
 		const double TWEEN_DURATION = 0.3;
-		var tweens = new List<Tween>();
 
+		var sequence = CreateTween().SetParallel();
 		var limit = Mathf.Min(max ?? Cards.Count, Cards.Count);
 
 		for (var i = 0; i < limit; i++)
 		{
-			// Do not animate hovered/selected card.
-			if (i == _hoveredIndex)  continue;
+			// Do not animate selected
 			if (i == _selectedIndex) continue;
 
+			var isHovered = i == _hoveredIndex;
 			var card = Cards[i];
-			card.ZIndex = i + 10;
+			card.ZIndex = isHovered ? 100 : i + 10;
 
 			var tween = CreateTween()
 				.SetTrans(Tween.TransitionType.Sine)
 				.SetEase(Tween.EaseType.Out)
 				.SetParallel();
 
+			// TODO: move isHovered logic over to GetCardPosition?
 			var (targetPosition, targetRotation) = GetCardPosition(card);
 
-			tween.TweenProperty(card, "position", targetPosition, TWEEN_DURATION);
-			tween.TweenProperty(card, "rotation", targetRotation, TWEEN_DURATION);
-			tween.TweenProperty(card, "scale", Vector2.One, TWEEN_DURATION);
+			// TODO: Clean up this mess lol
+			var hoverOffset = 75;
+			var xOffset =
+				i < _hoveredIndex
+					? -hoverOffset
+					: i > _hoveredIndex
+						? hoverOffset
+						: 0;
 
-			tweens.Add(tween);
+			if(_hoveredIndex == -1) xOffset = 0;
+
+			var duration = isHovered ? 0.25f * TWEEN_DURATION : TWEEN_DURATION;
+			if (isHovered) targetPosition.Y = -20;
+
+			tween.TweenProperty(card, "position", targetPosition + Vector2.Right * xOffset, duration);
+			tween.TweenProperty(card, "rotation", isHovered ? 0f : targetRotation, duration);
+			tween.TweenProperty(card, "scale", isHovered ? 1.2f * Vector2.One : Vector2.One, duration);
+
 			_tweenTracker.TrackTween(tween, card);
+
+			sequence.TweenSubtween(tween);
 		}
 
-		if(tweens.Count > 0)
-			tweens[^1].Chain().TweenCallback(Callable.From(UpdateHoverSections));
-
-		return tweens;
+		return sequence;
 	}
 
 	public (Vector2 position, float rotation) GetCardPosition(CardView card)

@@ -51,7 +51,7 @@ public class PlayerSystem : GameComponent, IAwake
         _match.EnemyPlayer.Resources[ResourceType.Gold] = _settings.StartingGoldCount;
         _match.EnemyPlayer.Resources[ResourceType.Stone] = _settings.StartingStoneCount;
 
-        if(!_settings.DebugMode)
+        if(!_settings.TestMode)
         {
             // Load player decks
             var deckInfo = new List<(int id, int amount)>
@@ -100,7 +100,7 @@ public class PlayerSystem : GameComponent, IAwake
     private void OnPerformShuffleDeck(ShuffleDeckAction action)
     {
         // NOTE: Do not shuffle decks in debug mode, so that we can guarantee card order during testing.
-        if (!_settings.DebugMode)
+        if (!_settings.TestMode)
         {
             var player = _match.Players[action.TargetPlayerId];
             player.Deck.Shuffle();

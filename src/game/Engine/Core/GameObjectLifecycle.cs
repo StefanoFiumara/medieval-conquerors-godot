@@ -7,7 +7,7 @@ public interface IAwake
 
 public interface IUpdate
 {
-	void Update();
+	void Update(double elapsed);
 }
 
 public interface IDestroy

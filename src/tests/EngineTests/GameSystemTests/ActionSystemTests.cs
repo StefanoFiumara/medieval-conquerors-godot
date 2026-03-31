@@ -39,7 +39,7 @@ public class ActionSystemTests : GameSystemTestFixture
 
         var action = new TestGameAction();
         Game.Perform(action);
-        Game.Update();
+        Game.Update(0.16);
 
         Assert.True(eventRaised);
     }
@@ -53,7 +53,7 @@ public class ActionSystemTests : GameSystemTestFixture
 
         var action = new TestGameAction();
         Game.Perform(action);
-        Game.Update();
+        Game.Update(0.16);
 
         Assert.True(eventRaised);
         return;
@@ -71,7 +71,7 @@ public class ActionSystemTests : GameSystemTestFixture
 
         var action = new TestGameAction();
         Game.Perform(action);
-        Game.Update();
+        Game.Update(0.16);
 
         Assert.True(eventRaised);
         return;
@@ -91,7 +91,7 @@ public class ActionSystemTests : GameSystemTestFixture
 
         var action = new TestGameAction();
         Game.Perform(action);
-        Game.Update();
+        Game.Update(0.16);
 
         Assert.True(eventRaised);
         return;
@@ -108,7 +108,7 @@ public class ActionSystemTests : GameSystemTestFixture
 
         var action = new TestGameAction();
         Game.Perform(action);
-        Game.Update();
+        Game.Update(0.16);
 
         Assert.True(eventRaised);
         return;
@@ -137,7 +137,7 @@ public class ActionSystemTests : GameSystemTestFixture
 
         var action = new TestGameAction();
         Game.Perform(action);
-        Game.Update();
+        Game.Update(0.16);
 
         Assert.True(eventRaised);
         return;
@@ -165,7 +165,7 @@ public class ActionSystemTests : GameSystemTestFixture
         Game.Perform(action1);
         Game.Perform(action2);
 
-        Game.Update();
+        Game.Update(0.16);
 
         Assert.True(eventRaised);
         Assert.NotEqual(Guid.Empty, senderId);

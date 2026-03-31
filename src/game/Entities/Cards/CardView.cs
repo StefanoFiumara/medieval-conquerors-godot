@@ -27,10 +27,12 @@ public partial class CardView : Node2D, IClickable
 	[Export] private CenterContainer _goldIcon;
 	[Export] private CenterContainer _stoneIcon;
 
+	[Export] public Area2D HoverArea { get; private set; }
+	public Card Card { get; private set; }
+
 	private CardSystem _cardSystem;
 
 	private Tween _glowTween;
-
 	private Color _targetHighlightColor;
 	private Color TargetHighlightColor
 	{
@@ -57,8 +59,6 @@ public partial class CardView : Node2D, IClickable
 		}
 	}
 
-	public Card Card { get; private set; }
-
 	public void Load(IGame game, Card card)
 	{
 		Card = card;
@@ -75,11 +75,8 @@ public partial class CardView : Node2D, IClickable
 			_ => 0
 		};
 
-		// TODO: Append tags and card type to description
 		_description.ParseBbcode(Card.Data.Description);
 		RemoveHighlight();
-
-		// _background.Frame = _cardFrameMap.GetValueOrDefault(Card.CardData.CardType, 0);
 
 		if (ResourceUid.TextToId(card.Data.CardPortraitUid) != ResourceUid.InvalidId)
 			_portrait.Texture = GD.Load<Texture2D>(Card.Data.CardPortraitUid);
@@ -103,25 +100,23 @@ public partial class CardView : Node2D, IClickable
 		}
 		else
 		{
-			_foodIcon.Visible = false;
-			_woodIcon.Visible = false;
-			_goldIcon.Visible = false;
-			_stoneIcon.Visible =false;
+			_foodIcon.Visible =  false;
+			_woodIcon.Visible =  false;
+			_goldIcon.Visible =  false;
+			_stoneIcon.Visible = false;
 
-			_foodCost.Visible = false;
-			_woodCost.Visible = false;
-			_goldCost.Visible = false;
-			_stoneCost.Visible =false;
+			_foodCost.Visible =  false;
+			_woodCost.Visible =  false;
+			_goldCost.Visible =  false;
+			_stoneCost.Visible = false;
 		}
 	}
 
 	public void Highlight()
 	{
-		var color = _cardSystem.IsPlayable(Card) ? Colors.PaleGreen : Colors.PaleVioletRed;
+		var color = _cardSystem.IsPlayable(Card) ? Colors.Yellow : Colors.IndianRed;
 		TargetHighlightColor = color;
 	}
-
-	public void Highlight(Color color) => TargetHighlightColor = color;
 
 	public void RemoveHighlight() => TargetHighlightColor = Colors.Transparent;
 }

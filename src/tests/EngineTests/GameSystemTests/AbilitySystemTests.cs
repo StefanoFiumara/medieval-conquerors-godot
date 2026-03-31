@@ -56,7 +56,7 @@ public class AbilitySystemTests : GameSystemTestFixture
         Game.Awake();
         var action = new BeginGameAction(_player.Id);
         Game.Perform(action);
-        Game.Update();
+        Game.Update(0.16);
     }
 
     [Fact]
@@ -70,7 +70,7 @@ public class AbilitySystemTests : GameSystemTestFixture
 
         var action = new PlayCardAction(_cardTargetingSelf, new Vector2I(5, 3));
         Game.Perform(action);
-        Game.Update();
+        Game.Update(0.16);
 
         _cardTargetingSelf.Zone.ShouldBe(Zone.Banished);
         _player.Banished.ShouldContain(_cardTargetingSelf);
@@ -89,7 +89,7 @@ public class AbilitySystemTests : GameSystemTestFixture
 
         var action = new PlayCardAction(_cardTargetingEnemy, new Vector2I(5, 3));
         Game.Perform(action);
-        Game.Update();
+        Game.Update(0.16);
 
         _cardTargetingEnemy.Zone.ShouldBe(Zone.Banished);
         _player.Banished.ShouldContain(_cardTargetingEnemy);

@@ -50,7 +50,7 @@ public class ResourceGatheringSystem : GameComponent, IAwake
 			.Distinct()
 			.Select(c => (villager: c, building: _map.GetTile(c.MapPosition).Building));
 
-		foreach (var (villager, building) in villagers)
+		foreach (var (_, building) in villagers)
 		{
 			var resourceProvider = building.GetAttribute<ResourceProviderAttribute>();
 			var resource = DetermineResource(resourceProvider.Resource, building);

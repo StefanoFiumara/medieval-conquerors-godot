@@ -43,7 +43,7 @@ public class ActionSystem : GameComponent, IAwake, IUpdate
 		_logger.Info($"Perform <{action}>");
 	}
 
-	public void Update()
+	public void Update(double elapsed)
 	{
 		if (_rootSequence == null) return;
 

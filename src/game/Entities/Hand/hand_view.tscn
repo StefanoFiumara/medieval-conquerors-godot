@@ -14,14 +14,20 @@ point_count = 2
 
 [sub_resource type="Curve" id="Curve_rdm8g"]
 _limits = [-1.0, 0.0, 0.0, 1.0]
-_data = [Vector2(0, -0.701181), 0.0, 2.40318, 0, 0, Vector2(0.502066, 0), 0.0, 0.0, 0, 0, Vector2(1, -0.701181), -1.69825, 0.0, 0, 0]
+_data = [Vector2(0.0033840947, -0.48387095), 0.0, 1.755642, 0, 0, Vector2(0.500846, -0.14933492), 0.0, 0.0, 0, 0, Vector2(0.99830806, -0.48387095), -1.69825, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="Curve" id="Curve_nqi6x"]
 _limits = [-1.0, 1.0, 0.0, 1.0]
-_data = [Vector2(0, 1), 0.0, -3.27519, 0, 0, Vector2(0.5, 0.0315789), -0.613786, -0.613786, 0, 0, Vector2(1, -1), -3.31158, 0.0, 0, 0]
+_data = [Vector2(0, 0.6129032), 0.0, -3.27519, 0, 0, Vector2(0.5, 0.0315789), -0.613786, -0.613786, 0, 0, Vector2(1, -0.61290324), -3.31158, 0.0, 0, 0]
 point_count = 3
 metadata/_snap_count = 7
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_svh7g"]
+size = Vector2(1920, 760)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lrbm8"]
+size = Vector2(1920, 20)
 
 [node name="hand_view" type="Node2D" unique_id=1876730023]
 script = ExtResource("1_psvbr")
@@ -64,3 +70,17 @@ script = ExtResource("3_veqgi")
 
 [node name="card_creation_view" type="Node2D" parent="." unique_id=1061309496]
 script = ExtResource("4_ysnsg")
+
+[node name="map_target_area" type="Area2D" parent="." unique_id=1163522824]
+unique_name_in_owner = true
+
+[node name="shape" type="CollisionShape2D" parent="map_target_area" unique_id=856585147]
+position = Vector2(960, 383)
+shape = SubResource("RectangleShape2D_svh7g")
+
+[node name="cancel_area" type="Area2D" parent="." unique_id=759372380]
+unique_name_in_owner = true
+
+[node name="shape" type="CollisionShape2D" parent="cancel_area" unique_id=192012600]
+position = Vector2(960, 1070)
+shape = SubResource("RectangleShape2D_lrbm8")

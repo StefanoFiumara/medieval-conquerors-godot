@@ -36,6 +36,6 @@ public partial class GameController : Node
 		Game.Perform(new BeginGameAction(Match.LOCAL_PLAYER_ID));
 	}
 
-	public override void _Process(double elapsed) => Game.Update();
+	public override void _Process(double elapsed) => Game.Update(elapsed);
 	public override void _ExitTree() => Game.Destroy();
 }

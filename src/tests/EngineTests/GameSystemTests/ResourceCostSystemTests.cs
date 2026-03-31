@@ -36,7 +36,7 @@ public class ResourceCostSystemTests : GameSystemTestFixture
         Game.Awake();
         var action = new BeginGameAction(_player.Id);
         Game.Perform(action);
-        Game.Update();
+        Game.Update(0.16);
     }
 
     [Fact]

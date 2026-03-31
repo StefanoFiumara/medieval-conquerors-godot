@@ -25,7 +25,7 @@ public abstract class GameSystemTestFixture
         var logger = new TestLogger(output, LogLevel.Info);
         Fixture = new Fixture();
 
-        _settings.DebugMode.Returns(true);
+        _settings.TestMode.Returns(true);
 
         _settings.StartingFoodCount.Returns(5);
         _settings.StartingWoodCount.Returns(5);

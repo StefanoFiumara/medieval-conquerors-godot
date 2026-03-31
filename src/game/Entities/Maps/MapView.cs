@@ -9,7 +9,6 @@ using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
 using MedievalConquerors.Engine.Extensions;
 using MedievalConquerors.Engine.GameComponents;
-using MedievalConquerors.Engine.Input;
 using MedievalConquerors.Engine.Logging;
 using MedievalConquerors.Entities.Tokens;
 using MedievalConquerors.Screens;
@@ -20,15 +19,16 @@ namespace MedievalConquerors.Entities.Maps;
 // TODO: Split animations into helper classes, similar to HandView
 public partial class MapView : Node2D, IGameComponent
 {
+	private static readonly PackedScene _tokenScene = GD.Load<PackedScene>("uid://civascfpgtcfj");
+
 	private const int HIGHLIGHT_TILE_SET_ID = 1;
 	private const int HIGHLIGHT_TILE = 1;
-	private readonly Vector2 MIN_ZOOM = Vector2.One * 0.5f;
-	private readonly Vector2 MAX_ZOOM = Vector2.One * 1.0f;
+	private readonly Vector2 _minZoom = Vector2.One * 0.5f;
+	private readonly Vector2 _maxZoom = Vector2.One * 1.0f;
 
 	public IGame Game { get; set; }
 
-	private PackedScene _tokenScene;
-
+	// TODO: Hook this up via GetNode with unique names
 	[Export] private TileMapLayer TerrainLayer { get; set; }
 	[Export] private TileMapLayer MouseHoverLayer { get; set; }
 	[Export] private TileMapLayer SelectionHintLayer { get; set; }
@@ -58,8 +58,6 @@ public partial class MapView : Node2D, IGameComponent
 
 	public override void _EnterTree()
 	{
-		_tokenScene = ResourceLoader.Load<PackedScene>("uid://civascfpgtcfj");
-
 		GetParent<GameController>().Game.AddComponent(this);
 
 		_viewport = GetViewport();
@@ -105,11 +103,14 @@ public partial class MapView : Node2D, IGameComponent
 			this[MapLayerType.Terrain].SetCell(newTile.Position, 0, newAtlasCoord);
 	}
 
+	// TODO: Refactor to match what is being done in HandView
+	//		i.e. Fire movement action when selected unit is dragged to new tile
 	public override void _UnhandledInput(InputEvent input)
 	{
 		if (input.IsEcho()) return;
 		if (input is not InputEventMouseButton buttonEvent) return;
 
+		// TODO: Use input actions here
 		if (HandleMouseInput(buttonEvent))
 			_viewport.SetInputAsHandled();
 	}
@@ -119,18 +120,18 @@ public partial class MapView : Node2D, IGameComponent
 		switch (buttonEvent.ButtonIndex)
 		{
 			case MouseButton.Left when buttonEvent.IsReleased():
-				_events.Publish(InputSystem.CLICKED_EVENT, _map.GetTile(GetTileCoord(buttonEvent.Position)), buttonEvent);
+				// _events.Publish(InputSystem.CLICKED_EVENT, _map.GetTile(GetTileCoord(buttonEvent.Position)), buttonEvent);
 				return true;
 			case MouseButton.Middle:
 				SetDragging(buttonEvent.Pressed);
 				return true;
 			case MouseButton.WheelUp:
 				_zoomTarget *= 1.05f;
-				if (_zoomTarget > MAX_ZOOM) _zoomTarget = MAX_ZOOM;
+				if (_zoomTarget > _maxZoom) _zoomTarget = _maxZoom;
 				return true;
 			case MouseButton.WheelDown:
 				_zoomTarget *= 0.95f;
-				if (_zoomTarget < MIN_ZOOM) _zoomTarget = MIN_ZOOM;
+				if (_zoomTarget < _minZoom) _zoomTarget = _minZoom;
 				return true;
 			default:
 				return false;

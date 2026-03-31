@@ -15,7 +15,10 @@ font_color = Color(0.947203, 0.947203, 0.947203, 1)
 
 [sub_resource type="Theme" id="Theme_pldyj"]
 
-[node name="card_view" type="Node2D" unique_id=2019257237 node_paths=PackedStringArray("_title", "_description", "_banner", "_type", "_portrait", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6fqni"]
+size = Vector2(224, 316)
+
+[node name="card_view" type="Node2D" unique_id=2019257237 node_paths=PackedStringArray("_title", "_description", "_banner", "_type", "_portrait", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon", "HoverArea")]
 texture_filter = 1
 script = ExtResource("1_r8q4a")
 _title = NodePath("title_text")
@@ -32,6 +35,7 @@ _foodIcon = NodePath("cost_grid/food_icon")
 _woodIcon = NodePath("cost_grid/wood_icon")
 _goldIcon = NodePath("cost_grid/gold_icon")
 _stoneIcon = NodePath("cost_grid/stone_icon")
+HoverArea = NodePath("hover_area")
 
 [node name="glow" type="NinePatchRect" parent="." unique_id=975763036]
 anchors_preset = 8
@@ -257,3 +261,8 @@ theme_override_font_sizes/font_size = 20
 text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="hover_area" type="Area2D" parent="." unique_id=311272874]
+
+[node name="hover_shape" type="CollisionShape2D" parent="hover_area" unique_id=64254075]
+shape = SubResource("RectangleShape2D_6fqni")

@@ -31,7 +31,7 @@ public class MapSystemTests : GameSystemTestFixture
         Game.Awake();
         var action = new BeginGameAction(_player.Id);
         Game.Perform(action);
-        Game.Update();
+        Game.Update(0.16);
     }
 
     [Fact]
@@ -49,13 +49,13 @@ public class MapSystemTests : GameSystemTestFixture
         var positionToPlay = new Vector2I(5, 5);
         var playAction = new PlayCardAction(_moveableCard, positionToPlay);
         Game.Perform(playAction);
-        Game.Update();
+        Game.Update(0.16);
 
         // Then discard it
         var discardAction = new DiscardCardsAction([_moveableCard]);
 
         Game.Perform(discardAction);
-        Game.Update();
+        Game.Update(0.16);
 
         Map.GetTile(positionToPlay).Unit.ShouldBeNull();
         _moveableCard.MapPosition.ShouldBe(HexMap.None);

@@ -50,11 +50,11 @@ public class Game : IGame
 		}
 	}
 
-	public void Update()
+	public void Update(double elapsed)
 	{
 		foreach (var system in _updateable)
 		{
-			system.Update();
+			system.Update(elapsed);
 		}
 	}
 

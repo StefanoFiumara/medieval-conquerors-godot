@@ -59,7 +59,7 @@ public class EventAggregator : GameComponent, IAwake, IDestroy
     private void PublishInternal<TSender, TArgs>(string eventName, TSender sender, TArgs args)
     {
         _logger.Debug($"Published <{eventName}>");
-        if (!_subscriptions.TryGetValue(eventName, out var actions) || (actions.Count == 0))
+        if (!_subscriptions.TryGetValue(eventName, out var actions) || actions.Count == 0)
         {
             _logger.Debug($"\t* No Subscribers");
             return;
@@ -80,12 +80,12 @@ public class EventAggregator : GameComponent, IAwake, IDestroy
 
     public void Unsubscribe(string eventName, Delegate handler)
     {
-        if (!_subscriptions.ContainsKey(eventName)) return;
+        if (!_subscriptions.TryGetValue(eventName, out var value)) return;
 
         _logger.Debug($"Unsubscribed <{eventName} :: {handler.Method.DeclaringType?.Name}.{handler.Method.Name}>");
-        while (_subscriptions[eventName].Contains(handler))
+        while (value.Contains(handler))
         {
-            _subscriptions[eventName].Remove(handler);
+            value.Remove(handler);
         }
     }
 }

@@ -27,7 +27,7 @@ public class TurnSystemTests : GameSystemTestFixture
         var player = Game.GetComponent<Match>().LocalPlayer;
         var beginGameAction = new BeginGameAction(player.Id);
         Game.Perform(beginGameAction);
-        Game.Update();
+        Game.Update(0.16);
 
         var match = Game.GetComponent<Match>();
 
@@ -36,7 +36,7 @@ public class TurnSystemTests : GameSystemTestFixture
 
         var turnAction = new ChangeTurnAction(nextPlayerId);
         Game.Perform(turnAction);
-        Game.Update();
+        Game.Update(0.16);
 
         match.CurrentPlayerId.ShouldBe(nextPlayerId);
         match.CurrentPlayer.Id.ShouldBe(nextPlayerId);

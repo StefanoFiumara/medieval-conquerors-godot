@@ -121,8 +121,8 @@ public partial class DrawView : Node2D, IGameComponent
 		{
 			while (tweens[^1].IsRunning()) yield return null;
 
-			var arrangeTweens = _hand.ArrangeHandTween();
-			while (arrangeTweens.Any(t => t.IsRunning())) yield return null;
+			var arrangeTween = _hand.ArrangeHandTween();
+			while (arrangeTween.IsRunning()) yield return null;
 		}
 	}
 
@@ -159,8 +159,8 @@ public partial class DrawView : Node2D, IGameComponent
 		{
 			while (tweens[^1].IsRunning()) yield return null;
 
-			var arrangeTweens = _hand.ArrangeHandTween();
-			while (arrangeTweens.Any(t => t.IsRunning())) yield return null;
+			var arrangeTween = _hand.ArrangeHandTween();
+			while (arrangeTween.IsRunning()) yield return null;
 		}
 	}
 }

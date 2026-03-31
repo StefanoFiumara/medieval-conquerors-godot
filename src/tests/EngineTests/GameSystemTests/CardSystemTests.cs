@@ -32,7 +32,7 @@ public class CardSystemTests : GameSystemTestFixture
 
         Game.Awake();
         Game.Perform(new BeginGameAction(_player.Id));
-        Game.Update();
+        Game.Update(0.16);
 
         _cardSystem.IsPlayable(card).ShouldBeTrue();
     }
@@ -48,7 +48,7 @@ public class CardSystemTests : GameSystemTestFixture
 
         Game.Awake();
         Game.Perform(new BeginGameAction(_player.Id));
-        Game.Update();
+        Game.Update(0.16);
 
         _cardSystem.IsPlayable(card).ShouldBeFalse();
     }

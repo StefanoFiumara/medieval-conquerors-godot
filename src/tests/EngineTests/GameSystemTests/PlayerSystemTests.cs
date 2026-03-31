@@ -27,7 +27,7 @@ public class PlayerSystemTests : GameSystemTestFixture
         Game.Awake();
         var action = new BeginGameAction(_player.Id);
         Game.Perform(action);
-        Game.Update();
+        Game.Update(0.16);
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class PlayerSystemTests : GameSystemTestFixture
         var playAction = new PlayCardAction(cardToPlay, positionToPlay);
 
         Game.Perform(playAction);
-        Game.Update();
+        Game.Update(0.16);
 
         _player.Map.Count.ShouldBe(2);
         _player.Hand.Count.ShouldBe(2);
@@ -67,12 +67,12 @@ public class PlayerSystemTests : GameSystemTestFixture
         var positionToPlay = new Vector2I(5, 5);
         var playAction = new PlayCardAction(card, positionToPlay);
         Game.Perform(playAction);
-        Game.Update();
+        Game.Update(0.16);
 
         var discardAction = new DiscardCardsAction([card]);
 
         Game.Perform(discardAction);
-        Game.Update();
+        Game.Update(0.16);
 
         _player.Map.ShouldHaveSingleItem(); // the town center
         _player.Discard.Count.ShouldBe(1);
@@ -90,7 +90,7 @@ public class PlayerSystemTests : GameSystemTestFixture
         var discardAction = new DiscardCardsAction(toDiscard);
 
         Game.Perform(discardAction);
-        Game.Update();
+        Game.Update(0.16);
 
         _player.Hand.Count.ShouldBe(0);
         _player.Discard.Count.ShouldBe(2);

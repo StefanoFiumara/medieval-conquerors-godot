@@ -40,7 +40,7 @@ public class MovementSystemTests : GameSystemTestFixture
         Game.Awake();
         var action = new BeginGameAction(_player.Id);
         Game.Perform(action);
-        Game.Update();
+        Game.Update(0.16);
     }
 
     [Fact]
@@ -56,13 +56,13 @@ public class MovementSystemTests : GameSystemTestFixture
         var firstPosition = new Vector2I(5, 5);
         var playAction = new PlayCardAction(_moveableCard, firstPosition);
         Game.Perform(playAction);
-        Game.Update();
+        Game.Update(0.16);
 
         // Then move it
         var newPosition = new Vector2I(5, 4);
         var moveAction = new MoveUnitAction(_moveableCard, newPosition);
         Game.Perform(moveAction);
-        Game.Update();
+        Game.Update(0.16);
 
 
         _moveableCard.MapPosition.ShouldBe(newPosition);
@@ -82,13 +82,13 @@ public class MovementSystemTests : GameSystemTestFixture
         var firstPosition = new Vector2I(5, 5);
         var playAction = new PlayCardAction(_immoveableCard, firstPosition);
         Game.Perform(playAction);
-        Game.Update();
+        Game.Update(0.16);
 
         // Then attempt to Move it.
         var newPosition = new Vector2I(5, 4);
         var moveAction = new MoveUnitAction(_immoveableCard, newPosition);
         Game.Perform(moveAction);
-        Game.Update();
+        Game.Update(0.16);
 
         _immoveableCard.MapPosition.ShouldBe(firstPosition);
         Map.GetTile(newPosition).Unit.ShouldBeNull();
@@ -105,13 +105,13 @@ public class MovementSystemTests : GameSystemTestFixture
         var firstPosition = new Vector2I(5, 5);
         var playAction = new PlayCardAction(_moveableCard, firstPosition);
         Game.Perform(playAction);
-        Game.Update();
+        Game.Update(0.16);
 
         // Then move it
         var newPosition = new Vector2I(5, 3); // 2 tiles away
         var moveAction = new MoveUnitAction(_moveableCard, newPosition);
         Game.Perform(moveAction);
-        Game.Update();
+        Game.Update(0.16);
 
         _moveableCard.MapPosition.ShouldBe(firstPosition);
         Map.GetTile(firstPosition).Unit.ShouldBe(_moveableCard);
@@ -128,7 +128,7 @@ public class MovementSystemTests : GameSystemTestFixture
         var newPosition = new Vector2I(5, 3);
         var moveAction = new MoveUnitAction(_moveableCard, newPosition);
         Game.Perform(moveAction);
-        Game.Update();
+        Game.Update(0.16);
 
         _moveableCard.MapPosition.ShouldBe(HexMap.None);
         Map.GetTile(newPosition).Unit.ShouldBeNull();
@@ -144,13 +144,13 @@ public class MovementSystemTests : GameSystemTestFixture
         var firstPosition = new Vector2I(5, 5);
         var playAction = new PlayCardAction(_moveableCard, firstPosition);
         Game.Perform(playAction);
-        Game.Update();
+        Game.Update(0.16);
 
         // Then move it
         var newPosition = new Vector2I(5, 4);
         var moveAction = new MoveUnitAction(_moveableCard, newPosition);
         Game.Perform(moveAction);
-        Game.Update();
+        Game.Update(0.16);
 
         var movement = _moveableCard.GetAttribute<MovementAttribute>();
         movement.Distance.ShouldBe(0);
@@ -158,12 +158,12 @@ public class MovementSystemTests : GameSystemTestFixture
         // Change turn to opposite player
         var turnAction = new ChangeTurnAction(_match.OppositePlayer.Id);
         Game.Perform(turnAction);
-        Game.Update();
+        Game.Update(0.16);
 
         // and back to original player
         turnAction = new ChangeTurnAction(_player.Id);
         Game.Perform(turnAction);
-        Game.Update();
+        Game.Update(0.16);
 
         movement.Distance.ShouldBe(movement.Distance);
     }

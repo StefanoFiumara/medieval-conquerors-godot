@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_o32wb")
+DebugDrawHoverSections = true
 StartingFoodCount = 10
 StartingWoodCount = 10
 StartingGoldCount = 5

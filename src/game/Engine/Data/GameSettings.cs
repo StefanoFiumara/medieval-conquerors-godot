@@ -5,7 +5,8 @@ namespace MedievalConquerors.Engine.Data;
 
 public interface IGameSettings : IGameComponent
 {
-	bool DebugMode { get; }
+	bool TestMode { get; }
+	bool DebugDrawHoverSections { get; }
 	bool DebugShowTileCoords { get; }
 	int StartingFoodCount { get; }
 	int StartingWoodCount { get; }
@@ -18,7 +19,8 @@ public partial class GameSettings : Resource, IGameSettings
 {
 	public IGame Game { get; set; }
 
-	[Export] public bool DebugMode { get; set; }
+	[Export] public bool TestMode { get; set; }
+	[Export] public bool DebugDrawHoverSections { get; set; }
 	[Export] public bool DebugShowTileCoords { get; set; }
 
 	[Export] public int StartingFoodCount  { get; set; }
