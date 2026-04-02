@@ -84,6 +84,7 @@ public partial class HandView : Node2D, IGameComponent
 
 			var dragPosition = Vector2.Zero; //targeting ? Vector2.Zero : ToLocal(mousePos);
 			card.Position = card.Position.Lerp(dragPosition, (float)elapsed * DRAG_SPEED);
+			card.Scale = card.Scale.Lerp(Vector2.One, (float)elapsed * DRAG_SPEED);
 
 			var viewportRect = _viewport.GetVisibleRect();
 			if (mousePos.Y >= viewportRect.Position.Y + viewportRect.Size.Y)
@@ -105,6 +106,7 @@ public partial class HandView : Node2D, IGameComponent
 			}
 		}
 
+		// TODO: maintain selection state if release comes right after selected (debounce?)
 		if (input.IsActionReleased(LEFT_CLICK) && _selectedIndex != -1)
 		{
 			var targetCandidates = _targetSystem.GetTargetCandidates(Cards[_selectedIndex].Card);
