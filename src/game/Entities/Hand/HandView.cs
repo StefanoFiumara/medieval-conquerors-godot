@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Godot;
+using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.GameComponents;
@@ -36,6 +37,7 @@ public partial class HandView : Node2D, IGameComponent
 
 	private Viewport _viewport;
 	private CardSystem _cardSystem;
+	private TargetSystem _targetSystem;
 
 	public List<CardView> Cards { get; } = [];
 	private readonly TweenTracker<CardView> _tweenTracker = new();
@@ -45,7 +47,7 @@ public partial class HandView : Node2D, IGameComponent
 	[Export] private Curve _heightCurve;
 	[Export] private Curve _rotationCurve;
 
-	private Area2D _targetArea;
+	private TargetingIndicator _targetIndicator;
 
 	public IGame Game { get; set; }
 
@@ -54,14 +56,10 @@ public partial class HandView : Node2D, IGameComponent
 	{
 		GetParent<GameController>().Game.AddComponent(this);
 		_cardSystem = Game.GetComponent<CardSystem>();
-		// TODO: Maybe instead of a generic target area we should check if we are hovering over a certain tile in the tilemap
-		//		 And when we do, switch to targeting mode.
-		_targetArea = GetNode<Area2D>("map_target_area");
-
+		_targetSystem = Game.GetComponent<TargetSystem>();
+		_targetIndicator = GetNode<TargetingIndicator>("%target_indicator");
 		_viewport = GetViewport();
-		_viewport.SetPhysicsObjectPickingFirstOnly(true);
 		_viewport.Connect(Viewport.SignalName.SizeChanged, Callable.From(CenterView));
-
 		CenterView();
 	}
 
@@ -70,35 +68,53 @@ public partial class HandView : Node2D, IGameComponent
 		var visibleRect = _viewport.GetVisibleRect();
 		Scale = visibleRect.CalculateScaleFactor();
 		Position = new Vector2(visibleRect.Size.X * 0.5f, visibleRect.Size.Y - (165f * Scale.Y));
-		_targetArea.GlobalPosition = Vector2.Zero;
 	}
 
 	public override void _Process(double elapsed)
 	{
-		var mousePos = ToLocal(_viewport.GetMousePosition());
+		var mousePos = _viewport.GetMousePosition();
 
 		if (_selectedIndex != -1)
 		{
-			// TODO: Check if dragged over map zone -> enter map targeting mode (highlight target tiles, move card away so player can see)
 			var card  = Cards[_selectedIndex];
-			card.Position = card.Position.Lerp(mousePos, (float)elapsed * DRAG_SPEED);
+			// TODO: Dragging vs targeting should take into account whether card needs target tile or not (not yet implemented)
+			// When we implement this, we can just switch to targeting mode right away depending on the target requirement
+			var targeting = _mapView.HoveredTile != HexMap.None;
+			_targetIndicator.IsTargeting = targeting;
 
-			// TODO: Sts only cancels when in targeting mode, do we care to mimic that?
+			var dragPosition = Vector2.Zero; //targeting ? Vector2.Zero : ToLocal(mousePos);
+			card.Position = card.Position.Lerp(dragPosition, (float)elapsed * DRAG_SPEED);
+
 			var viewportRect = _viewport.GetVisibleRect();
-			if (ToGlobal(mousePos).Y >= viewportRect.Position.Y + viewportRect.Size.Y)
+			if (mousePos.Y >= viewportRect.Position.Y + viewportRect.Size.Y)
 				ResetSelection();
 		}
 	}
 
 	public override void _UnhandledInput(InputEvent input)
 	{
+		// TODO: Should we set input as handled, just like in Map View?
 		if (input.IsActionPressed(LEFT_CLICK) && _hoveredIndex != -1)
 		{
 			if(_cardSystem.IsPlayable(Cards[_hoveredIndex].Card))
+			{
 				_selectedIndex = _hoveredIndex;
+				var targetCandidates = _targetSystem.GetTargetCandidates(Cards[_selectedIndex].Card);
+				_mapView.HighlightTiles(targetCandidates, MapLayerType.SelectionHint);
+				return;
+			}
 		}
-		// TODO: Should we check for is action released?
-		// TODO: Should we set input as handled?
+
+		if (input.IsActionReleased(LEFT_CLICK) && _selectedIndex != -1)
+		{
+			var targetCandidates = _targetSystem.GetTargetCandidates(Cards[_selectedIndex].Card);
+			if (targetCandidates.Contains(_mapView.HoveredTile))
+			{
+				Game.Perform(new PlayCardAction(Cards[_selectedIndex].Card, _mapView.HoveredTile));
+			}
+			ResetSelection();
+		}
+
 		if (input.IsActionPressed(RIGHT_CLICK))
 			ResetSelection();
 	}
@@ -110,6 +126,8 @@ public partial class HandView : Node2D, IGameComponent
 		Cards[_selectedIndex].RemoveHighlight();
 		_selectedIndex = -1;
 		_hoveredIndex = -1;
+		_mapView.ResetSelection(MapLayerType.SelectionHint);
+		_targetIndicator.IsTargeting = false;
 		ArrangeHandTween();
 	}
 
@@ -136,6 +154,10 @@ public partial class HandView : Node2D, IGameComponent
 	{
 		if (_selectedIndex != -1) return;
 
+		// TODO: the idle check makes animations look nice, but it does not re-send the event after the action completes.
+		// We should switch these events to use Process-based polling.
+		if (!Game.IsIdle()) return;
+
 		_hoveredIndex = Cards.IndexOf(card);
 		card.Highlight();
 		card.ZIndex = 100;
@@ -143,16 +165,15 @@ public partial class HandView : Node2D, IGameComponent
 		for (int i = 0; i < Cards.Count; i++)
 		{
 			if (i == _hoveredIndex) continue;
-
 			Cards[i].RemoveHighlight();
 		}
-
 		ArrangeHandTween();
 	}
 
 	void OnCardHoverExit(CardView card)
 	{
 		if (_selectedIndex != -1) return;
+		if (!Game.IsIdle()) return;
 
 		if (_hoveredIndex == Cards.IndexOf(card))
 		{

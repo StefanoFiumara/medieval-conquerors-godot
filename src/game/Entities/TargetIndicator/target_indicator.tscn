@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://tmv1vvn6sgxl"]
+
+[ext_resource type="Script" uid="uid://bvdwvu7iw24kq" path="res://Entities/TargetIndicator/TargetingIndicator.cs" id="1_ijqd6"]
+
+[node name="target_indicator" type="Node2D" unique_id=488942572]
+script = ExtResource("1_ijqd6")
+_nodeCount = 15
+_scaleFactor = 1.8

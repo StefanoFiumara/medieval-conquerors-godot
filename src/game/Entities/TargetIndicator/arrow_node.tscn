@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bflq4f3cbiaet"]
+
+[ext_resource type="Texture2D" uid="uid://dw6fsov8i3515" path="res://Entities/TargetIndicator/arrow-node.png" id="1_iaw6v"]
+
+[node name="arrow_node" type="Node2D" unique_id=963976988]
+
+[node name="sprite" type="Sprite2D" parent="." unique_id=1005371695]
+position = Vector2(-3.5527137e-15, 9.000001)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_iaw6v")

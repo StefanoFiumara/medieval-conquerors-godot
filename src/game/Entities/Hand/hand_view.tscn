@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://b2klv5aka30yl" path="res://Entities/Hand/CardCreationView.cs" id="4_ysnsg"]
 [ext_resource type="Texture2D" uid="uid://25jeqc1kr4i3" path="res://Entities/Cards/tiny_cardback.png" id="5_bvpkx"]
 [ext_resource type="Script" uid="uid://c68yp5u4v0y8t" path="res://Entities/Hand/DeckCycleView.cs" id="6_svh7g"]
+[ext_resource type="Script" uid="uid://bvdwvu7iw24kq" path="res://Entities/TargetIndicator/TargetingIndicator.cs" id="7_lrbm8"]
 
 [sub_resource type="Curve" id="Curve_syyef"]
 _limits = [-1.0, 1.0, 0.0, 1.0]
@@ -22,9 +23,6 @@ _limits = [-1.0, 1.0, 0.0, 1.0]
 _data = [Vector2(0, 0.6129032), 0.0, -3.27519, 0, 0, Vector2(0.5, 0.0315789), -0.613786, -0.613786, 0, 0, Vector2(1, -0.61290324), -3.31158, 0.0, 0, 0]
 point_count = 3
 metadata/_snap_count = 7
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_svh7g"]
-size = Vector2(1920, 760)
 
 [node name="hand_view" type="Node2D" unique_id=1876730023]
 script = ExtResource("1_psvbr")
@@ -68,9 +66,8 @@ script = ExtResource("3_veqgi")
 [node name="card_creation_view" type="Node2D" parent="." unique_id=1061309496]
 script = ExtResource("4_ysnsg")
 
-[node name="map_target_area" type="Area2D" parent="." unique_id=1163522824]
+[node name="target_indicator" type="Node2D" parent="." unique_id=2144990518]
 unique_name_in_owner = true
-
-[node name="shape" type="CollisionShape2D" parent="map_target_area" unique_id=856585147]
-position = Vector2(960, 383)
-shape = SubResource("RectangleShape2D_svh7g")
+script = ExtResource("7_lrbm8")
+_nodeCount = 20
+_scaleFactor = 1.8

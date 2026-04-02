@@ -42,7 +42,7 @@ public partial class MapView : Node2D, IGameComponent
 	};
 
 	private Viewport _viewport;
-	private Vector2I _hovered = HexMap.None;
+	public Vector2I HoveredTile { get; private set; } = HexMap.None;
 
 	private bool _isDragging;
 	private Vector2 _dragOffset;
@@ -160,10 +160,10 @@ public partial class MapView : Node2D, IGameComponent
 
 		// Tile Highlight on hover
 		var mapCoord = GetTileCoord(mousePosition);
-		if (mapCoord != _hovered)
+		if (mapCoord != HoveredTile)
 		{
-			RemoveHighlight(_hovered, MapLayerType.MouseHover);
-			_hovered = HexMap.None;
+			RemoveHighlight(HoveredTile, MapLayerType.MouseHover);
+			HoveredTile = HexMap.None;
 
 			if (mapCoord != HexMap.None)
 			{
@@ -172,7 +172,7 @@ public partial class MapView : Node2D, IGameComponent
 				if(_settings.DebugShowTileCoords)
 					CreateTileCoordsPopup(mapCoord);
 
-				_hovered = mapCoord;
+				HoveredTile = mapCoord;
 			}
 		}
 	}
@@ -329,5 +329,13 @@ public partial class MapView : Node2D, IGameComponent
 	{
 		foreach (var coord in coords)
 			RemoveHighlight(coord, layer);
+	}
+
+	public void ResetSelection(MapLayerType layer)
+	{
+		foreach (var coord in this[layer].GetUsedCells())
+		{
+			RemoveHighlight(coord, layer);
+		}
 	}
 }

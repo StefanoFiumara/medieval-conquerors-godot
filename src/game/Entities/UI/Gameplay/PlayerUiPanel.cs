@@ -8,6 +8,13 @@ namespace MedievalConquerors.Entities.UI;
 
 public partial class PlayerUiPanel : MarginContainer
 {
+	private class CountAnimationState(Label label)
+	{
+		public Label Label { get; } = label;
+		public int CurrentCount { get; set; } = 0;
+		public bool IsAnimating { get; set; } = false;
+	}
+
 	public const string NEXT_TURN_CLICKED = "PlayerUiPanel.NextTurnButton.Clicked";
 
 	[Export] private GameController _gameController;
@@ -18,17 +25,11 @@ public partial class PlayerUiPanel : MarginContainer
 	private Label _goldLabel;
 	private Label _stoneLabel;
 	private Label _ageLabel;
-	private Label _deckLabel;
-	private Label _discardLabel;
-
 	private EventAggregator _events;
 	private Match _match;
 
-	private int _currentDeckCount = 0;
-	private bool _isDeckCountAnimating = false;
-
-	private int _currentDiscardCount = 0;
-	private bool _isDiscardCountAnimating = false;
+	private CountAnimationState _deckAnimation;
+	private CountAnimationState _discardAnimation;
 
 	public override void _Ready()
 	{
@@ -38,11 +39,12 @@ public partial class PlayerUiPanel : MarginContainer
 		_goldLabel = GetNode<Label>("%gold_label");
 		_stoneLabel = GetNode<Label>("%stone_label");
 		_ageLabel = GetNode<Label>("%age_label");
-		_deckLabel = GetNode<Label>("%deck_label");
-		_discardLabel = GetNode<Label>("%discard_label");
 
 		_events = _gameController.Game.GetComponent<EventAggregator>();
 		_match = _gameController.Game.GetComponent<Match>();
+
+		_deckAnimation = new CountAnimationState(GetNode<Label>("%deck_label"));
+		_discardAnimation = new CountAnimationState(GetNode<Label>("%discard_label"));
 
 		_endTurnButton.Pressed += () => _events.Publish(NEXT_TURN_CLICKED);
 		_events.Subscribe(ActionSystem.BEGIN_ACTION_EVENT, OnBeginSequence);
@@ -59,49 +61,36 @@ public partial class PlayerUiPanel : MarginContainer
 	public override void _Process(double delta)
 	{
 		// TODO: Instead of setting this in _Process, subscribe to game actions that update these values and make updates there.
+		// IDEA: Use AnimateCount for these labels as well.
 		_foodLabel.Text = _match.LocalPlayer.Resources.Food.ToString();
 		_woodLabel.Text = _match.LocalPlayer.Resources.Wood.ToString();
 		_goldLabel.Text = _match.LocalPlayer.Resources.Gold.ToString();
 		_stoneLabel.Text = _match.LocalPlayer.Resources.Stone.ToString();
 		_ageLabel.Text = _match.LocalPlayer.Age.PrettyPrint();
 
-		if (_match.LocalPlayer.Deck.Count != _currentDeckCount && !_isDeckCountAnimating)
+		AnimateCount(_deckAnimation, _match.LocalPlayer.Deck.Count);
+		AnimateCount(_discardAnimation, _match.LocalPlayer.Discard.Count);
+	}
+
+	private void AnimateCount(CountAnimationState state, int targetCount)
+	{
+		if (state.CurrentCount == targetCount || state.IsAnimating) return;
+
+		state.IsAnimating = true;
+
+		var tween = CreateTween();
+		tween.TweenMethod(
+			Callable.From((int next) => state.Label.Text = $"{next}"),
+			from: state.CurrentCount,
+			to: targetCount,
+			// TODO: set duration based on difference between from / to?
+			duration: 0.3f);
+
+		tween.TweenCallback(Callable.From(() =>
 		{
-			_isDeckCountAnimating = true;
-
-			var tween = CreateTween();
-			tween.TweenMethod(
-				Callable.From((int next) => _deckLabel.Text = $"{next}"),
-				from: _currentDeckCount,
-				to: _match.LocalPlayer.Deck.Count,
-				// TODO: set duration based on difference between from / to?
-				duration: 0.3f);
-
-			tween.TweenCallback(Callable.From(() =>
-			{
-				_currentDeckCount = _match.LocalPlayer.Deck.Count;
-				_isDeckCountAnimating = false;
-			}));
-		}
-
-		if (_match.LocalPlayer.Discard.Count != _currentDiscardCount && !_isDiscardCountAnimating)
-		{
-			_isDiscardCountAnimating = true;
-
-			var tween = CreateTween();
-			tween.TweenMethod(
-				Callable.From((int next) => _discardLabel.Text = $"{next}"),
-				from: _currentDiscardCount,
-				to: _match.LocalPlayer.Discard.Count,
-				// TODO: set duration based on difference between from / to?
-				duration: 0.3f);
-
-			tween.TweenCallback(Callable.From(() =>
-			{
-				_currentDiscardCount = _match.LocalPlayer.Discard.Count;
-				_isDiscardCountAnimating = false;
-			}));
-		}
+			state.CurrentCount = targetCount;
+			state.IsAnimating = false;
+		}));
 	}
 
 	public override void _ExitTree()
