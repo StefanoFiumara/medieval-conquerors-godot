@@ -90,7 +90,7 @@ public partial class TargetingIndicator : Node2D
 				_nodes[i].Rotation = Vector2.Up.AngleTo(_nodes[i].Position - _nodes[i - 1].Position);
 			}
 
-			var scale = _scaleFactor * (1f - 0.03f * (_nodes.Count - 1 - i));
+			var scale = _scaleFactor * (1f - 0.01f * (_nodes.Count - 1 - i));
 			_nodes[i].Scale = new Vector2(scale, scale);
 		}
 
