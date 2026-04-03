@@ -35,11 +35,13 @@ public partial class HandView : Node2D, IGameComponent
 	private int _hoveredIndex = -1;
 	private int _selectedIndex = -1;
 
+	// TODO: We should not be caching viewport, this can have issues in multi-scene setups (causing the reference to go stale)
 	private Viewport _viewport;
 	private CardSystem _cardSystem;
 	private TargetSystem _targetSystem;
 
 	public List<CardView> Cards { get; } = [];
+	private readonly Dictionary<Area2D, CardView> _areaMap = [];
 	private readonly TweenTracker<CardView> _tweenTracker = new();
 
 	[Export] private MapView _mapView;
@@ -70,10 +72,64 @@ public partial class HandView : Node2D, IGameComponent
 		Position = new Vector2(visibleRect.Size.X * 0.5f, visibleRect.Size.Y - (165f * Scale.Y));
 	}
 
+	public override void _PhysicsProcess(double delta)
+	{
+		if (!DisplayServer.WindowIsFocused())
+			return;
+
+		var mousePos = _viewport.GetMousePosition();
+
+		if (!_viewport.GetVisibleRect().HasPoint(mousePos))
+			return;
+
+		if (_selectedIndex != -1) return;
+
+		var hovered = CheckHoveredIndex(mousePos);
+		if (hovered != _hoveredIndex)
+		{
+			_hoveredIndex = hovered;
+			if (_hoveredIndex != -1)
+			{
+				var cardView = Cards[_hoveredIndex];
+				cardView.Highlight();
+				cardView.ZIndex = 100;
+			}
+
+			for (int j = 0; j < Cards.Count; j++)
+			{
+				if (j == _hoveredIndex) continue;
+				Cards[j].RemoveHighlight();
+			}
+			ArrangeHandTween();
+		}
+	}
+
+	private int CheckHoveredIndex(Vector2 mousePos)
+	{
+		var spaceState = GetWorld2D().DirectSpaceState;
+		var param = new PhysicsPointQueryParameters2D
+		{
+			Position = mousePos,
+			CollideWithAreas = true,
+			CollideWithBodies = false
+		};
+
+		var result = spaceState.IntersectPoint(param);
+		foreach (var collided in result)
+		{
+			if (!collided.TryGetValue("collider", out var collider)) continue;
+
+			var area = (Area2D)collider;
+			if (_areaMap.TryGetValue(area, out var cardView))
+				return Cards.IndexOf(cardView);
+		}
+
+		return -1;
+	}
+
 	public override void _Process(double elapsed)
 	{
 		var mousePos = _viewport.GetMousePosition();
-
 		if (_selectedIndex != -1)
 		{
 			var card  = Cards[_selectedIndex];
@@ -133,7 +189,6 @@ public partial class HandView : Node2D, IGameComponent
 		ArrangeHandTween();
 	}
 
-	/* CARD MANAGEMENT */
 	public CardView CreateCardView(Card card, Vector2 position = default)
 	{
 		var cardView = _cardScene.Instantiate<CardView>();
@@ -145,44 +200,14 @@ public partial class HandView : Node2D, IGameComponent
 		AddChild(cardView);
 
 		cardView.Load(Game, card);
-
-		cardView.HoverArea.Connect(CollisionObject2D.SignalName.MouseEntered, Callable.From(() => OnCardHoverEnter(cardView)));
-		cardView.HoverArea.Connect(CollisionObject2D.SignalName.MouseExited, Callable.From(() => OnCardHoverExit(cardView)));
+		_areaMap.Add(cardView.HoverArea, cardView);
+		cardView.Connect(Node.SignalName.TreeExiting, Callable.From(() =>
+		{
+			_areaMap.Remove(cardView.HoverArea);
+			Cards.Remove(cardView);
+		}));
 
 		return cardView;
-	}
-
-	private void OnCardHoverEnter(CardView card)
-	{
-		if (_selectedIndex != -1) return;
-
-		// TODO: the idle check makes animations look nice, but it does not re-send the event after the action completes.
-		// We should switch these events to use Process-based polling.
-		if (!Game.IsIdle()) return;
-
-		_hoveredIndex = Cards.IndexOf(card);
-		card.Highlight();
-		card.ZIndex = 100;
-
-		for (int i = 0; i < Cards.Count; i++)
-		{
-			if (i == _hoveredIndex) continue;
-			Cards[i].RemoveHighlight();
-		}
-		ArrangeHandTween();
-	}
-
-	void OnCardHoverExit(CardView card)
-	{
-		if (_selectedIndex != -1) return;
-		if (!Game.IsIdle()) return;
-
-		if (_hoveredIndex == Cards.IndexOf(card))
-		{
-			_hoveredIndex = -1;
-			card.RemoveHighlight();
-			ArrangeHandTween();
-		}
 	}
 
 	public Tween ArrangeHandTween(int? max = null)

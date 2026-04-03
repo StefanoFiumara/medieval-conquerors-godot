@@ -108,11 +108,7 @@ public partial class DrawView : Node2D, IGameComponent
 			tween.TweenProperty(cardView, "rotation", Mathf.Pi / 4, TWEEN_DURATION);
 			tween.TweenProperty(cardView, "scale", Vector2.One * 1.3f, TWEEN_DURATION);
 			tween.TweenProperty(cardView, "modulate:a", 0f, TWEEN_DURATION);
-			tween.Chain().TweenCallback(Callable.From(() =>
-			{
-				_hand.Cards.Remove(cardView);
-				cardView.QueueFree();
-			}));
+			tween.Chain().TweenCallback(Callable.From(cardView.QueueFree));
 
 			tweens.Add(tween);
 		}
@@ -146,11 +142,7 @@ public partial class DrawView : Node2D, IGameComponent
 			tween.Chain().TweenProperty(cardView, "position", cardView.Position + Vector2.Up * 60f, TWEEN_DURATION);
 			tween.TweenProperty(cardView, "scale", Vector2.One * 1.3f, TWEEN_DURATION);
 			tween.TweenProperty(cardView, "modulate:a", 0f, TWEEN_DURATION);
-			tween.Chain().TweenCallback(Callable.From(() =>
-			{
-				_hand.Cards.Remove(cardView);
-				cardView.QueueFree();
-			}));
+			tween.Chain().TweenCallback(Callable.From(cardView.QueueFree));
 
 			tweens.Add(tween);
 		}

@@ -47,7 +47,6 @@ public partial class CardCreationView : Node2D, IGameComponent
 		var center = _viewport.GetVisibleRect().GetCenter();
 
 		// TODO: Different animation per player
-
 		// TODO: use single tween with tween.TweenSubtween
 		List<Tween> subTweens = [];
 
@@ -80,10 +79,7 @@ public partial class CardCreationView : Node2D, IGameComponent
 				subTween.TweenInterval(0.3f * TWEEN_DURATION * i);
 				subTween.Chain().TweenProperty(cardView, "position", targetPosition, TWEEN_DURATION);
 				subTween.TweenProperty(cardView, "rotation", targetRotation, TWEEN_DURATION);
-				subTween.Chain().TweenCallback(Callable.From(() =>
-				{
-					cardView.QueueFree();
-				}));
+				subTween.Chain().TweenCallback(Callable.From(cardView.QueueFree));
 				subTween.Pause();
 				subTweens.Add(subTween);
 			}

@@ -70,11 +70,7 @@ public partial class PlayCardsView : Node2D, IGameComponent
 		tween.TweenProperty(card, "scale", Vector2.One * 0.2f, duration).SetEase(Tween.EaseType.Out);
 		tween.TweenProperty(card, "modulate:a", 0f, duration);
 
-		tween.Chain().TweenCallback(Callable.From(() =>
-		{
-			_hand.Cards.Remove(card);
-			card.QueueFree();
-		}));
+		tween.Chain().TweenCallback(Callable.From(card.QueueFree));
 
 		return tween;
 	}
@@ -90,11 +86,7 @@ public partial class PlayCardsView : Node2D, IGameComponent
 		tween.TweenProperty(card, "scale", Vector2.One * 1.5f, duration);
 		tween.TweenProperty(card, "modulate:a", 0f, duration);
 
-		tween.Chain().TweenCallback(Callable.From(() =>
-		{
-			_hand.Cards.Remove(card);
-			card.QueueFree();
-		}));
+		tween.Chain().TweenCallback(Callable.From(card.QueueFree));
 
 		return tween;
 	}
