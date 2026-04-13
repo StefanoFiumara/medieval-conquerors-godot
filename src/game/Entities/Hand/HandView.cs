@@ -74,14 +74,13 @@ public partial class HandView : Node2D, IGameComponent
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (!DisplayServer.WindowIsFocused())
-			return;
-
 		var mousePos = _viewport.GetMousePosition();
 
-		if (!_viewport.GetVisibleRect().HasPoint(mousePos))
-			return;
-
+		// TODO: If cards get removed from the Cards list as soon as they begin animating (rather than when they are freed)
+		//		Then we will probably experience less jitters without having to turn off hover effects when the engine is active.
+		if (!Game.IsIdle()) return;
+		if (!DisplayServer.WindowIsFocused()) return;
+		if (!_viewport.GetVisibleRect().HasPoint(mousePos)) return;
 		if (_selectedIndex != -1) return;
 
 		var hovered = CheckHoveredIndex(mousePos);
@@ -205,6 +204,8 @@ public partial class HandView : Node2D, IGameComponent
 		{
 			_areaMap.Remove(cardView.HoverArea);
 			Cards.Remove(cardView);
+			ResetSelection();
+			ArrangeHandTween();
 		}));
 
 		return cardView;
