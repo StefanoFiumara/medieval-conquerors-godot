@@ -6,6 +6,13 @@ namespace MedievalConquerors.Engine.Extensions;
 // TODO: Covert this to a game system so things like the randomness seed and RNG instance can be shared across game systems
 public static class CollectionExtensions
 {
+    public static IEnumerable<T> Draw<T>(this IReadOnlyList<T> list, int amount)
+    {
+        amount  =  Math.Min(amount, list.Count);
+        for (int i = 0; i < amount; i++)
+            yield return list[^(i+1)];
+    }
+
     public static void Shuffle<T>(this List<T> list)
     {
         // IDEA: Add a `RandomnessSystem` to control current seed and act as proxy for an RNG instance

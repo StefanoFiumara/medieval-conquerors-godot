@@ -3,6 +3,7 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
+using MedievalConquerors.Engine.Extensions;
 
 namespace MedievalConquerors.Engine.GameComponents;
 
@@ -22,7 +23,7 @@ public class HandSystem : GameComponent, IAwake
 	private void OnPerformDrawCards(DrawCardsAction action)
 	{
 		var player = _match.Players[action.TargetPlayerId];
-		var drawnCards = player.Deck.TakeLast(action.Amount);
+		var drawnCards = player.Deck.Draw(action.Amount).ToList();
 
 		foreach (var card in drawnCards)
 		{

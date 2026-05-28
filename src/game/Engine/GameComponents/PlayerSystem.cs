@@ -62,7 +62,7 @@ public class PlayerSystem : GameComponent, IAwake
                 (15, 1), // Agriculture
 
                 // (16, 2), // Chop
-                (17, 2), // Harvest
+                // (17, 2), // Harvest
                 // (18, 2), // Forage
                 // (19, 2), // Hunt
                 // (21, 2), // Mine
