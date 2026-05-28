@@ -17,7 +17,6 @@ public partial class CardCreationView : Node2D, IGameComponent
 {
 	private HandView _hand;
 	private EventAggregator _events;
-	private Viewport _viewport;
 
 	public IGame Game { get; set; }
 
@@ -26,7 +25,6 @@ public partial class CardCreationView : Node2D, IGameComponent
 		_hand = GetParent<HandView>();
 		_hand.Game.AddComponent(this);
 		_events = Game.GetComponent<EventAggregator>();
-		_viewport = GetViewport();
 	}
 
 	public override void _Ready()
@@ -36,91 +34,82 @@ public partial class CardCreationView : Node2D, IGameComponent
 
 	private void OnPrepareCreateCard(CreateCardAction action)  => action.PerformPhase.Viewer = CreateCardAnimation;
 
+	// TODO: Is it possible to split up this function into subtweens, to make things easier?
 	private IEnumerator CreateCardAnimation(IGame game, GameAction action)
 	{
 		const double TWEEN_DURATION = 0.45;
-		yield return true;
+		const float SPACING = 250f;
 
 		var createAction = (CreateCardAction) action;
+		if (createAction.TargetPlayerId != Match.LOCAL_PLAYER_ID) yield break;
+		yield return true;
+		if(createAction.CreatedCards.Count == 0) yield break;
 
-		const float SPACING = 250f;
-		var center = _viewport.GetVisibleRect().GetCenter();
+		var center = GetViewport().GetVisibleRect().GetCenter();
+		var sequence = CreateTween().SetParallel();
+		var arrangeSequence = CreateTween().SetParallel();
+		List<CardView> createdViews = [];
 
-		// TODO: Different animation per player
-		// TODO: use single tween with tween.TweenSubtween
-		List<Tween> subTweens = [];
-
-		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
 		for (var i = 0; i < createAction.CreatedCards.Count; i++)
 		{
 			var createdCard = createAction.CreatedCards[i];
-			var cardView = _hand.CreateCardView(createdCard, Vector2.Zero);
-			var offset = i - (createAction.CreatedCards.Count - 1) / 2.0f;
-			cardView.GlobalPosition = center + Vector2.Right * offset * SPACING;
+
+			var cardView = _hand.CreateCardView(createdCard);
+			cardView.ZIndex = 10 + _hand.Cards.Count + i;
+			var positionOffset = i - (createAction.CreatedCards.Count - 1) / 2.0f;
+			cardView.GlobalPosition = center + Vector2.Right * positionOffset * SPACING;
 			cardView.Scale = Vector2.Zero;
+			createdViews.Add(cardView);
+
+			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
 			tween.Chain().TweenInterval(0.3);
 			tween.TweenProperty(cardView, "modulate:a", 1, TWEEN_DURATION).From((Variant.From(0)));
 			tween.TweenProperty(cardView, "scale", Vector2.One, TWEEN_DURATION);
 
-			if (createAction.TargetZone != Zone.Hand)
+			sequence.TweenSubtween(tween);
+
+			var arrangeTween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In).SetParallel();
+
+			var (targetPosition, targetRotation, _) = _hand.CalculateViewPosition(_hand.Cards.Count + i,
+				_hand.Cards.Count + createAction.CreatedCards.Count);
+
+			targetPosition = createAction.TargetZone switch
 			{
-				_hand.Cards.Remove(cardView);
+				Zone.Deck => HandView.DeckPosition,
+				Zone.Discard => HandView.DiscardPosition,
+				_ => targetPosition
+			};
 
-				var subTween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In).SetParallel();
+			targetRotation = createAction.TargetZone switch
+			{
+				Zone.Deck => Mathf.Pi / 4,
+				Zone.Discard => -Mathf.Pi / 4,
+				_ => targetRotation
+			};
 
-				var targetPosition = createAction.TargetZone == Zone.Deck
-					? HandView.DeckPosition
-					: HandView.DiscardPosition;
+			arrangeTween.TweenInterval(0.3f * TWEEN_DURATION * i);
+			arrangeTween.Chain().TweenProperty(cardView, "position", targetPosition, TWEEN_DURATION * 0.5f);
+			arrangeTween.TweenProperty(cardView, "rotation", targetRotation, TWEEN_DURATION * 0.5f);
+			if(createAction.TargetZone != Zone.Hand)
+				arrangeTween.Chain().TweenCallback(Callable.From(cardView.QueueFree));
 
-				var targetRotation = createAction.TargetZone == Zone.Deck
-					? Mathf.Pi / 4
-					: -Mathf.Pi / 4;
+			arrangeSequence.TweenSubtween(arrangeTween);
+		}
 
-				subTween.TweenInterval(0.3f * TWEEN_DURATION * i);
-				subTween.Chain().TweenProperty(cardView, "position", targetPosition, TWEEN_DURATION);
-				subTween.TweenProperty(cardView, "rotation", targetRotation, TWEEN_DURATION);
-				subTween.Chain().TweenCallback(Callable.From(cardView.QueueFree));
-				subTween.Pause();
-				subTweens.Add(subTween);
+		sequence.Chain().TweenInterval(0.5);
+		sequence.Chain().TweenSubtween(arrangeSequence);
+		if(createAction.TargetZone == Zone.Hand)
+			sequence.TweenSubtween(_hand.ArrangeHandTween(totalCount: _hand.Cards.Count + createdViews.Count));
+
+		sequence.Chain().TweenCallback(Callable.From(() =>
+		{
+			if (createAction.TargetZone == Zone.Hand)
+			{
+				foreach (var view in createdViews)
+					_hand.AddCardView(view);
 			}
-		}
+		}));
 
-		tween.Chain().TweenInterval(0.5);
-		while (tween.IsRunning()) yield return null;
-
-		foreach (var subTween in subTweens) subTween.Play();
-		while (subTweens.Any(t => t.IsRunning())) yield return null;
-		if (createAction.TargetZone == Zone.Hand)
-		{
-			var arrangeTween = _hand.ArrangeHandTween();
-			while (arrangeTween?.IsRunning() == true) yield return null;
-		}
-	}
-
-	// TODO: Use helper tweens to compose CreateCardAnimation and make it shorter
-	private Tween DisplayCardTween(CardView card, double duration = 0.4) => DisplayCardsTween([card], duration);
-	private Tween DisplayCardsTween(List<CardView> cards, double duration = 0.4)
-	{
-		const float SPACING = 230f;
-
-		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
-		for (var i = 0; i < cards.Count; i++)
-		{
-			var card = cards[i];
-			var offset = i - (cards.Count - 1) / 2.0f;
-			tween.TweenCallback(Callable.From(() =>
-			{
-				var center = _viewport.GetVisibleRect().GetCenter();
-
-				card.GlobalPosition = center + Vector2.Right * offset * SPACING;
-				card.Scale = Vector2.Zero;
-			}));
-
-			tween.Chain().TweenInterval(duration * 0.5);
-			tween.TweenProperty(card, "modulate:a", 1, duration).From((Variant.From(0)));
-			tween.TweenProperty(card, "scale", Vector2.One, duration);
-		}
-
-		return tween;
+		while (sequence.IsRunning()) yield return null;
 	}
 }

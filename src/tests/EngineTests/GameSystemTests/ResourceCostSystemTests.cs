@@ -29,8 +29,8 @@ public class ResourceCostSystemTests : GameSystemTestFixture
             .WithTileWithinInfluenceSelector()
             .Create();
 
-        _player.Deck.Add(_affordableCard);
-        _player.Deck.Add(_costlyCard);
+        _player.MoveCard(_affordableCard, Zone.Deck);
+        _player.MoveCard(_costlyCard, Zone.Deck);
 
         // Start the game with the given player
         Game.Awake();

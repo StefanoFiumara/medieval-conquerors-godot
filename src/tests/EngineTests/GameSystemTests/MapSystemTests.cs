@@ -25,7 +25,7 @@ public class MapSystemTests : GameSystemTestFixture
             .WithTileWithinInfluenceSelector()
             .Create();
 
-        _player.Deck.Add(_moveableCard);
+        _player.MoveCard(_moveableCard, Zone.Deck);
 
         // Begin the game
         Game.Awake();

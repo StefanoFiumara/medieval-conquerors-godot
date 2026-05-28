@@ -21,7 +21,7 @@ public class PlayerSystemTests : GameSystemTestFixture
             .WithTileWithinInfluenceSelector()
             .CreateMany(2);
 
-        _player.Deck.AddRange(cards);
+        _player.MoveCards(cards, Zone.Deck);
 
         // Start the game with the given player
         Game.Awake();
@@ -93,7 +93,7 @@ public class PlayerSystemTests : GameSystemTestFixture
         Game.Update(0.16);
 
         _player.Hand.Count.ShouldBe(0);
-        _player.Discard.Count.ShouldBe(2);
+        _player.Discard.Count.ShouldBe(3);
         _player.Discard.ShouldAllBe(c => c.Zone == Zone.Discard);
     }
 }

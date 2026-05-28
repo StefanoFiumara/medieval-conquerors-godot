@@ -39,7 +39,7 @@ public class CardCreationSystem : GameComponent, IAwake
         for (int i = 0; i < action.Amount; i++)
         {
             var card = _cardDb.LoadCard(action.CardId, player);
-            player[action.TargetZone].Add(card);
+            player.MoveCard(card, action.TargetZone);
             action.CreatedCards.Add(card);
         }
     }

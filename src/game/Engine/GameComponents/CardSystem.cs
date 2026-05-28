@@ -28,17 +28,17 @@ public class CardSystem : GameComponent, IAwake
     public void Refresh()
     {
         _playable.Clear();
-        
+
         foreach (var card in _match.CurrentPlayer.Hand)
         {
             var targetCandidates = _targetSystem.GetTargetCandidates(card);
             if (targetCandidates.Count == 0)
                 continue;
-            
-            var randomTargetTile = targetCandidates.GetRandom();
+
+            var randomTargetTile = targetCandidates[0];
             var playAction = new PlayCardAction(card, randomTargetTile);
             var validatorResult = playAction.Validate(Game);
-            
+
             if (validatorResult.IsValid)
                 _playable.Add(card);
         }

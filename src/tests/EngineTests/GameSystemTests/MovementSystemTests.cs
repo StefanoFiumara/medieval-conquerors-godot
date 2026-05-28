@@ -13,7 +13,7 @@ public class MovementSystemTests : GameSystemTestFixture
     private readonly Match _match;
 
     private readonly Card _moveableCard;
-    private readonly Card _immoveableCard;
+    private readonly Card _immobileCard;
 
     public MovementSystemTests(ITestOutputHelper output, CardLibraryFixture libraryFixture) : base(output, libraryFixture)
     {
@@ -27,14 +27,14 @@ public class MovementSystemTests : GameSystemTestFixture
             .WithTileWithinInfluenceSelector()
             .Create();
 
-        _immoveableCard = CardBuilder
+        _immobileCard = CardBuilder
             .Build(_player)
             .WithCardType(CardType.Unit)
             .WithTileWithinInfluenceSelector()
             .Create();
 
-        _player.Deck.Add(_moveableCard);
-        _player.Deck.Add(_immoveableCard);
+        _player.MoveCard(_moveableCard, Zone.Deck);
+        _player.MoveCard(_immobileCard, Zone.Deck);
 
         // Begin the game
         Game.Awake();
@@ -75,24 +75,24 @@ public class MovementSystemTests : GameSystemTestFixture
     [Fact]
     public void MovementSystem_MoveUnitAction_Invalidated_Without_MoveAttribute()
     {
-        _immoveableCard.Zone.ShouldBe(Zone.Hand);
-        _player.Hand.ShouldContain(_immoveableCard);
+        _immobileCard.Zone.ShouldBe(Zone.Hand);
+        _player.Hand.ShouldContain(_immobileCard);
 
         // Play the card
         var firstPosition = new Vector2I(5, 5);
-        var playAction = new PlayCardAction(_immoveableCard, firstPosition);
+        var playAction = new PlayCardAction(_immobileCard, firstPosition);
         Game.Perform(playAction);
         Game.Update(0.16);
 
         // Then attempt to Move it.
         var newPosition = new Vector2I(5, 4);
-        var moveAction = new MoveUnitAction(_immoveableCard, newPosition);
+        var moveAction = new MoveUnitAction(_immobileCard, newPosition);
         Game.Perform(moveAction);
         Game.Update(0.16);
 
-        _immoveableCard.MapPosition.ShouldBe(firstPosition);
+        _immobileCard.MapPosition.ShouldBe(firstPosition);
         Map.GetTile(newPosition).Unit.ShouldBeNull();
-        Map.GetTile(firstPosition).Unit.ShouldBe(_immoveableCard);
+        Map.GetTile(firstPosition).Unit.ShouldBe(_immobileCard);
     }
 
     [Fact]

@@ -18,11 +18,19 @@ public class TweenTracker<T> where T : GodotObject
     {
         if (IsTweening(target))
         {
-            _activeTweens[target].Kill();
+            var oldTween = _activeTweens[target];
+            if(oldTween.IsValid())
+                _activeTweens[target].Kill();
+
             _activeTweens.Remove(target);
         }
 
-        tween.Chain().TweenCallback(Callable.From(() => _activeTweens.Remove(target)));
+        tween.Chain().TweenCallback(Callable.From(() =>
+        {
+            if (_activeTweens.TryGetValue(target, out var currentTween) && currentTween == tween)
+                _activeTweens.Remove(target);
+        }));
+
         _activeTweens.Add(target, tween);
     }
 }

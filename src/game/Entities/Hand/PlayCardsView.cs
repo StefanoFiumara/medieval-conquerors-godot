@@ -38,25 +38,30 @@ public partial class PlayCardsView : Node2D, IGameComponent
 		_events.Subscribe<PlayCardAction>(GameEvent.Prepare<PlayCardAction>(), OnPreparePlayCard);
 	}
 
-	private void OnPreparePlayCard(PlayCardAction action)      => action.PerformPhase.Viewer = PlayCardAnimation;
+	private void OnPreparePlayCard(PlayCardAction action) => action.PerformPhase.Viewer = PlayCardAnimation;
 
 	private IEnumerator PlayCardAnimation(IGame game, GameAction action)
 	{
 		yield return true;
 		var playAction = (PlayCardAction) action;
 
-		if (playAction.CardToPlay.Owner.Id == Match.LOCAL_PLAYER_ID)
-		{
-			var cardView = _hand.Cards.Single(c => c.Card == playAction.CardToPlay);
-			var playCardTween = PlayCardTween(cardView, playAction.TargetTile);
-			playCardTween.Chain().TweenCallback(Callable.From((Action)(() => _hand.ArrangeHandTween())));
+		// TODO: play card animation for enemy player
+		if (playAction.CardToPlay.Owner.Id != Match.LOCAL_PLAYER_ID)
+			yield break;
 
-			while (playCardTween.IsRunning()) yield return null;
-		}
+		// TODO: Can we always assume the card is being played from the hand?
+		var cardView = _hand.Cards.Single(c => c.Card == playAction.CardToPlay);
+		_hand.Cards.Remove(cardView);
+
+		var playCardTween = PlayCardTween(cardView, playAction.TargetTile);
+		while (playCardTween.IsRunning()) yield return null;
 	}
 
 	private Tween PlayCardTween(CardView cardView, Vector2I targetTile)
 	{
+		// TODO: this will need different handling when we implement target-less cards
+		//		CenterAndFadeAwayTween takes care of the banish animation for technologies
+		//		but target-less cards that DONT banish after being played need a separate animation.
 		return cardView.Card.Data.CardType == CardType.Technology
 			? CenterAndFadeAwayTween(cardView)
 			: PlayOnTileTween(cardView, targetTile);
@@ -64,11 +69,13 @@ public partial class PlayCardsView : Node2D, IGameComponent
 
 	private Tween PlayOnTileTween(CardView card, Vector2I tile, double duration = 0.5)
 	{
-		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
 		var targetPosition = _map.GetTileGlobalPosition(tile);
+
+		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
 		tween.TweenProperty(card, "position", ToLocal(targetPosition), duration);
 		tween.TweenProperty(card, "scale", Vector2.One * 0.2f, duration).SetEase(Tween.EaseType.Out);
 		tween.TweenProperty(card, "modulate:a", 0f, duration);
+		tween.TweenSubtween(_hand.ArrangeHandTween());
 
 		tween.Chain().TweenCallback(Callable.From(card.QueueFree));
 
@@ -79,6 +86,7 @@ public partial class PlayCardsView : Node2D, IGameComponent
 	{
 		var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetParallel();
 
+		tween.TweenSubtween(_hand.ArrangeHandTween());
 		tween.TweenProperty(card, "global_position", _viewport.GetVisibleRect().GetCenter(), duration);
 		tween.TweenProperty(card, "rotation", 0, duration);
 		tween.TweenProperty(card, "scale", Vector2.One, duration).SetEase(Tween.EaseType.Out);

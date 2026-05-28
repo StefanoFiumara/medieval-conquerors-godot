@@ -74,8 +74,8 @@ public class PlayerSystem : GameComponent, IAwake
             var loadedPlayerDeck = _cardDb.LoadDeck(_match.LocalPlayer, deckInfo);
             var loadedEnemyDeck = _cardDb.LoadDeck(_match.EnemyPlayer, deckInfo);
 
-            _match.LocalPlayer.Deck.AddRange(loadedPlayerDeck);
-            _match.EnemyPlayer.Deck.AddRange(loadedEnemyDeck);
+            _match.LocalPlayer.MoveCards(loadedPlayerDeck, Zone.Deck);
+            _match.EnemyPlayer.MoveCards(loadedEnemyDeck, Zone.Deck);
         }
     }
 
@@ -103,7 +103,7 @@ public class PlayerSystem : GameComponent, IAwake
         if (!_settings.TestMode)
         {
             var player = _match.Players[action.TargetPlayerId];
-            player.Deck.Shuffle();
+            player.ShuffleDeck();
         }
     }
 }

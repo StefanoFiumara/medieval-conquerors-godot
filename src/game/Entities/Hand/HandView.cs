@@ -3,6 +3,7 @@ using Godot;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
+using MedievalConquerors.Engine.Extensions;
 using MedievalConquerors.Engine.GameComponents;
 using MedievalConquerors.Engine.Utils;
 using MedievalConquerors.Entities.Cards;
@@ -28,6 +29,9 @@ public partial class HandView : Node2D, IGameComponent
 	private const float HAND_WIDTH = 700;
 	private const float HAND_HEIGHT = 250;
 
+	public IGame Game { get; set; }
+	public List<CardView> Cards { get; } = [];
+
 	private int _hoverXMin;
 	private int _hoverXMax;
 	private int _hoverSectionWidth;
@@ -35,12 +39,10 @@ public partial class HandView : Node2D, IGameComponent
 	private int _hoveredIndex = -1;
 	private int _selectedIndex = -1;
 
-	// TODO: We should not be caching viewport, this can have issues in multi-scene setups (causing the reference to go stale)
-	private Viewport _viewport;
 	private CardSystem _cardSystem;
 	private TargetSystem _targetSystem;
+	private TargetingIndicator _targetIndicator;
 
-	public List<CardView> Cards { get; } = [];
 	private readonly Dictionary<Area2D, CardView> _areaMap = [];
 	private readonly TweenTracker<CardView> _tweenTracker = new();
 
@@ -49,10 +51,6 @@ public partial class HandView : Node2D, IGameComponent
 	[Export] private Curve _heightCurve;
 	[Export] private Curve _rotationCurve;
 
-	private TargetingIndicator _targetIndicator;
-
-	public IGame Game { get; set; }
-
 	// TODO: can this be _Ready instead of EnterTree?
 	public override void _EnterTree()
 	{
@@ -60,27 +58,27 @@ public partial class HandView : Node2D, IGameComponent
 		_cardSystem = Game.GetComponent<CardSystem>();
 		_targetSystem = Game.GetComponent<TargetSystem>();
 		_targetIndicator = GetNode<TargetingIndicator>("%target_indicator");
-		_viewport = GetViewport();
-		_viewport.Connect(Viewport.SignalName.SizeChanged, Callable.From(CenterView));
+		GetViewport().Connect(Viewport.SignalName.SizeChanged, Callable.From(CenterView));
 		CenterView();
 	}
 
 	private void CenterView()
 	{
-		var visibleRect = _viewport.GetVisibleRect();
+		var visibleRect = GetViewport().GetVisibleRect();
 		Scale = visibleRect.CalculateScaleFactor();
 		Position = new Vector2(visibleRect.Size.X * 0.5f, visibleRect.Size.Y - (165f * Scale.Y));
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		var mousePos = _viewport.GetMousePosition();
+		var viewport = GetViewport();
+		var mousePos = viewport.GetMousePosition();
 
 		// TODO: If cards get removed from the Cards list as soon as they begin animating (rather than when they are freed)
 		//		Then we will probably experience less jitters without having to turn off hover effects when the engine is active.
-		if (!Game.IsIdle()) return;
+		// if (!Game.IsIdle()) return;
 		if (!DisplayServer.WindowIsFocused()) return;
-		if (!_viewport.GetVisibleRect().HasPoint(mousePos)) return;
+		if (!viewport.GetVisibleRect().HasPoint(mousePos)) return;
 		if (_selectedIndex != -1) return;
 
 		var hovered = CheckHoveredIndex(mousePos);
@@ -99,6 +97,7 @@ public partial class HandView : Node2D, IGameComponent
 				if (j == _hoveredIndex) continue;
 				Cards[j].RemoveHighlight();
 			}
+
 			ArrangeHandTween();
 		}
 	}
@@ -128,20 +127,20 @@ public partial class HandView : Node2D, IGameComponent
 
 	public override void _Process(double elapsed)
 	{
-		var mousePos = _viewport.GetMousePosition();
+		var viewport = GetViewport();
+		var mousePos = viewport.GetMousePosition();
 		if (_selectedIndex != -1)
 		{
 			var card  = Cards[_selectedIndex];
 			// TODO: Dragging vs targeting should take into account whether card needs target tile or not (not yet implemented)
 			// When we implement this, we can just switch to targeting mode right away depending on the target requirement
-			var targeting = _mapView.HoveredTile != HexMap.None;
-			_targetIndicator.IsTargeting = targeting;
+			_targetIndicator.IsTargeting = _mapView.HoveredTile != HexMap.None;
 
-			var dragPosition = Vector2.Zero; //targeting ? Vector2.Zero : ToLocal(mousePos);
+			var dragPosition = Vector2.Zero;
 			card.Position = card.Position.Lerp(dragPosition, (float)elapsed * DRAG_SPEED);
 			card.Scale = card.Scale.Lerp(Vector2.One, (float)elapsed * DRAG_SPEED);
 
-			var viewportRect = _viewport.GetVisibleRect();
+			var viewportRect = viewport.GetVisibleRect();
 			if (mousePos.Y >= viewportRect.Position.Y + viewportRect.Size.Y)
 				ResetSelection();
 		}
@@ -149,7 +148,6 @@ public partial class HandView : Node2D, IGameComponent
 
 	public override void _UnhandledInput(InputEvent input)
 	{
-		// TODO: Should we set input as handled, just like in Map View?
 		if (input.IsActionPressed(LEFT_CLICK) && _hoveredIndex != -1)
 		{
 			if(_cardSystem.IsPlayable(Cards[_hoveredIndex].Card))
@@ -157,6 +155,7 @@ public partial class HandView : Node2D, IGameComponent
 				_selectedIndex = _hoveredIndex;
 				var targetCandidates = _targetSystem.GetTargetCandidates(Cards[_selectedIndex].Card);
 				_mapView.HighlightTiles(targetCandidates, MapLayerType.SelectionHint);
+				GetViewport().SetInputAsHandled();
 				return;
 			}
 		}
@@ -167,13 +166,19 @@ public partial class HandView : Node2D, IGameComponent
 			var targetCandidates = _targetSystem.GetTargetCandidates(Cards[_selectedIndex].Card);
 			if (targetCandidates.Contains(_mapView.HoveredTile))
 			{
+				// TODO: If ActionSystem is active, add this action to a queue instead, to be performed once the current sequence is finished.
 				Game.Perform(new PlayCardAction(Cards[_selectedIndex].Card, _mapView.HoveredTile));
 			}
+
 			ResetSelection();
+			GetViewport().SetInputAsHandled();
 		}
 
 		if (input.IsActionPressed(RIGHT_CLICK))
+		{
 			ResetSelection();
+			GetViewport().SetInputAsHandled();
+		}
 	}
 
 	private void ResetSelection()
@@ -188,40 +193,45 @@ public partial class HandView : Node2D, IGameComponent
 		ArrangeHandTween();
 	}
 
+	public CardView AddCardView(CardView existing)
+	{
+		existing.ZAsRelative = false;
+		Cards.Add(existing);
+		existing.ZIndex = Cards.Count + 10;
+		_areaMap.Add(existing.HoverArea, existing);
+
+		existing.Connect(Node.SignalName.TreeExiting, Callable.From(() =>
+		{
+			_areaMap.Remove(existing.HoverArea);
+			if(_selectedIndex == Cards.IndexOf(existing))
+				ResetSelection();
+
+			Cards.Remove(existing);
+		}));
+
+		return existing;
+	}
+
 	public CardView CreateCardView(Card card, Vector2 position = default)
 	{
 		var cardView = _cardScene.Instantiate<CardView>();
 		cardView.ZAsRelative = false;
 		cardView.Position = position;
-
-		Cards.Add(cardView);
-		cardView.ZIndex = Cards.Count + 10;
 		AddChild(cardView);
-
 		cardView.Load(Game, card);
-		_areaMap.Add(cardView.HoverArea, cardView);
-		cardView.Connect(Node.SignalName.TreeExiting, Callable.From(() =>
-		{
-			_areaMap.Remove(cardView.HoverArea);
-			Cards.Remove(cardView);
-			ResetSelection();
-			ArrangeHandTween();
-		}));
-
 		return cardView;
 	}
 
-	public Tween ArrangeHandTween(int? max = null)
+	public Tween ArrangeHandTween(int? totalCount = null)
 	{
 		const double TWEEN_DURATION = 0.3;
 
-		var limit = Mathf.Min(max ?? Cards.Count, Cards.Count);
+		if(Cards.Count == 0)
+			return this.NullTween;
 
-		// TODO: Should we return a "completed" tween instead so that callers don't have to null check?
-		if(limit  == 0) return null;
 		var sequence = CreateTween().SetParallel();
 
-		for (var i = 0; i < limit; i++)
+		for (var i = 0; i < Cards.Count; i++)
 		{
 			// Do not animate selected
 			if (i == _selectedIndex) continue;
@@ -235,26 +245,15 @@ public partial class HandView : Node2D, IGameComponent
 				.SetEase(Tween.EaseType.Out)
 				.SetParallel();
 
-			// TODO: move isHovered logic over to GetCardPosition?
-			var (targetPosition, targetRotation) = GetCardPosition(card);
+			var (targetPosition, targetRotation, targetScale) = CalculateViewPosition(index: i, totalCount ?? Cards.Count);
 
-			// TODO: Clean up this mess lol
-			var hoverOffset = 75;
-			var xOffset =
-				i < _hoveredIndex
-					? -hoverOffset
-					: i > _hoveredIndex
-						? hoverOffset
-						: 0;
-
-			if(_hoveredIndex == -1) xOffset = 0;
+			// TODO: if card is already in position - skip the tweener
 
 			var duration = isHovered ? 0.25f * TWEEN_DURATION : TWEEN_DURATION;
-			if (isHovered) targetPosition.Y = -20;
 
-			tween.TweenProperty(card, "position", targetPosition + Vector2.Right * xOffset, duration);
-			tween.TweenProperty(card, "rotation", isHovered ? 0f : targetRotation, duration);
-			tween.TweenProperty(card, "scale", isHovered ? 1.2f * Vector2.One : Vector2.One, duration);
+			tween.TweenProperty(card, "position", targetPosition, duration);
+			tween.TweenProperty(card, "rotation",  targetRotation, duration);
+			tween.TweenProperty(card, "scale", targetScale, duration);
 
 			_tweenTracker.TrackTween(tween, card);
 
@@ -264,18 +263,32 @@ public partial class HandView : Node2D, IGameComponent
 		return sequence;
 	}
 
-	public (Vector2 position, float rotation) GetCardPosition(CardView card)
+	public (Vector2 position, float rotation, Vector2 scale) CalculateViewPosition(int index, int totalCount)
 	{
+		const int HOVER_OFFSET_X = 85;
+		const int HOVER_OFFSET_Y = 60;
+
+		var isHovered = index == _hoveredIndex;
+
+		// calculate a horizontal offset based on whether its to the left/right of the hovered card
+		var xOffset = 0;
+		if (index < _hoveredIndex && _hoveredIndex != -1)
+			xOffset = -HOVER_OFFSET_X;
+		else if (index > _hoveredIndex && _hoveredIndex != -1)
+			xOffset = HOVER_OFFSET_X;
+
+		// Calculate where to sample the spread/height curves based on the card's order in the hand
 		var ratio = 0.5f;
-		if (Cards.Count > 1)
-			ratio = Cards.IndexOf(card) / (float) (Cards.Count - 1);
+		if (totalCount > 1)
+			ratio = index / (float) (totalCount - 1);
 
-		var xOffset = _spreadCurve.Sample(ratio) * HAND_WIDTH * (Cards.Count / 10f);
-		var yOffset = -_heightCurve.Sample(ratio) * HAND_HEIGHT;
-		var position = new Vector2(xOffset, yOffset);
+		var targetX = _spreadCurve.Sample(ratio) * HAND_WIDTH * (totalCount / 10f) + xOffset;
+		var targetY = isHovered ? -HOVER_OFFSET_Y : -_heightCurve.Sample(ratio) * HAND_HEIGHT;
 
-		var rotation = -_rotationCurve.Sample(ratio) * 0.25f * (Cards.Count / 5f);
+		var position = new Vector2(targetX, targetY);
+		var rotation = isHovered ? 0f : -_rotationCurve.Sample(ratio) * 0.25f * (totalCount / 5f);
+		var scale = (isHovered ? 1.4f : 1f) * Vector2.One;
 
-		return (position, rotation);
+		return (position, rotation, scale);
 	}
 }

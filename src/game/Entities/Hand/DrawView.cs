@@ -6,6 +6,8 @@ using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
 using MedievalConquerors.Engine.Events;
+using MedievalConquerors.Engine.Logging;
+using MedievalConquerors.Entities.Cards;
 
 namespace MedievalConquerors.Entities.Hand;
 
@@ -23,8 +25,8 @@ public partial class DrawView : Node2D, IGameComponent
 	public override void _EnterTree()
 	{
 		_hand = GetParent<HandView>();
-
 		_hand.Game.AddComponent(this);
+
 		_events = Game.GetComponent<EventAggregator>();
 	}
 
@@ -42,49 +44,47 @@ public partial class DrawView : Node2D, IGameComponent
 	private IEnumerator DrawCardsAnimation(IGame game, GameAction action)
 	{
 		const double TWEEN_DURATION = 0.6;
-
-		int prevHandCount = _hand.Cards.Count;
-		yield return true;
-
 		var drawAction = (DrawCardsAction) action;
+		var prevHandCount =  _hand.Cards.Count;
+
 		// TODO: Draw animation for opposite player?
 		if (drawAction.TargetPlayerId != Match.LOCAL_PLAYER_ID) yield break;
-
-		foreach (var card in drawAction.DrawnCards)
-			_hand.CreateCardView(card, HandView.DeckPosition);
+		yield return true;
+		if (drawAction.DrawnCards.Count == 0) yield break;
 
 		if (prevHandCount > 0)
-		{
-			_hand.ArrangeHandTween(max: prevHandCount);
-		}
+			_hand.ArrangeHandTween(totalCount: prevHandCount + drawAction.DrawnCards.Count);
 
-		List<Tween> tweens = [];
+		var sequence = CreateTween().SetParallel();
+		List<CardView> createdViews = [];
 		for (var i = 0; i < drawAction.DrawnCards.Count; i++)
 		{
 			var card = drawAction.DrawnCards[i];
-			var cardView = _hand.Cards.SingleOrDefault(c => c.Card == card);
+			var cardView = _hand.CreateCardView(card, HandView.DeckPosition);
+			cardView.ZIndex = 10 + i + prevHandCount;
+			createdViews.Add(cardView);
 
 			var tween = CreateTween().SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out).SetParallel();
 
 			var delay = i * TWEEN_DURATION * 0.25f;
-			var (targetPosition, targetRotation) = _hand.GetCardPosition(cardView);
+			var (targetPosition, targetRotation, targetScale) = _hand.CalculateViewPosition(i + prevHandCount, prevHandCount + drawAction.DrawnCards.Count);
 
 			tween.TweenInterval(delay);
 			tween.Chain().TweenProperty(cardView, "position", targetPosition, TWEEN_DURATION);
 			tween.TweenProperty(cardView, "rotation", targetRotation, TWEEN_DURATION);
-			tween.TweenProperty(cardView, "scale", Vector2.One, TWEEN_DURATION);
+			tween.TweenProperty(cardView, "scale", targetScale, TWEEN_DURATION);
 
-			tweens.Add(tween);
+			sequence.TweenSubtween(tween);
 		}
 
-		if(tweens.Count > 0)
-			while (tweens[^1].IsRunning()) yield return null;
+		sequence.Chain().TweenCallback(Callable.From(() =>
+		{
+			foreach (var view in createdViews)
+				_hand.AddCardView(view);
+		}));
 
-		// TODO: may need to run this before and after the draw animation, depending on how it looks
-		var handTweens = _hand.ArrangeHandTween();
-		//while (handTweens.Any(t => t.IsRunning())) yield return null;
-
-
+		while (sequence.IsRunning())
+			yield return null;
 	}
 
 	private IEnumerator DiscardCardsAnimation(IGame game, GameAction action)
@@ -95,64 +95,66 @@ public partial class DrawView : Node2D, IGameComponent
 		yield return true;
 
 		var discardedViews = _hand.Cards.Where(v => discardAction.CardsToDiscard.Contains(v.Card)).Reverse().ToList();
-		List<Tween> tweens = [];
+		if (discardedViews.Count == 0)
+			yield break;
+
+		var sequence = CreateTween().SetParallel();
+
 		for (var i = 0; i < discardedViews.Count; i++)
 		{
 			var cardView = discardedViews[i];
+			_hand.Cards.Remove(cardView);
 			cardView.RemoveHighlight();
-			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In).SetParallel();
 
-			var delay = i * TWEEN_DURATION * 0.25f;
-			tween.TweenInterval(delay);
+			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In).SetParallel();
+			tween.TweenInterval(i * TWEEN_DURATION * 0.25f);
 			tween.Chain().TweenProperty(cardView, "position", HandView.DiscardPosition, TWEEN_DURATION);
 			tween.TweenProperty(cardView, "rotation", Mathf.Pi / 4, TWEEN_DURATION);
 			tween.TweenProperty(cardView, "scale", Vector2.One * 1.3f, TWEEN_DURATION);
-			tween.TweenProperty(cardView, "modulate:a", 0f, TWEEN_DURATION);
 			tween.Chain().TweenCallback(Callable.From(cardView.QueueFree));
 
-			tweens.Add(tween);
+			sequence.TweenSubtween(tween);
 		}
 
-		if (tweens.Count > 0)
-		{
-			while (tweens[^1].IsRunning()) yield return null;
+		while(sequence.IsRunning())
+			yield return null;
 
-			var arrangeTween = _hand.ArrangeHandTween();
-			while (arrangeTween?.IsRunning() == true) yield return null;
-		}
+		_hand.ArrangeHandTween();
 	}
 
 	private IEnumerator BanishCardsAnimation(IGame game, GameAction action)
 	{
-		const double TWEEN_DURATION = 0.4;
-		var discardAction = (BanishCardsAction) action;
+		const double TWEEN_DURATION = 0.2;
 
 		yield return true;
 
-		var banishedViews = _hand.Cards.Where(v => discardAction.CardsToBanish.Contains(v.Card)).Reverse().ToList();
-		List<Tween> tweens = [];
+		var banishAction = (BanishCardsAction) action;
+		var banishedViews = _hand.Cards.Where(v => banishAction.CardsToBanish.Contains(v.Card)).Reverse().ToList();
+
+		if (banishedViews.Count == 0)
+			yield break;
+
+		var sequence = CreateTween().SetParallel();
 		for (var i = 0; i < banishedViews.Count; i++)
 		{
 			var cardView = banishedViews[i];
+			_hand.Cards.Remove(cardView);
 			cardView.RemoveHighlight();
-			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In).SetParallel();
 
-			var delay = i * TWEEN_DURATION * 0.25f;
-			tween.TweenInterval(delay);
+			var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.In).SetParallel();
+			tween.TweenInterval(i * TWEEN_DURATION * 0.25f);
 			tween.Chain().TweenProperty(cardView, "position", cardView.Position + Vector2.Up * 60f, TWEEN_DURATION);
+			tween.TweenProperty(cardView, "rotation", 0f, TWEEN_DURATION);
 			tween.TweenProperty(cardView, "scale", Vector2.One * 1.3f, TWEEN_DURATION);
 			tween.TweenProperty(cardView, "modulate:a", 0f, TWEEN_DURATION);
 			tween.Chain().TweenCallback(Callable.From(cardView.QueueFree));
 
-			tweens.Add(tween);
+			sequence.TweenSubtween(tween);
 		}
 
-		if (tweens.Count > 0)
-		{
-			while (tweens[^1].IsRunning()) yield return null;
+		while(sequence.IsRunning())
+			yield return null;
 
-			var arrangeTween = _hand.ArrangeHandTween();
-			while (arrangeTween?.IsRunning() == true) yield return null;
-		}
+		_hand.ArrangeHandTween();
 	}
 }

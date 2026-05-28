@@ -13,7 +13,7 @@ public class HandSystemTests : GameSystemTestFixture
     {
         _player = Game.GetComponent<Match>().LocalPlayer;
         var deck = DeckBuilder.CreateTestDeck(_player);
-        _player.Deck.AddRange(deck);
+        _player.MoveCards(deck, Zone.Deck);
 
         Game.Awake();
         Game.Perform(new BeginGameAction(_player.Id));

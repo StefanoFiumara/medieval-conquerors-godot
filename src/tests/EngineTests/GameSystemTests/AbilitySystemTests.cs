@@ -46,11 +46,11 @@ public class AbilitySystemTests : GameSystemTestFixture
             .WithTileWithinInfluenceSelector()
             .CreateMany(10);
 
-        _player.Deck.AddRange(otherCards);
-        _player.Deck.Add(_cardTargetingSelf);
-        _player.Deck.Add(_cardTargetingEnemy);
+        _player.MoveCards(otherCards, Zone.Deck);
+        _player.MoveCard(_cardTargetingSelf, Zone.Deck);
+        _player.MoveCard(_cardTargetingEnemy, Zone.Deck);
 
-        _enemyPlayer.Deck.AddRange(enemyCards);
+        _enemyPlayer.MoveCards(enemyCards, Zone.Deck);
 
         // Begin the game
         Game.Awake();

@@ -28,7 +28,7 @@ public class CardSystemTests : GameSystemTestFixture
         var card = CardBuilder.Build(_player)
             .WithTileWithinInfluenceSelector()
             .Create();
-        _player.Deck.Add(card);
+        _player.MoveCard(card, Zone.Deck);
 
         Game.Awake();
         Game.Perform(new BeginGameAction(_player.Id));
@@ -44,7 +44,7 @@ public class CardSystemTests : GameSystemTestFixture
             .WithTileWithinInfluenceSelector()
             .WithResourceCost(food: 99)
             .Create();
-        _player.Deck.Add(card);
+        _player.MoveCard(card, Zone.Deck);
 
         Game.Awake();
         Game.Perform(new BeginGameAction(_player.Id));
