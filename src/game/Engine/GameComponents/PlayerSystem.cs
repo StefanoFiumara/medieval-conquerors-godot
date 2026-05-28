@@ -3,9 +3,7 @@ using System.Linq;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Core;
 using MedievalConquerors.Engine.Data;
-
 using MedievalConquerors.Engine.Events;
-using MedievalConquerors.Engine.Extensions;
 
 namespace MedievalConquerors.Engine.GameComponents;
 

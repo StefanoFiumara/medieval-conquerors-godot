@@ -1,6 +1,3 @@
-using MedievalConquerors.Editors;
-using MedievalConquerors.Editors.Options;
-
 namespace MedievalConquerors.Engine.Actions;
 
 public class PassiveResourceCollectionAction(int playerId) : GameAction
