@@ -61,23 +61,24 @@ public class TurnSystem : GameComponent, IAwake
         Game.AddReaction(new BeginTurnAction(action.NextPlayerId));
     }
 
-    private void OnPerformEndTurn(EndTurnAction action)
-    {
-        var player = _match.Players[action.PlayerId];
-        var banishedCards = player.Hand.Where(c => c.HasAttribute<BanishOnDiscardAttribute>()).ToList();
-        var discardedCards = player.Hand.Except(banishedCards).ToList();
-
-        if (discardedCards.Count > 0)
-            Game.AddReaction(new DiscardCardsAction(discardedCards));
-
-        if(banishedCards.Count > 0)
-            Game.AddReaction(new BanishCardsAction(banishedCards));
-    }
-
     private void OnPerformBeginTurn(BeginTurnAction action)
     {
         _match.CurrentPlayerId = action.PlayerId;
         Game.AddReaction(new DrawCardsAction(action.PlayerId, _match.Players[action.PlayerId].TurnStartDrawCount));
         Game.AddReaction(new PassiveResourceCollectionAction(action.PlayerId));
+        Game.AddReaction(new SuppliesCheckAction(action.PlayerId));
+    }
+
+    private void OnPerformEndTurn(EndTurnAction action)
+    {
+        var player = _match.Players[action.PlayerId];
+        var cardsToBanish = player.Hand.Where(c => c.HasAttribute<BanishOnDiscardAttribute>()).ToList();
+        var cardsToDiscard = player.Hand.Except(cardsToBanish).ToList();
+
+        if (cardsToDiscard.Count > 0)
+            Game.AddReaction(new DiscardCardsAction(cardsToDiscard));
+
+        if(cardsToBanish.Count > 0)
+            Game.AddReaction(new BanishCardsAction(cardsToBanish));
     }
 }

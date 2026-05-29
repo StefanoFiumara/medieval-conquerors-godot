@@ -61,6 +61,8 @@ public partial class PlayCardsView : Node2D, IGameComponent
 		// TODO: this will need different handling when we implement target-less cards
 		//		CenterAndFadeAwayTween takes care of the banish animation for technologies
 		//		but target-less cards that DONT banish after being played need a separate animation.
+
+		// TODO: This animation could take into account BanishOnPlayAttribute and do something different
 		return cardView.Card.Data.CardType == CardType.Technology
 			? CenterAndFadeAwayTween(cardView)
 			: PlayOnTileTween(cardView, targetTile);

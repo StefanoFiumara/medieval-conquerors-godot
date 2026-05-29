@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Godot;
 using MedievalConquerors.Engine.Actions;
 using MedievalConquerors.Engine.Attributes;
@@ -76,7 +77,10 @@ public class AbilitySystem : GameComponent, IAwake
     private void OnPerformPlayActionCard(PlayActionCardAction action)
     {
         TriggerAbility<OnCardPlayedAbility>(action.Card, action.TargetTile);
-        Game.AddReaction(new DiscardCardsAction([action.Card]));
+        if(action.Card.HasAttribute<BanishOnPlayAttribute>())
+            Game.AddReaction(new BanishCardsAction([action.Card]));
+        else
+            Game.AddReaction(new DiscardCardsAction([action.Card]));
     }
 
     private void OnPerformResearchTechnology(ResearchTechnologyAction action)

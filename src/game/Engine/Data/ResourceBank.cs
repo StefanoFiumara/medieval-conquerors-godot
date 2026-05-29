@@ -12,20 +12,19 @@ public class ResourceBank
 	public int Stone { get; private set; }
 
 	public int TotalResources => Food + Wood + Gold + Stone;
-	
-	public bool CanAfford(ResourceCostAttribute resourceCost)
-	{
-		return    Food  >= resourceCost.Food
-			   && Wood  >= resourceCost.Wood
-			   && Gold  >= resourceCost.Gold
-			   && Stone >= resourceCost.Stone;
-	}
+
+	public bool CanAfford(ResourceCostAttribute attr) => CanAfford(attr.Food, attr.Wood, attr.Gold, attr.Stone);
+	public bool CanAfford(int food = 0, int wood = 0, int gold = 0, int stone = 0)
+		=> Food  >= food
+		&& Wood  >= wood
+		&& Gold  >= gold
+		&& Stone >= stone;
 
 	public void Subtract(ResourceCostAttribute resourceCost)
 	{
 		if (!CanAfford(resourceCost))
 			throw new ArgumentException("Cannot afford resource cost");
-		
+
 		Food  -= resourceCost.Food;
 		Wood  -= resourceCost.Wood;
 		Gold  -= resourceCost.Gold;

@@ -31,6 +31,7 @@ public static class GameFactory
         game.AddComponent<MapSystem>();
 
         game.AddComponent<TurnSystem>();
+        game.AddComponent<SuppliesSystem>();
         game.AddComponent<TargetSystem>();
 
         game.AddComponent<DeckCycleSystem>();

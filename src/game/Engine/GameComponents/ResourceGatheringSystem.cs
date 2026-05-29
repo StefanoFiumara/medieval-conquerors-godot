@@ -15,6 +15,7 @@ public class ResourceGatheringSystem : GameComponent, IAwake
 	private HexMap _map;
 	private GarrisonSystem _garrisonSystem;
 
+	// TODO: This is technically part of the game state, should we try to track it in Match so that game state is consolidated?
 	private readonly Dictionary<int, List<Card>> _spentVillagers = [];
 
 	public IReadOnlyList<Card> GetSpentVillagers(int playerId) => _spentVillagers[playerId].AsReadOnly();
@@ -37,6 +38,16 @@ public class ResourceGatheringSystem : GameComponent, IAwake
 		_events.Subscribe<PassiveResourceCollectionAction>(GameEvent.Perform<PassiveResourceCollectionAction>(), OnPerformCollectResources);
 		_events.Subscribe<HarvestAction, ActionValidatorResult>(GameEvent.Validate<HarvestAction>(), OnValidateCollectResources);
 		_events.Subscribe<HarvestAction>(GameEvent.Perform<HarvestAction>(), OnPerformCollectResource);
+		_events.Subscribe<IncreaseResourcesAction>(GameEvent.Perform<IncreaseResourcesAction>(), OnPerformIncreaseResources);
+	}
+
+	private void OnPerformIncreaseResources(IncreaseResourcesAction action)
+	{
+		var player = _match.Players[action.TargetPlayerId];
+		player.Resources[ResourceType.Food] += action.Food;
+		player.Resources[ResourceType.Wood] += action.Wood;
+		player.Resources[ResourceType.Gold] += action.Gold;
+		player.Resources[ResourceType.Stone] += action.Stone;
 	}
 
 	private void OnPerformCollectResources(PassiveResourceCollectionAction action)

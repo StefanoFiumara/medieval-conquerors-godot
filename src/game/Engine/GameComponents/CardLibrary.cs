@@ -8,8 +8,12 @@ namespace MedievalConquerors.Engine.GameComponents;
 
 public class CardLibrary : GameComponent, IAwake
 {
+	// TODO: Is there a way to generate these from the database?
 	public const int TOWN_CENTER_ID = 12;
 	public const int VILLAGER_ID = 11;
+	public const int LUMBER_CAMP_ID = 6;
+	public const int MILL_ID = 13;
+	public const int SUPPLIES_ID = 21;
 
 	private ILogger _logger;
 	private ImmutableDictionary<int, CardData> _cardData;
