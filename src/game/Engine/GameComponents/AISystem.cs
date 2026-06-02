@@ -80,7 +80,16 @@ public class AISystem : GameComponent, IAwake
 
         else if (card.Data.CardType == CardType.Unit && card.Data.Tags.HasFlag(Tags.Military))
             value += CalculateMilitaryUnitScore(card, tilePos);
+
+        else if (card.Data.CardType == CardType.Action)
+            value += CalculateActionCardScore(card, tilePos);
         return value;
+    }
+
+    private int CalculateActionCardScore(Card card, Vector2I tilePos)
+    {
+        // TODO: calculate score for different action cards
+        return 1;
     }
 
     private int CalculateEconomicBuildingScore(Card card, Vector2I tilePos)
@@ -92,20 +101,26 @@ public class AISystem : GameComponent, IAwake
         var resource = card.GetAttribute<ResourceProviderAttribute>()?.Resource;
         if (resource == null) return 0;
 
+        var hasFoodOrWoodGatherers = _match.CurrentPlayer.Map
+            .Where(c => _garrisonSystem.GetGarrisonedUnits(c).Count > 0)
+            .Any(c => c.GetAttribute<ResourceProviderAttribute>()?.Resource == ResourceType.Food
+                      || c.GetAttribute<ResourceProviderAttribute>()?.Resource == ResourceType.Wood);
+
         return resource switch
         {
             ResourceType.Food => 5,
             ResourceType.Wood => 5,
-            ResourceType.Gold => 4,
+            ResourceType.Gold when hasFoodOrWoodGatherers => 4,
             // TODO: determine mining resource based on tilePos adjacent resources
-            ResourceType.Mining => 3,
-            ResourceType.Stone => 2,
+            ResourceType.Mining when hasFoodOrWoodGatherers => 3,
+            ResourceType.Stone  when hasFoodOrWoodGatherers => 2,
             _ => 0
         };
     }
 
     private int CalculateEconomicUnitScore(Card card, Vector2I tilePos)
     {
+        // NOTE: card param is currently not used because it is assumed to be a villager.
         var building = _map.GetTile(tilePos).Building;
 
         var resource = building?.GetAttribute<ResourceProviderAttribute>()?.Resource;
