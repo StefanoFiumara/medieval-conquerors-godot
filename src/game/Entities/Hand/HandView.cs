@@ -39,6 +39,9 @@ public partial class HandView : Node2D, IGameComponent
 	private int _hoveredIndex = -1;
 	private int _selectedIndex = -1;
 
+	private AudioStreamPlayer _hoverSound;
+	private AudioStreamPlayer _selectSound;
+
 	private CardSystem _cardSystem;
 	private TargetSystem _targetSystem;
 	private TargetingIndicator _targetIndicator;
@@ -51,6 +54,7 @@ public partial class HandView : Node2D, IGameComponent
 	[Export] private Curve _heightCurve;
 	[Export] private Curve _rotationCurve;
 
+	private RandomNumberGenerator _rng;
 	// TODO: can this be _Ready instead of EnterTree?
 	public override void _EnterTree()
 	{
@@ -58,6 +62,9 @@ public partial class HandView : Node2D, IGameComponent
 		_cardSystem = Game.GetComponent<CardSystem>();
 		_targetSystem = Game.GetComponent<TargetSystem>();
 		_targetIndicator = GetNode<TargetingIndicator>("%target_indicator");
+		_hoverSound = GetNode<AudioStreamPlayer>("%card_hover_sound");
+		_selectSound = GetNode<AudioStreamPlayer>("%card_select_sound");
+		_rng = new RandomNumberGenerator();
 		GetViewport().Connect(Viewport.SignalName.SizeChanged, Callable.From(CenterView));
 		CenterView();
 	}
@@ -90,6 +97,8 @@ public partial class HandView : Node2D, IGameComponent
 				var cardView = Cards[_hoveredIndex];
 				cardView.Highlight();
 				cardView.ZIndex = 100;
+				_hoverSound.PitchScale = _rng.RandfRange(0.9f, 1.1f);
+				_hoverSound.Play(0.2f);
 			}
 
 			for (int j = 0; j < Cards.Count; j++)
@@ -153,6 +162,7 @@ public partial class HandView : Node2D, IGameComponent
 			if(_cardSystem.IsPlayable(Cards[_hoveredIndex].Card))
 			{
 				_selectedIndex = _hoveredIndex;
+				_selectSound.Play();
 				var targetCandidates = _targetSystem.GetTargetCandidates(Cards[_selectedIndex].Card);
 				_mapView.HighlightTiles(targetCandidates, MapLayerType.SelectionHint);
 				GetViewport().SetInputAsHandled();

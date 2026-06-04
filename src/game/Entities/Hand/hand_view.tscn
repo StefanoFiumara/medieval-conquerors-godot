@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://25jeqc1kr4i3" path="res://Entities/Cards/tiny_cardback.png" id="5_bvpkx"]
 [ext_resource type="Script" uid="uid://c68yp5u4v0y8t" path="res://Entities/Hand/DeckCycleView.cs" id="6_svh7g"]
 [ext_resource type="Script" uid="uid://bvdwvu7iw24kq" path="res://Entities/TargetIndicator/TargetingIndicator.cs" id="7_lrbm8"]
+[ext_resource type="AudioStream" uid="uid://d2r72iafv5jq0" path="res://Entities/Hand/card_hover.wav" id="8_xtj26"]
+[ext_resource type="AudioStream" uid="uid://bjbpsb5xl7etr" path="res://Entities/Hand/card_select.wav" id="9_xtj26"]
 
 [sub_resource type="Curve" id="Curve_syyef"]
 _limits = [-1.0, 1.0, 0.0, 1.0]
@@ -71,3 +73,13 @@ unique_name_in_owner = true
 script = ExtResource("7_lrbm8")
 _nodeCount = 30
 _scaleFactor = 1.5
+
+[node name="card_hover_sound" type="AudioStreamPlayer" parent="." unique_id=1040450776]
+unique_name_in_owner = true
+stream = ExtResource("8_xtj26")
+max_polyphony = 2
+
+[node name="card_select_sound" type="AudioStreamPlayer" parent="." unique_id=1465007445]
+unique_name_in_owner = true
+stream = ExtResource("9_xtj26")
+max_polyphony = 2
