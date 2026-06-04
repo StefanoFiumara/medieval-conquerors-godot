@@ -15,7 +15,6 @@ public class ResourceGatheringSystem : GameComponent, IAwake
 	private HexMap _map;
 	private GarrisonSystem _garrisonSystem;
 
-	// TODO: This is technically part of the game state, should we try to track it in Match so that game state is consolidated?
 	private readonly Dictionary<int, List<Card>> _spentVillagers = [];
 
 	public IReadOnlyList<Card> GetSpentVillagers(int playerId) => _spentVillagers[playerId].AsReadOnly();
@@ -28,6 +27,7 @@ public class ResourceGatheringSystem : GameComponent, IAwake
 
 		_garrisonSystem = Game.GetComponent<GarrisonSystem>();
 
+		// TODO: Should this be in response to BeginGameAction?
 		_spentVillagers.Clear();
 		_spentVillagers.Add(_match.LocalPlayer.Id, []);
 		_spentVillagers.Add(_match.EnemyPlayer.Id, []);
