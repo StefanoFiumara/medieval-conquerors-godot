@@ -9,6 +9,7 @@ using MedievalConquerors.Engine.Utils;
 using MedievalConquerors.Entities.Cards;
 using MedievalConquerors.Entities.Maps;
 using MedievalConquerors.Screens;
+using Timer = MedievalConquerors.Engine.Utils.Timer;
 
 namespace MedievalConquerors.Entities.Hand;
 
@@ -29,6 +30,8 @@ public partial class HandView : Node2D, IGameComponent
 	private const float HAND_WIDTH = 700;
 	private const float HAND_HEIGHT = 250;
 
+	private const double HOVER_DEBOUNCE_SECONDS = 0.05;
+
 	public IGame Game { get; set; }
 	public List<CardView> Cards { get; } = [];
 
@@ -39,6 +42,7 @@ public partial class HandView : Node2D, IGameComponent
 	private int _hoveredIndex = -1;
 	private int _selectedIndex = -1;
 
+	private Timer _hoverDebounceTimer;
 	private AudioStreamPlayer _hoverSound;
 	private AudioStreamPlayer _selectSound;
 
@@ -67,6 +71,11 @@ public partial class HandView : Node2D, IGameComponent
 		_rng = new RandomNumberGenerator();
 		GetViewport().Connect(Viewport.SignalName.SizeChanged, Callable.From(CenterView));
 		CenterView();
+
+		// TODO: Add to scene and grab reference with GetNode instead
+		_hoverDebounceTimer = new Timer(HOVER_DEBOUNCE_SECONDS);
+		AddChild(_hoverDebounceTimer);
+		_hoverDebounceTimer.Start();
 	}
 
 	private void CenterView()
@@ -81,16 +90,14 @@ public partial class HandView : Node2D, IGameComponent
 		var viewport = GetViewport();
 		var mousePos = viewport.GetMousePosition();
 
-		// TODO: If cards get removed from the Cards list as soon as they begin animating (rather than when they are freed)
-		//		Then we will probably experience less jitters without having to turn off hover effects when the engine is active.
-		// if (!Game.IsIdle()) return;
 		if (!DisplayServer.WindowIsFocused()) return;
 		if (!viewport.GetVisibleRect().HasPoint(mousePos)) return;
 		if (_selectedIndex != -1) return;
 
 		var hovered = CheckHoveredIndex(mousePos);
-		if (hovered != _hoveredIndex)
+		if (hovered != _hoveredIndex && _hoverDebounceTimer.IsElapsed)
 		{
+			_hoverDebounceTimer.Reset();
 			_hoveredIndex = hovered;
 			if (_hoveredIndex != -1)
 			{

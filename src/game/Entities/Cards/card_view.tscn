@@ -8,6 +8,62 @@
 [ext_resource type="Texture2D" uid="uid://b17foe6tw6sx3" path="res://Entities/Cards/cost_badges.png" id="8_7vl60"]
 [ext_resource type="FontFile" uid="uid://bqb3xfq11no6d" path="res://Fonts/Segoe UI Bold.ttf" id="8_grpod"]
 
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_6fqni"]
+parameter_name = "Speed"
+default_value_enabled = true
+default_value = 1.0
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_7vl60"]
+operator = 2
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_grpod"]
+noise_type = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vbat8"]
+noise = SubResource("FastNoiseLite_grpod")
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_pd563"]
+output_port_for_preview = 0
+texture = SubResource("NoiseTexture2D_vbat8")
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_sm3yh"]
+function = 0
+
+[sub_resource type="VisualShaderNodeStep" id="VisualShaderNodeStep_dn5ms"]
+output_port_for_preview = 0
+default_input_values = [0, 0.5, 1, Vector3(0, 0, 0)]
+expanded_output_ports = [0]
+op_type = 4
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_pahb7"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_kmbrl"]
+input_name = "time"
+
+[sub_resource type="VisualShader" id="VisualShader_304fl"]
+mode = 1
+flags/light_only = false
+nodes/fragment/2/node = SubResource("VisualShaderNodeFloatParameter_6fqni")
+nodes/fragment/2/position = Vector2(-580, -40)
+nodes/fragment/3/node = SubResource("VisualShaderNodeFloatOp_7vl60")
+nodes/fragment/3/position = Vector2(-300, 20)
+nodes/fragment/4/node = SubResource("VisualShaderNodeTexture_pd563")
+nodes/fragment/4/position = Vector2(-500, 320)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_sm3yh")
+nodes/fragment/5/position = Vector2(-60, 20)
+nodes/fragment/6/node = SubResource("VisualShaderNodeStep_dn5ms")
+nodes/fragment/6/position = Vector2(-120, 340)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatOp_pahb7")
+nodes/fragment/7/position = Vector2(200, 40)
+nodes/fragment/8/node = SubResource("VisualShaderNodeInput_kmbrl")
+nodes/fragment/8/position = Vector2(-700, 200)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 0, 3, 0, 5, 0, 4, 0, 6, 1, 8, 0, 3, 1, 5, 0, 7, 0, 6, 0, 7, 1, 7, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k2u5v"]
+shader = SubResource("VisualShader_304fl")
+shader_parameter/Speed = 1.0
+
 [sub_resource type="LabelSettings" id="LabelSettings_6q0cx"]
 font = ExtResource("8_grpod")
 font_size = 13
@@ -20,6 +76,7 @@ size = Vector2(224, 316)
 
 [node name="card_view" type="Node2D" unique_id=2019257237 node_paths=PackedStringArray("_title", "_description", "_banner", "_type", "_portrait", "_glow", "_foodCost", "_woodCost", "_goldCost", "_stoneCost", "_foodIcon", "_woodIcon", "_goldIcon", "_stoneIcon", "HoverArea")]
 texture_filter = 1
+material = SubResource("ShaderMaterial_k2u5v")
 script = ExtResource("1_r8q4a")
 _title = NodePath("title_text")
 _description = NodePath("description_text")
