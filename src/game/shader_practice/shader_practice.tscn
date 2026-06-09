@@ -27,13 +27,14 @@ shader_parameter/speed = 2.1090001001775
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cow1e"]
 shader = ExtResource("3_24cv8")
-shader_parameter/glow_color_1 = Color(1, 1, 1, 1)
-shader_parameter/glow_color_2 = Color(0.32243413, 0.35832828, 1, 1)
-shader_parameter/line_thickness = 0.5
+shader_parameter/thickness = 15.0
+shader_parameter/blur_steps = 16
+shader_parameter/glow_color_1 = Color(1, 0.8, 0, 1)
 shader_parameter/time_scale = 1.0
-shader_parameter/glow_intensity = 5.0
 shader_parameter/glow_opacity = 1.0
-shader_parameter/search_radius = 8.0
+shader_parameter/border_clipping_fix = true
+shader_parameter/aspect_ratio = 1.0
+shader_parameter/offset = Vector2(0, 0)
 
 [sub_resource type="Curve" id="Curve_8x5ii"]
 _data = [Vector2(0.0104438625, 0.21052635), 0.0, 0.0, 0, 0, Vector2(0.08616188, 0.8881579), 1.4, 0.0, 0, 0, Vector2(0.25065276, 0.4868421), 0.0, 0.0, 0, 0, Vector2(0.3002611, 0.8552632), 0.0, 0.0, 0, 0, Vector2(1, 0.49342108), 0.0, 0.0, 0, 0]
