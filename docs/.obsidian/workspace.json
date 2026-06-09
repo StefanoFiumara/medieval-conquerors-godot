@@ -53,17 +53,14 @@
             "id": "fd7de7735bafefb6",
             "type": "leaf",
             "state": {
-              "type": "canvas",
+              "type": "markdown",
               "state": {
-                "file": "tech-tree.canvas",
-                "viewState": {
-                  "x": 750.235945437528,
-                  "y": 97.02438603451424,
-                  "zoom": -2.999999987451653
-                }
+                "file": "game-mechanics/hunting.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-layout-dashboard",
-              "title": "tech-tree"
+              "icon": "lucide-file",
+              "title": "hunting"
             }
           }
         ],
@@ -212,6 +209,7 @@
   },
   "active": "fd7de7735bafefb6",
   "lastOpenFiles": [
+    "tech-tree.canvas",
     "planned-cards-list.md",
     "game-design-doc.md",
     "game-mechanics/summary.md",
@@ -219,7 +217,6 @@
     "game-mechanics/hunting.md",
     "game-mechanics/farming-system.md",
     "todo.md",
-    "tech-tree.canvas",
     "game-mechanics",
     "card-designs/economic-cards.md",
     "engine-architecture/action-system.canvas",
