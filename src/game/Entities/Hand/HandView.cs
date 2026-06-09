@@ -66,6 +66,7 @@ public partial class HandView : Node2D, IGameComponent
 		_cardSystem = Game.GetComponent<CardSystem>();
 		_targetSystem = Game.GetComponent<TargetSystem>();
 		_targetIndicator = GetNode<TargetingIndicator>("%target_indicator");
+		// TODO: Move sounds to AudioManager singleton / autoload
 		_hoverSound = GetNode<AudioStreamPlayer>("%card_hover_sound");
 		_selectSound = GetNode<AudioStreamPlayer>("%card_select_sound");
 		_rng = new RandomNumberGenerator();
