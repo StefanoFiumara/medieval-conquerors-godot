@@ -2,15 +2,10 @@
 
 [ext_resource type="Shader" uid="uid://d3slc7gid1ffk" path="res://shader_practice/shield_shader.gdshader" id="1_hop2q"]
 [ext_resource type="Texture2D" uid="uid://dnofkwp8xw7ys" path="res://Entities/UI/missing_icon.png" id="1_is0gg"]
-[ext_resource type="Shader" uid="uid://c4wb3py3cloq7" path="res://shader_practice/outline.gdshader" id="3_24cv8"]
+[ext_resource type="Shader" uid="uid://c4wb3py3cloq7" path="res://shader_practice/glow.gdshader" id="3_24cv8"]
 [ext_resource type="Texture2D" uid="uid://7cb3fuy4labf" path="res://Entities/Cards/cardback.png" id="3_e5cic"]
 [ext_resource type="Shader" uid="uid://bqqqe15hvqo8" path="res://shader_practice/waves.gdshader" id="5_p38tn"]
-
-[sub_resource type="Gradient" id="Gradient_hop2q"]
-colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_e5cic"]
-gradient = SubResource("Gradient_hop2q")
+[ext_resource type="Shader" uid="uid://rejwvpprmw85" path="res://shader_practice/crosshair.gdshader" id="6_cow1e"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_hop2q"]
 
@@ -30,14 +25,15 @@ shader_parameter/noise = SubResource("NoiseTexture2D_e5cic")
 shader_parameter/radius = 0.5
 shader_parameter/speed = 2.1090001001775
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_p38tn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cow1e"]
 shader = ExtResource("3_24cv8")
-shader_parameter/glow_color_1 = Color(0.16267331, 0.52630603, 0.013942366, 1)
-shader_parameter/glow_color_2 = Color(0.32904118, 0.960356, 0.29070416, 1)
+shader_parameter/glow_color_1 = Color(1, 1, 1, 1)
+shader_parameter/glow_color_2 = Color(0.32243413, 0.35832828, 1, 1)
 shader_parameter/line_thickness = 0.5
 shader_parameter/time_scale = 1.0
-shader_parameter/glow_intensity = 3.10800012388
-shader_parameter/glow_opacity = 0.8750000415625
+shader_parameter/glow_intensity = 5.0
+shader_parameter/glow_opacity = 1.0
+shader_parameter/search_radius = 8.0
 
 [sub_resource type="Curve" id="Curve_8x5ii"]
 _data = [Vector2(0.0104438625, 0.21052635), 0.0, 0.0, 0, 0, Vector2(0.08616188, 0.8881579), 1.4, 0.0, 0, 0, Vector2(0.25065276, 0.4868421), 0.0, 0.0, 0, 0, Vector2(0.3002611, 0.8552632), 0.0, 0.0, 0, 0, Vector2(1, 0.49342108), 0.0, 0.0, 0, 0]
@@ -51,12 +47,21 @@ shader = ExtResource("5_p38tn")
 shader_parameter/scale_curve = SubResource("CurveTexture_cow1e")
 shader_parameter/time_scale = 1.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_caith"]
+shader = ExtResource("6_cow1e")
+shader_parameter/dot_size = 1.0
+shader_parameter/ring_thickness = 0.3600000171
+shader_parameter/cross_gap = 1.0
+shader_parameter/line_thickness = 1.0
+shader_parameter/line_gap = 0.4850000230375
+
 [node name="Node2D" type="Node2D" unique_id=202937704]
 
-[node name="background" type="Sprite2D" parent="." unique_id=284127865]
-position = Vector2(949, 466)
-scale = Vector2(7.4960933, 1082)
-texture = SubResource("GradientTexture1D_e5cic")
+[node name="ColorRect" type="ColorRect" parent="." unique_id=235857227]
+custom_minimum_size = Vector2(1920, 1080)
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 1)
 
 [node name="shield" type="Sprite2D" parent="." unique_id=1315375177]
 material = SubResource("ShaderMaterial_hop2q")
@@ -65,19 +70,19 @@ scale = Vector2(4, 4)
 texture = ExtResource("1_is0gg")
 region_rect = Rect2(0, 0, 128, 128)
 
-[node name="Cardback" type="Sprite2D" parent="." unique_id=1362820527]
-material = SubResource("ShaderMaterial_p38tn")
-position = Vector2(482, 547)
-scale = Vector2(0.636, 0.636)
-texture = ExtResource("3_e5cic")
-
 [node name="Cardback2" type="Sprite2D" parent="." unique_id=230370934]
-material = SubResource("ShaderMaterial_p38tn")
-position = Vector2(844, 508)
-scale = Vector2(0.636, 0.636)
+texture_filter = 1
+material = SubResource("ShaderMaterial_cow1e")
+position = Vector2(870, 515)
+scale = Vector2(0.47800004, 0.47799996)
 texture = ExtResource("3_e5cic")
 
 [node name="MissingIcon" type="Sprite2D" parent="." unique_id=1668329933]
 material = SubResource("ShaderMaterial_5pjpt")
 position = Vector2(1142, 765)
+texture = ExtResource("1_is0gg")
+
+[node name="MissingIcon2" type="Sprite2D" parent="." unique_id=466780013]
+material = SubResource("ShaderMaterial_caith")
+position = Vector2(1452, 591)
 texture = ExtResource("1_is0gg")

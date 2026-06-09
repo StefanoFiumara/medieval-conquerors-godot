@@ -7,6 +7,7 @@ const float max_line_thickness = 10.;
 uniform float time_scale: hint_range(0., 2.) = 1.;
 uniform float glow_intensity: hint_range(0.5, 5.0) = 2.0;
 uniform float glow_opacity: hint_range(0.0, 1.0) = 0.8;
+uniform float search_radius: hint_range(1.0, 12.0) = 8.0;
 
 void fragment() {
 	vec4 color = texture(TEXTURE, UV);
@@ -15,7 +16,6 @@ void fragment() {
 	// Step 1: Find the minimum distance to any opaque pixel
 	// We sample a larger neighborhood for better glow falloff
 	float min_distance = 1e10;
-	float search_radius = 8.;
 	
 	for (float y = -search_radius; y <= search_radius; y += 0.5) {
 		for(float x = -search_radius; x <= search_radius; x += 0.5) {
@@ -55,7 +55,11 @@ void fragment() {
 	COLOR = color;
 	
 	// Only show glow where original texture is transparent
-	if (color.a < 0.1) {
-		COLOR = vec4(glow_color.rgb, glow_strength);
+	if (color.a != 1.) {
+		COLOR = vec4(mix(glow_color.rgb, color.rgb, color.a), glow_strength);
 	}
+	
+	
+	// 
+	
 }
