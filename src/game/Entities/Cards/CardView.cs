@@ -15,7 +15,7 @@ public partial class CardView : Node2D, IClickable
 	[Export] private Sprite2D _banner;
 	[Export] private Label _type;
 	[Export] private TextureRect _portrait;
-	[Export] private NinePatchRect _glow;
+	[Export] private Sprite2D _glow;
 
 	[Export] private Label _foodCost;
 	[Export] private Label _woodCost;
@@ -53,7 +53,7 @@ public partial class CardView : Node2D, IClickable
 				_glowTween?.Kill();
 				_glowTween = CreateTween().SetLoops().SetEase(Tween.EaseType.InOut);
 				_glowTween.TweenProperty(_glow, "modulate", _targetHighlightColor, 0.5f);
-				var highlightGlow = _targetHighlightColor with { A = 0.7f };
+				var highlightGlow = _targetHighlightColor with { A = 0.6f };
 				_glowTween.TweenProperty(_glow, "modulate", highlightGlow, 0.5f);
 			}
 		}
@@ -114,7 +114,7 @@ public partial class CardView : Node2D, IClickable
 
 	public void Highlight()
 	{
-		var color = _cardSystem.IsPlayable(Card) ? Colors.Yellow : Colors.IndianRed;
+		var color = _cardSystem.IsPlayable(Card) ? Colors.Gold : Colors.Red;
 		TargetHighlightColor = color;
 	}
 
