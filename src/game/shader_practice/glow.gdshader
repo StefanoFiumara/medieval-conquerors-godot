@@ -5,11 +5,10 @@ render_mode unshaded;
 uniform float thickness : hint_range(0.0, 100.0) = 15.0;
 uniform int blur_steps : hint_range(4, 32) = 16;
 uniform vec3 glow_color_1 : source_color = vec3(1.0, 0.8, 0.0);
-// uniform vec4 glow_color_2 : source_color = vec4(1.0, 0.3, 0.0, 1.0);
+
 uniform float time_scale : hint_range(0.0, 2.0) = 1.0;
 uniform float glow_opacity : hint_range(0.0, 1.0) = 0.8;
 
-// --- FIXES FROM THE ONLINE SHADER ---
 uniform bool border_clipping_fix = true;
 uniform float aspect_ratio : hint_range(0.1, 10.0, 0.01) = 1.0;
 uniform vec2 offset;
