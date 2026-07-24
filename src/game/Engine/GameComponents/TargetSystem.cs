@@ -26,6 +26,10 @@ public class TargetSystem : GameComponent, IAwake
 
     private void OnValidatePlayCard(PlayCardAction action, ActionValidatorResult validator)
     {
+        // Only validate targets for cards that require a target tile
+        if (!action.CardToPlay.HasAttribute<TargetSelectorAttribute>())
+            return;
+        
         // TODO: support cards without target tile
         var tile = _map.GetTile(action.TargetTile);
         var validTiles = GetTargetCandidates(action.CardToPlay);
