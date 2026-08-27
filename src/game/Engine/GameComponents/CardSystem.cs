@@ -31,6 +31,7 @@ public class CardSystem : GameComponent, IAwake
         foreach (var card in _match.CurrentPlayer.Hand)
         {
             var targetCandidates = _targetSystem.GetTargetCandidates(card);
+            // TODO: Card could still be playable if it does not have a target selector
             if (targetCandidates.Count == 0)
                 continue;
 
