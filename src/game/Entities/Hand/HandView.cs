@@ -267,7 +267,7 @@ public partial class HandView : Node2D, IGameComponent
 
 			// TODO: if card is already in position - skip the tweener
 
-			var duration = isHovered ? 0.25f * TWEEN_DURATION : TWEEN_DURATION;
+			var duration = isHovered ? 0.15f * TWEEN_DURATION : TWEEN_DURATION;
 
 			tween.TweenProperty(card, "position", targetPosition, duration);
 			tween.TweenProperty(card, "rotation",  targetRotation, duration);
@@ -283,8 +283,8 @@ public partial class HandView : Node2D, IGameComponent
 
 	public (Vector2 position, float rotation, Vector2 scale) CalculateViewPosition(int index, int totalCount)
 	{
-		const int HOVER_OFFSET_X = 85;
-		const int HOVER_OFFSET_Y = 60;
+		const int HOVER_OFFSET_X = 95;
+		const int HOVER_OFFSET_Y = 75;
 
 		var isHovered = index == _hoveredIndex;
 
@@ -305,7 +305,7 @@ public partial class HandView : Node2D, IGameComponent
 
 		var position = new Vector2(targetX, targetY);
 		var rotation = isHovered ? 0f : -_rotationCurve.Sample(ratio) * 0.25f * (totalCount / 5f);
-		var scale = (isHovered ? 1.4f : 1f) * Vector2.One;
+		var scale = (isHovered ? 1.5f : 1f) * Vector2.One;
 
 		return (position, rotation, scale);
 	}

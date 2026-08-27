@@ -46,15 +46,15 @@ public partial class CardView : Node2D, IClickable
 			{
 				_glowTween?.Kill();
 				_glowTween = CreateTween().SetEase(Tween.EaseType.InOut);
-				_glowTween.TweenProperty(_glow, "modulate", Colors.Transparent, 0.25f);
+				_glowTween.TweenProperty(_glow, "modulate", Colors.Transparent, 0.3f);
 			}
 			else
 			{
 				_glowTween?.Kill();
 				_glowTween = CreateTween().SetLoops().SetEase(Tween.EaseType.InOut);
-				_glowTween.TweenProperty(_glow, "modulate", _targetHighlightColor, 0.5f);
-				var highlightGlow = _targetHighlightColor with { A = 0.6f };
-				_glowTween.TweenProperty(_glow, "modulate", highlightGlow, 0.5f);
+				_glowTween.TweenProperty(_glow, "modulate", _targetHighlightColor, 0.6f);
+				var highlightGlow = _targetHighlightColor with { A = 0.4f };
+				_glowTween.TweenProperty(_glow, "modulate", highlightGlow, 0.6f);
 			}
 		}
 	}
